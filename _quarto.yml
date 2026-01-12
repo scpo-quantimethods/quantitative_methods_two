@@ -2,12 +2,42 @@ project:
   type: website
 
 website:
-  title: "quantitative_methods_two"
+  title: "Methods for Research and Policy Evaluation" 
   navbar:
     left:
       - href: index.qmd
         text: Home
-      - about.qmd
+      - text: Sessions
+      - menu:
+          - text: "Session 1: Dataset Building and Descriptive Statistics"
+            href: sessions/session1.qmd
+          - text: "Session 2: OLS: Simple and Multiple Linear Regressions and Analysis"
+            href: sessions/session2.qmd
+          - text: "Session 3: Non-Linear Regressions and Analysis"
+            href: sessions/session3.qmd
+          - text: "Session 4: Difference-in-Differences (DiD)"
+            href: sessions/session4.qmd
+          - text: "Session 5: Regression Discontinuity Design (RDD)"
+            href: sessions/session5.qmd
+          - text: "Session 6: Instrumental Variables (IV), Two-Stage Least Squares (2SLS) and Two-Stage Residual Inclusion (2SRI)"
+            href: sessions/session6.qmd
+       
+      - text: Homeworks
+      - menu:
+          - text: "Session 1: Dataset Building and Descriptive Statistics"
+            href: homeworks/homework1.qmd
+          - text: "Session 2: OLS: Simple and Multiple Linear Regressions and Analysis"
+            href: homeworks/homework2.qmd
+          - text: "Session 3: Non-Linear Regressions and Analysis"
+            href: homeworks/homework3.qmd
+          - text: "Session 4: Difference-in-Differences (DiD)"
+            href: homeworks/homework4.qmd
+          - text: "Session 5: Regression Discontinuity Design (RDD)"
+            href: homeworks/homework5.qmd
+          - text: "Session 6: Instrumental Variables (IV), Two-Stage Least Squares (2SLS) and Two-Stage Residual Inclusion (2SRI)"
+            href: homeworks/homework6.qmd
+      - href: about.qmd
+        text: About
 
 format:
   html:
@@ -16,6 +46,5 @@ format:
       - brand
     css: styles.css
     toc: true
-
-
+    tabsets: true
 
