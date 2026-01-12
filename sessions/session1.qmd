@@ -25,6 +25,13 @@ $$
 \end{equation}
 $$
 
+$$
+\begin{equation}
+\hat{\beta} = (A'A)^{-1}A'y
+\end{equation}
+$$
+
+
 Second example:
 
 ::: {.panel-tabset}
