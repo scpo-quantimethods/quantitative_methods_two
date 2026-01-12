@@ -9,33 +9,38 @@ website:
         text: Home
       - text: Sessions
       - menu:
-          - text: "Session 1: Dataset Building and Descriptive Statistics"
+          - text: "Session 1: OLS"
             href: sessions/session1.qmd
-          - text: "Session 2: OLS: Simple and Multiple Linear Regressions and Analysis"
+          - text: "Session 2: Logistic regressions"
             href: sessions/session2.qmd
-          - text: "Session 3: Non-Linear Regressions and Analysis"
+          - text: "Session 3: Multinomial regressions"
             href: sessions/session3.qmd
           - text: "Session 4: Difference-in-Differences (DiD)"
             href: sessions/session4.qmd
-          - text: "Session 5: Regression Discontinuity Design (RDD)"
+          - text: "Session 5: Regression Discontinuity Design (RDD) and Instrumental Variables"
             href: sessions/session5.qmd
-          - text: "Session 6: Instrumental Variables (IV), Two-Stage Least Squares (2SLS) and Two-Stage Residual Inclusion (2SRI)"
+          - text: "Session 6: Time Series"
             href: sessions/session6.qmd
+      - menu:
+          - text: "Exercices 1: OLS"
+            href: exercices/exercices1.qmd
+          - text: "Exercices 2: Logistic regressions"
+            href: exercices/exercices2.qmd
+          - text: "Exercices 3: Multinomial regressions"
+            href: exercices/exercices3.qmd
+          - text: "Exercices 4: Difference-in-Differences (DiD)"
+            href: exercices/exercices4.qmd
+          - text: "Exercices 5: Regression Discontinuity Design (RDD) and Instrumental Variables"
+            href: exercices/exercices5.qmd
+          - text: "Exercices 6: Time Series"
+            href: exercices/exercices6.qmd
        
       - text: Homeworks
       - menu:
-          - text: "Session 1: Dataset Building and Descriptive Statistics"
+          - text: "Homework 1"
             href: homeworks/homework1.qmd
-          - text: "Session 2: OLS: Simple and Multiple Linear Regressions and Analysis"
+          - text: "Homework 2"
             href: homeworks/homework2.qmd
-          - text: "Session 3: Non-Linear Regressions and Analysis"
-            href: homeworks/homework3.qmd
-          - text: "Session 4: Difference-in-Differences (DiD)"
-            href: homeworks/homework4.qmd
-          - text: "Session 5: Regression Discontinuity Design (RDD)"
-            href: homeworks/homework5.qmd
-          - text: "Session 6: Instrumental Variables (IV), Two-Stage Least Squares (2SLS) and Two-Stage Residual Inclusion (2SRI)"
-            href: homeworks/homework6.qmd
       - href: about.qmd
         text: About
 
