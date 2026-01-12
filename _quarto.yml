@@ -2,7 +2,7 @@ project:
   type: website
 
 website:
-  title: "Methods for Research and Policy Evaluation" 
+  title: "Quantitative methods II" 
   navbar:
     left:
       - href: index.qmd
@@ -21,6 +21,7 @@ website:
             href: sessions/session5.qmd
           - text: "Session 6: Time Series"
             href: sessions/session6.qmd
+      - text: Exercices
       - menu:
           - text: "Exercices 1: OLS"
             href: exercices/exercices1.qmd
