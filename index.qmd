@@ -1,5 +1,5 @@
 ---
-title: "quantitative_methods_two"
+title: "Quantitative methods II"
 ---
 
 This is a Quarto website.
