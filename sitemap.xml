@@ -1,11 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://scpo-quantimethods.github.io/quantitative_methods_two/sessions/session3.html</loc>
+    <lastmod>2026-01-12T11:18:27.095Z</lastmod>
+  </url>
+  <url>
+    <loc>https://scpo-quantimethods.github.io/quantitative_methods_two/sessions/session5.html</loc>
+    <lastmod>2026-01-12T11:18:27.095Z</lastmod>
+  </url>
+  <url>
+    <loc>https://scpo-quantimethods.github.io/quantitative_methods_two/sessions/session6.html</loc>
+    <lastmod>2026-01-12T11:18:27.095Z</lastmod>
+  </url>
+  <url>
     <loc>https://scpo-quantimethods.github.io/quantitative_methods_two/about.html</loc>
-    <lastmod>2026-01-12T11:11:45.573Z</lastmod>
+    <lastmod>2026-01-12T11:18:27.093Z</lastmod>
+  </url>
+  <url>
+    <loc>https://scpo-quantimethods.github.io/quantitative_methods_two/homeworks/homework6.html</loc>
+    <lastmod>2026-01-12T11:18:27.094Z</lastmod>
+  </url>
+  <url>
+    <loc>https://scpo-quantimethods.github.io/quantitative_methods_two/homeworks/homework3.html</loc>
+    <lastmod>2026-01-12T11:18:27.093Z</lastmod>
+  </url>
+  <url>
+    <loc>https://scpo-quantimethods.github.io/quantitative_methods_two/homeworks/homework4.html</loc>
+    <lastmod>2026-01-12T11:18:27.093Z</lastmod>
   </url>
   <url>
     <loc>https://scpo-quantimethods.github.io/quantitative_methods_two/index.html</loc>
-    <lastmod>2026-01-12T11:11:45.573Z</lastmod>
+    <lastmod>2026-01-12T11:18:27.094Z</lastmod>
+  </url>
+  <url>
+    <loc>https://scpo-quantimethods.github.io/quantitative_methods_two/homeworks/homework1 .html</loc>
+    <lastmod>2026-01-12T11:18:27.093Z</lastmod>
+  </url>
+  <url>
+    <loc>https://scpo-quantimethods.github.io/quantitative_methods_two/homeworks/homework5.html</loc>
+    <lastmod>2026-01-12T11:18:27.093Z</lastmod>
+  </url>
+  <url>
+    <loc>https://scpo-quantimethods.github.io/quantitative_methods_two/homeworks/homework2.html</loc>
+    <lastmod>2026-01-12T11:18:27.093Z</lastmod>
+  </url>
+  <url>
+    <loc>https://scpo-quantimethods.github.io/quantitative_methods_two/sessions/session4.html</loc>
+    <lastmod>2026-01-12T11:18:27.095Z</lastmod>
+  </url>
+  <url>
+    <loc>https://scpo-quantimethods.github.io/quantitative_methods_two/sessions/session1.html</loc>
+    <lastmod>2026-01-12T11:18:27.095Z</lastmod>
+  </url>
+  <url>
+    <loc>https://scpo-quantimethods.github.io/quantitative_methods_two/sessions/session2.html</loc>
+    <lastmod>2026-01-12T11:18:27.095Z</lastmod>
   </url>
 </urlset>
