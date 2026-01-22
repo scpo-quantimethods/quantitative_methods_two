@@ -24,17 +24,17 @@ website:
       - text: Exercices
       - menu:
           - text: "Exercices 1: OLS"
-            href: exercices/exercices1.qmd
+            href: exercices/exercices1/exercices1.qmd
           - text: "Exercices 2: Logistic regressions"
-            href: exercices/exercices2.qmd
+            href: exercices/exercices2/exercices2.qmd
           - text: "Exercices 3: Multinomial regressions"
-            href: exercices/exercices3.qmd
+            href: exercices/exercices3/exercices3.qmd
           - text: "Exercices 4: Difference-in-Differences (DiD)"
-            href: exercices/exercices4.qmd
+            href: exercices/exercices4/exercices4.qmd
           - text: "Exercices 5: Regression Discontinuity Design (RDD) and Instrumental Variables"
-            href: exercices/exercices5.qmd
+            href: exercices/exercices5/exercices5.qmd
           - text: "Exercices 6: Time Series"
-            href: exercices/exercices6.qmd
+            href: exercices/exercices6/exercices6.qmd
        
       - text: Homeworks
       - menu:

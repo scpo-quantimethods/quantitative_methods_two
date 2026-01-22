@@ -28,7 +28,7 @@ In total, each group will receive six tutorials. Those tutorials are organised e
 | Session 4 | 17/03/26 - 23/03/26 |  Regression Discontinuity Design (RDD)  and Instrumental Variables (IV) |
 | Session 5 | 31/03/26 - 13/04/26 | Difference-in-differences (DiD) and panel data |
 | Session 6 | 14/04/26 - 27/04/26 | Time-series |
-: {tbl-colwidths="[30,10, 60]"}
+: {tbl-colwidths="[10,30, 60]"}
 
 
 # Evaluation method
@@ -38,5 +38,6 @@ In order to assess your progress throughout the semester, two homeworks - each w
 ## Final paper
 At the end of the class, you will be asked to write a quantitative methods paper, on a topic of your choice, using data of your choice. 
 
-#Requirements 
-You will need RStudio for this class, and should have installed it and be ready to use it before the start of the class. If you do not know how to download it, please follow the instructions available [there](https://malo-jn.quarto.pub/introduction-to-r/session1/0102_setup.html), [there](https://posit.co/download/rstudio-desktop/) or [there](https://cloud.r-project.org/). Download a [file](https://www.rovny.org/s/1_Demo_OLS_review.R) and try to open it on RStudio, to make sure that your environment is working.
+# Requirements 
+
+You will need RStudio for this class, and should have installed it and be ready to use it before the start of the class. If you do not know how to download it, please follow the instructions available [there](htt ps://malo-jn.quarto.pub/introduction-to-r/session1/0102_setup.html), [there](https://posit.co/download/rstudio-desktop/) or [there](https://cloud.r-project.org/). Download a [file](https://www.rovny.org/s/1_Demo_OLS_review.R) and try to open it on RStudio, to make sure that your environment is working.
