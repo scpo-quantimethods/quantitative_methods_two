@@ -91,6 +91,34 @@
     "text": "Outliers\nTo detect outliers, we use the cook distance which is an outlier detection methods. It estimate how much our regression coefficients change if we remove each observation.\n\ncheck_outliers(model2)\n\nOK: No outliers detected.\n- Based on the following method and threshold: cook (0.949).\n- For variable: (Whole model)"
   },
   {
+    "objectID": "slides/session1/session1.html#your-instructors",
+    "href": "slides/session1/session1.html#your-instructors",
+    "title": "Quantitative methods 2",
+    "section": "Your instructors",
+    "text": "Your instructors\n\nPaul Servais, paul.servais@sciencespo.fr.\nJessica de Rongé, jessica.deronge@sciencespo.fr"
+  },
+  {
+    "objectID": "slides/session1/session1.html#course-organisation",
+    "href": "slides/session1/session1.html#course-organisation",
+    "title": "Quantitative methods 2",
+    "section": "Course organisation",
+    "text": "Course organisation\n\nIn total, each group will receive six tutorials.\nEvery two weeks, and organised in such a way that they follow the program of the theoretical classes.\nGoal : briefly remind you the important content that you have seen in the theoretical class,\npresent you practical examples\nhow that can be done using RStudio, and finally to guide you through coding exercices."
+  },
+  {
+    "objectID": "slides/session1/session1.html#course-material",
+    "href": "slides/session1/session1.html#course-material",
+    "title": "Quantitative methods 2",
+    "section": "Course material",
+    "text": "Course material\n\nEverything on https://scpo-quantimethods.github.io/quantitative_methods_two/\nSessions, Exercices, Homeworks"
+  },
+  {
+    "objectID": "slides/session1/session1.html#sessions",
+    "href": "slides/session1/session1.html#sessions",
+    "title": "Quantitative methods 2",
+    "section": "Sessions",
+    "text": "Sessions\n\n\nRStudio reminder and OLS regressions\n\n\nLogistic regressions\n\n\nMultinomial regressions\n\n\nRegression Discontinuity Design (RDD) and Instrumental Variables (IV)\n\n\nDifference-in-differences (DiD) and panel data\n\n\nTime-series"
+  },
+  {
     "objectID": "index.html",
     "href": "index.html",
     "title": "Quantitative methods II",
@@ -110,6 +138,13 @@
     "title": "Quantitative methods II",
     "section": "Final paper",
     "text": "Final paper\nAt the end of the class, you will be asked to write a quantitative methods paper, on a topic of your choice, using data of your choice."
+  },
+  {
+    "objectID": "exercices/exercices1/exercices1.html",
+    "href": "exercices/exercices1/exercices1.html",
+    "title": "Exercices - R basics and OLS regressions",
+    "section": "",
+    "text": "Exercice 1 : analysing party positions\nThe Chapel Hill expert survey data is a survey that “provides information about the positioning of the leadership of 279 parties in 31 countries over the course of 2024 on ideology, policy, populism, democracy, European integration, and select EU policy questions. Country coverage includes all European Union member states except for Luxembourg – plus Iceland, Norway, Switzerland, Turkey, and the United Kingdom.2 The dataset adopts the country code and party id schema of the CHES Trend file (Jolly et al. 2022) and the Speed CHES survey on Ukraine (Hooghe et al. 2024) with extensions for newly covered parties” (see documentation of CHES).\nYou can find the recent survey’s dataset on the internet at https://www.chesdata.eu/s/1999-2024_CHES_dataset_means.csv, to perform the following tasks :\n\nImport the data in your local environment. Use the rio package and library to import it directly from the internet.\nUse the glimpse() function to have a look at your data\nFilter the data set to only keep the most recent year, 2024.\nUsing the identifiers and general information in the documentation, keep only the following items:“country”, “the overall ideology on a scale ranging from 0 (extreme left) to 10 (extreme right)”, “Thinking about the European Union’s relationship with Russia, where do you place each party on its preferred action for European countries to take?”, “Position on civil liberties VS. law and order”, “Position on same sex marriage”, “position on urban-rural”, “position on nationalism”, “left-right positioning”.\nSummarize three of these variables and comment on your findings.\nYou now want to more specifically understand what drives a party to adopt favorable or more defavorable stances on the EU’s relationship with Russia. What would be your dependent variable ? Plot a histogram of this DV and comment on the distribution.\nYou want to understand if left-right positioning influences the EU-Russia position of a party:\nrun a simple linear regression model, with EU-Russia as dependent variable, and left-right positioning of a party as independent variable. Display the regression table using stargazer and interpret the coefficients. Do you think this result could be biased ? If so, why ? How could you correct that ?\nRun a multiple linear regression to understand whether adding the party’s position on nationalism changes something. Store the value in another model, so that you can compare both in the same stargazer table. What do you observe ? Compare the values lrgen in both tables and comment on those.\nRun a last linear regression with the party’s left-right position, his urban-rural position, his position on same sex marriage, and use the binary variable east-west to know if being East or West changes your party’s position. What can you conclude ? Now add nationalism among the independent variables and comment? What is the best model ?\nNow imagine wondering whether being in a country from Eastern or Western Europe influences how nationalism influences your position on this issue. How could you test that ? Plot the predicted values.\nCompute a last, fully saturated model, with all your variables except country, and run tests of multicollinearity and heteroskedasticity. What do you find ? Comment on the results. Add as.factor(country) in the regression and comment on the results.\n\n\n\nExercice 2 :\n\n\nExercice 3"
   },
   {
     "objectID": "sessions/session3/session3.html",
