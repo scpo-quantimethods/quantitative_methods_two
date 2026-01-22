@@ -1,5 +1,5 @@
 ---
-title: "exercices1"
+title: "Exercices - R basics and OLS regressions"
 format: html
 ---
 

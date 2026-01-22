@@ -10,17 +10,17 @@ website:
       - text: Sessions
       - menu:
           - text: "Session 1: OLS"
-            href: sessions/session1.qmd
+            href: sessions/session1/session1.qmd
           - text: "Session 2: Logistic regressions"
-            href: sessions/session2.qmd
+            href: sessions/session2/session2.qmd
           - text: "Session 3: Multinomial regressions"
-            href: sessions/session3.qmd
+            href: sessions/session3/session3.qmd
           - text: "Session 4: Difference-in-Differences (DiD)"
-            href: sessions/session4.qmd
+            href: sessions/session4/session4.qmd
           - text: "Session 5: Regression Discontinuity Design (RDD) and Instrumental Variables"
-            href: sessions/session5.qmd
+            href: sessions/session5/session5.qmd
           - text: "Session 6: Time Series"
-            href: sessions/session6.qmd
+            href: sessions/session6/session6.qmd
       - text: Exercices
       - menu:
           - text: "Exercices 1: OLS"

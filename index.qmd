@@ -1,11 +1,42 @@
 ---
 title: "Quantitative methods II"
+subtitle: "RStudio Lab sessions"
 ---
+# Motivation
 
-This is a Quarto website.
+This website supports the teaching of the class of quantitative methods II, taught in the School of Research of Sciences Po. The tutorials are supporting the theoretical class given by Jan Rovny and Brenda Van Coppennolle, and aims to remind students notions about R, OLS regressions, as well as to introduce them to causal inference methods used in social science, all based on practical coding exercices on R. This class is built on numerous sources that have contributed to inspire our theory and exercices. 
 
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
+From current or former instructors of [SciencesPo](https://www.sciencespo.fr/), an introduction to R coding is available on [Malo Jan's website](https://malo-jn.quarto.pub/introduction-to-r/) (RStudio introduction course). Different coding examples are also provided by Jan Rovny, on [his website](https://www.rovny.org/methods-2-ed). This class has also been taught last year by [Luis Sattelmayer, whose site](https://luissattelmayer.github.io/quant-2025/) provides detailed information, exercices appendices, from which this website is often directly or indirectly inspired. Moreover, there exists a wealth of ressources online, which have also guided the making of this class. To cite only but a few of them :
 
-```{r}
-1 + 1
-```
+
+Though this class is considered "advanced", it is also thought of and conceived as a way to remind important notions in statistics, as well as basics of coding, already seen in the class of quantitative methods I. So rest reassured that, as much as we can, we will (1) remind previous notions of coding and statistics, (2) advance in a rhythm that is suitable for everyone.
+
+The teaching assistants for this class are :
+
+* Jessica de Rongé, who is reachable at <jessica.deronge@sciencespo.fr>
+* Paul Servais, who can be contacted at <paul.servais@sciencespo.fr>
+
+# Course organisation
+In total, each group will receive six tutorials. Those tutorials are organised every two weeks, and organised in such a way that they follow the program of the theoretical classes. The goal in every class will be to briefly remind you the important content that you have seen in the theoretical class, then to present you practical examples, supported by actual research papers, of how that can be done using RStudio, and finally to guide you through coding exercices. 
+
+
+| Session | Date      | Content |
+|---------|-----------|---------|
+| Session 1 | 02/02/26 - 10/02/26  | RStudio reminder and OLS regressions |
+| Session 2 | 10/02/26 - 16/02/26 | Logistic regressions |
+| Session 3 | 24/02/26 - 09/03/26 | Multinomial regressions |
+| Session 4 | 17/03/26 - 23/03/26 |  Regression Discontinuity Design (RDD)  and Instrumental Variables (IV) |
+| Session 5 | 31/03/26 - 13/04/26 | Difference-in-differences (DiD) and panel data |
+| Session 6 | 14/04/26 - 27/04/26 | Time-series |
+: {tbl-colwidths="[30,10, 60]"}
+
+
+# Evaluation method
+## Homeworks
+In order to assess your progress throughout the semester, two homeworks - each worth 15% of the final grade -, will be organised at the end of week 2, and at the end of week 4. You will receive the guidelines for these homeworks at that moment, and you will have two weeks (hence, until the next session) to upload your solutions to these problems on Moodle. These homeworks will be conceived to only check your advancement in the class, and not to overload you with burdensome work. Our goal is absolutely not to overload you with work, but mainly to control for your engagement with the course material. Don't be worried if you don't manage to fully complete the exercices or if your code is imperfect, we understand and know that getting into coding can be hard and that there is a quite high entry cost to this kind of course content - our main ambition for you is that you try and get your hands in the mud - otherwise coding is impossible to learn. 
+
+## Final paper
+At the end of the class, you will be asked to write a quantitative methods paper, on a topic of your choice, using data of your choice. 
+
+#Requirements 
+You will need RStudio for this class, and should have installed it and be ready to use it before the start of the class. If you do not know how to download it, please follow the instructions available [there](https://malo-jn.quarto.pub/introduction-to-r/session1/0102_setup.html), [there](https://posit.co/download/rstudio-desktop/) or [there](https://cloud.r-project.org/). Download a [file](https://www.rovny.org/s/1_Demo_OLS_review.R) and try to open it on RStudio, to make sure that your environment is working.

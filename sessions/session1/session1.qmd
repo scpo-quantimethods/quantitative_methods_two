@@ -1,0 +1,397 @@
+---
+title: Session 1 — R reminder and OLS 
+toc: true
+toc-depth: 3
+---
+
+# Motivation
+
+The canonical form of a research enigma, or research puzzle, lays in this simple relationship : a dependent variable X, remains puzzling despite knowing a series of relationships, X that affect this variable. The researcher's task generally comes with identifying an other variable, Z - or series of variables -, which might explain and cause X, despite knowing Y. That is generally how a research project can be formulated : why Y despite X ? Because Z.
+
+The typical task of a research problem is therefore to link dependent variables with explanatory variables, Z, and to distinguish them from other types of variables, X, which do typically originate from previous research or the researcher's intuition, and which might also affect the variable Y. Of course, isolating such causation relationships is anything but trivial, and the whole point of this semester's class will be to convince you that correlation and causation have nothing in common.
+
+The most used model in quantitative social science to establish such causation relationships is called the linear regression model: it is the workhorse of quantitative analysis in social science. This model generally assumes that X and Y evolve together in a linear way - that is, any increase in X, noted $\Delta X$, has an impact $\beta \Delta X$ on $Y$, where $\beta$ is constant. The objective of this session is therefore to :
+
+* remind you some basics in R
+* remind you some basics in descriptive statistics
+* remind you what simple regressions and multiple regressions 
+
+All these notions will be crucial for the rest of the semester.
+
+# Coding basics - reminders
+## Base R
+R is a language that comes with a basic infrastructure, which is called `Base R`, and is able to perform a wide array of basic tasks. This basic infrastructure is the basic tools that you get when you download R. In order to facilitate everyone's life, very nice and smart people have built additional coding tools, which we only have to install, and that allow us to perform complex tasks in an extremely fast and elegant manner.
+
+## Errors and help()
+In general, many errors arrive because of syntax or problems in the imports of data. Malo Jan has provided a helpful guide over these different kinds of [errors](https://malo-jn.quarto.pub/introduction-to-r/session1/0106_help.html), which I encourage you to read, as this can definitely help you. Moreover, for any function, you can always call the function `help(function_name)`, which will provide you with the R documentation on that function.
+
+## Packages
+Last semester, with Noémie, Charlotte or Jean-Baptiste, you've probably learnt to code with `tidyverse`, which helps a lot in data manipulation, and is called a package, and can be downloaded through`install.packages()`. In this class, we will also use a series of packages that will make our life a lot easier, like. This is how you can load and then use these packages in your code :
+
+```{r}
+#install.packages("package_name") if you don't have these packages yet in your environment
+library(tidyverse)
+library(rio) #helps, through import() and export() function, to not care too much about our data format
+library(stargazer) #produces beautiful tables as outputs
+library(readxl) # allows you to read excel file
+```
+
+## Importing data 
+Next, you may want to basically import data in the environment. This can be done using either the absolute path of your data `~/Desktop/Code/data/file.xslx`, or the relative path. Here, since I have stored my data in a `data` folder located in the same folder as my main file (on which I am writing these lines), I only have to specify this relative path `data/file.csv`. I am importing data on the European elections in "France Métropolitaine" (with departements from 1 to 95), provided by the Ministère de l'Intérieur and slightly recoded (right = LR, far_right = RN, incumbents = Macron, socialists = PS, Greens = Verts). I am also importing socio-demographic data mainly originating from [Cagé & Piketty](https://www.unehistoireduconflitpolitique.fr/).
+
+```{r}
+elections2024 <- read_csv("data/elections2024.csv", show_col_types = FALSE)
+socio_demo <- read_excel("data/demographics2024.xlsx")
+#you can also do with rio if you don't want to bother with the file format
+elections2024 <- import("data/elections2024.csv",show_col_types = FALSE)
+socio_demo <- import("data/demographics2024.xlsx")
+#You can also download other data from the internet (here from the Chapell Hill Experts Survey):
+dataset_from_internet_1 <- import("https://www.chesdata.eu/s/1999-2024_CHES_dataset_means.csv")
+```
+Next, you may want to inspect the data that you have downloaded : 
+
+```{r}
+glimpse(socio_demo)
+glimpse(elections2024)
+```
+
+Here you see that some values, like PBS have many NA's and you may want to get rid of some values that are unnecessary for your purposes. You can do that by using the select function
+```{r}
+socio_demo <- socio_demo %>% select(-c(Personnes, Exploitations, UTA, SAU, PBS))
+```
+Imagine that you are only interested in the . You can inspect the values taken in a column with a categorical variable by looking at 
+```{r}
+unique(socio_demo$dens7)
+table(socio_demo$dens7)
+```
+And select a subpart of this data set with `filter`: 
+```{r}
+socio_demo_rural <- socio_demo %>% filter(dens == "Rural") %>% filter(dens7 == "Rural à habitat dispersé"|dens7 == "Rural à habitat très dispersé")
+table(socio_demo_rural$dens7)
+```
+You can then check the summary of that variable and its distribution :
+```{r}
+summary(socio_demo_rural$pagri)
+```
+::: {.panel-tabset}
+
+## Histogram 1
+```{r}
+hist(socio_demo_rural$pagri, breaks = 20)
+```
+## Histogram 2
+```{r}
+hist(socio_demo_rural$revmoyfoy, breaks = 20)
+```
+## Histogram 3 
+```{r}
+hist(log(socio_demo_rural$revmoyfoy), breaks = 20)
+```
+:::
+
+
+The `summary()` command informs you that your data set contains 144 NA's. You can decide to remove these values, or to fill those with the mean of the variable - so that in a later stage, these data are not changing the estimation. 
+```{r}
+socio_demo_rural <- socio_demo_rural %>%   
+  mutate(pagri = case_when(
+    is.na(pagri) ~ mean(pagri, na.rm = TRUE),
+    .default =pagri
+  ))
+
+summary(socio_demo_rural$pagri)
+```
+Where you see that the mean hasn't changed, but the NA's are all gone. Now imagine that you would like to analyse the parties' vote share depending on the context : you would like to know if in 'urban/rural' communes, people vote more or less for the different parties.
+
+For this you may need to combine electoral results with data on the communes themselves, and then join those. This is possible because your have a unique identifier per commune : commune `01001` is the same individual in socio_demo as `1001` in elections2024, it is therefore to merge these guys together. Note here that you first have to convert the commune codes to numerical values in order for the merge to operate,  so that `codecommune` and `codedep` have the same type in both data set (as you can see with the earlier glimpses, this was not the case beforehand). Otherwise, the merging does not work because the computer does not understand what are the common variables to merge on.
+
+```{r}
+socio_demo <- socio_demo %>% mutate(codecommune = as.numeric(codecommune), codedep = as.numeric(codedep)) %>% filter(!is.na(codecommune), !is.na(codedep))
+
+elections2024 <- elections2024 %>% left_join(socio_demo)
+library(DT)
+datatable(head(elections2024,300))
+```
+
+
+
+# Simple regression model, OLS
+
+With a data set containing electoral results at the commune level, and socio-demographic data on the communes, you can now perform your analysis of what drives the vote for any party of your choice, at the commune level. Note that it will hardly be possible for you to make any claim at the individual level from these data, that are aggregated at the commune-level (hence, the environment of the voter). 
+
+Imagine you want to first understand how the median income of a commune influences the voting for different parties in those communes, - hence how `revmoyfoy` influences voting in that commune. You may want to naively plot a graph showing your data points and the two variables of interest, the median income and the vote for the radical right (as %) :
+
+```{r}
+library(ggplot2)
+elections2024 %>% filter(dens == "Urbain intermédiaire") %>% ggplot(aes(x = log(revmoyfoy), y = far_right_relvotes)) + geom_point()+ labs(y = "RN vote", x = "Median income in commune (log scale)")+theme_minimal()
+```
+In general, your dependent variable (what you seek to understand better, to explain) is plotted on the vertical y axis, and the independent variables (the variables through which you seek to explain the dependent variable) are in the horizontal x axis. This already shows you a trend, which seems to show that the RN vote, measured at the commune level, tends to decrease when the median income in theses communes increases. You may want to summarise this relationship between two variables by saying that $Y_i$ is a function of $X_i$, and of an error $\epsilon_i$ :
+
+\begin{equation}
+Y_i = f(X_i, \epsilon_i)
+\end{equation}
+A linear function of $X$ is simply a function that associates a constant value $\beta$ such that each increase $\Delta X$ produces a $\beta \Delta X$ on Y, so that $\Delta Y = \beta \Delta X$. This leads to the formulation of the function as $f$:
+
+\begin{equation}
+Y_i = \beta X_i + \epsilon_i
+\end{equation}
+
+
+In the previous case, that would mean that for each increase in log(income), lets say of 0.5, there is a constant $\beta$ that increases the far-right vote by $\beta \times 0.5$. Hence, knowing this constant value $\beta$ is of course a crucial information ! An OLS estimation basically allows you to find this $\beta$, that minimises the error $\epsilon_i$ for all your observations (hence, that better fits your observation). There are many different methods to compute this $\beta$ in such way that the error is minimised, but the best among all linear estimators is known to be the Ordinary Least Squares (OLS) estimator (see [Gauss-Markov theorem](https://en.wikipedia.org/wiki/Gauss%E2%80%93Markov_theorem) if you are interested). 
+In a case with $k$ independent variables :
+
+\begin{equation}
+Y_i = \beta_1 X_{i1} + \beta_2 X_{i2} + \beta_3 X_{i3} + ... + \beta_k X_{ik} + \epsilon_i
+\end{equation}
+
+## Assumptions
+For this relation to hold, the following hypotheses must be true :
+
+* $\mathbb{E} (\epsilon_i) = 0$. That basically means that the expectation of the error should be (there is no systematic error in your estimation).
+* $\mathbb{E} (\epsilon_i^2) = \sigma^2$. That means that the variance of the error is constant accross all values. This condition is called 'homoskedasticity'. The case where  $\mathbb{E} (\epsilon_i^2) \ne \sigma^2$ is called heteroskedasticity.
+* $\mathbb{E} (\epsilon_i \epsilon_j)= 0$ or $\mathbb{C}ov(\epsilon_i, \epsilon_j) = 0$, which is called the linear independence of the errors assumption.
+* $X_{ij}$ is non random $\forall  i = 1,...,n ; j = 1, ..., k$ (X is not a random variable, contrary to the error and the dependent variable).
+* $\text{rank}((X_{ij})) = k$. This is the mathematical way to say that the different independent variables are indeed independent from one another. That means that there is no way to obtain any $X_j$ using sums and combinations of all the other $X_k$ (where $k \ne j$). You will understand that later, in the last section of this class.
+
+## Linear regression in R
+
+Luckily for us, the linear estimator is present in base R, it's called `lm`  and we can use it straight for estimating regression coefficients : we just need to give our data-set and the relationship between our dependent and independent variable, and the machine does the rest for us ! We can also complete our initial graph with the `geom_smooth` function, that will draw this line that is the best line fitting the data, for us.
+
+```{r}
+model1 <- lm(data = elections2024 %>% filter(dens == "Urbain intermédiaire"), far_right_relvotes ~ log(revmoyfoy))
+
+elections2024 %>% filter(dens == "Urbain intermédiaire") %>% ggplot(aes(x = log(revmoyfoy), y = far_right_relvotes)) + geom_point()+ labs(y = "RN vote", x = "Median income in commune (log scale)")+ geom_smooth(method = "lm", linetype = "dashed", color = "black", se = TRUE, linewidth = 1, alpha = 0.4)+theme_minimal()
+summary(model1)
+```
+If you want a neater presentation of the regression table, you can use the `broom` package :
+```{r}
+library(broom)
+tidy(model1)
+```
+
+## Interpretation of regression results 
+
+Here, you see that we have many information. The first thing we want to identify is the structure of the table. In the left column, we have our independent variable—our predictor. On the right-hand side, we have the corresponding coefficients, some of which have stars. In parentheses and underneath each coefficient, we find the standard errors. Smaller standard errors suggest more precise estimates.
+
+The stars tell us something about statistical significance. If a variable has a p-value below a certain threshold, it will be marked with one or more stars. A single star * denotes significance at the 5% level (p < 0.05), two stars ** indicate significance at the 1% level (p < 0.01), and three stars *** show significance at the 0.1% level (p < 0.001). This means that a specific variable has a statistically significant relationship with the dependent variable and contributes to explaining its variance. However, the absence of statistical significance does not necessarily mean that the variable has no effect—it may suggest that there is insufficient evidence to detect a meaningful relationship given the data.
+
+The coefficients tell us about the direction and strength of the association between a statistically significant predictor and our dependent variable. A positive coefficient indicates that an increase in the independent variable is associated with an increase in the dependent variable, while a negative coefficient suggests that an increase in the independent variable corresponds to a decrease in the dependent variable. Since this is an ordinary least squares (OLS) regression, we can interpret the coefficients directly. However, because the independent variable is logged, the interpretation must be made in proportional (percentage) terms rather than in raw units.
+
+Let’s interpret the above regression table. Always bear in mind what a change of values would correspond to on the measurement scale of your dependent variable. In our case, higher values of the dependent variable correspond to a higher share of votes for far-right parties.
+
+Household income (logged) is negatively and highly significantly associated with the share of far-right votes. The coefficient is −0.186 and is statistically significant at the 0.1% level. This means that, in intermediate urban areas, an increase in average household income is associated with a decrease in far-right electoral support. More precisely, a 1% increase in average household income is associated with approximately a 0.19-point decrease in the share of far-right votes. This suggests that wealthier municipalities tend to vote less for far-right parties.
+
+The intercept represents the expected level of far-right vote share when the logged income variable equals zero. While this value (2.31) is not substantively meaningful on its own, it is necessary for correctly estimating the relationship between income and far-right voting.
+
+Bear in mind that this model is a very simple one. It includes only one independent variable and is therefore likely to omit many important predictors of far-right voting, such as education levels, unemployment, age structure, immigration levels, or political history. As a result, the model may suffer from omitted variable bias, meaning that the estimated effect of income may be capturing the influence of other unobserved factors correlated with income. While the negative association is strong and statistically significant, it should not be interpreted as a causal effect.
+
+There is also some additional information in the table that tells us more about the model’s fit and overall performance:
+
+* R²: The R-squared value is 0.263, meaning that approximately 26.3% of the variation in far-right vote share across intermediate urban areas is explained by average household income alone. This is relatively high for a single-variable model, suggesting that income is an important correlate of far-right voting.
+
+* Adjusted R²: The adjusted R-squared (0.2632) is almost identical to the R-squared value, which is expected given that the model includes only one predictor. This indicates that the explanatory power of the model is not artificially inflated by unnecessary variables.
+
+* Residual Standard Error: The residual standard error is 0.084, which measures the average distance between the model’s predicted values and the observed far-right vote shares. Lower values indicate better predictive accuracy; here, the error suggests a moderate level of unexplained variation remains.
+
+* F-statistic: The F-statistic is very large (1248) and highly statistically significant, indicating that the model performs far better than a model with no predictors at all. In other words, income significantly improves our ability to explain variation in far-right electoral support.
+
+Overall, this regression suggests a strong and statistically significant negative relationship between household income and far-right voting in intermediate urban areas, while also highlighting the limits of inference from a highly simplified model.
+
+
+# Multiple linear regression 
+
+Now imagine that you want to better isolate the impact of the median income on  the vote in the commune: the problem is that the income is probably very much related to the presence of highly educated people, or other social phenomenons that, as we already know, strongly influence RN voting : hence what is measured here is perhaps not at all something related to income, but something related to something completely different that you are measuring through income ! You therefore need to include many more 'independent' variables in your model, to make sure that you are indeed measuring an effect of income only, and not something related but different.  If your main goal is to isolate the impact of income on RN voting (your independent variable), these complementary independent variables are generally called 'control variables', and added to better specify your model and avoid omitted variable bias. You may for instance want to control for the socio-demographic composition of the commune (proportions of different socio-professional categories), the proportion of foreigners, etc.
+
+```{r}
+model2 <- lm(data = elections2024 %>% filter(dens == "Urbain intermédiaire") %>% mutate(petr = etranger/pop, psup = sup/pop, pnodip = nodip/pop) , far_right_relvotes ~ log(revmoyfoy) +petr+ pagri+pouvr+pcadr+age+log(prixbien)+pempl+ppint+pindp+psup+pnodip)
+
+#Returns regression table with the two models
+stargazer(model1,  model2,
+          title = "Model Results", 
+          align = TRUE, 
+          type = "text",
+          covariate.labels = c(
+            "(Intercept)" = "Intercept",
+            "age" = "Age", 
+            "log(revmoyfoy)" = "Median household income (log)",
+            "pouvr" = "Blue-collar workers (%)", 
+            "pcadr" = "Executives (%)",
+            "log(prixbien)" = "Average household price (log)",
+            "petr" ="Foreigners (%)",
+            "pagri"= "Farmers (%)",
+            "pindp" = "Independents(%)",
+            "psup" = "University graduates (%)",
+            "pnodip" = "Without diploma (%)",
+            "pempl" = "Employees (%)",
+            "ppint" = "Intermediary professions (%)"
+            )
+          )
+
+#Create coefficient tables for comparison
+models_coefficients <- map_df(list(model1, model2), ~ tidy(.x, conf.int = T), .id = "model")
+
+#Plotting the coefficients of each models with their confidence intervals
+models_coefficients %>% 
+  # Remove the intercept
+  filter(term  != "(Intercept)") %>% 
+  ggplot(aes(term, estimate, color = model)) +
+  # Add confidence intervals
+  geom_pointrange(aes(ymin = conf.low, ymax = conf.high), position = position_dodge(width = 0.5)) +
+  # Add a dashed line at 0 (0 means no effect)
+  geom_hline(yintercept = 0, linetype = "dashed") +
+  # Rotate the labels on the x axis
+  coord_flip() +
+  # Add a title and change the labels
+  labs(x = "Coefficient", y = NULL, title = "Coefficients of the different models") +
+  theme_minimal() +
+  scale_color_manual(labels = c("1 variable", "12 variables"), values = c("#00AFBB", "#E7B800"))
+
+```
+This shows that the results are changed, and the estimate is indeed considerably reduced : this means that the effect of log(median income) (-0.07) is almost 3x lower - when controlled for the rest of the variables that I have specified here -, than initially expected (-0.18) ! The previous coefficient was biased due to omitted variables. This shows how crucial it is to specify your model well : underspecifying it, atheoretically, obviously leads to under/overestimation of your coefficients, which results in bad consequences for your estimation!
+
+
+
+## Interactions
+
+You may now wonder how heterogeneous your results are, depending on one another. Indeed, perhaps the effect of income on the far-right vote is conditional on another variable, that is for instance the level of education ; and vice-versa. In other words, the results might be heterogeneous : a rich commune with less educated people can potentially vote differently than a rich commune with many higher educated persons. This is what is meant by checking for interactions between independent variables. For instance, in the case of a regression model with three variables, instead of checking :
+
+\begin{equation}
+Y_i = \beta_1 X_{1i} + \beta_2 X_{2i} + \beta_3 X_{3i},
+\end{equation}
+you try :
+\begin{equation}
+Y_i = \beta_1 X_{1i} + \beta_2 X_{2i} + \beta_3 X_{3i} + \beta_4 X_{1i}*X_{3i}
+\end{equation}
+
+Which means that any increase $\Delta X_{1i}$ in the variable $X_{1i}$ no longer has an impact $\beta_1 \Delta X_{1i}$ on $Y_i$, but an impact $\Delta X_{1i} (\beta_1 + \beta_3X_{3i})$, which therefore still depends on the variable $X_{3i}$. Coming back to our example, we want to assess how income and education in a commune evolve and influence far-right voting. You only need to specify `*` in your regression to obtain the interaction : 
+
+```{r}
+model3 <- lm(data = elections2024 %>% filter(dens == "Urbain intermédiaire") %>% mutate(petr = etranger/pop, psup = sup/pop, pnodip = nodip/pop, log_revmoyfoy = log(revmoyfoy)) , far_right_relvotes ~ log_revmoyfoy +petr+ pagri+pouvr+ pcadr+age+log(prixbien)+pempl+ppint+pindp+psup+pnodip + log_revmoyfoy*psup)
+
+library(ggeffects)
+
+ggpredict(model3, terms = c("log_revmoyfoy", "psup")) |> 
+  as_tibble() |> 
+  mutate(
+    group = factor(
+      group,
+      levels = c("0.14", "0.23", "0.32"),
+      labels = c(
+        "Low share of higher education (14%)",
+        "Medium share of higher education (23%)",
+        "High share of higher education (32%)"
+      )
+    )
+  ) |> 
+  ggplot(aes(x, predicted, color = group, fill = group)) + 
+  geom_line(linewidth = 1) +
+  geom_ribbon(aes(ymin = conf.low, ymax = conf.high), alpha = 0.2) +
+  labs(
+    color = "Share with higher education",
+    fill  = "Share with higher education"
+  )
+```
+And you see that your predicted values change with the level of education : in the more educated cases, the line becomes less steep. Here, only three values of education are plotted by the program to give an idea of the interaction in three scenarios (commune with low/medium/high proportion of educated people), but this shows that the more educated people there are in a commune, the less the impact of income on the RN vote will be important in that commune. 
+
+
+## The [ecological fallacy](https://en.wikipedia.org/wiki/Ecological_fallacy)
+It is important to note that, since your observations are at the commune level, your conclusions can only be drawn at the commune level. As such, even if you observe a strong correlation between RN vote share and the presence of blue-collar workers at the commune level, this does not allow you to conclude that blue-collar workers are more likely to vote for the radical right. This would be an example of the ecological fallacy, which consists of deriving individual-level behavior from aggregate-level data.
+
+In fact, the presence of blue-collar workers in these communes may be correlated with other factors that also affect the RN vote : like living on the country-side, where other categories of the population might vote RN - and therefore lead to a strong correlation between working class voting behaviour and RN voting. It is only thanks to other studies using individual-level data that we know that the RN is the preferred party among workers (after abstention).
+
+# Multiple regressions with different dependent variables
+```{r}
+data_parties <- elections2024 %>% filter(dens == "Urbain intermédiaire") %>% mutate(petr = etranger/pop, psup = sup/pop, pnodip = nodip/pop, log_revmoyfoy = log(revmoyfoy))
+data_parties <- data_parties %>% pivot_longer(
+  cols = ends_with("relvotes"),
+  names_to = 'party',
+  values_to = 'vote_share'
+) %>% 
+  # Nest the data by party
+  nest(data=  -c(party))
+
+parties_models <- data_parties %>% 
+  mutate(
+    model = map(
+      data,
+      ~ lm(
+        vote_share ~ log_revmoyfoy + petr + pagri + pouvr + pcadr +
+          age + log(prixbien) + pempl + ppint + pindp + psup + pnodip,
+        data = .x
+      )
+    ),
+    tidied   = map(model, ~ tidy(.x, conf.int = TRUE)),
+    glanced  = map(model, glance),
+    augmented = map(model, augment)
+  )
+
+parties_models %>%  
+  unnest(tidied) %>% 
+  # Remove intercept if you don’t want it
+  filter(term != "(Intercept)") %>% 
+  mutate(significant = p.value < 0.05) %>% 
+  ggplot(
+    aes(
+      x = estimate,
+      y = fct_reorder(term, estimate),
+      color = significant
+    )
+  ) + 
+  geom_pointrange(
+    aes(xmin = conf.low, xmax = conf.high)
+  ) +
+  geom_vline(xintercept = 0, linetype = "dashed") +
+  facet_wrap(~ party) +
+  theme_light() +
+  labs(
+    x = "Coefficient estimate",
+    y = "Predictor"
+  ) +
+  scale_colour_viridis_d()
+```
+
+# Model performance 
+**This section is directly inspired from the last section of your class of last semester**
+## Diagnostics
+After fitting our model, it is essential to perform diagnostic checks to evaluate whether the model is correctly specified and whether the assumptions underlying regression analysis are being met. In this context, we use the performance package to assess various aspects of these assumptions and examine model quality.
+```{r}
+library(performance)
+```
+
+## Multicollinearity 
+It’s essential to evaluate the correlation between predictors in regression analysis, as highly correlated predictors can introduce multicollinearity. This occurs when predictors capture overlapping information, which can distort the reliability of the model’s estimates.
+
+A useful tool for diagnosing multicollinearity is the Variance Inflation Factor (VIF), which measures how much the variance of a regression coefficient increases due to correlation among predictors. A VIF value above 10 generally signals problematic multicollinearity. Another helpful metric is tolerance (calculated as 1/VIF), which indicates the proportion of a predictor’s variance not explained by other predictors. Tolerance values near 1 suggest low collinearity. If multicollinearity is detected, techniques like Principal Component Analysis (PCA) can help address the issue. 
+
+In R, you can assess multicollinearity using the check_collinearity() function from the performance package (or the car::vif function). These functions compute VIF, provide confidence intervals, and calculate tolerance for each predictor.
+
+```{r}
+map(list(model1, model2), check_collinearity)
+```
+You see here that for instance "pcadr" (% Executives) is highly correlated with the rest of the variables, which is expected, since you can express cadre as a combination of all the other variables, - which also explains why the other variables are also very correlated. The more you add variables about the occupational structure, the more they predict the others, because
+\begin{equation}
+\text{pcadr = 1 - (pouvr + pempl+ ppint+psup+pnodip)}
+\end{equation}
+
+which is why pcadr is unsignificant.
+
+## Heteroskedasticity 
+
+Heteroskedasticity occurs in regression analysis when the spread of the residuals (or errors) varies depending on the values of the independent variables. This contradicts the classical linear regression assumption of homoskedasticity, which requires that the residuals have a constant variance.
+
+When heteroskedasticity is present, it can undermine the accuracy of statistical conclusions. The standard errors of the estimated coefficients may become unreliable, resulting in misleading p-values and confidence intervals. To detect heteroskedasticity, you can use diagnostic tools like plotting residuals against predicted values. Statistical tests, such as the Breusch-Pagan test, can also formally evaluate whether the residuals' variance remains constant. If heteroskedasticity is confirmed, you may need to adjust the model, apply data transformations, or use robust standard errors to mitigate its impact.
+
+```{r}
+augment(model2) |>  
+  ggplot(aes(.fitted, .resid)) + 
+  geom_point()
+check_heteroscedasticity(model2) # Run a Breush-Pagan test
+```
+
+## Outliers
+
+To detect outliers, we use the cook distance which is an outlier detection methods. It estimate how much our regression coefficients change if we remove each observation.
+
+```{r}
+check_outliers(model2)
+```
+
