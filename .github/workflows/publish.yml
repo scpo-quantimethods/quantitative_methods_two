@@ -22,24 +22,10 @@ jobs:
         with:
           r-version: '4.2.0'
 
-      - name: Install R dependencies from Quarto
-        run: |
-          Rscript -e '
-          files <- list.files(pattern = "\\.qmd$", recursive = TRUE)
-          packages <- c()
-          for (f in files) {
-            lines <- readLines(f)
-            libs <- gsub(".*library\\(([^)]+)\\).*", "\\1", grep("library\\(", lines, value = TRUE))
-            packages <- unique(c(packages, libs))
-          }
-          installed <- rownames(installed.packages())
-          to_install <- setdiff(packages, installed)
-          if (length(to_install) > 0) {
-            install.packages(to_install, repos = "https://cloud.r-project.org")
-          } else {
-            message("All packages already installed.")
-          }
-          '
+      - name: Install R Dependencies
+        uses: r-lib/actions/setup-renv@v2
+        with:
+          cache-version: 1
 
       - name: Render and Publish
         uses: quarto-dev/quarto-actions/publish@v2

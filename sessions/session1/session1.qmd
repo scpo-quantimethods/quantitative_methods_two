@@ -2,6 +2,17 @@
 title: Session 1 — R reminder and OLS 
 toc: true
 toc-depth: 3
+webr:
+  packages:
+    - dplyr
+    - tidyverse
+    - rio
+    - stargazer
+    - readxl
+    - broom
+    - performance
+    - palmerpenguins
+    - ggplot2
 ---
 
 # Motivation
