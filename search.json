@@ -91,13 +91,6 @@
     "text": "Outliers\nTo detect outliers, we use the cook distance which is an outlier detection methods. It estimate how much our regression coefficients change if we remove each observation.\n\ncheck_outliers(model2)\n\nOK: No outliers detected.\n- Based on the following method and threshold: cook (0.949).\n- For variable: (Whole model)"
   },
   {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
-    "section": "",
-    "text": "About this site\n\n1 + 1\n\n[1] 2"
-  },
-  {
     "objectID": "index.html",
     "href": "index.html",
     "title": "Quantitative methods II",
@@ -116,7 +109,7 @@
     "href": "index.html#final-paper",
     "title": "Quantitative methods II",
     "section": "Final paper",
-    "text": "Final paper\nAt the end of the class, you will be asked to write a quantitative methods paper, on a topic of your choice, using data of your choice.\n#Requirements You will need RStudio for this class, and should have installed it and be ready to use it before the start of the class. If you do not know how to download it, please follow the instructions available there, there or there. Download a file and try to open it on RStudio, to make sure that your environment is working."
+    "text": "Final paper\nAt the end of the class, you will be asked to write a quantitative methods paper, on a topic of your choice, using data of your choice."
   },
   {
     "objectID": "sessions/session3/session3.html",
