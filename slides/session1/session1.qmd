@@ -1,0 +1,33 @@
+---
+title: "Quantitative methods 2"
+subtitle: "Labsessions - 1"
+author: "Paul Servais"
+format: revealjs
+---
+
+## Your instructors
+- Paul Servais, <paul.servais@sciencespo.fr>. 
+- Jessica de Rongé, <jessica.deronge@sciencespo.fr>
+
+## Course organisation
+- In total, each group will receive six tutorials. 
+- Every two weeks, and organised in such a way that they follow the program of the theoretical classes. 
+- Goal : briefly remind you the important content that you have seen in the theoretical class, 
+- present you practical examples 
+- how that can be done using RStudio, and finally to guide you through coding exercices. 
+
+## Course material 
+- Everything on <https://scpo-quantimethods.github.io/quantitative_methods_two/>
+- Sessions, Exercices, Homeworks
+- ![](images/image1.png){width=60%}
+
+
+## Sessions
+
+- 1. RStudio reminder and OLS regressions 
+- 2. Logistic regressions 
+- 3.  Multinomial regressions 
+- 4.  Regression Discontinuity Design (RDD)  and Instrumental Variables (IV)
+- 5. Difference-in-differences (DiD) and panel data 
+- 6. Time-series
+

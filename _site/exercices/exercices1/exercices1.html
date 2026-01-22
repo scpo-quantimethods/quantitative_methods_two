@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Quantitative methods II</title>
+<title>Exercices - R basics and OLS regressions – Quantitative methods II</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,24 +23,24 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/tabby.min.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-c1fac2584b48ed01fb6e278e36375074.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabby.min.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-c1fac2584b48ed01fb6e278e36375074.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -70,7 +70,7 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 
 
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="../../styles.css">
 </head>
 
 <body class="nav-fixed quarto-light">
@@ -80,7 +80,7 @@ ul.task-list li input[type="checkbox"] {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">Quantitative methods II</span>
     </a>
   </div>
@@ -91,7 +91,7 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./index.html" aria-current="page"> 
+    <a class="nav-link" href="../../index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
@@ -105,27 +105,27 @@ ul.task-list li input[type="checkbox"] {
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-">    
         <li>
-    <a class="dropdown-item" href="./sessions/session1/session1.html">
+    <a class="dropdown-item" href="../../sessions/session1/session1.html">
  <span class="dropdown-text">Session 1: OLS</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./sessions/session2/session2.html">
+    <a class="dropdown-item" href="../../sessions/session2/session2.html">
  <span class="dropdown-text">Session 2: Logistic regressions</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./sessions/session3/session3.html">
+    <a class="dropdown-item" href="../../sessions/session3/session3.html">
  <span class="dropdown-text">Session 3: Multinomial regressions</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./sessions/session4/session4.html">
+    <a class="dropdown-item" href="../../sessions/session4/session4.html">
  <span class="dropdown-text">Session 4: Difference-in-Differences (DiD)</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./sessions/session5/session5.html">
+    <a class="dropdown-item" href="../../sessions/session5/session5.html">
  <span class="dropdown-text">Session 5: Regression Discontinuity Design (RDD) and Instrumental Variables</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./sessions/session6/session6.html">
+    <a class="dropdown-item" href="../../sessions/session6/session6.html">
  <span class="dropdown-text">Session 6: Time Series</span></a>
   </li>  
     </ul>
@@ -141,27 +141,27 @@ ul.task-list li input[type="checkbox"] {
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu--1">    
         <li>
-    <a class="dropdown-item" href="./exercices/exercices1/exercices1.html">
+    <a class="dropdown-item" href="../../exercices/exercices1/exercices1.html">
  <span class="dropdown-text">Exercices 1: OLS</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./exercices/exercices2/exercices2.html">
+    <a class="dropdown-item" href="../../exercices/exercices2/exercices2.html">
  <span class="dropdown-text">Exercices 2: Logistic regressions</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./exercices/exercices3/exercices3.html">
+    <a class="dropdown-item" href="../../exercices/exercices3/exercices3.html">
  <span class="dropdown-text">Exercices 3: Multinomial regressions</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./exercices/exercices4/exercices4.html">
+    <a class="dropdown-item" href="../../exercices/exercices4/exercices4.html">
  <span class="dropdown-text">Exercices 4: Difference-in-Differences (DiD)</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./exercices/exercices5/exercices5.html">
+    <a class="dropdown-item" href="../../exercices/exercices5/exercices5.html">
  <span class="dropdown-text">Exercices 5: Regression Discontinuity Design (RDD) and Instrumental Variables</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./exercices/exercices6/exercices6.html">
+    <a class="dropdown-item" href="../../exercices/exercices6/exercices6.html">
  <span class="dropdown-text">Exercices 6: Time Series</span></a>
   </li>  
     </ul>
@@ -177,17 +177,17 @@ ul.task-list li input[type="checkbox"] {
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu--2">    
         <li>
-    <a class="dropdown-item" href="./homeworks/homework1.html">
+    <a class="dropdown-item" href="../../homeworks/homework1.html">
  <span class="dropdown-text">Homework 1</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./homeworks/homework2.html">
+    <a class="dropdown-item" href="../../homeworks/homework2.html">
  <span class="dropdown-text">Homework 2</span></a>
   </li>  
     </ul>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="./about.html"> 
+    <a class="nav-link" href="../../about.html"> 
 <span class="menu-text">About</span></a>
   </li>  
 </ul>
@@ -206,14 +206,9 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#motivation" id="toc-motivation" class="nav-link active" data-scroll-target="#motivation">Motivation</a></li>
-  <li><a href="#course-organisation" id="toc-course-organisation" class="nav-link" data-scroll-target="#course-organisation">Course organisation</a></li>
-  <li><a href="#evaluation-method" id="toc-evaluation-method" class="nav-link" data-scroll-target="#evaluation-method">Evaluation method</a>
-  <ul class="collapse">
-  <li><a href="#homeworks" id="toc-homeworks" class="nav-link" data-scroll-target="#homeworks">Homeworks</a></li>
-  <li><a href="#final-paper" id="toc-final-paper" class="nav-link" data-scroll-target="#final-paper">Final paper</a></li>
-  </ul></li>
-  <li><a href="#requirements" id="toc-requirements" class="nav-link" data-scroll-target="#requirements">Requirements</a></li>
+  <li><a href="#exercice-1-analysing-party-positions" id="toc-exercice-1-analysing-party-positions" class="nav-link active" data-scroll-target="#exercice-1-analysing-party-positions">Exercice 1 : analysing party positions</a></li>
+  <li><a href="#exercice-2" id="toc-exercice-2" class="nav-link" data-scroll-target="#exercice-2">Exercice 2</a></li>
+  <li><a href="#exercice-3" id="toc-exercice-3" class="nav-link" data-scroll-target="#exercice-3">Exercice 3</a></li>
   </ul>
 </nav>
     </div>
@@ -222,8 +217,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Quantitative methods II</h1>
-<p class="subtitle lead">RStudio Lab sessions</p>
+<h1 class="title">Exercices - R basics and OLS regressions</h1>
 </div>
 
 
@@ -240,81 +234,27 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="motivation" class="level1">
-<h1>Motivation</h1>
-<p>This website supports the teaching of the class of quantitative methods II, taught in the School of Research of Sciences Po. The tutorials are supporting the theoretical class given by Jan Rovny and Brenda Van Coppennolle, and aims to remind students notions about R, OLS regressions, as well as to introduce them to causal inference methods used in social science, all based on practical coding exercices on R. This class is built on numerous sources that have contributed to inspire our theory and exercices.</p>
-<p>From current or former instructors of <a href="https://www.sciencespo.fr/">SciencesPo</a>, an introduction to R coding is available on <a href="https://malo-jn.quarto.pub/introduction-to-r/">Malo Jan’s website</a> (RStudio introduction course). Different coding examples are also provided by Jan Rovny, on <a href="https://www.rovny.org/methods-2-ed">his website</a>. This class has also been taught last year by <a href="https://luissattelmayer.github.io/quant-2025/">Luis Sattelmayer, whose site</a> provides detailed information, exercices appendices, from which this website is often directly or indirectly inspired. Moreover, there exists a wealth of ressources online, which have also guided the making of this class. To cite only but a few of them :</p>
-<p>Though this class is considered “advanced”, it is also thought of and conceived as a way to remind important notions in statistics, as well as basics of coding, already seen in the class of quantitative methods I. So rest reassured that, as much as we can, we will (1) remind previous notions of coding and statistics, (2) advance in a rhythm that is suitable for everyone.</p>
-<p>The teaching assistants for this class are :</p>
+<section id="exercice-1-analysing-party-positions" class="level1">
+<h1>Exercice 1 : analysing party positions</h1>
+<p>The Chapel Hill expert survey data is a survey that “provides information about the positioning of the leadership of 279 parties in 31 countries over the course of 2024 on ideology, policy, populism, democracy, European integration, and select EU policy questions. Country coverage includes all European Union member states except for Luxembourg – plus Iceland, Norway, Switzerland, Turkey, and the United Kingdom.2 The dataset adopts the country code and party id schema of the CHES Trend file (Jolly et al.&nbsp;2022) and the Speed CHES survey on Ukraine (Hooghe et al.&nbsp;2024) with extensions for newly covered parties” (see <a href="https://static1.squarespace.com/static/5975c9bfdb29d6a05c65209b/t/69163d62e2606b5a3c46812b/1763065186525/CHES+2024+Codebook.pdf">documentation of CHES</a>).</p>
+<p>You can find the recent survey’s dataset on the internet at <a href="https://www.chesdata.eu/s/1999-2024_CHES_dataset_means.csv" class="uri">https://www.chesdata.eu/s/1999-2024_CHES_dataset_means.csv</a>, to perform the following tasks :</p>
 <ul>
-<li>Jessica de Rongé, who is reachable at <a href="mailto:jessica.deronge@sciencespo.fr" class="email">jessica.deronge@sciencespo.fr</a></li>
-<li>Paul Servais, who can be contacted at <a href="mailto:paul.servais@sciencespo.fr" class="email">paul.servais@sciencespo.fr</a></li>
+<li>Import the data in your local environment. Use the <code>rio</code> package and library to import it directly from the internet.</li>
+<li>Use the glimpse() function to have a look at your data</li>
+<li>Filter the data set to only keep the most recent year, 2024.</li>
+<li>Using the identifiers and general information in the documentation, keep only the following items:“country”, “the overall ideology on a scale ranging from 0 (extreme left) to 10 (extreme right)”, “Thinking about the European Union’s relationship with Russia, where do you place each party on its preferred action for European countries to take?”, “Position on civil liberties VS. law and order”, “Position on same sex marriage”, “position on urban-rural”, “position on nationalism”, “left-right positioning”.</li>
+<li>Summarize three of these variables and comment on your findings.</li>
+<li>You now want to more specifically understand what drives a party to adopt favorable or more defavorable stances on the EU’s relationship with Russia. What would be your dependent variable ? Plot a histogram of this DV and comment on the distribution.</li>
+<li>You want to understand if left-right positioning influences the EU-Russia position of a party:</li>
+<li>run a simple linear regression model, with EU-Russia as dependent variable, and left-right positioning of a party as independent variable. Display the regression table using <code>stargazer</code> and interpret the coefficients. Do you think this result could be biased ? If so, why ? How could you correct that ?</li>
+<li>run a multiple linear regression to understand whether adding the party’s position on nationalism changes something. Store the value in another model, so that you can compare both in the same <code>stargazer</code> table. What do you observe ? Compare the values <code>lrgen</code> in both tables and comment on those.</li>
 </ul>
 </section>
-<section id="course-organisation" class="level1">
-<h1>Course organisation</h1>
-<p>In total, each group will receive six tutorials. Those tutorials are organised every two weeks, and organised in such a way that they follow the program of the theoretical classes. The goal in every class will be to briefly remind you the important content that you have seen in the theoretical class, then to present you practical examples, supported by actual research papers, of how that can be done using RStudio, and finally to guide you through coding exercices.</p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 10%">
-<col style="width: 30%">
-<col style="width: 60%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Session</th>
-<th>Date</th>
-<th>Content</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Session 1</td>
-<td>02/02/26 - 10/02/26</td>
-<td>RStudio reminder and OLS regressions</td>
-</tr>
-<tr class="even">
-<td>Session 2</td>
-<td>10/02/26 - 16/02/26</td>
-<td>Logistic regressions</td>
-</tr>
-<tr class="odd">
-<td>Session 3</td>
-<td>24/02/26 - 09/03/26</td>
-<td>Multinomial regressions</td>
-</tr>
-<tr class="even">
-<td>Session 4</td>
-<td>17/03/26 - 23/03/26</td>
-<td>Regression Discontinuity Design (RDD) and Instrumental Variables (IV)</td>
-</tr>
-<tr class="odd">
-<td>Session 5</td>
-<td>31/03/26 - 13/04/26</td>
-<td>Difference-in-differences (DiD) and panel data</td>
-</tr>
-<tr class="even">
-<td>Session 6</td>
-<td>14/04/26 - 27/04/26</td>
-<td>Time-series</td>
-</tr>
-</tbody>
-</table>
+<section id="exercice-2" class="level1">
+<h1>Exercice 2</h1>
 </section>
-<section id="evaluation-method" class="level1">
-<h1>Evaluation method</h1>
-<section id="homeworks" class="level2">
-<h2 class="anchored" data-anchor-id="homeworks">Homeworks</h2>
-<p>In order to assess your progress throughout the semester, two homeworks - each worth 15% of the final grade -, will be organised at the end of week 2, and at the end of week 4. You will receive the guidelines for these homeworks at that moment, and you will have two weeks (hence, until the next session) to upload your solutions to these problems on Moodle. These homeworks will be conceived to only check your advancement in the class, and not to overload you with burdensome work. Our goal is absolutely not to overload you with work, but mainly to control for your engagement with the course material. Don’t be worried if you don’t manage to fully complete the exercices or if your code is imperfect, we understand and know that getting into coding can be hard and that there is a quite high entry cost to this kind of course content - our main ambition for you is that you try and get your hands in the mud - otherwise coding is impossible to learn.</p>
-</section>
-<section id="final-paper" class="level2">
-<h2 class="anchored" data-anchor-id="final-paper">Final paper</h2>
-<p>At the end of the class, you will be asked to write a quantitative methods paper, on a topic of your choice, using data of your choice.</p>
-</section>
-</section>
-<section id="requirements" class="level1">
-<h1>Requirements</h1>
-<p>You will need RStudio for this class, and should have installed it and be ready to use it before the start of the class. If you do not know how to download it, please follow the instructions available <a href="htt ps://malo-jn.quarto.pub/introduction-to-r/session1/0102_setup.html">there</a>, <a href="https://posit.co/download/rstudio-desktop/">there</a> or <a href="https://cloud.r-project.org/">there</a>. Download a <a href="https://www.rovny.org/s/1_Demo_OLS_review.R">file</a> and try to open it on RStudio, to make sure that your environment is working.</p>
+<section id="exercice-3" class="level1">
+<h1>Exercice 3</h1>
 
 
 </section>

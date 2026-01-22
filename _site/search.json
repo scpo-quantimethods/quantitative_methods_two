@@ -46,7 +46,7 @@
     "href": "index.html#final-paper",
     "title": "Quantitative methods II",
     "section": "Final paper",
-    "text": "Final paper\nAt the end of the class, you will be asked to write a quantitative methods paper, on a topic of your choice, using data of your choice.\n#Requirements You will need RStudio for this class, and should have installed it and be ready to use it before the start of the class. If you do not know how to download it, please follow the instructions available there, there or there. Download a file and try to open it on RStudio, to make sure that your environment is working."
+    "text": "Final paper\nAt the end of the class, you will be asked to write a quantitative methods paper, on a topic of your choice, using data of your choice."
   },
   {
     "objectID": "sessions/session1/session1.html#packages",
@@ -172,6 +172,55 @@
     "href": "sessions/session3/session3.html",
     "title": "Regression discontinuity",
     "section": "",
-    "text": "About this site\n\nlibrary(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.6\n✔ forcats   1.0.1     ✔ stringr   1.6.0\n✔ ggplot2   4.0.1     ✔ tibble    3.3.1\n✔ lubridate 1.9.4     ✔ tidyr     1.3.2\n✔ purrr     1.2.1     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\n# simulate the data\ndat &lt;- tibble(\n    x = rnorm(1000, 50, 25)\n) %&gt;%\n    mutate(\n        x = if_else(x &lt; 0, 0, x)\n    ) %&gt;%\n    filter(x &lt; 100)\n\n# cutoff at x = 50\ndat &lt;- dat %&gt;% \n    mutate(\n        D  = if_else(x &gt; 50, 1, 0),\n        y1 = 25 + 0 * D + 1.5 * x + rnorm(n(), 0, 20)\n    )\n\nggplot(aes(x, y1, colour = factor(D)), data = dat) +\n    geom_point(alpha = 0.5) +\n    geom_vline(xintercept = 50, colour = \"grey\", linetype = 2)+\n    stat_smooth(method = \"lm\", se = F) +\n    labs(x = \"Test score (X)\", y = \"Potential Outcome (Y1)\")\n\n`geom_smooth()` using formula = 'y ~ x'\n\n\n\n\n\n\n\n\ndat &lt;- dat %&gt;%\n  mutate(\n    y2 = 25 + 40 * D + 1.5 * x + rnorm(n(), 0, 20)\n  )\n\n# figure\nggplot(aes(x, y2, colour = factor(D)), data = dat) +\n  geom_point(alpha = 0.5) +\n  geom_vline(xintercept = 50, colour = \"grey\", linetype = 2) +\n  stat_smooth(method = \"lm\", se = F) +\n  labs(x = \"Test score (X)\", y = \"Potential Outcome (Y)\")\n\n`geom_smooth()` using formula = 'y ~ x'"
+    "text": "About this site"
+  },
+  {
+    "objectID": "exercices/exercices1/exercices1.html",
+    "href": "exercices/exercices1/exercices1.html",
+    "title": "Exercices - R basics and OLS regressions",
+    "section": "",
+    "text": "Exercice 1 : analysing party positions\nThe Chapel Hill expert survey data is a survey that “provides information about the positioning of the leadership of 279 parties in 31 countries over the course of 2024 on ideology, policy, populism, democracy, European integration, and select EU policy questions. Country coverage includes all European Union member states except for Luxembourg – plus Iceland, Norway, Switzerland, Turkey, and the United Kingdom.2 The dataset adopts the country code and party id schema of the CHES Trend file (Jolly et al. 2022) and the Speed CHES survey on Ukraine (Hooghe et al. 2024) with extensions for newly covered parties” (see documentation of CHES).\nYou can find the recent survey’s dataset on the internet at https://www.chesdata.eu/s/1999-2024_CHES_dataset_means.csv, to perform the following tasks :\n\nImport the data in your local environment. Use the rio package and library to import it directly from the internet.\nUse the glimpse() function to have a look at your data\nFilter the data set to only keep the most recent year, 2024.\nUsing the identifiers and general information in the documentation, keep only the following items:“country”, “the overall ideology on a scale ranging from 0 (extreme left) to 10 (extreme right)”, “Thinking about the European Union’s relationship with Russia, where do you place each party on its preferred action for European countries to take?”, “Position on civil liberties VS. law and order”, “Position on same sex marriage”, “position on urban-rural”, “position on nationalism”, “left-right positioning”.\nSummarize three of these variables and comment on your findings.\nYou now want to more specifically understand what drives a party to adopt favorable or more defavorable stances on the EU’s relationship with Russia. What would be your dependent variable ? Plot a histogram of this DV and comment on the distribution.\nYou want to understand if left-right positioning influences the EU-Russia position of a party:\nrun a simple linear regression model, with EU-Russia as dependent variable, and left-right positioning of a party as independent variable. Display the regression table using stargazer and interpret the coefficients. Do you think this result could be biased ? If so, why ? How could you correct that ?\nrun a multiple linear regression to understand whether adding the party’s position on nationalism changes something. Store the value in another model, so that you can compare both in the same stargazer table. What do you observe ? Compare the values lrgen in both tables and comment on those.\n\n\n\nExercice 2\n\n\nExercice 3"
+  },
+  {
+    "objectID": "slides/session1/session1.html#getting-up",
+    "href": "slides/session1/session1.html#getting-up",
+    "title": "Quantitative methods 2",
+    "section": "Getting up",
+    "text": "Getting up\n\nTurn off alarm\nGet out of bed"
+  },
+  {
+    "objectID": "slides/session1/session1.html#going-to-sleep",
+    "href": "slides/session1/session1.html#going-to-sleep",
+    "title": "Quantitative methods 2",
+    "section": "Going to sleep",
+    "text": "Going to sleep\n\nGet in bed\nCount sheep"
+  },
+  {
+    "objectID": "slides/session1/session1.html#course-organisation",
+    "href": "slides/session1/session1.html#course-organisation",
+    "title": "Quantitative methods 2",
+    "section": "Course organisation",
+    "text": "Course organisation\n\nIn total, each group will receive six tutorials.\nEvery two weeks, and organised in such a way that they follow the program of the theoretical classes.\nGoal : briefly remind you the important content that you have seen in the theoretical class,\npresent you practical examples\nhow that can be done using RStudio, and finally to guide you through coding exercices."
+  },
+  {
+    "objectID": "slides/session1/session1.html#sessions",
+    "href": "slides/session1/session1.html#sessions",
+    "title": "Quantitative methods 2",
+    "section": "Sessions",
+    "text": "Sessions\n\n\nRStudio reminder and OLS regressions\n\n\nLogistic regressions\n\n\nMultinomial regressions\n\n\nRegression Discontinuity Design (RDD) and Instrumental Variables (IV)\n\n\nDifference-in-differences (DiD) and panel data\n\n\nTime-series ##\n\nGet in bed\nCount sheep"
+  },
+  {
+    "objectID": "slides/session1/session1.html#your-instructors",
+    "href": "slides/session1/session1.html#your-instructors",
+    "title": "Quantitative methods 2",
+    "section": "Your instructors",
+    "text": "Your instructors\n\nPaul Servais paul.servais@sciencespo.fr.\nJessica de Rongé jessica.deronge@sciencespo.fr"
+  },
+  {
+    "objectID": "slides/session1/session1.html#course-material",
+    "href": "slides/session1/session1.html#course-material",
+    "title": "Quantitative methods 2",
+    "section": "Course material",
+    "text": "Course material\n\nEverything on https://scpo-quantimethods.github.io/quantitative_methods_two/\nSessions, Exercices, Homeworks\n\n\n\nWebsite"
   }
 ]
