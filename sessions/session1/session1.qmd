@@ -246,6 +246,7 @@ models_coefficients %>%
   scale_color_manual(labels = c("1 variable", "12 variables"), values = c("#00AFBB", "#E7B800"))
 
 ```
+
 This shows that the results are changed, and the estimate is indeed considerably reduced : this means that the effect of log(median income) (-0.07) is almost 3x lower - when controlled for the rest of the variables that I have specified here -, than initially expected (-0.18) ! The previous coefficient was biased due to omitted variables. This shows how crucial it is to specify your model well : underspecifying it, atheoretically, obviously leads to under/overestimation of your coefficients, which results in bad consequences for your estimation!
 
 
@@ -257,6 +258,7 @@ You may now wonder how heterogeneous your results are, depending on one another.
 \begin{equation}
 Y_i = \beta_1 X_{1i} + \beta_2 X_{2i} + \beta_3 X_{3i},
 \end{equation}
+
 you try :
 \begin{equation}
 Y_i = \beta_1 X_{1i} + \beta_2 X_{2i} + \beta_3 X_{3i} + \beta_4 X_{1i}*X_{3i}
