@@ -5,9 +5,11 @@ author: "Paul Servais"
 format: revealjs
 ---
 
-## Your instructors
+## Your instructor
 - Paul Servais, <paul.servais@sciencespo.fr>. 
-- Jessica de Rongé, <jessica.deronge@sciencespo.fr>
+- Trained as physical engineer, then came to SciencesPo (Urban School), graduated last year
+- Now working on climate politics, comparative politics
+- I've been working on the electoral impacts of wind turbines on the vote for the RN
 
 ## Course organisation
 - In total, each group will receive six tutorials. 
@@ -19,15 +21,182 @@ format: revealjs
 ## Course material 
 - Everything on <https://scpo-quantimethods.github.io/quantitative_methods_two/>
 - Sessions, Exercices, Homeworks
-- ![](images/image1.png){width=60%}
+
+ ![](images/image1.png){width=100%}
 
 
 ## Sessions
 
 - 1. RStudio reminder and OLS regressions 
 - 2. Logistic regressions 
-- 3.  Multinomial regressions 
-- 4.  Regression Discontinuity Design (RDD)  and Instrumental Variables (IV)
+- 3. Multinomial regressions 
+- 4. Regression Discontinuity Design (RDD)  and Instrumental Variables (IV)
 - 5. Difference-in-differences (DiD) and panel data 
 - 6. Time-series
 
+## And you ?
+- Background ?
+- Expectations ?
+
+## Course examination
+
+## Reminders : coding in R and OLS regressions
+1. Coding basics
+2. OLS simple and multiple regressions
+
+## Packages
+- Can be downloaded through`install.packages()`. 
+- Loading packages :
+
+```{r}
+#| echo: true
+#install.packages("package_name") if you don't have these packages yet in your environment
+library(tidyverse)
+library(rio) #helps, through import() and export() function, to not care too much about our data format
+library(stargazer) #produces beautiful tables as outputs
+library(readxl) # allows you to read excel file
+```
+
+## Importing data {.scrollable}
+- Absolute path of your data `~/Desktop/Code/data/file.xslx`
+- Relative path `data/file.csv`. 
+- Data on the European elections in "France Métropolitaine" (with departements from 1 to 95), provided by the Ministère de l'Intérieur and slightly recoded (right = LR, far_right = RN, incumbents = Macron, socialists = PS, Greens = Verts). 
+- Socio-demographic data [Cagé & Piketty](https://www.unehistoireduconflitpolitique.fr/).
+- You can download those following links [elections](https://github.com/paulservais-1/methods_policyevaluation/raw/main/slides/session1/data/demographics2024.xlsx) and [socio-demographic](https://github.com/paulservais-1/methods_policyevaluation/raw/main/slides/session1/data/demographics2024.xlsx).
+
+```{r}
+#| echo: true
+elections2024 <- read_csv("data/elections2024.csv")
+socio_demo <- read_excel("data/demographics2024.xlsx")
+#you can also do with rio if you don't want to bother with the file format
+elections2024 <- import("data/elections2024.csv")
+socio_demo <- import("data/demographics2024.xlsx")
+#You can also download other data from the internet (here from the Chapell Hill Experts Survey):
+dataset_from_internet_1 <- import("https://www.chesdata.eu/s/1999-2024_CHES_dataset_means.csv")
+```
+
+## Inspection and selection {.scrollable}
+- You can inspect : 
+```{r}
+#| echo: true
+glimpse(socio_demo)
+glimpse(elections2024)
+```
+- or select : 
+```{r}
+#| echo: true
+socio_demo <- socio_demo %>% select(-c(Personnes, Exploitations, UTA, SAU, PBS))
+```
+
+## Inspection 
+- Categorical variables : 
+```{r}
+#| echo: true
+
+unique(socio_demo$dens7)
+table(socio_demo$dens7)
+```
+- Interval variables :
+```{r}
+#| echo: true
+
+library(ggplot2)
+summary(socio_demo$revmoyfoy)
+```
+
+## Filtering 
+- Filter allows you to filter among your values : 
+```{r}
+#| echo: true
+
+socio_demo_rural <- socio_demo %>% filter(dens == "Rural") %>% filter(dens7 == "Rural à habitat dispersé"|dens7 == "Rural à habitat très dispersé")
+
+table(socio_demo_rural$dens7)
+summary(socio_demo_rural$pagri)
+```
+- '|' stands for 'or', "&" stands for "and"
+
+## Plotting distribution {.scrollable}
+- Histogram
+```{r}
+#| echo: true
+hist(log(socio_demo_rural$revmoyfoy), breaks = 20)
+```
+- Using ggplot2
+```{r}
+#| echo: true
+ggplot(data = socio_demo, aes(x= revmoyfoy, fill = dens))+geom_histogram()
+```
+- Density plot
+```{r}
+#| echo: true
+ggplot(data = socio_demo, aes(x= revmoyfoy, color = dens))+geom_density()
+```
+
+## Replacing NA's
+- Replacing by mean or removing NA's
+```{r}
+socio_demo_rural <- socio_demo_rural %>%   
+  mutate(pagri = case_when(
+    is.na(pagri) ~ mean(pagri, na.rm = TRUE),
+    .default =pagri
+  ))
+
+socio_demo_rural <- socio_demo_rural %>% drop_na(pagri)
+
+summary(socio_demo_rural$pagri)
+```
+
+## Merging data sets {.scrollable}
+- You can merge data sets based on the value of some variables or automatically:
+```{r}
+#| echo: true
+
+socio_demo <- socio_demo %>% mutate(codecommune = as.numeric(codecommune), codedep = as.numeric(codedep)) %>% filter(!is.na(codecommune), !is.na(codedep))
+
+elections2024 <- elections2024 %>% left_join(socio_demo, by = c("codecommune", "codedep", "Year"))
+elections2024 <- elections2024 %>% left_join(socio_demo)
+
+head(elections2024,300)
+```
+
+## Towards simple regression
+- Once you have decided of a Y (dependent variable) and X (independent variables), you can draw a cloud of points
+
+```{r}
+#| echo: true
+library(ggplot2)
+elections2024 %>% 
+  filter(dens == "Urbain intermédiaire") %>% 
+  ggplot(aes(x = log(revmoyfoy), y = far_right_relvotes)) + geom_point() + labs(y = "RN vote", x = "Median income in commune (log scale)") +theme_minimal()
+```
+
+## Simple linear regression model
+- Your relation between your two variables : 
+\begin{equation}
+Y_i = f(X_i, \epsilon_i)
+\end{equation}
+- A linear function of $X$ is simply a function that associates a constant value $\beta$ such that each increase $\Delta X$ produces a $\beta \Delta X$ on Y, so that $\Delta Y = \beta \Delta X$. In other words, $f(X, \epsilon) = \beta X+\epsilon$.
+\begin{equation}
+Y_i = \beta X_i + \epsilon_i
+\end{equation}
+
+## Assumptions
+- The following assumptions must hold  :
+1. $\mathbb{E} (\epsilon_i|X_i) = \mathbb{E}(\epsilon_i) =  0$. 
+2. $\mathbb{E} (\epsilon_i^2) = \sigma^2$. Homoskedasticity.
+3. $\mathbb{E} (\epsilon_i \epsilon_j)= 0$ or $\mathbb{C}ov(\epsilon_i, \epsilon_j) = 0$
+4. $X_{ij}$ is non random $\forall  i = 1,...,n ; j = 1, ..., k$
+5. $\text{rank}((X_{ij})) = k$. 
+
+## Linear regression in R
+
+- Linear estimator is present in base R, it's called `lm` 
+- `geom_smooth` allows you to add the regression line to `ggplot`
+
+```{r}
+model1 <- lm(data = elections2024 %>% filter(dens == "Urbain intermédiaire"), far_right_relvotes ~ log(revmoyfoy))
+
+elections2024 %>% filter(dens == "Urbain intermédiaire") %>% ggplot(aes(x = log(revmoyfoy), y = far_right_relvotes)) + geom_point()+ labs(y = "RN vote", x = "Median income in commune (log scale)")+ geom_smooth(method = "lm", linetype = "dashed", color = "black", se = TRUE, linewidth = 1, alpha = 0.4)+theme_minimal()
+summary(model1)
+```
