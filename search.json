@@ -95,7 +95,7 @@
     "href": "slides/session1/session1.html#your-instructor",
     "title": "Quantitative methods 2",
     "section": "Your instructor",
-    "text": "Your instructor\n\nPaul Servais, paul.servais@sciencespo.fr.\nTrained as physical engineer, then came to SciencesPo (Urban School), graduated last year\nNow working on climate politics, comparative politics\nI’ve been working on the electoral impacts of wind turbines on the vote for the RN"
+    "text": "Your instructor"
   },
   {
     "objectID": "slides/session1/session1.html#course-organisation",
@@ -228,14 +228,21 @@
     "href": "slides/session1/session1.html#verifying-assumptions",
     "title": "Quantitative methods 2",
     "section": "Verifying assumptions",
-    "text": "Verifying assumptions\n\nLinear estimator is present in base R, it’s called lm\ngeom_smooth allows you to add the regression line to ggplot"
+    "text": "Verifying assumptions\n\nYou can conduct tests to verify that your model respects the assumptions\n\\(\\mathbb{E} (\\epsilon_i|X_i) = \\mathbb{E}(\\epsilon_i) =  0\\).\n\n\n\n[1] 4.013789e-18"
+  },
+  {
+    "objectID": "slides/session1/session1.html#verifying-assumptions-1",
+    "href": "slides/session1/session1.html#verifying-assumptions-1",
+    "title": "Quantitative methods 2",
+    "section": "Verifying assumptions",
+    "text": "Verifying assumptions"
   },
   {
     "objectID": "index.html",
     "href": "index.html",
     "title": "Quantitative methods II",
     "section": "",
-    "text": "This website supports the teaching of the class of quantitative methods II, taught in the School of Research of Sciences Po. The tutorials are supporting the theoretical class given by Jan Rovny and Brenda Van Coppennolle, and aims to remind students notions about R, OLS regressions, as well as to introduce them to causal inference methods used in social science, all based on practical coding exercices on R. This class is built on numerous sources that have contributed to inspire our theory and exercices.\nFrom current or former instructors of SciencesPo, an introduction to R coding is available on Malo Jan’s website (RStudio introduction course). Different coding examples are also provided by Jan Rovny, on his website. This class has also been taught last year by Luis Sattelmayer, whose site provides detailed information, exercices appendices, from which this website is often directly or indirectly inspired. Moreover, there exists a wealth of ressources online, which have also guided the making of this class. To cite only but a few of them :\nThough this class is considered “advanced”, it is also thought of and conceived as a way to remind important notions in statistics, as well as basics of coding, already seen in the class of quantitative methods I. So rest reassured that, as much as we can, we will (1) remind previous notions of coding and statistics, (2) advance in a rhythm that is suitable for everyone.\nThe teaching assistants for this class are :\n\nJessica de Rongé, who is reachable at jessica.deronge@sciencespo.fr\nPaul Servais, who can be contacted at paul.servais@sciencespo.fr"
+    "text": "This website supports the teaching of the class of quantitative methods II, taught in the School of Research of Sciences Po. The tutorials are supporting the theoretical class given by Jan Rovny and Brenda Van Coppennolle, and aims to remind students notions about R, OLS regressions, as well as to introduce them to causal inference methods used in social science, all based on practical coding exercices on R. This class is built on numerous sources that have contributed to inspire our theory and exercices.\nFrom current or former instructors of SciencesPo, an introduction to R coding is available on Malo Jan’s website (RStudio introduction course). Different coding examples are also provided by Jan Rovny, on his website. This class has also been taught last year by Luis Sattelmayer, whose site provides detailed information, exercices appendices, from which this website is often directly or indirectly inspired. Moreover, there exists a wealth of ressources online, which have also guided the making of this class. To cite only but a few of them :\n\nCunningham, Scott. Causal Inference: The Mixtape. (2021). Available at: https://mixtape.scunning.com/.\n\nHuntington-Klein. The Effect: An Introduction to Research Design and Causality. (2021). https://theeffectbook.net/\nhttps://scpoecon.github.io/ScPoEconometrics/R-intro.html\n\nThough this class is considered “advanced”, it is also thought of and conceived as a way to remind important notions in statistics, as well as basics of coding, already seen in the class of quantitative methods I. So rest reassured that, as much as we can, we will (1) remind previous notions of coding and statistics, (2) advance in a rhythm that is suitable for everyone.\nThe teaching assistants for this class are :\n\nJessica de Rongé, who is reachable at jessica.deronge@sciencespo.fr\nPaul Servais, who can be contacted at paul.servais@sciencespo.fr"
   },
   {
     "objectID": "index.html#homeworks",

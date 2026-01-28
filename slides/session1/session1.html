@@ -207,12 +207,12 @@ Paul Servais
 </section>
 <section id="your-instructor" class="slide level2">
 <h2>Your instructor</h2>
-<ul>
-<li>Paul Servais, <a href="mailto:paul.servais@sciencespo.fr" class="email">paul.servais@sciencespo.fr</a>.</li>
-<li>Trained as physical engineer, then came to SciencesPo (Urban School), graduated last year</li>
-<li>Now working on climate politics, comparative politics</li>
-<li>I’ve been working on the electoral impacts of wind turbines on the vote for the RN</li>
-</ul>
+<!-- 
+- Paul Servais, <paul.servais@sciencespo.fr>. 
+- Trained as physical engineer, then came to SciencesPo (Urban School), graduated last year
+- Now working on climate politics, comparative politics
+- I've been working on the electoral impacts of wind turbines on the vote for the RN
+-->
 </section>
 <section id="course-organisation" class="slide level2">
 <h2>Course organisation</h2>
@@ -3299,9 +3299,18 @@ F-statistic:  1248 on 1 and 3490 DF,  p-value: &lt; 2.2e-16</code></pre>
 <section id="verifying-assumptions" class="slide level2">
 <h2>Verifying assumptions</h2>
 <ul>
-<li>Linear estimator is present in base R, it’s called <code>lm</code></li>
-<li><code>geom_smooth</code> allows you to add the regression line to <code>ggplot</code></li>
+<li>You can conduct tests to verify that your model respects the assumptions</li>
+<li><span class="math inline">\(\mathbb{E} (\epsilon_i|X_i) = \mathbb{E}(\epsilon_i) =  0\)</span>.</li>
 </ul>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4.013789e-18</code></pre>
+</div>
+
+</div>
+<img data-src="session1_files/figure-revealjs/unnamed-chunk-15-1.png" width="960" class="r-stretch"></section>
+<section id="verifying-assumptions-1" class="slide level2">
+<h2>Verifying assumptions</h2>
 
 
 </section>
