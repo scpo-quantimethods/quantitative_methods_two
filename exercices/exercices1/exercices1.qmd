@@ -3,7 +3,45 @@ title: "Exercices - R basics and OLS regressions"
 format: html
 ---
 
-# Exercice 1 : analysing party positions
+## Exercice 1 - playing with data
+
+The [European social survey](https://www.europeansocialsurvey.org/about-ess) "measures the attitudes, beliefs and behaviour patterns of diverse populations in more than thirty nations". Use the `rio` package to import data from <https://jan-rovny.squarespace.com/s/ESS_FR.dta>. 
+
+  1. Use `glimpse` function to have a look at all. Restrict your data set to `euftf` (views on European integration), `gndr` (gender), `happy`, `yrbrn`(birthyear) and `eduyrs` (years of education), using function `select()` from `tidyverse`.
+  2. How many observations are there ? Are the variables categorical or continuous ?  
+  3. Summarise your data set and comment on the findings, using `table()` and  `summary()`. Drop the NA values. 
+  4. Create a new variable `age`, with the age of the respondents, using `mutate()`. Use 2026 as reference year.
+  5. Plot the distribution of the variables `euftf` and `happy` using `barplot(table())`. What can you say about these distributions? What is the most common answer ? What is the percentage of respondents who have given this answer ?
+  6. Plot a histogram of the age of the respondents, with 10 breaks. What is the decade with the most respondents ? 
+  7. Plot the distribution of `happy` for `gndr == 1` and `gndr == 2`, using `ggplot2 : ggplot()` and ` geom_bar(position = "dodge")`
+  8. Does being male/female influence your chances of self-reporting being happy ? Conduct a `t-test` to test the hypothesis that gender influences people's self assessed level of happiness. What are the 95% and 99% confidence intervals ?
+
+
+```{r}
+#| echo: false
+#| eval: false
+ESS<-import("https://jan-rovny.squarespace.com/s/ESS_FR.dta")
+glimpse(ESS)
+ESS <- ESS %>% select(euftf, happy,yrbrn, eduyrs, gndr)
+length(ESS$euftf)
+summary(ESS)
+ESS <- ESS %>% mutate(age = 2026-yrbrn)
+barplot(table(ESS$euftf)/length(ESS$euftf))
+hist(ESS$age, breaks = 10)
+ggplot(ESS, aes(x = happy, fill = factor(gndr))) +
+    geom_bar(position = "dodge") + theme_minimal()
+
+t_test_result <- t.test(
+  ESS %>% filter(gndr == 1),
+  ESS %>% filter(gndr == 2),
+  alternative = "two.sided",
+  conf.level = 0.99,
+  var.equal = FALSE  # Use Welch's t-test for unequal variances
+)
+t_test_result
+```
+
+# Exercice 2 : analysing party positions
 
 The Chapel Hill expert survey data is a survey that 
 "provides information about the positioning of the leadership of 279 parties in 31 countries over
@@ -20,7 +58,7 @@ You can find the recent survey's dataset on the internet at <https://www.chesdat
   3.  Filter the data set to only keep the most recent year, 2024.
   4.  Using the identifiers and general information in the documentation, keep only the following items:"country", "the overall ideology on a scale ranging from 0 (extreme left) to 10 (extreme right)", "Thinking about the European Union's relationship with Russia, where do you place each party on its preferred action for European countries to take?", "Position on civil liberties VS. law and order", "Position on same sex marriage", "position on urban-rural", "position on nationalism", "left-right positioning". 
   5.  Summarize three of these variables and comment on your findings.
-  6.  You now want to more specifically understand what drives a party to adopt favorable or more defavorable stances on the EU's relationship with Russia. What would be your dependent variable ? Plot a histogram of this DV and comment on the distribution.
+  6.  You now want to more specifically understand what drives a party to adopt favorable or more unfavorable stances on the EU's relationship with Russia. What would be your dependent variable ? Plot a histogram of this DV and comment on the distribution.
   7. You want to understand if left-right positioning influences the EU-Russia position of a party:
     - draw a scatter plot of the two variables, using `ggplot2` and `geom_point()`, and add the regression line. 
     - run a simple linear regression model, with EU-Russia as dependent variable, and left-right positioning of a party as independent variable. Display the regression table using `stargazer` and interpret the coefficients. Do you think this result could be biased ? If so, why ? How could you correct that ?
@@ -35,28 +73,37 @@ You can find the recent survey's dataset on the internet at <https://www.chesdat
 library(rio)
 library(tidyverse)
 library(stargazer)
+#Exercice 1
+#1.1
 ches <- import("https://www.chesdata.eu/s/1999-2024_CHES_dataset_means.csv")
-#glimpse(ches)
+#1.2
+glimpse(ches)
+#1.3
 ches <- ches %>% filter(year == 2024)
+#1.4
 ches <- ches %>% select(country, eastwest, eu_russia, civlib_laworder, samesex_marriage, nationalism, urban_rural, lrgen)
+#1.5
 summary(ches)
+#1.6
 hist(ches$eu_russia)
-
+#1.7.1
 ggplot(data = ches, aes(x= lrgen, y = eu_russia)) + geom_point() +geom_smooth(method = "lm")
-
+#1.7.2
 model<- lm(data = ches, eu_russia ~ lrgen)
 summary(model)
+#1.7.3
 model2 <- lm(data = ches, eu_russia ~ lrgen + nationalism)
 model3 <- lm(data = ches, eu_russia ~eastwest+ lrgen + urban_rural+ samesex_marriage)
 model4 <- lm(data = ches, eu_russia ~eastwest+ lrgen + urban_rural+ samesex_marriage + nationalism)
 model5 <- lm(data = ches, eu_russia ~eastwest*nationalism)
+
 stargazer(model, model2,model3, model4,model5,
           title = "EU - Russia results", 
           align = TRUE, 
           type = "text")
 
 library(ggeffects)
-
+#1.8
 ggpredict(model5, terms = c("nationalism", "eastwest")) |>
   as_tibble() |>
   mutate(
@@ -70,19 +117,90 @@ ggpredict(model5, terms = c("nationalism", "eastwest")) |>
   geom_line(linewidth = 1) +
   geom_ribbon(aes(ymin = conf.low, ymax = conf.high), alpha = 0.2)+ labs(x = "Nationalism", y ="Predicted position on EU-Russia")
 
+#1.9
 model6 <- lm(data = ches, eu_russia ~ nationalism + civlib_laworder+ eastwest+ samesex_marriage + urban_rural + lrgen)
-
 library(performance)
 map(list(model6), check_collinearity)
 check_heteroscedasticity(model6) # Run a Breush-Pagan test
 
 ```
-# Exercice 2 : Comparing electoral outcomes in the French elections
+# Exercice 3 : Comparing electoral outcomes in the French elections
+
 You are provided with data about the legislative and the presidential elections in France, in 2022, as well as socio-demographic data on French communes in 2022, for LR (coded as "right") and RN ("far-right"). You are asked to :
 
-1. Knowing that the data can be accessed online through URLs <> and <>, import the data in RStudio.
-2. 
+1. Knowing that the data can be accessed online through URLs <https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/exercices/exercices1/data/elections_2022.csv> and <https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/exercices/exercices1/data/soc_dem_2022.csv>, import the data in RStudio.
+2. Use `glimpse()` to have a quick look at your data
+3. Merge the two files together
+4. Plot a density plot of turnout with two different colors for the presidential and legislative elections. Do the same for the RN vote, and the LR vote. What do you see ?
+5. You seek to assess the impact of turnout on voting outcomes for the LR and the RN in the presidential and legislative elections. What would be your dependent variable(s) ?
+* Create variables `petr` and `psup`, respectively the proportion of foreigners and proportion of university graduates in the overall population, by using the absolute counts `etranger`, `sup` and `pop` (population per commune)
+*  Take the following variables : % of blue-collar workers (pouvr), the % of university graduates (psup), the % of foreigners (petr), the log of median income in the commune, analyse their effect on voting for RN or LR in a commune, and compare the regression models.
+* Add turnout to the regression model, and see whether turnout affects voting for these two parties. Is the effect similar for both parties ? To better visualise the coefficients, use `map_df(list(model1, model2), ~ tidy(.x, conf.int = T), .id = "model")` to plot the coefficients. 
+* Comment on the R2 and Adjusted R2 : is a model performing better than the other ? 
+* Check for multicollinearity and heteroskedasticity. Comment on your findings. Are the assumptions of linear regressions verified ?
 
 
-# Exercice 3 - 
+```{r}
+#| echo: false
+#| eval: false
+#2.1
+elections_2022 <- import("https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/exercices/exercices1/data/elections_2022.csv")
+socio_demo <- import("https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/exercices/exercices1/data/soc_dem_2022.csv")
+
+#2.2
+glimpse(elections_2022)
+glimpse(socio_demo)
+
+#2.3
+elections <- elections_2022 %>% left_join(
+  socio_demo %>% mutate(codecommune= as.numeric(codecommune), codedep = as.numeric(codedep)) %>% drop_na(codecommune))
+
+#2.4
+library(gridExtra)
+plot1 <- ggplot(data = elections, aes(x=turnout, color = election_type)) + geom_density()
+plot2 <- ggplot(data = elections, aes(x=far_right_relvotes, color = election_type)) + geom_density()
+plot3 <- ggplot(data = elections, aes(x=right_relvotes, color = election_type)) + geom_density()
+grid.arrange(plot1, plot2, plot3, ncol=3)
+
+#2.5
+# Taking the % of blue-collar workers (pouvr), the % of university graduates (psup), the % of foreigners (petr), the log of median income in the commune
+elections <- elections %>% filter(pop>0) %>% mutate(petr = etranger/pop, psup = sup/pop)
+model1 <- lm(data = elections, far_right_relvotes ~ pouvr+psup+petr+log(revmoyfoy) + election_type)
+model2 <- lm(data = elections, right_relvotes ~ pouvr+psup+petr+log(revmoyfoy) + election_type)
+model3 <- lm(data = elections %>% filter(psup>0,pouvr>0), far_right_relvotes ~ pouvr+psup+petr+log(revmoyfoy) +turnout + election_type)
+model4 <- lm(data = elections, right_relvotes ~ pouvr+psup+petr+log(revmoyfoy) + turnout + election_type)
+
+stargazer(model1, model2,model3, model4,
+          title = "Electoral results", 
+          align = TRUE, 
+          type = "text")
+
+library(broom)
+#Create coefficient tables for comparison
+models_coefficients <- map_df(list(model3, model4), ~ tidy(.x, conf.int = T), .id = "model")
+
+#Plotting the coefficients of each models with their confidence intervals
+models_coefficients %>% 
+  # Remove the intercept
+  filter(term  != c("(Intercept)")) %>% 
+  ggplot(aes(term, estimate, color = model)) +
+  # Add confidence intervals
+  geom_pointrange(aes(ymin = conf.low, ymax = conf.high), position = position_dodge(width = 0.5)) +
+  # Add a dashed line at 0 (0 means no effect)
+  geom_hline(yintercept = 0, linetype = "dashed") +
+  # Rotate the labels on the x axis
+  coord_flip() +
+  # Add a title and change the labels
+  labs(x = "Coefficient", y = NULL, title = "Coefficients of the different models") +
+  theme_minimal() +
+  scale_color_manual(labels = c("Far-right (RN)", "Right (LR)"), values = c("#00AFBB", "#E7B800"))
+
+#2.6
+map(list(model4), check_collinearity)
+check_heteroscedasticity(model4) # Run a Breush-Pagan test
+#The linear regression is heteroskedastic... The assumption of linearity is not verified.
+
+```
+
+
 

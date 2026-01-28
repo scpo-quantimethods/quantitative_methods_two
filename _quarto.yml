@@ -35,7 +35,10 @@ website:
             href: exercices/exercices5/exercices5.qmd
           - text: "Exercices 6: Time Series"
             href: exercices/exercices6/exercices6.qmd
-       
+      - text: Slides
+      - menu:
+          - text: "Slides - session 1"
+            href: slides/session1/session1.qmd
       - text: Homeworks
       - menu:
           - text: "Homework 1"

@@ -3264,9 +3264,40 @@ Y_i = \beta X_i + \epsilon_i
 <li><span class="math inline">\(X_{ij}\)</span> is non random <span class="math inline">\(\forall  i = 1,...,n ; j = 1, ..., k\)</span></li>
 <li><span class="math inline">\(\text{rank}((X_{ij})) = k\)</span>.</li>
 </ol>
-
-
 </section>
+<section id="linear-regression-in-r" class="slide level2">
+<h2>Linear regression in R</h2>
+<ul>
+<li>Linear estimator is present in base R, it’s called <code>lm</code></li>
+<li><code>geom_smooth</code> allows you to add the regression line to <code>ggplot</code></li>
+</ul>
+<div class="cell">
+
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = far_right_relvotes ~ log(revmoyfoy), data = elections2024 %&gt;% 
+    filter(dens == "Urbain intermédiaire"))
+
+Residuals:
+      Min        1Q    Median        3Q       Max 
+-0.312869 -0.059556  0.000578  0.061612  0.245735 
+
+Coefficients:
+                Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)     2.310232   0.054997   42.01   &lt;2e-16 ***
+log(revmoyfoy) -0.185713   0.005257  -35.33   &lt;2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.08438 on 3490 degrees of freedom
+Multiple R-squared:  0.2634,    Adjusted R-squared:  0.2632 
+F-statistic:  1248 on 1 and 3490 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
+
+
+<img data-src="session1_files/figure-revealjs/unnamed-chunk-14-1.png" width="960" class="r-stretch"></section>
     </div>
   <div class="quarto-auto-generated-content" style="display: none;">
 <div class="footer footer-default">

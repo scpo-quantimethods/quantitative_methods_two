@@ -168,7 +168,7 @@ ul.task-list li input[type="checkbox"] {
   </li>
   <li class="nav-item">
     <span class="nav-link">
-<span class="menu-text">Homeworks</span>
+<span class="menu-text">Slides</span>
     </span>
   </li>  
   <li class="nav-item dropdown ">
@@ -176,6 +176,22 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text"></span>
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu--2">    
+        <li>
+    <a class="dropdown-item" href="../../slides/session1.qmd">
+ <span class="dropdown-text">Slides - session 1</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <span class="nav-link">
+<span class="menu-text">Homeworks</span>
+    </span>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu--3" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text"></span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu--3">    
         <li>
     <a class="dropdown-item" href="../../homeworks/homework1.html">
  <span class="dropdown-text">Homework 1</span></a>
@@ -206,9 +222,9 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#exercice-1-analysing-party-positions" id="toc-exercice-1-analysing-party-positions" class="nav-link active" data-scroll-target="#exercice-1-analysing-party-positions">Exercice 1 : analysing party positions</a></li>
-  <li><a href="#exercice-2" id="toc-exercice-2" class="nav-link" data-scroll-target="#exercice-2">Exercice 2</a></li>
-  <li><a href="#exercice-3" id="toc-exercice-3" class="nav-link" data-scroll-target="#exercice-3">Exercice 3</a></li>
+  <li><a href="#exercice-1---playing-with-data" id="toc-exercice-1---playing-with-data" class="nav-link active" data-scroll-target="#exercice-1---playing-with-data">Exercice 1 - playing with data</a></li>
+  <li><a href="#exercice-2-analysing-party-positions" id="toc-exercice-2-analysing-party-positions" class="nav-link" data-scroll-target="#exercice-2-analysing-party-positions">Exercice 2 : analysing party positions</a></li>
+  <li><a href="#exercice-3-comparing-electoral-outcomes-in-the-french-elections" id="toc-exercice-3-comparing-electoral-outcomes-in-the-french-elections" class="nav-link" data-scroll-target="#exercice-3-comparing-electoral-outcomes-in-the-french-elections">Exercice 3 : Comparing electoral outcomes in the French elections</a></li>
   </ul>
 </nav>
     </div>
@@ -234,27 +250,60 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="exercice-1-analysing-party-positions" class="level1">
-<h1>Exercice 1 : analysing party positions</h1>
+<section id="exercice-1---playing-with-data" class="level2">
+<h2 class="anchored" data-anchor-id="exercice-1---playing-with-data">Exercice 1 - playing with data</h2>
+<p>The <a href="https://www.europeansocialsurvey.org/about-ess">European social survey</a> “measures the attitudes, beliefs and behaviour patterns of diverse populations in more than thirty nations”. Use the <code>rio</code> package to import data from &lt;“https://jan-rovny.squarespace.com/s/ESS_FR.dta”&gt;.</p>
+<ol type="1">
+<li>Use <code>glimpse</code> function to have a look at all. Restrict your data set to <code>euftf</code> (views on European integration), <code>gndr</code> (gender), <code>happy</code>, <code>yrbrn</code>(birthyear) and <code>eduyrs</code> (years of education), using function <code>select()</code> from <code>tidyverse</code>.</li>
+<li>How many observations are there ? Are the variables categorical or continuous ?<br>
+</li>
+<li>Summarise your data set and comment on the findings, using <code>table()</code> and <code>summary()</code>. Drop the NA values.</li>
+<li>Create a new variable <code>age</code>, with the age of the respondents, using <code>mutate()</code>. Use 2026 as reference year.</li>
+<li>Plot the distribution of the variables <code>euftf</code> and <code>happy</code> using <code>barplot(table())</code>. What can you say about these distributions? What is the most common answer ? What is the percentage of respondents who have given this answer ?</li>
+<li>Plot a histogram of the age of the respondents, with 10 breaks. What is the decade with the most respondents ?</li>
+<li>Plot the distribution of <code>happy</code> for <code>gndr == 1</code> and <code>gndr == 2</code>, using <code>ggplot2 : ggplot()</code> and <code>geom_bar(position = "dodge")</code></li>
+<li>Does being male/female influence your chances of self-reporting being happy ? Conduct a <code>t-test</code> to test the hypothesis that gender influences people’s self assessed level of happiness. What are the 95% and 99% confidence intervals ?</li>
+</ol>
+</section>
+<section id="exercice-2-analysing-party-positions" class="level1">
+<h1>Exercice 2 : analysing party positions</h1>
 <p>The Chapel Hill expert survey data is a survey that “provides information about the positioning of the leadership of 279 parties in 31 countries over the course of 2024 on ideology, policy, populism, democracy, European integration, and select EU policy questions. Country coverage includes all European Union member states except for Luxembourg – plus Iceland, Norway, Switzerland, Turkey, and the United Kingdom.2 The dataset adopts the country code and party id schema of the CHES Trend file (Jolly et al.&nbsp;2022) and the Speed CHES survey on Ukraine (Hooghe et al.&nbsp;2024) with extensions for newly covered parties” (see <a href="https://static1.squarespace.com/static/5975c9bfdb29d6a05c65209b/t/69163d62e2606b5a3c46812b/1763065186525/CHES+2024+Codebook.pdf">documentation of CHES</a>).</p>
 <p>You can find the recent survey’s dataset on the internet at <a href="https://www.chesdata.eu/s/1999-2024_CHES_dataset_means.csv" class="uri">https://www.chesdata.eu/s/1999-2024_CHES_dataset_means.csv</a>, to perform the following tasks :</p>
-<ul>
+<ol type="1">
 <li>Import the data in your local environment. Use the <code>rio</code> package and library to import it directly from the internet.</li>
 <li>Use the glimpse() function to have a look at your data</li>
 <li>Filter the data set to only keep the most recent year, 2024.</li>
 <li>Using the identifiers and general information in the documentation, keep only the following items:“country”, “the overall ideology on a scale ranging from 0 (extreme left) to 10 (extreme right)”, “Thinking about the European Union’s relationship with Russia, where do you place each party on its preferred action for European countries to take?”, “Position on civil liberties VS. law and order”, “Position on same sex marriage”, “position on urban-rural”, “position on nationalism”, “left-right positioning”.</li>
 <li>Summarize three of these variables and comment on your findings.</li>
-<li>You now want to more specifically understand what drives a party to adopt favorable or more defavorable stances on the EU’s relationship with Russia. What would be your dependent variable ? Plot a histogram of this DV and comment on the distribution.</li>
-<li>You want to understand if left-right positioning influences the EU-Russia position of a party:</li>
-<li>run a simple linear regression model, with EU-Russia as dependent variable, and left-right positioning of a party as independent variable. Display the regression table using <code>stargazer</code> and interpret the coefficients. Do you think this result could be biased ? If so, why ? How could you correct that ?</li>
-<li>run a multiple linear regression to understand whether adding the party’s position on nationalism changes something. Store the value in another model, so that you can compare both in the same <code>stargazer</code> table. What do you observe ? Compare the values <code>lrgen</code> in both tables and comment on those.</li>
+<li>You now want to more specifically understand what drives a party to adopt favorable or more unfavorable stances on the EU’s relationship with Russia. What would be your dependent variable ? Plot a histogram of this DV and comment on the distribution.</li>
+<li>You want to understand if left-right positioning influences the EU-Russia position of a party: - draw a scatter plot of the two variables, using <code>ggplot2</code> and <code>geom_point()</code>, and add the regression line. - run a simple linear regression model, with EU-Russia as dependent variable, and left-right positioning of a party as independent variable. Display the regression table using <code>stargazer</code> and interpret the coefficients. Do you think this result could be biased ? If so, why ? How could you correct that ?</li>
+</ol>
+<ul>
+<li>Run a multiple linear regression to understand whether adding the party’s position on nationalism changes something. Store the value in another model, so that you can compare both in the same <code>stargazer</code> table. What do you observe ? Compare the values <code>lrgen</code> in both tables and comment on those.</li>
+<li>Run a last linear regression with the party’s left-right position, his urban-rural position, his position on same sex marriage, and use the binary variable east-west to know if being East or West changes your party’s position. What can you conclude ? Now add nationalism among the independent variables and comment? What is the best model ?</li>
 </ul>
+<ol start="8" type="1">
+<li>Now imagine wondering whether being in a country from Eastern or Western Europe influences how nationalism influences your position on this issue. How could you test that ? Plot the predicted values.</li>
+<li>Compute a last, fully saturated model, with all your variables except <code>country</code>, and run tests of multicollinearity and heteroskedasticity. What do you find ? Comment on the results. Add <code>as.factor(country)</code> in the regression and comment on the results.</li>
+</ol>
 </section>
-<section id="exercice-2" class="level1">
-<h1>Exercice 2</h1>
-</section>
-<section id="exercice-3" class="level1">
-<h1>Exercice 3</h1>
+<section id="exercice-3-comparing-electoral-outcomes-in-the-french-elections" class="level1">
+<h1>Exercice 3 : Comparing electoral outcomes in the French elections</h1>
+<p>You are provided with data about the legislative and the presidential elections in France, in 2022, as well as socio-demographic data on French communes in 2022, for LR (coded as “right”) and RN (“far-right”). You are asked to :</p>
+<ol type="1">
+<li>Knowing that the data can be accessed online through URLs <a href="https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/exercices/exercices1/data/elections_2022.csv" class="uri">https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/exercices/exercices1/data/elections_2022.csv</a> and <a href="https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/exercices/exercices1/data/soc_dem_2022.csv" class="uri">https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/exercices/exercices1/data/soc_dem_2022.csv</a>, import the data in RStudio.</li>
+<li>Use <code>glimpse()</code> to have a quick look at your data</li>
+<li>Merge the two files together</li>
+<li>Plot a density plot of turnout with two different colors for the presidential and legislative elections. Do the same for the RN vote, and the LR vote. What do you see ?</li>
+<li>You seek to assess the impact of turnout on voting outcomes for the LR and the RN in the presidential and legislative elections. What would be your dependent variable(s) ?</li>
+</ol>
+<ul>
+<li>Create variables <code>petr</code> and <code>psup</code>, respectively the proportion of foreigners and proportion of university graduates in the overall population, by using the absolute counts <code>etranger</code>, <code>sup</code> and <code>pop</code> (population per commune)</li>
+<li>Take the following variables : % of blue-collar workers (pouvr), the % of university graduates (psup), the % of foreigners (petr), the log of median income in the commune, analyse their effect on voting for RN or LR in a commune, and compare the regression models.</li>
+<li>Add turnout to the regression model, and see whether turnout affects voting for these two parties. Is the effect similar for both parties ? To better visualise the coefficients, use <code>map_df(list(model1, model2), ~ tidy(.x, conf.int = T), .id = "model")</code> to plot the coefficients.</li>
+<li>Comment on the R2 and Adjusted R2 : is a model performing better than the other ?</li>
+<li>Check for multicollinearity and heteroskedasticity. Comment on your findings. Are the assumptions of linear regressions verified ?</li>
+</ul>
 
 
 </section>

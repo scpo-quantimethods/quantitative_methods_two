@@ -44,7 +44,7 @@ format: revealjs
 1. Coding basics
 2. OLS simple and multiple regressions
 
-## Packages
+## Packages {.scrollable}
 - Can be downloaded through`install.packages()`. 
 - Loading packages :
 
@@ -197,6 +197,17 @@ Y_i = \beta X_i + \epsilon_i
 ```{r}
 model1 <- lm(data = elections2024 %>% filter(dens == "Urbain intermédiaire"), far_right_relvotes ~ log(revmoyfoy))
 
-elections2024 %>% filter(dens == "Urbain intermédiaire") %>% ggplot(aes(x = log(revmoyfoy), y = far_right_relvotes)) + geom_point()+ labs(y = "RN vote", x = "Median income in commune (log scale)")+ geom_smooth(method = "lm", linetype = "dashed", color = "black", se = TRUE, linewidth = 1, alpha = 0.4)+theme_minimal()
+elections2024 %>% 
+  filter(dens == "Urbain intermédiaire") %>% 
+  ggplot(aes(x = log(revmoyfoy), y = far_right_relvotes)) + geom_point()+
+  labs(y = "RN vote", x = "Median income in commune (log scale)")+
+  geom_smooth(method = "lm", linetype = "dashed", color = "black", se = TRUE, linewidth = 1, alpha = 0.4)+
+  theme_minimal()
+
 summary(model1)
 ```
+
+## Verifying assumptions
+
+- Linear estimator is present in base R, it's called `lm` 
+- `geom_smooth` allows you to add the regression line to `ggplot`

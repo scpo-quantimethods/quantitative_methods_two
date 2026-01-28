@@ -278,7 +278,9 @@ Y_i = \beta_1 X_{1i} + \beta_2 X_{2i} + \beta_3 X_{3i} + \beta_4 X_{1i}*X_{3i}
 Which means that any increase $\Delta X_{1i}$ in the variable $X_{1i}$ no longer has an impact $\beta_1 \Delta X_{1i}$ on $Y_i$, but an impact $\Delta X_{1i} (\beta_1 + \beta_3X_{3i})$, which therefore still depends on the variable $X_{3i}$. Coming back to our example, we want to assess how income and education in a commune evolve and influence far-right voting. You only need to specify `*` in your regression to obtain the interaction : 
 
 ```{r}
-model3 <- lm(data = elections2024 %>% filter(dens == "Urbain intermédiaire") %>% mutate(petr = etranger/pop, psup = sup/pop, pnodip = nodip/pop, log_revmoyfoy = log(revmoyfoy)) , far_right_relvotes ~ log_revmoyfoy +petr+ pagri+pouvr+ pcadr+age+log(prixbien)+pempl+ppint+pindp+psup+pnodip + log_revmoyfoy*psup)
+model3 <- lm(data = elections2024 %>% filter(dens == "Urbain intermédiaire") %>% 
+               mutate(petr = etranger/pop, psup = sup/pop, pnodip = nodip/pop, log_revmoyfoy = log(revmoyfoy)),
+             far_right_relvotes ~ log_revmoyfoy +petr+ pagri+pouvr+ pcadr+age+log(prixbien)+pempl+ppint+pindp+psup+pnodip + log_revmoyfoy*psup)
 
 library(ggeffects)
 
