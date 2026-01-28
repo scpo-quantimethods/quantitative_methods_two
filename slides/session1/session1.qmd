@@ -6,10 +6,13 @@ format: revealjs
 ---
 
 ## Your instructor
+
+<!-- 
 - Paul Servais, <paul.servais@sciencespo.fr>. 
 - Trained as physical engineer, then came to SciencesPo (Urban School), graduated last year
 - Now working on climate politics, comparative politics
 - I've been working on the electoral impacts of wind turbines on the vote for the RN
+-->
 
 ## Course organisation
 - In total, each group will receive six tutorials. 
@@ -208,6 +211,11 @@ summary(model1)
 ```
 
 ## Verifying assumptions
+- You can conduct tests to verify that your model respects the assumptions
+- $\mathbb{E} (\epsilon_i|X_i) = \mathbb{E}(\epsilon_i) =  0$.
+```{r}
+mean(model1$residuals)
+plot(model1$fitted.values, model1$residuals)
+```
 
-- Linear estimator is present in base R, it's called `lm` 
-- `geom_smooth` allows you to add the regression line to `ggplot`
+## Verifying assumptions

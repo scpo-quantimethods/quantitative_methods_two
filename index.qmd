@@ -8,6 +8,9 @@ This website supports the teaching of the class of quantitative methods II, taug
 
 From current or former instructors of [SciencesPo](https://www.sciencespo.fr/), an introduction to R coding is available on [Malo Jan's website](https://malo-jn.quarto.pub/introduction-to-r/) (RStudio introduction course). Different coding examples are also provided by Jan Rovny, on [his website](https://www.rovny.org/methods-2-ed). This class has also been taught last year by [Luis Sattelmayer, whose site](https://luissattelmayer.github.io/quant-2025/) provides detailed information, exercices appendices, from which this website is often directly or indirectly inspired. Moreover, there exists a wealth of ressources online, which have also guided the making of this class. To cite only but a few of them :
 
+1.  Cunningham, Scott. Causal Inference: The Mixtape. (2021). Available at: <https://mixtape.scunning.com/>.  
+2.  Huntington-Klein. The Effect: An Introduction to Research Design and Causality. (2021). <https://theeffectbook.net/>
+3. <https://scpoecon.github.io/ScPoEconometrics/R-intro.html>
 
 Though this class is considered "advanced", it is also thought of and conceived as a way to remind important notions in statistics, as well as basics of coding, already seen in the class of quantitative methods I. So rest reassured that, as much as we can, we will (1) remind previous notions of coding and statistics, (2) advance in a rhythm that is suitable for everyone.
 
