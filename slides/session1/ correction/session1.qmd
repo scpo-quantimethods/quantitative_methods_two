@@ -352,8 +352,8 @@ The European social survey “measures the attitudes, beliefs and behaviour patt
 
 ## Exercice 1 - correction {.scrollable}
 ```{r}
-#| echo: false
-#| eval: false
+#| echo: true
+#| eval: true
 library(tidyverse)
 
 ESS<-import("https://jan-rovny.squarespace.com/s/ESS_FR.dta")
@@ -398,8 +398,8 @@ The Chapel Hill expert survey data is a survey that “provides information abou
 ## Exercice 2 - correction {.scrollable}
 
 ```{r}
-#| echo: false
-#| eval: false
+#| echo: true
+#| eval: true
 library(rio)
 library(tidyverse)
 library(stargazer)
@@ -462,8 +462,8 @@ You are provided with data about the legislative and the presidential elections 
 
 
 ```{r}
-#| echo: false
-#| eval: false
+#| echo: true
+#| eval: true
 #2.1
 elections_2022 <- import("https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/exercices/exercices1/data/elections_2022.csv")
 socio_demo <- import("https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/exercices/exercices1/data/soc_dem_2022.csv")
