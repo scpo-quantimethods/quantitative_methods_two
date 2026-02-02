@@ -143,7 +143,7 @@ Y_i = f(X_i, \epsilon_i)
 A linear function of $X$ is simply a function that associates a constant value $\beta$ such that each increase $\Delta X$ produces a $\beta \Delta X$ on Y, so that $\Delta Y = \beta \Delta X$. This leads to the formulation of the function as $f$:
 
 \begin{equation}
-Y_i = \beta X_i + \epsilon_i
+Y_i = \beta_0 + \beta_1 X_i + \epsilon_i
 \end{equation}
 
 
@@ -151,7 +151,7 @@ In the previous case, that would mean that for each increase in log(income), let
 In a case with $k$ independent variables :
 
 \begin{equation}
-Y_i = \beta_1 X_{i1} + \beta_2 X_{i2} + \beta_3 X_{i3} + ... + \beta_k X_{ik} + \epsilon_i
+Y_i = \beta_0+ \beta_1 X_{i1} + \beta_2 X_{i2} + \beta_3 X_{i3} + ... + \beta_k X_{ik} + \epsilon_i
 \end{equation}
 
 ## Assumptions
