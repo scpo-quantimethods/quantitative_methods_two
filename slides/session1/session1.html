@@ -3268,7 +3268,7 @@ Centres urbains intermédiaires         Grands centres urbains
 <li>Your relation between your two variables : <span class="math display">\[\begin{equation}
 Y_i = f(X_i) + \epsilon_i
 \end{equation}\]</span></li>
-<li>A linear function of <span class="math inline">\(X\)</span> is simply a function that associates a constant value <span class="math inline">\(\beta\)</span> such that each increase <span class="math inline">\(\Delta X\)</span> produces a <span class="math inline">\(\beta \Delta X\)</span> on Y, so that <span class="math inline">\(\Delta Y = \beta \Delta X\)</span>. In other words, <span class="math inline">\(f(X, \epsilon) = \beta X+\epsilon\)</span>. <span class="math display">\[\begin{equation}
+<li>A linear function of <span class="math inline">\(X\)</span> is simply a function that associates a constant value <span class="math inline">\(\beta\)</span> such that each increase <span class="math inline">\(\Delta X\)</span> produces a <span class="math inline">\(\beta \Delta X\)</span> on Y, so that <span class="math inline">\(\Delta Y = \beta \Delta X\)</span>. In other words, <span class="math inline">\(f(X, \epsilon) = \beta_0 + \beta_1 X+\epsilon\)</span>. <span class="math display">\[\begin{equation}
 Y_i = \beta_0+\beta_1 X_i + \epsilon_i
 \end{equation}\]</span></li>
 </ul>
@@ -3349,7 +3349,7 @@ F-statistic:  1248 on 1 and 3490 DF,  p-value: &lt; 2.2e-16</code></pre>
 <li>Significance levels : compares with <span class="math inline">\(\beta_1 = 0\)</span>
 <ul>
 <li>t-value (<span class="math inline">\(df&gt;1000\)</span>) : <span class="math inline">\(t_{.90} = 1.645\)</span>, <span class="math inline">\(t_{.95} = 1.96\)</span>, <span class="math inline">\(t_{.99} =2.58\)</span></li>
-<li>p-value : confidence level for rejecting the null</li>
+<li>p-value : probability that your result is due to NULL</li>
 </ul></li>
 </ul>
 </section>
@@ -3369,7 +3369,7 @@ R^2 = \frac{\text{ESS}}{\text{TSS}} = \frac{\sum_i^N (\hat{Y}_i - \bar{Y})^2}{\s
 Y_i = \beta_0+\beta_1 X_{1i} + \beta_2 X_{2i} + \epsilon_i
 \end{equation}\]</span></li>
 <li>Similar interpretation</li>
-<li>Adj. <span class="math inline">\(R^2\)</span> gives you</li>
+<li>Adj. <span class="math inline">\(R^2\)</span> gives you the corrected value of <span class="math inline">\(R^2\)</span>, taking into account the number of predictors added to the model</li>
 </ul>
 </section>
 <section id="verifying-assumptions" class="slide level2">
@@ -3435,7 +3435,7 @@ Y_i = \beta_0+\beta_1 X_{1i} + \beta_2 X_{2i} + \epsilon_i
 </ul>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] -1.011475e-13</code></pre>
+<pre><code>[1] 9.153567e-14</code></pre>
 </div>
 
 <div class="cell-output cell-output-stdout">
@@ -3459,18 +3459,18 @@ Y_i = \beta_0+\beta_1 X_{1i} + \beta_2 X_{2i} + \epsilon_i
                                                         linear  
                                    (1)         (2)        (3)   
 ----------------------------------------------------------------
-x                                9.949***    9.102***  9.401*** 
-                                 (0.114)     (0.628)    (0.496) 
+x                                9.955***   10.614***  10.505***
+                                 (0.107)     (0.656)    (0.527) 
                                                                 
-Constant                          28.936     419.502    313.076 
-                                 (66.029)   (358.110)  (282.701)
+Constant                          38.931     -194.344  -151.729 
+                                 (62.431)   (381.887)  (306.724)
                                                                 
 ----------------------------------------------------------------
 Observations                      1,000       1,000      1,000  
-R2                                0.884       0.174             
-Adjusted R2                       0.884       0.173             
-Residual Std. Error (df = 998)  1,034.317   5,721.322  3,632.631
-F Statistic (df = 1; 998)      7,613.860*** 210.156***          
+R2                                0.896       0.208             
+Adjusted R2                       0.896       0.207             
+Residual Std. Error (df = 998)   978.453    5,855.436  3,814.707
+F Statistic (df = 1; 998)      8,578.876*** 261.561***          
 ================================================================
 Note:                                *p&lt;0.1; **p&lt;0.05; ***p&lt;0.01</code></pre>
 </div>
@@ -3494,18 +3494,18 @@ lm(formula = y ~ x)
 
 Residuals:
      Min       1Q   Median       3Q      Max 
--27534.4  -2538.1    -42.9   2484.9  26755.7 
+-29865.7  -2659.2    -23.3   2793.2  25767.9 
 
 Coefficients:
             Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept)  66.9816   372.1280    0.18    0.857    
-x             9.0708     0.6524   13.90   &lt;2e-16 ***
+(Intercept) 134.7790   390.3359   0.345     0.73    
+x             9.6279     0.6708  14.353   &lt;2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Residual standard error: 5945 on 998 degrees of freedom
-Multiple R-squared:  0.1623,    Adjusted R-squared:  0.1614 
-F-statistic: 193.3 on 1 and 998 DF,  p-value: &lt; 2.2e-16</code></pre>
+Residual standard error: 5985 on 998 degrees of freedom
+Multiple R-squared:  0.1711,    Adjusted R-squared:  0.1703 
+F-statistic:   206 on 1 and 998 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a></a><span class="fu">summary</span>(model2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -3515,17 +3515,17 @@ lm(formula = y ~ x + w)
 
 Residuals:
      Min       1Q   Median       3Q      Max 
--27386.2  -2514.4    -27.3   2484.7  26796.4 
+-29825.5  -2584.5      9.3   2735.3  25612.0 
 
 Coefficients:
             Estimate Std. Error t value Pr(&gt;|t|)
-(Intercept)    33.06     372.87   0.089    0.929
-x             531.96     395.36   1.345    0.179
-w            -522.82     395.31  -1.323    0.186
+(Intercept)    142.1      390.5   0.364    0.716
+x             -322.1      383.8  -0.839    0.402
+w              331.7      383.8   0.864    0.388
 
-Residual standard error: 5943 on 997 degrees of freedom
-Multiple R-squared:  0.1637,    Adjusted R-squared:  0.162 
-F-statistic: 97.59 on 2 and 997 DF,  p-value: &lt; 2.2e-16</code></pre>
+Residual standard error: 5986 on 997 degrees of freedom
+Multiple R-squared:  0.1717,    Adjusted R-squared:  0.1701 
+F-statistic: 103.3 on 2 and 997 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a></a><span class="fu">check_collinearity</span>(model2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -3534,8 +3534,8 @@ F-statistic: 97.59 on 2 and 997 DF,  p-value: &lt; 2.2e-16</code></pre>
 High Correlation
 
  Term      VIF           VIF 95% CI adj. VIF Tolerance Tolerance 95% CI
-    x 3.67e+05 [3.25e+05, 4.16e+05]   606.20  2.72e-06     [0.00, 0.00]
-    w 3.67e+05 [3.25e+05, 4.16e+05]   606.20  2.72e-06     [0.00, 0.00]</code></pre>
+    x 3.27e+05 [2.89e+05, 3.70e+05]   572.11  3.06e-06     [0.00, 0.00]
+    w 3.27e+05 [2.89e+05, 3.70e+05]   572.11  3.06e-06     [0.00, 0.00]</code></pre>
 </div>
 </div>
 </section></section>
