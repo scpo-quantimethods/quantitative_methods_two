@@ -189,13 +189,13 @@ Y_i = f(X_i) + \epsilon_i
 \end{equation}
 - A linear function of $X$ is simply a function that associates a constant value $\beta$ such that each increase $\Delta X$ produces a $\beta \Delta X$ on Y, so that $\Delta Y = \beta \Delta X$. In other words, $f(X, \epsilon) = \beta X+\epsilon$.
 \begin{equation}
-Y_i = \beta X_i + \epsilon_i
+Y_i = \beta_0+\beta_1 X_i + \epsilon_i
 \end{equation}
 
 ## Simple linear regression model
 - We want $\beta$ (or $f$) that minimises the error $\epsilon$:
 \begin{equation}
- \sum_i^N \epsilon_i^2 = \sum_i^N(Y_i - \beta X_i)^2 = S(\beta)
+ \sum_i^N \epsilon_i^2 = \sum_i^N(Y_i - \beta_1 X_i - \beta_0)^2 = S(\beta_0,  \beta_1)
 \end{equation}
 - This will give us the line that best fits the data
 - "Ordinary Least Squares" (OLS)
@@ -237,6 +237,30 @@ elections2024 %>%
 
 summary(model1)
 ```
+
+## Interpretation of linear regression in R
+- Intercept : predicted value when predictors = 0
+- Estimate  
+  - sign
+  - magnitude 
+- Significance levels : compares with $\beta_1 = 0$
+  - t-value ($df>1000$) : $t_{.90} = 1.645$, $t_{.95} = 1.96$, $t_{.99} =2.58$
+  - p-value : confidence level for rejecting the null
+
+## The $R^2$ value
+- You can divide your explained variance by your total variance:
+\begin{equation}
+R^2 = \frac{\text{ESS}}{\text{TSS}} = \frac{\sum_i^N (\hat{Y}_i - \bar{Y})^2}{\sum_i^N (Y_i - \bar{Y})^2}
+\end{equation}
+- A higher $R^2$ indicates how much of the variance is explained by the model
+
+## Multiple linear regression
+- Just add predictors with "+" in the model
+\begin{equation}
+Y_i = \beta_0+\beta_1 X_{1i} + \beta_2 X_{2i} + \epsilon_i
+\end{equation}
+- Similar interpretation
+- Adj. $R^2$ gives you 
 
 ## Verifying assumptions
 - You can conduct tests to verify that your model respects the assumptions
@@ -348,7 +372,18 @@ check_collinearity(model2)
 # Exercices 
 
 ## Exercice 1
-The European social survey “measures the attitudes, beliefs and behaviour patterns of diverse populations in more than thirty nations”. 
+The European social survey “measures the attitudes, beliefs and behaviour patterns of diverse populations in more than thirty nations”. Note that you a can easily run `t.test` in R using :
+```{r}
+#| echo: true
+#| eval: false
+t.test(
+  data1,
+  data2,
+  alternative = "two.sided",
+  conf.level = 0.95, #just change to obtain the 0.95
+  var.equal = FALSE  # Use Welch's t-test for unequal variances
+)
+```
 
 ## Exercice 1 - correction {.scrollable}
 ```{r}
