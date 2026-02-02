@@ -187,7 +187,7 @@ elections2024 %>%
 \begin{equation}
 Y_i = f(X_i) + \epsilon_i
 \end{equation}
-- A linear function of $X$ is simply a function that associates a constant value $\beta$ such that each increase $\Delta X$ produces a $\beta \Delta X$ on Y, so that $\Delta Y = \beta \Delta X$. In other words, $f(X, \epsilon) = \beta X+\epsilon$.
+- A linear function of $X$ is simply a function that associates a constant value $\beta$ such that each increase $\Delta X$ produces a $\beta \Delta X$ on Y, so that $\Delta Y = \beta \Delta X$. In other words, $f(X, \epsilon) = \beta_0 + \beta_1 X+\epsilon$.
 \begin{equation}
 Y_i = \beta_0+\beta_1 X_i + \epsilon_i
 \end{equation}
@@ -245,7 +245,7 @@ summary(model1)
   - magnitude 
 - Significance levels : compares with $\beta_1 = 0$
   - t-value ($df>1000$) : $t_{.90} = 1.645$, $t_{.95} = 1.96$, $t_{.99} =2.58$
-  - p-value : confidence level for rejecting the null
+  - p-value : probability that your result is due to NULL
 
 ## The $R^2$ value
 - You can divide your explained variance by your total variance:
@@ -260,7 +260,7 @@ R^2 = \frac{\text{ESS}}{\text{TSS}} = \frac{\sum_i^N (\hat{Y}_i - \bar{Y})^2}{\s
 Y_i = \beta_0+\beta_1 X_{1i} + \beta_2 X_{2i} + \epsilon_i
 \end{equation}
 - Similar interpretation
-- Adj. $R^2$ gives you 
+- Adj. $R^2$ gives you the corrected value of $R^2$, taking into account the number of predictors added to the model
 
 ## Verifying assumptions
 - You can conduct tests to verify that your model respects the assumptions
