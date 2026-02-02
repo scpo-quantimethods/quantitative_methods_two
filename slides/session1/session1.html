@@ -3269,7 +3269,7 @@ Centres urbains intermédiaires         Grands centres urbains
 Y_i = f(X_i) + \epsilon_i
 \end{equation}\]</span></li>
 <li>A linear function of <span class="math inline">\(X\)</span> is simply a function that associates a constant value <span class="math inline">\(\beta\)</span> such that each increase <span class="math inline">\(\Delta X\)</span> produces a <span class="math inline">\(\beta \Delta X\)</span> on Y, so that <span class="math inline">\(\Delta Y = \beta \Delta X\)</span>. In other words, <span class="math inline">\(f(X, \epsilon) = \beta X+\epsilon\)</span>. <span class="math display">\[\begin{equation}
-Y_i = \beta X_i + \epsilon_i
+Y_i = \beta_0+\beta_1 X_i + \epsilon_i
 \end{equation}\]</span></li>
 </ul>
 </section>
@@ -3277,7 +3277,7 @@ Y_i = \beta X_i + \epsilon_i
 <h2>Simple linear regression model</h2>
 <ul>
 <li>We want <span class="math inline">\(\beta\)</span> (or <span class="math inline">\(f\)</span>) that minimises the error <span class="math inline">\(\epsilon\)</span>: <span class="math display">\[\begin{equation}
-\sum_i^N \epsilon_i^2 = \sum_i^N(Y_i - \beta X_i)^2 = S(\beta)
+\sum_i^N \epsilon_i^2 = \sum_i^N(Y_i - \beta_1 X_i - \beta_0)^2 = S(\beta_0,  \beta_1)
 \end{equation}\]</span></li>
 <li>This will give us the line that best fits the data</li>
 <li>“Ordinary Least Squares” (OLS)</li>
@@ -3337,6 +3337,41 @@ F-statistic:  1248 on 1 and 3490 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
 <img data-src="session1_files/figure-revealjs/unnamed-chunk-15-1.png" width="960" class="r-stretch"></section>
+<section id="interpretation-of-linear-regression-in-r" class="slide level2">
+<h2>Interpretation of linear regression in R</h2>
+<ul>
+<li>Intercept : predicted value when predictors = 0</li>
+<li>Estimate
+<ul>
+<li>sign</li>
+<li>magnitude</li>
+</ul></li>
+<li>Significance levels : compares with <span class="math inline">\(\beta_1 = 0\)</span>
+<ul>
+<li>t-value (<span class="math inline">\(df&gt;1000\)</span>) : <span class="math inline">\(t_{.90} = 1.645\)</span>, <span class="math inline">\(t_{.95} = 1.96\)</span>, <span class="math inline">\(t_{.99} =2.58\)</span></li>
+<li>p-value : confidence level for rejecting the null</li>
+</ul></li>
+</ul>
+</section>
+<section id="the-r2-value" class="slide level2">
+<h2>The <span class="math inline">\(R^2\)</span> value</h2>
+<ul>
+<li>You can divide your explained variance by your total variance: <span class="math display">\[\begin{equation}
+R^2 = \frac{\text{ESS}}{\text{TSS}} = \frac{\sum_i^N (\hat{Y}_i - \bar{Y})^2}{\sum_i^N (Y_i - \bar{Y})^2}
+\end{equation}\]</span></li>
+<li>A higher <span class="math inline">\(R^2\)</span> indicates how much of the variance is explained by the model</li>
+</ul>
+</section>
+<section id="multiple-linear-regression" class="slide level2">
+<h2>Multiple linear regression</h2>
+<ul>
+<li>Just add predictors with “+” in the model <span class="math display">\[\begin{equation}
+Y_i = \beta_0+\beta_1 X_{1i} + \beta_2 X_{2i} + \epsilon_i
+\end{equation}\]</span></li>
+<li>Similar interpretation</li>
+<li>Adj. <span class="math inline">\(R^2\)</span> gives you</li>
+</ul>
+</section>
 <section id="verifying-assumptions" class="slide level2">
 <h2>Verifying assumptions</h2>
 <ul>
@@ -3400,7 +3435,7 @@ F-statistic:  1248 on 1 and 3490 DF,  p-value: &lt; 2.2e-16</code></pre>
 </ul>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] -2.085088e-14</code></pre>
+<pre><code>[1] 6.469492e-15</code></pre>
 </div>
 
 <div class="cell-output cell-output-stdout">
@@ -3424,18 +3459,18 @@ F-statistic:  1248 on 1 and 3490 DF,  p-value: &lt; 2.2e-16</code></pre>
                                                         linear  
                                    (1)         (2)        (3)   
 ----------------------------------------------------------------
-x                                9.994***   10.222***  10.031***
-                                 (0.107)     (0.630)    (0.530) 
+x                                9.798***   10.665***  10.526***
+                                 (0.106)     (0.632)    (0.539) 
                                                                 
-Constant                          7.362      116.638    205.335 
-                                 (62.001)   (369.162)  (310.477)
+Constant                          90.373     -270.923  -223.918 
+                                 (62.732)   (359.737)  (306.797)
                                                                 
 ----------------------------------------------------------------
 Observations                      1,000       1,000      1,000  
-R2                                0.897       0.209             
-Adjusted R2                       0.896       0.208             
-Residual Std. Error (df = 998)   991.104    5,845.809  3,977.226
-F Statistic (df = 1; 998)      8,654.151*** 263.507***          
+R2                                0.895       0.222             
+Adjusted R2                       0.895       0.221             
+Residual Std. Error (df = 998)   982.522    5,731.727  4,130.864
+F Statistic (df = 1; 998)      8,550.714*** 284.929***          
 ================================================================
 Note:                                *p&lt;0.1; **p&lt;0.05; ***p&lt;0.01</code></pre>
 </div>
@@ -3459,18 +3494,18 @@ lm(formula = y ~ x)
 
 Residuals:
      Min       1Q   Median       3Q      Max 
--20493.8  -2777.8      4.4   2660.5  25497.9 
+-23024.7  -2514.6      9.5   2711.9  29322.9 
 
 Coefficients:
             Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept) -20.6087   373.2157  -0.055    0.956    
-x            10.1395     0.6366  15.928   &lt;2e-16 ***
+(Intercept) 178.4657   355.0373   0.503    0.615    
+x             9.5487     0.6236  15.313   &lt;2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Residual standard error: 5910 on 998 degrees of freedom
-Multiple R-squared:  0.2027,    Adjusted R-squared:  0.2019 
-F-statistic: 253.7 on 1 and 998 DF,  p-value: &lt; 2.2e-16</code></pre>
+Residual standard error: 5657 on 998 degrees of freedom
+Multiple R-squared:  0.1903,    Adjusted R-squared:  0.1894 
+F-statistic: 234.5 on 1 and 998 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a></a><span class="fu">summary</span>(model2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -3480,17 +3515,17 @@ lm(formula = y ~ x + w)
 
 Residuals:
      Min       1Q   Median       3Q      Max 
--20214.9  -2754.9    -80.9   2709.7  25698.7 
+-23124.0  -2533.2      7.2   2706.5  29244.7 
 
 Coefficients:
             Estimate Std. Error t value Pr(&gt;|t|)
-(Intercept)   -40.41     373.51  -0.108    0.914
-x             436.18     358.13   1.218    0.224
-w            -426.01     358.10  -1.190    0.234
+(Intercept)    183.4      355.4   0.516    0.606
+x             -149.8      363.7  -0.412    0.681
+w              159.4      363.7   0.438    0.661
 
-Residual standard error: 5909 on 997 degrees of freedom
-Multiple R-squared:  0.2038,    Adjusted R-squared:  0.2022 
-F-statistic: 127.6 on 2 and 997 DF,  p-value: &lt; 2.2e-16</code></pre>
+Residual standard error: 5659 on 997 degrees of freedom
+Multiple R-squared:  0.1904,    Adjusted R-squared:  0.1888 
+F-statistic: 117.2 on 2 and 997 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a></a><span class="fu">check_collinearity</span>(model2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -3499,8 +3534,8 @@ F-statistic: 127.6 on 2 and 997 DF,  p-value: &lt; 2.2e-16</code></pre>
 High Correlation
 
  Term      VIF           VIF 95% CI adj. VIF Tolerance Tolerance 95% CI
-    x 3.17e+05 [2.80e+05, 3.58e+05]   562.68  3.16e-06     [0.00, 0.00]
-    w 3.17e+05 [2.80e+05, 3.58e+05]   562.68  3.16e-06     [0.00, 0.00]</code></pre>
+    x 3.40e+05 [3.01e+05, 3.85e+05]   583.08  2.94e-06     [0.00, 0.00]
+    w 3.40e+05 [3.01e+05, 3.85e+05]   583.08  2.94e-06     [0.00, 0.00]</code></pre>
 </div>
 </div>
 </section></section>
@@ -3511,7 +3546,16 @@ High Correlation
 </section>
 <section id="exercice-1" class="slide level2">
 <h2>Exercice 1</h2>
-<p>The European social survey “measures the attitudes, beliefs and behaviour patterns of diverse populations in more than thirty nations”.</p>
+<p>The European social survey “measures the attitudes, beliefs and behaviour patterns of diverse populations in more than thirty nations”. Note that you a can easily run <code>t.test</code> in R using :</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a></a><span class="fu">t.test</span>(</span>
+<span id="cb43-2"><a></a>  data1,</span>
+<span id="cb43-3"><a></a>  data2,</span>
+<span id="cb43-4"><a></a>  <span class="at">alternative =</span> <span class="st">"two.sided"</span>,</span>
+<span id="cb43-5"><a></a>  <span class="at">conf.level =</span> <span class="fl">0.95</span>, <span class="co">#just change to obtain the 0.95</span></span>
+<span id="cb43-6"><a></a>  <span class="at">var.equal =</span> <span class="cn">FALSE</span>  <span class="co"># Use Welch's t-test for unequal variances</span></span>
+<span id="cb43-7"><a></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 </section>
 <section id="exercice-1---correction" class="slide level2 scrollable">
 <h2>Exercice 1 - correction</h2>

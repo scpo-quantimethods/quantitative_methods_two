@@ -20,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -70,6 +105,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../../styles.css">
 </head>
@@ -178,8 +242,22 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#concept-of-logistic-regression" id="toc-concept-of-logistic-regression" class="nav-link active" data-scroll-target="#concept-of-logistic-regression">Concept of logistic regression</a>
+  <ul class="collapse">
+  <li><a href="#the-logarithm-function" id="toc-the-logarithm-function" class="nav-link" data-scroll-target="#the-logarithm-function">The logarithm function</a></li>
+  </ul></li>
+  <li><a href="#case-study-gender-and-voting-for-the-radical-right" id="toc-case-study-gender-and-voting-for-the-radical-right" class="nav-link" data-scroll-target="#case-study-gender-and-voting-for-the-radical-right">Case study : gender and voting for the radical right</a></li>
+  <li><a href="#with-one-independent-variable" id="toc-with-one-independent-variable" class="nav-link" data-scroll-target="#with-one-independent-variable">With one independent variable</a></li>
+  <li><a href="#adding-control-variables" id="toc-adding-control-variables" class="nav-link" data-scroll-target="#adding-control-variables">Adding control variables</a></li>
+  <li><a href="#case-study" id="toc-case-study" class="nav-link" data-scroll-target="#case-study">Case study</a></li>
+  <li><a href="#bibliography" id="toc-bibliography" class="nav-link" data-scroll-target="#bibliography">Bibliography</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
@@ -187,8 +265,86 @@ ul.task-list li input[type="checkbox"] {
 
 
 
+<p>In the last session and our exercices, we have presented cases where our dependent variables were continuous : either describing the vote for the far-right in french communes, the median income in those communes, party positions from the Chappel Hill survey (scaled and averaged from 1 to 10), or .</p>
+<p>Yet at the end of the class, we have also seen that one of our results was heteroskedastic, and that plotting our residuals vs.&nbsp;our fitted values lead to some weird shapes in the cloud of points. That is due to the fact that our dependent variable, the share of votes in one commune is actually bounded between 0 and 1. A linear regression, by default, does not take these lower bounds into account, which can lead to uncoherent results (e.g.prolonging the linear regression can lead to voting outcomes &gt; 1), and heteroskedasticity.</p>
+<p>In practice, many dependent variables in political science are binary ones : a typical case is when you wonder whether an individual has voted for this or that party, or whether an individual voted or not. Seeking to explain these variables with linear regressions would lead to absurd results, and would violate several assumptions about that model.</p>
+<p>That is why we use other types of regressions to perform such analyses. The one we will see today is best used to analyse binary outcomes (TRUE/FALSE or 1/0 types of outcomes). It is called the <strong>logistic regression</strong>.</p>
+<section id="concept-of-logistic-regression" class="level1">
+<h1>Concept of logistic regression</h1>
+<section id="the-logarithm-function" class="level2">
+<h2 class="anchored" data-anchor-id="the-logarithm-function">The logarithm function</h2>
+<p>Before turning to the , it is important to remember what is a logarithm. A logarithm, defined in a certain basis <span class="math inline">\(a\)</span>, is the function</p>
+<p><span class="math display">\[\begin{equation}
+\text{log}_{a}(x) = y
+\end{equation}\]</span> that satisfies : <span class="math display">\[\begin{equation}
+a^y = x.
+\end{equation}\]</span></p>
+<p>where a&gt;0. As such, <span class="math inline">\(\text{log}_a(x)\)</span> is only defined for <span class="math inline">\(x&gt;0\)</span> values. For instance, the 10-basis logarithm of 1000 is: <span class="math display">\[\begin{equation}
+\text{log}_{10}(1000) = 3
+\end{equation}\]</span> because <span class="math display">\[\begin{equation}
+10^3 = 1000
+\end{equation}\]</span> The 2-basis logarithm of 4 is: <span class="math display">\[\begin{equation}
+\text{log}_{2}(4) = 2
+\end{equation}\]</span> again because : <span class="math display">\[\begin{equation}
+\text{log}_{2}(4) = 2
+\end{equation}\]</span></p>
+<p>The e-basis (Euler’s number) logarithm is generally called <span class="math inline">\(\text{ln}\)</span>, and gives :</p>
+<p><span class="math display">\[\begin{equation}
+\text{ln}(e) = 1
+\end{equation}\]</span> and <span class="math display">\[\begin{equation}
+\text{ln}(1) = 0
+\end{equation}\]</span></p>
+<p>As such, the logarithm of 1 is always 0, for any basis <span class="math inline">\(a\)</span> : \begin{equation} _{a}(1) = 0 \begin{equation}</p>
+<p>Plotting the log value shows the values of <span class="math inline">\(\text{ln}(x)\)</span> for values ranging from 0.01 to 100 gives the following graph, which shows that</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10000</span>)<span class="sc">/</span><span class="dv">100</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x, <span class="fu">log</span>(x))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="session2_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><span class="math display">\[\begin{align}
+\text{ln}(x) \le 0 \text{ for } x \le 1
+\text{ln}(x) &gt; 0 \text{ for } x &gt; 1
+\end{align}\]</span></p>
+</section>
+</section>
+<section id="case-study-gender-and-voting-for-the-radical-right" class="level1">
+<h1>Case study : gender and voting for the radical right</h1>
+<p>Recent heated debates in academia have been about the impact of gender on the vote for the radical right : while some argue that women vote less for the radical right, because of its misogynistic legacy and , others show that this depends on the context, while some authors argue that radical right, other show that the radical right has renewed its electoral appeal towards women, by developing so-called femo-nationalism, - a sort of . This debate has found powerful echoes in the public debate, as shown by the FT’s 2024 paper shown here (Burn-Murdoch, 2024) :</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/rr_gap.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<figcaption>The radical right gender gap - Financial Times (2024)</figcaption>
+</figure>
+</div>
+<p>That is why three amazing scholars of Sciences Po have sought to understand whether gender had a positive or negative impact on voting in France, in the European and presidential elections (Piolat, N., Mayer, N., Durovic, A., 2025). How could you do that ?</p>
+<p>Imagine seeking to understand what influences voting for a given party at a micro level, in the second round of the legislative elections for instance : you may conduct a poll collecting information about voting among different people, as well as questions regarding the typical “variables” that may characterise voting in general (Mayer, 2007) : age, gender, social class (through socio-professional category), etc. Your whole empirical investigation will therefore seek to understand whether these variables increase the individual propensity to vote for the radical right. Hence, your dependent variable, voting for the radical right, will typically be of a YES/NO type, since your data is collected at the individual level.</p>
+<p>If your research puzzle seeks to identify the role of gender on the vote for the radical right, your main independent variable will be gender, and your</p>
+</section>
+<section id="with-one-independent-variable" class="level1">
+<h1>With one independent variable</h1>
+</section>
+<section id="adding-control-variables" class="level1">
+<h1>Adding control variables</h1>
+</section>
+<section id="case-study" class="level1">
+<h1>Case study</h1>
+<p>A typical case study is for instance . A lot of literature has recently developed over the. That is why researchers from my Center, the CEE, have searched to evaluate</p>
+</section>
+<section id="bibliography" class="level1">
+<h1>Bibliography</h1>
+<ul>
+<li><p>Burn-Murdoch, John. 2024. “A New Global Gender Divide Is Emerging.” Financial Times. <a href="https://www.ft.com/content/29fd9b5c-2f35-41bf-9d4c-994db4e12998" class="uri">https://www.ft.com/content/29fd9b5c-2f35-41bf-9d4c-994db4e12998</a> (January 30, 2026).</p></li>
+<li><p>Mayer, Nonna. 2007. “Qui vote pour qui et pourquoi ? Les modèles explicatifs du choix électoral.” Pouvoirs 120(1): 17–27. <a href="doi:10.3917/pouv.120.0017" class="uri">doi:10.3917/pouv.120.0017</a>.</p></li>
+</ul>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
