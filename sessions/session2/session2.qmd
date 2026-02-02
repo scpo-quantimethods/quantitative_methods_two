@@ -1,3 +1,7 @@
+# Session 2 : logistic regressions
+
+## Motivation
+
 In the last session and our exercices, we have presented cases where our dependent variables were continuous : either describing the vote for the far-right in french communes, the median income in those communes, party positions from the Chappel Hill survey (scaled and averaged from 1 to 10), or . 
 
 Yet at the end of the class, we have also seen that one of our results was heteroskedastic, and that plotting our residuals vs. our fitted values lead to some weird shapes in the cloud of points. That is due to the fact that our dependent variable, the share of votes in one commune is actually bounded between 0 and 1. A linear regression, by default, does not take these lower bounds into account, which can lead to uncoherent results (e.g.prolonging the linear regression can lead to voting outcomes > 1), and heteroskedasticity. 
@@ -7,6 +11,82 @@ In practice, many dependent variables in political science are binary ones : a t
 That is why we use other types of regressions to perform such analyses. The one we will see today is best used to analyse binary outcomes (TRUE/FALSE or 1/0 types of outcomes). It is called the **logistic regression**.
 
 # Concept of logistic regression  
+
+## The maximum of likelihood estimation 
+
+Imagine that you are interested in the of a binary outcome. This is called Bernoulli's probability :
+\begin{equation}
+P(X = x) = p^x (1-p)^x \ \text{with} X \in \{0, 1\}
+\end{equation}
+
+That means that obtaining P(X = 1) is associated with probablity $p$, and obtaining P(X=0) is associated with probability (1-p). In practice, many research questions are interested in finding such probabilities : 
+
+Imagine a random process which gives you N observations of that outcome, with probability p.
+
+Imagine that you simply want to know who voted, you can find the :. A simple idea would be to maximise the likelihood function, that is 
+
+\begin{equation}
+\mathbb{L} = \Pi_i^N (p_i) \Pi_i^N (1-p_i)
+\end{equation}
+
+Imagine for instance that you are interested in finding the probabilities that you will get 1/6, when rolling a dice with . Let's call variable X = 1, and X = 0, a binary variable that basically says whether the dices you rolled were equal to 1 (X=1) or 0. Hence you have :
+\begin{equation}
+P(X=1) = 1/6 = p_1
+\end{equation}
+and
+\begin{equation}
+P(X=0) =5/6 = p_0 = 1-p_1
+\end{equation}
+
+You do it 10000 times, and you get roughly a 1/6 chance of obtaining 1. Yet you would like to verify that.
+
+\begin{equation}
+\mathbb{L} = \Pi_i^{10000} (p_i) \Pi_i^{10000} (1-p_i)
+\end{equation}
+
+You would typically obtain the likelihood function
+\begin{equation}
+\mathbb{L}(p) = \Pi_i^{10000} (p_i) \Pi_i^{10000} (1-p_i) = p_i^{N_1} (1-p_i)^{10000-N_1}
+\end{equation}
+
+\begin{equation}
+
+\text{log}(\mathbb{L}(p)) = \text{log}(\Pi_i^{10000} (p_i) \Pi_i^{10000} (1-p_i)) = \text{log}(p_i^{N_1})+\text{log}((1-p_i)^{10000-N_1}) = N_1 \text{log}(p_i) + (10000-N_1)\text{log}(1-p_i)
+\end{equation}
+
+And your goal would typically be to maximise your likelihood, $\mathbb{L}(p)$, in order to find p. You could derive $L(p)$ as function of p:
+\begin{equation}
+\frac{\delta (L(p))}{\delta p} = (N_1-10000)\frac{1}{1-p} + (N_1)\frac{1}{p} = \frac{N_1p- 10000p + N_1 - N_1p}{p(1-p)} = 0 
+\end{equation}
+which is only true if 
+
+\begin{equation}
+p = \frac{N_1}{10000}
+\end{equation}
+
+which gives you the frequency of your value. Note that due to the law of, you would indeed get : .
+
+Hence, maximising the likelihood function allows you to estimate the probability distribution that best fits your data, for a variety of functions. 
+
+Now imagine that your aim is precisely to estimate how different other variables can modify these probabilities. That is typically the case if you think of a research problem that would seek to explain voting behavior, depending on income : you would need data on . Hence your goal would be to maximise :
+
+\begin{equation}
+L(x_1, x_2, x_3) = \Pi_{i\  (y_i = 1)}^n p(x_1, x_2, x_3)_i \Pi_{i\  (y_i = 0)}^n (1 - p(x_1, x_2, x_3))_i
+\end{equation}
+
+And find the relevant functions $p$ that would best fit your data, using the likelihood estimation. 
+
+You would need a function, $p$, that associates any real value (for instance from the sum  $\beta_1x_1+\beta_2 x_2+ \beta_3x_3$), with a probability between 0 and 1, and we would have :
+\begin{equation}
+\mathbb{E}(logit(p)|x_1, x_2, x_3) = $\beta_1x_1+\beta_2 x_2+ \beta_3x_3$
+\end{equation}
+
+Hence, that would give you the probability that best characterises your process, and as much as you would grow, you.
+
+If you now decide that $p$ is actually a function of some other variables $x_1, x_2, x_3$, you need a function that associates these real numbers with probabilities ranging from 0 to 1. 
+
+But now imagine that you want to understand what drives; that is how 
+
 
 ## The logarithm function
 
@@ -53,14 +133,42 @@ As such, the logarithm of 1 is always 0, for any basis $a$ :
 \begin{equation}
 
 Plotting the log value shows the values of $\text{ln}(x)$ for values ranging from 0.01 to 100 gives the following graph, which shows that 
+
 ```{r}
-x <- c(1:10000)/100
+x <- c(1:2)/200
 plot(x, log(x))
 ```
 \begin{align}
-\text{ln}(x) \le 0 \text{ for } x \le 1
+\text{ln}(x) \le 0 \text{ for } x \le 1 \\
 \text{ln}(x) > 0 \text{ for } x > 1
 \end{align}
+
+Moreover, in the interval going from 0 (excluded) to 1, ]0,1], you see that :
+\begin{equation}
+ln(x) \rightarrow 0 
+\end{equation}
+when $x \rightarrow 1$. So the closer you get to 1, the closer to 0 the log becomes. And the more $x \rightarrow 0$, the more the log gets infinite. this
+
+```{r}
+x <- c(1:10000)/10000
+plot(x, -log(x))
+```
+The odds is simply the ratio p/1-p, and gives a real number that tells you how many times more likely (or less likely) you are to obtain your result. If you have 20% of having something occur, it means there are 4x less chances than it not occuring:
+```{r}
+odds = 0.2/0.8
+odds
+```
+If you have
+
+Taking the log of the odds gives you the \text{logit} function, that is :
+\begin{equation}
+\text{logit}(p) = \ln(\frac{p}{1-p}) = ln(p) - ln(1-p) = \ln(\text{odds_p})
+\end{equation}
+```{r}
+x <- c(1:10000)/10000
+plot(x, x/(1-x))
+plot(x, log(x/(1-x)))
+```
 
 
 # Case study : gender and voting for the radical right
@@ -70,7 +178,7 @@ Recent heated debates in academia have been about the impact of gender on the vo
  ![The radical right gender gap - Financial Times (2024)](images/rr_gap.png){width=100%}
 
 
-That is why three amazing scholars of Sciences Po have sought to understand whether gender had a positive or negative impact on voting in France, in the European and presidential elections (Piolat, N., Mayer, N., Durovic, A., 2025). How could you do that ?
+That is why three amazing scholars of Sciences Po have sought to understand whether gender had a positive or negative impact on voting for the radical right in France, in the European and presidential elections (Piolat, N., Mayer, N., Durovic, A., 2025). How could you do that ?
 
 Imagine seeking to understand what influences voting for a given party at a micro level, in the second round of the legislative elections for instance : you may conduct a poll collecting information about voting among different people, as well as questions regarding the typical "variables" that may characterise voting in general (Mayer, 2007) : age, gender, social class (through socio-professional category), etc. Your whole empirical investigation will therefore seek to understand whether these variables increase the individual propensity to vote for the radical right. Hence, your dependent variable, voting for the radical right, will typically be of a YES/NO type, since your data is collected at the individual level.
 
