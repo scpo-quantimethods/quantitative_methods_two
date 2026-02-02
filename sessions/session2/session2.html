@@ -247,8 +247,13 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#concept-of-logistic-regression" id="toc-concept-of-logistic-regression" class="nav-link active" data-scroll-target="#concept-of-logistic-regression">Concept of logistic regression</a>
+  <li><a href="#session-2-logistic-regressions" id="toc-session-2-logistic-regressions" class="nav-link active" data-scroll-target="#session-2-logistic-regressions">Session 2 : logistic regressions</a>
   <ul class="collapse">
+  <li><a href="#motivation" id="toc-motivation" class="nav-link" data-scroll-target="#motivation">Motivation</a></li>
+  </ul></li>
+  <li><a href="#concept-of-logistic-regression" id="toc-concept-of-logistic-regression" class="nav-link" data-scroll-target="#concept-of-logistic-regression">Concept of logistic regression</a>
+  <ul class="collapse">
+  <li><a href="#the-maximum-of-likelihood-estimation" id="toc-the-maximum-of-likelihood-estimation" class="nav-link" data-scroll-target="#the-maximum-of-likelihood-estimation">The maximum of likelihood estimation</a></li>
   <li><a href="#the-logarithm-function" id="toc-the-logarithm-function" class="nav-link" data-scroll-target="#the-logarithm-function">The logarithm function</a></li>
   </ul></li>
   <li><a href="#case-study-gender-and-voting-for-the-radical-right" id="toc-case-study-gender-and-voting-for-the-radical-right" class="nav-link" data-scroll-target="#case-study-gender-and-voting-for-the-radical-right">Case study : gender and voting for the radical right</a></li>
@@ -265,12 +270,65 @@ window.Quarto = {
 
 
 
+<section id="session-2-logistic-regressions" class="level1">
+<h1>Session 2 : logistic regressions</h1>
+<section id="motivation" class="level2">
+<h2 class="anchored" data-anchor-id="motivation">Motivation</h2>
 <p>In the last session and our exercices, we have presented cases where our dependent variables were continuous : either describing the vote for the far-right in french communes, the median income in those communes, party positions from the Chappel Hill survey (scaled and averaged from 1 to 10), or .</p>
 <p>Yet at the end of the class, we have also seen that one of our results was heteroskedastic, and that plotting our residuals vs.&nbsp;our fitted values lead to some weird shapes in the cloud of points. That is due to the fact that our dependent variable, the share of votes in one commune is actually bounded between 0 and 1. A linear regression, by default, does not take these lower bounds into account, which can lead to uncoherent results (e.g.prolonging the linear regression can lead to voting outcomes &gt; 1), and heteroskedasticity.</p>
 <p>In practice, many dependent variables in political science are binary ones : a typical case is when you wonder whether an individual has voted for this or that party, or whether an individual voted or not. Seeking to explain these variables with linear regressions would lead to absurd results, and would violate several assumptions about that model.</p>
 <p>That is why we use other types of regressions to perform such analyses. The one we will see today is best used to analyse binary outcomes (TRUE/FALSE or 1/0 types of outcomes). It is called the <strong>logistic regression</strong>.</p>
+</section>
+</section>
 <section id="concept-of-logistic-regression" class="level1">
 <h1>Concept of logistic regression</h1>
+<section id="the-maximum-of-likelihood-estimation" class="level2">
+<h2 class="anchored" data-anchor-id="the-maximum-of-likelihood-estimation">The maximum of likelihood estimation</h2>
+<p>Imagine that you are interested in the of a binary outcome. This is called Bernoulli’s probability : <span class="math display">\[\begin{equation}
+P(X = x) = p^x (1-p)^x \ \text{with} X \in \{0, 1\}
+\end{equation}\]</span></p>
+<p>That means that obtaining P(X = 1) is associated with probablity <span class="math inline">\(p\)</span>, and obtaining P(X=0) is associated with probability (1-p). In practice, many research questions are interested in finding such probabilities :</p>
+<p>Imagine a random process which gives you N observations of that outcome, with probability p.</p>
+<p>Imagine that you simply want to know who voted, you can find the :. A simple idea would be to maximise the likelihood function, that is</p>
+<p><span class="math display">\[\begin{equation}
+\mathbb{L} = \Pi_i^N (p_i) \Pi_i^N (1-p_i)
+\end{equation}\]</span></p>
+<p>Imagine for instance that you are interested in finding the probabilities that you will get 1/6, when rolling a dice with . Let’s call variable X = 1, and X = 0, a binary variable that basically says whether the dices you rolled were equal to 1 (X=1) or 0. Hence you have : <span class="math display">\[\begin{equation}
+P(X=1) = 1/6 = p_1
+\end{equation}\]</span> and <span class="math display">\[\begin{equation}
+P(X=0) =5/6 = p_0 = 1-p_1
+\end{equation}\]</span></p>
+<p>You do it 10000 times, and you get roughly a 1/6 chance of obtaining 1. Yet you would like to verify that.</p>
+<p><span class="math display">\[\begin{equation}
+\mathbb{L} = \Pi_i^{10000} (p_i) \Pi_i^{10000} (1-p_i)
+\end{equation}\]</span></p>
+<p>You would typically obtain the likelihood function <span class="math display">\[\begin{equation}
+\mathbb{L}(p) = \Pi_i^{10000} (p_i) \Pi_i^{10000} (1-p_i) = p_i^{N_1} (1-p_i)^{10000-N_1}
+\end{equation}\]</span></p>
+<p><span class="math display">\[\begin{equation}
+
+\text{log}(\mathbb{L}(p)) = \text{log}(\Pi_i^{10000} (p_i) \Pi_i^{10000} (1-p_i)) = \text{log}(p_i^{N_1})+\text{log}((1-p_i)^{10000-N_1}) = N_1 \text{log}(p_i) + (10000-N_1)\text{log}(1-p_i)
+\end{equation}\]</span></p>
+<p>And your goal would typically be to maximise your likelihood, <span class="math inline">\(\mathbb{L}(p)\)</span>, in order to find p.&nbsp;You could derive <span class="math inline">\(L(p)\)</span> as function of p: <span class="math display">\[\begin{equation}
+\frac{\delta (L(p))}{\delta p} = (N_1-10000)\frac{1}{1-p} + (N_1)\frac{1}{p} = \frac{N_1p- 10000p + N_1 - N_1p}{p(1-p)} = 0
+\end{equation}\]</span> which is only true if</p>
+<p><span class="math display">\[\begin{equation}
+p = \frac{N_1}{10000}
+\end{equation}\]</span></p>
+<p>which gives you the frequency of your value. Note that due to the law of, you would indeed get : .</p>
+<p>Hence, maximising the likelihood function allows you to estimate the probability distribution that best fits your data, for a variety of functions.</p>
+<p>Now imagine that your aim is precisely to estimate how different other variables can modify these probabilities. That is typically the case if you think of a research problem that would seek to explain voting behavior, depending on income : you would need data on . Hence your goal would be to maximise :</p>
+<p><span class="math display">\[\begin{equation}
+L(x_1, x_2, x_3) = \Pi_{i\  (y_i = 1)}^n p(x_1, x_2, x_3)_i \Pi_{i\  (y_i = 0)}^n (1 - p(x_1, x_2, x_3))_i
+\end{equation}\]</span></p>
+<p>And find the relevant functions <span class="math inline">\(p\)</span> that would best fit your data, using the likelihood estimation.</p>
+<p>You would need a function, <span class="math inline">\(p\)</span>, that associates any real value (for instance from the sum <span class="math inline">\(\beta_1x_1+\beta_2 x_2+ \beta_3x_3\)</span>), with a probability between 0 and 1, and we would have : <span class="math display">\[\begin{equation}
+\mathbb{E}(logit(p)|x_1, x_2, x_3) = $\beta_1x_1+\beta_2 x_2+ \beta_3x_3$
+\end{equation}\]</span></p>
+<p>Hence, that would give you the probability that best characterises your process, and as much as you would grow, you.</p>
+<p>If you now decide that <span class="math inline">\(p\)</span> is actually a function of some other variables <span class="math inline">\(x_1, x_2, x_3\)</span>, you need a function that associates these real numbers with probabilities ranging from 0 to 1.</p>
+<p>But now imagine that you want to understand what drives; that is how</p>
+</section>
 <section id="the-logarithm-function" class="level2">
 <h2 class="anchored" data-anchor-id="the-logarithm-function">The logarithm function</h2>
 <p>Before turning to the , it is important to remember what is a logarithm. A logarithm, defined in a certain basis <span class="math inline">\(a\)</span>, is the function</p>
@@ -294,23 +352,76 @@ a^y = x.
 \end{equation}\]</span> and <span class="math display">\[\begin{equation}
 \text{ln}(1) = 0
 \end{equation}\]</span></p>
-<p>As such, the logarithm of 1 is always 0, for any basis <span class="math inline">\(a\)</span> : \begin{equation} _{a}(1) = 0 \begin{equation}</p>
-<p>Plotting the log value shows the values of <span class="math inline">\(\text{ln}(x)\)</span> for values ranging from 0.01 to 100 gives the following graph, which shows that</p>
+<p>As such, the logarithm of 1 is always 0, for any basis <span class="math inline">\(a\)</span> : <span class="math display">\[\begin{equation}
+\text{log}_{a}(1) = 0
+\begin{equation}
+
+Plotting the log value shows the values of $\text{ln}(x)$ for values ranging from 0.01 to 100 gives the following graph, which shows that
+
+
+::: {.cell}
+
+```{.r .cell-code}
+x &lt;- c(1:2)/200
+plot(x, log(x))
+```
+
+::: {.cell-output-display}
+![](session2_files/figure-html/unnamed-chunk-1-1.png){width=672}
+:::
+:::
+
+\begin{align}
+\text{ln}(x) \le 0 \text{ for } x \le 1 \\
+\text{ln}(x) &gt; 0 \text{ for } x &gt; 1
+\end{align}
+
+Moreover, in the interval going from 0 (excluded) to 1, ]0,1], you see that :
+\begin{equation}
+ln(x) \rightarrow 0
+\end{equation}\]</span> when <span class="math inline">\(x \rightarrow 1\)</span>. So the closer you get to 1, the closer to 0 the log becomes. And the more <span class="math inline">\(x \rightarrow 0\)</span>, the more the log gets infinite. this</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10000</span>)<span class="sc">/</span><span class="dv">100</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x, <span class="fu">log</span>(x))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10000</span>)<span class="sc">/</span><span class="dv">10000</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x, <span class="sc">-</span><span class="fu">log</span>(x))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="session2_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="session2_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
-<p><span class="math display">\[\begin{align}
-\text{ln}(x) \le 0 \text{ for } x \le 1
-\text{ln}(x) &gt; 0 \text{ for } x &gt; 1
-\end{align}\]</span></p>
+<p>The odds is simply the ratio p/1-p, and gives a real number that tells you how many times more likely (or less likely) you are to obtain your result. If you have 20% of having something occur, it means there are 4x less chances than it not occuring:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>odds <span class="ot">=</span> <span class="fl">0.2</span><span class="sc">/</span><span class="fl">0.8</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>odds</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.25</code></pre>
+</div>
+</div>
+<p>If you have</p>
+<p>Taking the log of the odds gives you the function, that is : <span class="math display">\[\begin{equation}
+\text{logit}(p) = \ln(\frac{p}{1-p}) = ln(p) - ln(1-p) = \ln(\text{odds_p})
+\end{equation}\]</span></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10000</span>)<span class="sc">/</span><span class="dv">10000</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x, x<span class="sc">/</span>(<span class="dv">1</span><span class="sc">-</span>x))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="session2_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x, <span class="fu">log</span>(x<span class="sc">/</span>(<span class="dv">1</span><span class="sc">-</span>x)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="session2_files/figure-html/unnamed-chunk-4-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="case-study-gender-and-voting-for-the-radical-right" class="level1">
@@ -322,7 +433,7 @@ a^y = x.
 <figcaption>The radical right gender gap - Financial Times (2024)</figcaption>
 </figure>
 </div>
-<p>That is why three amazing scholars of Sciences Po have sought to understand whether gender had a positive or negative impact on voting in France, in the European and presidential elections (Piolat, N., Mayer, N., Durovic, A., 2025). How could you do that ?</p>
+<p>That is why three amazing scholars of Sciences Po have sought to understand whether gender had a positive or negative impact on voting for the radical right in France, in the European and presidential elections (Piolat, N., Mayer, N., Durovic, A., 2025). How could you do that ?</p>
 <p>Imagine seeking to understand what influences voting for a given party at a micro level, in the second round of the legislative elections for instance : you may conduct a poll collecting information about voting among different people, as well as questions regarding the typical “variables” that may characterise voting in general (Mayer, 2007) : age, gender, social class (through socio-professional category), etc. Your whole empirical investigation will therefore seek to understand whether these variables increase the individual propensity to vote for the radical right. Hence, your dependent variable, voting for the radical right, will typically be of a YES/NO type, since your data is collected at the individual level.</p>
 <p>If your research puzzle seeks to identify the role of gender on the vote for the radical right, your main independent variable will be gender, and your</p>
 </section>
