@@ -1,174 +1,460 @@
 # Session 2 : logistic regressions
 
+
 ## Motivation
 
-In the last session and our exercices, we have presented cases where our dependent variables were continuous : either describing the vote for the far-right in french communes, the median income in those communes, party positions from the Chappel Hill survey (scaled and averaged from 1 to 10), or . 
+In the previous session and in our exercises, we discussed cases where our dependent variables were continuous. These included the vote share for the far-right in French communes, the median income in those communes, and party positions from the Chapel Hill survey (scaled and averaged from 1 to 10).
 
-Yet at the end of the class, we have also seen that one of our results was heteroskedastic, and that plotting our residuals vs. our fitted values lead to some weird shapes in the cloud of points. That is due to the fact that our dependent variable, the share of votes in one commune is actually bounded between 0 and 1. A linear regression, by default, does not take these lower bounds into account, which can lead to uncoherent results (e.g.prolonging the linear regression can lead to voting outcomes > 1), and heteroskedasticity. 
+However, at the end of the class, we also observed that one of our results exhibited heteroskedasticity, and that plotting the residuals against the fitted values revealed some unusual shapes in the plot. This issue arises because our dependent variable, the share of votes in a commune, is bounded between 0 and 1. By default, a linear regression model does not account for these bounds, which can lead to inconsistent results (e.g., extending the regression line beyond 1, which is impossible for a share of votes), and heteroskedasticity. In situations where the dependent variable is binary, as is often the case in political science (e.g., whether someone voted or not), applying a linear regression model would violate several assumptions of the model. This is why we use **logistic regression**.
 
-In practice, many dependent variables in political science are binary ones : a typical case is when you wonder whether an individual has voted for this or that party, or whether an individual voted or not. Seeking to explain these variables with linear regressions would lead to absurd results, and would violate several assumptions about that model. 
+In practice, many dependent variables in political science are binary. A typical example is when we want to determine whether an individual voted for a particular party, or whether they voted at all. Using linear regression to analyze such variables would yield absurd results and would violate multiple assumptions underlying the model.
 
-That is why we use other types of regressions to perform such analyses. The one we will see today is best used to analyse binary outcomes (TRUE/FALSE or 1/0 types of outcomes). It is called the **logistic regression**.
+For this reason, we use other types of regressions to perform such analyses. The one we will explore today is particularly suited for binary outcomes (TRUE/FALSE or 1/0 outcomes). This is called **logistic regression**. You should have seen the theory behind these regressions with Prof. Rovny, but if you need a reminder, please go the last sections of this page.
 
+The objectives of this session are : 
+
+1. Cleaning data: dropping rows, columns, creating and mutating variables
+2. Building a generalized linear model (`glm()`); special focus on logit
+3. Extracting and interpreting the coefficients
+4. Visualization of results
+
+# Case study : why do people vote ?
+
+Imagine that you want to understand what drives people to vote, or not to vote. This example is directly taken from [Luis Sattelmayer's](https://luissattelmayer.github.io/quant-2025/session4/session4.html) class of last year on logistic regressions. 
+
+This is typically a case where you would be interested in a binary outcome : whether people vote or don't. To analyse that, you would first need data ; you could take information on voter turnout, 
+
+## The ESS - European Social Survey
+
+We will be working with the European Social Survey (ESS), the largest, most comprehensive, and arguably one of the most important surveys on social and political life within the European Union. The survey is conducted in biennial waves, and each participating European country that finances the survey generates its own data. For instance, the French data (which we'll be using from the latest, 10th wave) are produced at SciencesPo, specifically at the Centre de Données Socio-Politiques (CDSP)!
+
+The ESS is an incredibly versatile resource, perfect for those who need a broad and detailed dataset for analyzing national politics in Europe or making cross-country comparisons. Learning how to handle, manage, and clean the ESS data will equip you with the skills to work with virtually any dataset you encounter. Additionally, many of you may find the ESS waves useful for your theses or research papers. The survey offers great potential for analysis, not just cross-sectionally but also over time. So, we encourage you to give it a try! 
+
+## Importing the data
+Of course, the first step will be for you to create an R project (.RProj), with a script for this class. Then we can load the library `tidyverse`. 
+
+```{r}
+library(tidyverse)
+```
+
+When importing a data set, you might need to make some changes in it, to prepare it for the analysis : these steps are essential before conducting any regression analysis (in fact, the regression stage is very rapid given the built-in functions in R). In fact, almost no data set you will download out there will be ready for your analysis. We will guide you through the basics of data management, to make sure you are able to transform data sets according to your needs. 
+
+## Importing data
+
+Here, I have already imported the data on my computer, and stored it in a subfolder called `data` located in the same folder as my script, which is why I call the relative path `data/ess_10.csv`. You can easily download the same data set by downloading it from the link we provide <>. You can either import it directly using `rio` and the `url` link we provide, or store it on your computer and import it using `import` or `read_csv`. A good reflex is to look at the variable names using `colnames()`, and have a glimpse at your data using `glimpse`, right after import, to inspect it.  
+
+```{r}
+ess <- read_csv("/Users/paulservais/Library/CloudStorage/ProtonDrive-paservai@protonmail.com-folder/Website/quantitative_methods_two/sessions/session2/data/ESS_10_fr.csv")
+colnames(ess)
+glimpse(ess)
+```
+This shows you that you have about 25 variables, some contain NA values (the data is clearly not cleaned yet). The variables refer to individual characteristics of the respondents, which you can find in the codebook of the ESS (provided when you download the data), either here <https://stessrelpubprodwe.blob.core.windows.net/data/round8/survey/ESS8_appendix_a7_e01_1.pdf>, or here <>.  Some variables are straightforward, with clear names like "essround" or "age," while others are less intuitive. Occasionally, we can infer the meaning of a variable from its name, but more often than not—either because the name is confusing or the abbreviation doesn't make much sense—we need to refer to the dataset’s documentation. For this particular version of the dataset, you'll find the documentation in an HTML file on Moodle (session 2).
+
+Every high-quality, reliable dataset should have some form of documentation. If it doesn't, it's a red flag, and I would advise caution before using it! This documentation is typically called a "codebook." Codebooks can vary greatly in quality—some are well-organized and easy to read, while others are a challenge to navigate. In this class, you’ll encounter both types, so you'll be prepared to work with whatever you come across.
+
+In general, data set you will download online will come with a codebook, basically associating each variable name with its actual name. In the case of variable `gndr`, the codebook for instance informs you that it means gender, and that the values refer to: 
+
+|Value| 	Category|
+|-----|-----------|
+|1 	|Male|
+|2 	|Female|
+|.a (9)| 	No answer|
+
+Moreover, you see that you have 33 351 observations - corresponding to the number of respondents of the ESS. 
+
+In fact, this dataframe still includes many variables that we won’t need later or that contain no useful information. Let's remove these first. While this step can be done later, it's often a good idea to tidy up the dataset at the very beginning, so you start with a cleaner, more manageable dataset.
+
+You can select the variables you need (using `select()`) right when importing the CSV file. You can remove variables by calling `select(-c(your_variable_name1,your_variable_name2))`.
+```{r}
+ess <- ess  |>
+  dplyr::select(
+    cntry,
+    polintr,
+    trstplt,
+    trstprt,
+    vote,
+    prtvtefr,
+    clsprty,
+    gndr,
+    yrbrn,
+    eduyrs,
+    emplrel,
+    uemp12m,
+    uemp5yr
+  )
+colnames(ess)
+unique(ess$cntry)
+table(ess$cntry)
+```
+This shows you . The functions `unique` and `table` allow you to analyse the distribution of a categorical variables, among its different values. You see that France has 1977 observations, which means that the sample contains about 1977 French respondents. You can restrict the data set to the French values by simply calling `filter()`, which will basically only keep the values that satisfy a certain condition (here `cntry == "FR"`), and also use table to analyse categorical values with numeric values, like vote.
+
+```{r}
+ess_fr <- ess %>% filter(cntry == "FR")
+table(ess_fr$vote)
+```
+
+If you look at the codebook online, you will find that the values correspond to the following categories : 
+
+|Value| 	Category|
+|-----|-----------|
+|1 	|Yes|
+|2 	|No|
+|3 	|Not eligible to vote|
+|.a (7) 	| 	Refusal*|
+|.b (8) 	| 	Don't know*|
+|.c (9)	|No answer*|
+
+And that the question that was asked to the respondents was "some people don't vote nowadays for one reason or another. Did you vote in the last [country] national election in [month/year] ?".
+
+Hence, you see that 590 respondents did not vote in the last election, 1025 did and 307 were not eligible to vote.
+
+The values 7, 8, and 9 are quite common in survey datasets. They typically represent situations where respondents either didn't want to answer, their answer was unclear, or they couldn't remember. You'll encounter these values in almost every survey-based dataset.
+
+As already said, we'll focus on voter turnout. Our goal is to understand what factors encourage people to vote and what decreases the likelihood of voting on election day. Therefore, the question for our dependent variable will be: Did the respondent vote or not? Mathematically, this question cannot be answered using linear regression with the OLS method, as the dependent variable is binary—0 represents "did not vote" and 1 represents "voted." There are only two possible outcomes, and the variable is not continuous, which violates one of the assumptions of OLS.
+
+However, if we use the voting turnout variable as it is right now, we won't have a valid binary variable. It also won't be reliable, as it includes values that are either irrelevant or will skew our estimations. In fact, logistic regression (logit) can only be applied to binary variables.
+
+So, before we proceed, we need to transform our dependent variable. We'll remove unwanted values and convert the 1s and 2s into 0s and 1s.
+
+First, we need to eliminate the values we’re not interested in. While it's possible to filter out these values directly (as shown below), I recommend against it. Instead, you should transform these values into NA. Rows with NA values will be excluded from the regression, but if you later decide to run another model with a different dependent variable, you may lose valuable observations that you've filtered out. Therefore, a good rule of thumb is to only filter out values if you're certain you’ll never need them again.
+
+```{r}
+ess <- ess |>
+  filter(!vote %in% c(3, 7, 8, 9))
+```
+
+We can directly mutate the values within the variable using `case_when()` inside the `mutate()` function. While `case_when()` may seem a bit tricky to read at first, it’s a powerful tool. Essentially, `case_when()` evaluates a series of conditions and applies the corresponding transformation to each element of a vector or column in a dataset.
+
+Within the function, you must specify at least one condition, and you can include multiple conditions if needed. If you want the conditions to be evaluated simultaneously, use the & operator between them. If you want the condition to apply when either of two conditions is true, you would use the `|`` operator. After specifying the conditions, you use a tilde `~`, followed by the new value that the variable should take on if the condition is met.
+
+Here’s how it works:
+
+```{r}
+case_when(
+  condition1 ~ value_if_true1,
+  condition2 ~ value_if_true2,
+  TRUE ~ default_value
+)
+```
+
+Let’s look at an example below. I want the values 3, 7, 8, and 9 in the vote variable to be replaced with NA, as they are irrelevant to our analysis. To do this, we use the mutate() function, and I assign a new column (which I’ll name vote, the same as the original variable). Inside the case_when() function, I specify vote %in% c(3, 7, 8, 9) ~ NA_integer_. This statement means: whenever vote contains the values 3, 7, 8, or 9, replace them with NA_integer_.
+
+The next line, TRUE ~ vote, serves as a catch-all rule. It says, "For all other cases, keep the original values of vote." This ensures that any value not matching the previous condition remains unchanged.
+
+Here’s the code:
+```{r}
+ess <- ess |> 
+  mutate(
+    vote = case_when(
+      vote %in% c(3, 7, 8, 9) ~ NA_integer_,
+      TRUE ~ vote
+  ))
+table(ess$vote)
+```
+
+Now, we just need to transform the ones and twos into zeros and ones. This is both a matter of convention, my personal coding preference, and, of course, to give you a bit more practice with data management. Since we are focusing on people who have voted, we’ll code those who voted as 1 and those who didn’t as 0.
+
+We’ll use `case_when()` again to do this. The code `case_when(vote == 1 ~ 1, vote == 2 ~ 0)` works as follows: whenever vote equals 1 (indicating that the person voted), we keep it as 1; whenever vote equals 2 (indicating that the person did not vote), we assign it 0.
+
+
+With that, we now have our binary dependent variable, which is essential for performing a logit. The `table()` function will show that we’ve successfully changed the values of the variable, but the total count remains the same.
+
+In Base R, you could achieve this in a different way, but I personally find that using the `mutate()` function is the most elegant approach. That said, it's entirely up to you which method you prefer.
+
+```{r}
+# only use the ifelse() function
+ess$vote <- ifelse(ess$vote == 1, 1, 0)
+
+# This will leave the value of 1 at 1 and change 2 to 0 for the column vote.
+ess$vote[ess$vote == 1] <- 1
+ess$vote[ess$vote == 2] <- 0
+```
+
+We’re very close to finishing the data management part and getting ready to work on our model. However, there are still many variables that are as "untidy" as our initial dependent variable. We need to check the codebook to see if there are specific values we can’t simply replace across the entire dataset and whether they are still irrelevant to our analysis.
+
+For our independent variables of interest, here's what we need to do:
+
+- **Political interest (`polintr`)**: Remove values c(7:9).
+- **Trust in politicians (`trstplt`)**: No recoding needed (unwanted values are already `NA`).
+- **Trust in political parties (`trstprt`)**: Already done.
+- **Feeling close to a party (`clsprty`)**: Convert 1/2 to 0/1 and remove values c(7:8).
+- **Gender (`gndr`)**: Convert to 0/1 and remove "no answer" values.
+- **Year born (`yrbrn`)**: Already done.
+- **Years of full-time education completed (`eduyrs`)**: Already done.
+
+We’ll tackle all these steps at once using pipes `%>%` (from the `tidyverse`) or `|>` (Base R), which allows us to perform everything in a neat and efficient way. I’ll also re-run the mutation for our dependent variable to demonstrate the flexibility of long pipe chains.
+
+We start by using `mutate()` to adjust the independent variables we need for our model. Notice how you can separate the different manipulations with commas inside the same function, which results in clean, readable code. There are various functions for data wrangling, such as `recode()`, `if_else()`, and `case_when()`. For simplicity and clarity, I’ll be using `case_when()` here, though there’s a newer function, `case_match()`, that you could also use. 
+
+Now, let's talk about `NA_integer_`. In R, `NA` signifies "not available" or missing data. But R is very particular about the type of data it's working with. If your variable is numeric, you need to specify that missing values should be treated as numbers. By using `NA_integer_`, you're telling R, "This is missing data, but if it were here, it would be a number." This ensures consistency and avoids confusion when R processes your data. If you're working with character strings, you'd use `NA_character_`. For numeric values with decimals, you’d use `NA_real_` instead of `NA_integer_`.
+
+```{r}
+ess_final <- ess |> 
+  # mutating the dependent variable to get rid of any unnecessary rows
+  # as we have done above
+  mutate(
+    vote = case_when(
+      vote %in% c(3, 7, 8, 9) ~ NA_integer_,
+      vote == 2 ~ 0,
+      vote == 1 ~ 1, 
+      TRUE ~ vote
+    ),
+    # Recode 'polintr' to drop values 7 to 9
+    polintr = case_when(
+      polintr %in% c(7:9) ~ NA_integer_,
+      TRUE ~ polintr
+    ),
+    # Recode 'clsprty' 1/2 into 0/1 and drop 7, 8
+    clsprty = case_when(
+      clsprty == 1 ~ 0,
+      clsprty == 2 ~ 1,
+      clsprty %in% c(7, 8) ~ NA_integer_,
+      TRUE ~ clsprty
+    ),
+    # Recode 'gndr' into 0/1 and handle other cases as NAs
+    gndr = case_when(
+      gndr == 1 ~ 0,
+      gndr == 2 ~ 1,
+      TRUE ~ NA_integer_
+    ),
+    # recode eduyrs
+    eduyrs = case_when(
+      eduyrs %in% c(1:55) ~ eduyrs,
+      TRUE ~ NA_integer_
+    ),
+    # this one is very advanced...
+    across(c(trstplt, trstprt), ~case_when(
+      .x <= 10 ~ .x, 
+      TRUE ~ NA_integer_
+    ))
+  )
+```
+
+## Running the model 
+
+Once the data preparation is done, the best part is that running a logistic regression model literally takes just one line (or two, depending on the number of independent variables). As you’ll see, it’s quite straightforward.
+
+The `glm()` function, which stands for **generalized linear model**, is a part of Base R. 
+
+In Professor Rovny's lecture, we discussed that for Maximum Likelihood Estimation (MLE), you need to know or assume the distribution of your dependent variable. Based on that distribution, you choose the appropriate linear model. For a binary outcome like voting (yes/no), the distribution is **binomial**. So, within the `glm()` function, we specify the distribution family as binomial. 
+
+It's worth mentioning that you can specify other families, such as **Gaussian**, **Poisson**, or **Gamma**, depending on your data. We won’t go into detail about those families here, but the `glm()` function is quite powerful. By setting `family = binomial(link = "logit")`, we specify that we're conducting a **logistic regression**. If you wanted to use a different link, such as **probit** or **cauchy**, you can easily adjust it here. The default is set to logit, so in most cases, you won’t need to specify it explicitly. 
+
+If your dependent variable is incompatible with the chosen family, the function will alert you to a problem.
+
+For the model we’re building, we're assuming that voting behavior (whether a person voted or not) is influenced by political interest, trust in politicians, trust in political parties, and feeling close to a party, along with typical control variables like gender, age, and education. 
+
+Please note that this regression isn’t sophisticated enough to be published—it’s simply an example. My hypothesis is that factors like political interest, trust in politics and politicians, and party affiliation are key explanatory variables.
+
+Just like with an OLS regression, we start by specifying the dependent variable (in this case, **vote**). Then, we separate the dependent variable from the independent variables with a `~`. Next, we list the predictors, separated by a `+`. Finally, we specify the data object and the model family.
+
+Here’s how you can run the model:
+
+```{r}
+logit <- glm(
+  vote ~ polintr + trstplt + trstprt + clsprty + gndr +
+    yrbrn + eduyrs,
+  data = ess_final,
+  family = "binomial")
+```
+
+The object we created, called **logit**, now contains our model along with its coefficients, confidence intervals, and many other details that we’ll explore further! As you can see, the actual process of constructing the model is incredibly simple and only requires a single line of code. 
+
+Now that we've created the model, we can examine its components and assess how well it fits our data. The logistic regression model has produced outputs that we can use to make inferences about the relationship between our dependent and independent variables. The simplicity of the code doesn’t mean that the analysis is complete—it’s just the beginning of our exploration!
+
+```{r}
+library(broom)
+tidy(logit)
+```
+
+
+```{r}
+stargazer::stargazer(
+  logit,
+  type = "text",
+  dep.var.labels = "Voting Behavior",
+  dep.var.caption = c("Voting turnout; 0 = abstention | 1 = voted"),
+  covariate.labels = c(
+    "Political Interest",
+    "Trust in Politicians",
+    "Trust in Parties",
+    "Feeling Close to a Party",
+    "Gender",
+    "Year of Birth",
+    "Education"
+  ),
+  star.cutoffs = c(0.05, 0.01, 0.001)
+)
+```
 # Concept of logistic regression  
 
 ## The maximum of likelihood estimation 
 
-Imagine that you are interested in the of a binary outcome. This is called Bernoulli's probability :
+### Constant probabilities 
+
+Suppose you are interested in the outcome of a binary event, where the probability of the event occurring is $p$ and the probability of it not occurring is $1 - p$. This follows Bernoulli’s probability distribution:
+
 \begin{equation}
 P(X = x) = p^x (1-p)^x \ \text{with} X \in \{0, 1\}
 \end{equation}
 
-That means that obtaining P(X = 1) is associated with probablity $p$, and obtaining P(X=0) is associated with probability (1-p). In practice, many research questions are interested in finding such probabilities : 
+For example, imagine rolling a fair six-sided die. The probability of rolling a 1 (i.e., $X = 1$) is $p = 1/6$, and the probability of rolling anything other than a 1 (i.e., $X = 0$) is $1 - p = 5/6$. Many research questions involve finding such probabilities for binary outcomes, such as understanding why people vote or abstain, or why they vote for a particular party. These are binary outcomes, and calculating their probabilities using linear regression would not be appropriate.
 
-Imagine a random process which gives you N observations of that outcome, with probability p.
-
-Imagine that you simply want to know who voted, you can find the :. A simple idea would be to maximise the likelihood function, that is 
+Suppose you observe $N$ independent binary outcomes, each determined by an unknown probability $p$. Let $n_1$ represent the number of outcomes where $X = 1$, and $N - n_1$ the number of outcomes where $X = 0$. The likelihood function is:
 
 \begin{equation}
-\mathbb{L} = \Pi_i^N (p_i) \Pi_i^N (1-p_i)
+\mathcal{L}(p) = \prod_i^{n_1} (p_i) \prod_i^{N-n_1} (1-p_i) = p_i^{n_1}(1-p_i)^{N-n_1}
 \end{equation}
 
-Imagine for instance that you are interested in finding the probabilities that you will get 1/6, when rolling a dice with . Let's call variable X = 1, and X = 0, a binary variable that basically says whether the dices you rolled were equal to 1 (X=1) or 0. Hence you have :
+This expression represents the probability of obtaining $X = 1$ $n_1$ times, multiplied by the probability of obtaining $X = 0$ $N - n_1$ times. If you do not know the probability $p$ but have the outcomes for a large number of observations, you can estimate $p$ by maximizing the likelihood function. This method is called \textbf{maximum likelihood estimation}.
+
+### A simple example
+Let’s say you're interested in estimating the probability of rolling a 1 on a fair die, but you don't know the probability (which you know theoretically to be 1/6). Let $X = 1$ if you roll a 1 and $X = 0$ otherwise. The probabilities are:
+
 \begin{equation}
 P(X=1) = 1/6 = p_1
 \end{equation}
+
 and
 \begin{equation}
 P(X=0) =5/6 = p_0 = 1-p_1
 \end{equation}
 
-You do it 10000 times, and you get roughly a 1/6 chance of obtaining 1. Yet you would like to verify that.
+You roll the die 10,000 times and want to estimate $p_1$. The likelihood function for these observations would be:
 
 \begin{equation}
-\mathbb{L} = \Pi_i^{10000} (p_i) \Pi_i^{10000} (1-p_i)
+\mathcal{L} = \Pi_i^{n_1} (p_i) \Pi_i^{10000-n_1} (1-p_i)
 \end{equation}
 
-You would typically obtain the likelihood function
+You would typically compute the likelihood function as:
 \begin{equation}
-\mathbb{L}(p) = \Pi_i^{10000} (p_i) \Pi_i^{10000} (1-p_i) = p_i^{N_1} (1-p_i)^{10000-N_1}
+\mathcal{L}(p) = \Pi_i^{n_1} (p_i) \Pi_i^{10000-n_1} (1-p_i) = p_i^{n_1} (1-p_i)^{10000-n_1}.
 \end{equation}
-
-\begin{equation}
-
-\text{log}(\mathbb{L}(p)) = \text{log}(\Pi_i^{10000} (p_i) \Pi_i^{10000} (1-p_i)) = \text{log}(p_i^{N_1})+\text{log}((1-p_i)^{10000-N_1}) = N_1 \text{log}(p_i) + (10000-N_1)\text{log}(1-p_i)
-\end{equation}
-
-And your goal would typically be to maximise your likelihood, $\mathbb{L}(p)$, in order to find p. You could derive $L(p)$ as function of p:
-\begin{equation}
-\frac{\delta (L(p))}{\delta p} = (N_1-10000)\frac{1}{1-p} + (N_1)\frac{1}{p} = \frac{N_1p- 10000p + N_1 - N_1p}{p(1-p)} = 0 
-\end{equation}
-which is only true if 
+The goal is to maximize the likelihood function to find the value of $p$ that makes the observed data most probable. To do this, take the log of the likelihood function:
 
 \begin{equation}
-p = \frac{N_1}{10000}
+\text{log}(\mathcal{L}(p)) = \text{log}(\Pi_i^{10000} (p_i) \Pi_i^{10000} (1-p_i)) = \text{log}(p_i^{N_1})+\text{log}((1-p_i)^{10000-N_1
 \end{equation}
 
-which gives you the frequency of your value. Note that due to the law of, you would indeed get : .
+which gives : 
 
-Hence, maximising the likelihood function allows you to estimate the probability distribution that best fits your data, for a variety of functions. 
+\begin{equation}
+ \text{log}(p_i^{N_1})+\text{log}((1-p_i)^{10000-N_1}) = N_1 \text{log}(p_i) + (10000-N_1)\text{log}(1-p_i)
+\end{equation}
 
-Now imagine that your aim is precisely to estimate how different other variables can modify these probabilities. That is typically the case if you think of a research problem that would seek to explain voting behavior, depending on income : you would need data on . Hence your goal would be to maximise :
+Next, differentiate with respect to $p$:
+\begin{equation}
+\frac{d\text{log}(\mathbb{L}(p))}{dp} = \frac{n_1}{p} - \frac{10000 - n_1}{1 - p}.
+\end{equation}
+Set the derivative equal to zero to solve for $p$:
+\begin{equation}
+\frac{n_1}{p} = \frac{10000 - n_1}{1 - p}.
+\end{equation}
+
+This simplifies to:
+\begin{equation}
+p = \frac{n_1}{10000}.
+\end{equation}
+
+This result is simply the proportion of 1's in the 10,000 rolls, which is the maximum likelihood estimate of the probability. According to the law of large numbers, as $N \to \infty$, this estimate will converge to the true probability $p$. Thus, maximizing the likelihood function allows us to estimate the probability distribution that best fits the data.
+
+## Non-constant probabilities 
+
+Now imagine that your probabilities depend on other explanatory variables $x_1, x_2, x_3$. For example, in a research study seeking to understand voter behavior, the probability of an individual voting might depend on their income, gender, or political affiliation. In this case, you would seek to estimate the relationship between these variables and the outcome of voting.
+
+The likelihood function in this case would be:
 
 \begin{equation}
 L(x_1, x_2, x_3) = \Pi_{i\  (y_i = 1)}^n p(x_1, x_2, x_3)_i \Pi_{i\  (y_i = 0)}^n (1 - p(x_1, x_2, x_3))_i
 \end{equation}
 
-And find the relevant functions $p$ that would best fit your data, using the likelihood estimation. 
+In the simpler case where only one explanatory variable $x$ is considered, the likelihood function is:
 
-You would need a function, $p$, that associates any real value (for instance from the sum  $\beta_1x_1+\beta_2 x_2+ \beta_3x_3$), with a probability between 0 and 1, and we would have :
 \begin{equation}
-\mathbb{E}(logit(p)|x_1, x_2, x_3) = $\beta_1x_1+\beta_2 x_2+ \beta_3x_3$
+L(x) = \Pi_{i\  (y_i = 1)}^n p(x)_i \Pi_{i\  (y_i = 0)}^n (1 - p(x)_i)
 \end{equation}
 
-Hence, that would give you the probability that best characterises your process, and as much as you would grow, you.
+which you would maximize to find the parameters that best fit the data.
 
-If you now decide that $p$ is actually a function of some other variables $x_1, x_2, x_3$, you need a function that associates these real numbers with probabilities ranging from 0 to 1. 
+## Logistic function
 
-But now imagine that you want to understand what drives; that is how 
-
-
-## The logarithm function
-
-Before turning to the , it is important to remember what is a logarithm. A logarithm, defined in a certain basis $a$, is the function 
-
+The logistic function is :
 \begin{equation}
-\text{log}_{a}(x) = y 
+p_L (x) = \frac{1}{1+ e^{-(\beta_0 + \beta_1 x)}} = \frac{1}{1+e^{-(x-\mu)/s}} = \frac{e^{(x-\mu)/s}}{1+e^{(x-\mu)/s}}
 \end{equation}
-that satisfies :
-\begin{equation}
-a^y = x.
-\end{equation}
-
-where a>0. As such, $\text{log}_a(x)$ is only defined for $x>0$ values. For instance, the 10-basis logarithm of 1000 is:
-\begin{equation}
-\text{log}_{10}(1000) = 3 
-\end{equation}
-because
-\begin{equation}
-10^3 = 1000
-\end{equation}
-The 2-basis logarithm of 4 is:
-\begin{equation}
-\text{log}_{2}(4) = 2
-\end{equation}
-again because :
-\begin{equation}
-\text{log}_{2}(4) = 2
-\end{equation}
-
-The e-basis (Euler's number) logarithm is generally called $\text{ln}$, and gives :
-
-\begin{equation}
-\text{ln}(e) = 1
-\end{equation}
-and 
-\begin{equation}
-\text{ln}(1) = 0
-\end{equation}
-
-As such, the logarithm of 1 is always 0, for any basis $a$ :
-\begin{equation}
-\text{log}_{a}(1) = 0
-\begin{equation}
-
-Plotting the log value shows the values of $\text{ln}(x)$ for values ranging from 0.01 to 100 gives the following graph, which shows that 
+and it is strictly bounded between 0 and 1, which is expected for a probability.
 
 ```{r}
-x <- c(1:2)/200
-plot(x, log(x))
+x <- c(1:10000)
+mu <- 5000
+s <- 500
+plot(x, exp((x-mu)/s)/(1+exp((x-mu)/s)))
 ```
-\begin{align}
-\text{ln}(x) \le 0 \text{ for } x \le 1 \\
-\text{ln}(x) > 0 \text{ for } x > 1
-\end{align}
 
-Moreover, in the interval going from 0 (excluded) to 1, ]0,1], you see that :
+You can use this logistic function in the likelihood function:
 \begin{equation}
-ln(x) \rightarrow 0 
+\mathcal{L}(x) = \Pi_{i\  (y_i = 1)}^n p(x)_i \Pi_{i\  (y_i = 0)}^n (1 - p(x)_i),
 \end{equation}
-when $x \rightarrow 1$. So the closer you get to 1, the closer to 0 the log becomes. And the more $x \rightarrow 0$, the more the log gets infinite. this
+maximize it, and find the parameters $\beta_0$ and $\beta_1$ that best fit your data.
 
-```{r}
-x <- c(1:10000)/10000
-plot(x, -log(x))
-```
-The odds is simply the ratio p/1-p, and gives a real number that tells you how many times more likely (or less likely) you are to obtain your result. If you have 20% of having something occur, it means there are 4x less chances than it not occuring:
-```{r}
-odds = 0.2/0.8
-odds
-```
-If you have
+This is the logic behind maximum likelihood estimation: you assume your probability follows a certain distribution (in this case, the logistic distribution), and then estimate the parameters that maximize the likelihood of the data. This is precisely what the `glm` function in R does when it fits a logistic regression model — it computes the parameters that maximize the likelihood function using numerical methods.
 
-Taking the log of the odds gives you the \text{logit} function, that is :
+## Logit
+The logit is the inverse of the logistic function. It is defined as:
 \begin{equation}
-\text{logit}(p) = \ln(\frac{p}{1-p}) = ln(p) - ln(1-p) = \ln(\text{odds_p})
+\text{logit}(p(x)) = \ln (\frac{p(x)}{1-p(x)}) = \beta_0 + \beta_1 x,
 \end{equation}
+
+The logit is the inverse of the logistic function. It is defined as:
+
+\begin{equation}
+\text{logit}(p(x)) = \ln \left( \frac{p(x)}{1-p(x)} \right) = \beta_0 + \beta_1 x,
+\end{equation}
+
+In other words, the logit is the logarithm of the odds. The odds is simply the ratio ($ \frac{p}{1-p}$ ), and gives a real number that tells you how many times more likely (or less likely) you are to obtain the outcome. For example, if the probability of an event occurring is 20% (i.e., ($ p = 0.2 $)), the odds are:
+\begin{equation}
+\text{odds} = \frac{0.2}{1 - 0.2} = 0.2 / 0.8 = 0.25.
+\end{equation}
+This means the event is 4 times less likely to happen than not to happen.
+
+On the other hand, if the probability of an event occurring is 80% (i.e., ($ p = 0.8 $)), the odds are:
+\begin{equation}
+\text{odds} = \frac{0.8}{1 - 0.8} = 0.8 / 0.2 = 4.
+\end{equation}
+This means the event is 4 times more likely to happen than not to happen.
+
+When considering probabilities between 0 and 1, the odds function ($\frac{x}{1-x}$) increases very rapidly as the denominator approaches zero. This is why the log of the odds (the logit) provides a more manageable and continuous scale. For a visual comparison, here's a plot in R showing the relationship between the probability ($p$) and the odds, as well as the logit : 
+
 ```{r}
-x <- c(1:10000)/10000
-plot(x, x/(1-x))
-plot(x, log(x/(1-x)))
+p <- c(1:10000)/10000
+plot(p, p/(1-p))
+plot(p, log(p/(1-p)))
 ```
+Hence, you see that the logit associates every probability $p$ with a continuous variable. In the special case where the probability $p$ is a logistic function of variables $X_1, X_2, \dots, X_k$, we can express this relationship as:
+
+\begin{equation}
+\text{logit}(p | x_1, x_2, x_3) = \ln \left( \frac{p}{1 - p} \right) = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 x_3.
+\end{equation}
+
+This is why you can obtain the odds by simply exponentiating the logit, which essentially gives you the odds ratio. In other words:
+
+\begin{equation}
+\text{ODDs} = \frac{p}{1 - p} = e^{\text{logit}(p)} = e^{\beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 x_3}.
+\end{equation}
+
+Any variation $\delta x_1$ in the explanatory variable $x_1$ leads to a change in the odds:
+
+\begin{equation}
+\delta \text{ODDs} = e^{\beta_1 \delta x_1}.
+\end{equation}
+
+This means that any change in $x_1$ results in a multiplicative change in the odds of the outcome occurring. The model allows you to compute the probability that best characterizes your process and helps to understand how each explanatory variable influences the outcome.
+
+Now, if you decide that $p$ is a function of other variables $x_1, x_2, x_3$, you need a function that associates these real numbers with probabilities that range from 0 to 1. This is exactly what the logistic regression model does — it provides a way to model the relationship between the independent variables and a binary outcome, ensuring that the probabilities stay within the valid range of 0 and 1.
+
+But now, imagine you want to understand what drives the probability. In other words, you want to know how different factors (i.e., the explanatory variables) affect the likelihood of the outcome. The logistic regression model, through maximum likelihood estimation, gives you the answer to this question by estimating the coefficients $\beta_1, \beta_2, \dots, \beta_k$, which tell you the effect of each variable on the log-odds of the outcome.
+
+
 
 
 # Case study : gender and voting for the radical right
@@ -199,4 +485,3 @@ A typical case study is for instance . A lot of literature has recently develope
 - Burn-Murdoch, John. 2024. “A New Global Gender Divide Is Emerging.” Financial Times. <https://www.ft.com/content/29fd9b5c-2f35-41bf-9d4c-994db4e12998> (January 30, 2026).
 
 - Mayer, Nonna. 2007. “Qui vote pour qui et pourquoi ? Les modèles explicatifs du choix électoral.” Pouvoirs 120(1): 17–27. <doi:10.3917/pouv.120.0017>.
-

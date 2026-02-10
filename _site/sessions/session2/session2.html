@@ -246,9 +246,26 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#concept-of-logistic-regression" id="toc-concept-of-logistic-regression" class="nav-link active" data-scroll-target="#concept-of-logistic-regression">Concept of logistic regression</a>
+  <li><a href="#session-2-logistic-regressions" id="toc-session-2-logistic-regressions" class="nav-link active" data-scroll-target="#session-2-logistic-regressions">Session 2 : logistic regressions</a>
   <ul class="collapse">
-  <li><a href="#the-logarithm-function" id="toc-the-logarithm-function" class="nav-link" data-scroll-target="#the-logarithm-function">The logarithm function</a></li>
+  <li><a href="#motivation" id="toc-motivation" class="nav-link" data-scroll-target="#motivation">Motivation</a></li>
+  </ul></li>
+  <li><a href="#case-study-why-do-people-vote" id="toc-case-study-why-do-people-vote" class="nav-link" data-scroll-target="#case-study-why-do-people-vote">Case study : why do people vote ?</a>
+  <ul class="collapse">
+  <li><a href="#the-ess---european-social-survey" id="toc-the-ess---european-social-survey" class="nav-link" data-scroll-target="#the-ess---european-social-survey">The ESS - European Social Survey</a></li>
+  <li><a href="#importing-the-data" id="toc-importing-the-data" class="nav-link" data-scroll-target="#importing-the-data">Importing the data</a></li>
+  <li><a href="#importing-data" id="toc-importing-data" class="nav-link" data-scroll-target="#importing-data">Importing data</a></li>
+  </ul></li>
+  <li><a href="#concept-of-logistic-regression" id="toc-concept-of-logistic-regression" class="nav-link" data-scroll-target="#concept-of-logistic-regression">Concept of logistic regression</a>
+  <ul class="collapse">
+  <li><a href="#the-maximum-of-likelihood-estimation" id="toc-the-maximum-of-likelihood-estimation" class="nav-link" data-scroll-target="#the-maximum-of-likelihood-estimation">The maximum of likelihood estimation</a>
+  <ul class="collapse">
+  <li><a href="#constant-probabilities" id="toc-constant-probabilities" class="nav-link" data-scroll-target="#constant-probabilities">Constant probabilities</a></li>
+  <li><a href="#a-simple-example" id="toc-a-simple-example" class="nav-link" data-scroll-target="#a-simple-example">A simple example</a></li>
+  </ul></li>
+  <li><a href="#non-constant-probabilities" id="toc-non-constant-probabilities" class="nav-link" data-scroll-target="#non-constant-probabilities">Non-constant probabilities</a></li>
+  <li><a href="#logistic-function" id="toc-logistic-function" class="nav-link" data-scroll-target="#logistic-function">Logistic function</a></li>
+  <li><a href="#logit" id="toc-logit" class="nav-link" data-scroll-target="#logit">Logit</a></li>
   </ul></li>
   <li><a href="#case-study-gender-and-voting-for-the-radical-right" id="toc-case-study-gender-and-voting-for-the-radical-right" class="nav-link" data-scroll-target="#case-study-gender-and-voting-for-the-radical-right">Case study : gender and voting for the radical right</a></li>
   <li><a href="#with-one-independent-variable" id="toc-with-one-independent-variable" class="nav-link" data-scroll-target="#with-one-independent-variable">With one independent variable</a></li>
@@ -264,52 +281,250 @@ window.Quarto = {
 
 
 
-<p>In the last session and our exercices, we have presented cases where our dependent variables were continuous : either describing the vote for the far-right in french communes, the median income in those communes, party positions from the Chappel Hill survey (scaled and averaged from 1 to 10), or .</p>
-<p>Yet at the end of the class, we have also seen that one of our results was heteroskedastic, and that plotting our residuals vs.&nbsp;our fitted values lead to some weird shapes in the cloud of points. That is due to the fact that our dependent variable, the share of votes in one commune is actually bounded between 0 and 1. A linear regression, by default, does not take these lower bounds into account, which can lead to uncoherent results (e.g.prolonging the linear regression can lead to voting outcomes &gt; 1), and heteroskedasticity.</p>
-<p>In practice, many dependent variables in political science are binary ones : a typical case is when you wonder whether an individual has voted for this or that party, or whether an individual voted or not. Seeking to explain these variables with linear regressions would lead to absurd results, and would violate several assumptions about that model.</p>
-<p>That is why we use other types of regressions to perform such analyses. The one we will see today is best used to analyse binary outcomes (TRUE/FALSE or 1/0 types of outcomes). It is called the <strong>logistic regression</strong>.</p>
+<section id="session-2-logistic-regressions" class="level1">
+<h1>Session 2 : logistic regressions</h1>
+<section id="motivation" class="level2">
+<h2 class="anchored" data-anchor-id="motivation">Motivation</h2>
+<p>In the previous session and in our exercises, we discussed cases where our dependent variables were continuous. These included the vote share for the far-right in French communes, the median income in those communes, and party positions from the Chapel Hill survey (scaled and averaged from 1 to 10).</p>
+<p>However, at the end of the class, we also observed that one of our results exhibited heteroskedasticity, and that plotting the residuals against the fitted values revealed some unusual shapes in the plot. This issue arises because our dependent variable, the share of votes in a commune, is bounded between 0 and 1. By default, a linear regression model does not account for these bounds, which can lead to inconsistent results (e.g., extending the regression line beyond 1, which is impossible for a share of votes), and heteroskedasticity. In situations where the dependent variable is binary, as is often the case in political science (e.g., whether someone voted or not), applying a linear regression model would violate several assumptions of the model. This is why we use <strong>logistic regression</strong>.</p>
+<p>In practice, many dependent variables in political science are binary. A typical example is when we want to determine whether an individual voted for a particular party, or whether they voted at all. Using linear regression to analyze such variables would yield absurd results and would violate multiple assumptions underlying the model.</p>
+<p>For this reason, we use other types of regressions to perform such analyses. The one we will explore today is particularly suited for binary outcomes (TRUE/FALSE or 1/0 outcomes). This is called <strong>logistic regression</strong>. You should have seen the theory behind these regressions with Prof.&nbsp;Rovny, but if you need a reminder, please go the last sections of this page.</p>
+<p>The objectives of this session are :</p>
+<ol type="1">
+<li>Cleaning data: dropping rows, columns, creating and mutating variables</li>
+<li>Building a generalized linear model (<code>glm()</code>); special focus on logit</li>
+<li>Extracting and interpreting the coefficients</li>
+<li>Visualization of results</li>
+</ol>
+</section>
+</section>
+<section id="case-study-why-do-people-vote" class="level1">
+<h1>Case study : why do people vote ?</h1>
+<p>Imagine that you want to understand what drives people to vote, or not to vote. This example is directly taken from <a href="https://luissattelmayer.github.io/quant-2025/session4/session4.html">Luis Sattelmayer’s</a> class of last year on logistic regressions.</p>
+<p>This is typically a case where you would be interested in a binary outcome : whether people vote or don’t. To analyse that, you would first need data ; you could take information on voter turnout,</p>
+<section id="the-ess---european-social-survey" class="level2">
+<h2 class="anchored" data-anchor-id="the-ess---european-social-survey">The ESS - European Social Survey</h2>
+<p>We will be working with the European Social Survey (ESS), the largest, most comprehensive, and arguably one of the most important surveys on social and political life within the European Union. The survey is conducted in biennial waves, and each participating European country that finances the survey generates its own data. For instance, the French data (which we’ll be using from the latest, 10th wave) are produced at SciencesPo, specifically at the Centre de Données Socio-Politiques (CDSP)!</p>
+<p>The ESS is an incredibly versatile resource, perfect for those who need a broad and detailed dataset for analyzing national politics in Europe or making cross-country comparisons. Learning how to handle, manage, and clean the ESS data will equip you with the skills to work with virtually any dataset you encounter. Additionally, many of you may find the ESS waves useful for your theses or research papers. The survey offers great potential for analysis, not just cross-sectionally but also over time. So, we encourage you to give it a try!</p>
+</section>
+<section id="importing-the-data" class="level2">
+<h2 class="anchored" data-anchor-id="importing-the-data">Importing the data</h2>
+<p>Of course, the first step will be for you to create an R project (.RProj), with a script for this class. Then we can load the library <code>tidyverse</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.4     ✔ readr     2.1.6
+✔ forcats   1.0.1     ✔ stringr   1.6.0
+✔ ggplot2   4.0.1     ✔ tibble    3.3.1
+✔ lubridate 1.9.4     ✔ tidyr     1.3.2
+✔ purrr     1.2.1     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+</div>
+<p>When importing a data set, you might need to make some changes in it, to prepare it for the analysis : these steps are essential before conducting any regression analysis (in fact, the regression stage is very rapid given the built-in functions in R). In fact, almost no data set you will download out there will be ready for your analysis. We will guide you through the basics of data management, to make sure you are able to transform data sets according to your needs.</p>
+</section>
+<section id="importing-data" class="level2">
+<h2 class="anchored" data-anchor-id="importing-data">Importing data</h2>
+<p>Here, I have already imported the data on my computer, and stored it in a subfolder called <code>data</code> located in the same folder as my script, which is why I call the relative path <code>data/ess_10.csv</code>. You can easily download the same data set by downloading it from the link we provide &lt;&gt;. You can either import it directly using <code>rio</code> and the <code>url</code> link we provide, or store it on your computer and import it using <code>import</code> or <code>read_csv</code>. A good reflex is to look at the variable names using <code>colnames()</code>, and have a glimpse at your data using <code>glimpse</code>, right after import, to inspect it.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>ESS <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/ESS_10_fr.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 33351 Columns: 25
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr  (3): name, proddate, cntry
+dbl (22): essround, edition, idno, dweight, pspwght, pweight, anweight, prob...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(ESS)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "name"     "essround" "edition"  "proddate" "idno"     "cntry"   
+ [7] "dweight"  "pspwght"  "pweight"  "anweight" "prob"     "stratum" 
+[13] "psu"      "polintr"  "trstplt"  "trstprt"  "vote"     "prtvtefr"
+[19] "clsprty"  "gndr"     "yrbrn"    "eduyrs"   "emplrel"  "uemp12m" 
+[25] "uemp5yr" </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(ESS)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 33,351
+Columns: 25
+$ name     &lt;chr&gt; "ESS10e02_2", "ESS10e02_2", "ESS10e02_2", "ESS10e02_2", "ESS1…
+$ essround &lt;dbl&gt; 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 1…
+$ edition  &lt;dbl&gt; 2.2, 2.2, 2.2, 2.2, 2.2, 2.2, 2.2, 2.2, 2.2, 2.2, 2.2, 2.2, 2…
+$ proddate &lt;chr&gt; "21.12.2022", "21.12.2022", "21.12.2022", "21.12.2022", "21.1…
+$ idno     &lt;dbl&gt; 10002, 10006, 10009, 10024, 10027, 10048, 10053, 10055, 10059…
+$ cntry    &lt;chr&gt; "BG", "BG", "BG", "BG", "BG", "BG", "BG", "BG", "BG", "BG", "…
+$ dweight  &lt;dbl&gt; 1.9393836, 1.6515952, 0.3150246, 0.6730366, 0.3949991, 0.8889…
+$ pspwght  &lt;dbl&gt; 1.2907065, 1.4308782, 0.1131722, 1.4363747, 0.5848892, 0.6274…
+$ pweight  &lt;dbl&gt; 0.2177165, 0.2177165, 0.2177165, 0.2177165, 0.2177165, 0.2177…
+$ anweight &lt;dbl&gt; 0.28100810, 0.31152576, 0.02463945, 0.31272244, 0.12734002, 0…
+$ prob     &lt;dbl&gt; 0.0003137546, 0.0003684259, 0.0019315645, 0.0009040971, 0.001…
+$ stratum  &lt;dbl&gt; 185, 186, 175, 148, 138, 182, 157, 168, 156, 135, 162, 168, 1…
+$ psu      &lt;dbl&gt; 2429, 2387, 2256, 2105, 2065, 2377, 2169, 2219, 2155, 2053, 2…
+$ polintr  &lt;dbl&gt; 4, 1, 3, 4, 1, 1, 3, 3, 3, 3, 1, 4, 2, 2, 3, 3, 2, 2, 4, 2, 3…
+$ trstplt  &lt;dbl&gt; 3, 6, 3, 0, 0, 0, 5, 1, 2, 0, 5, 4, 7, 5, 2, 2, 2, 2, 0, 3, 0…
+$ trstprt  &lt;dbl&gt; 3, 7, 2, 0, 0, 0, 3, 1, 2, 0, 7, 4, 2, 6, 2, 1, 3, 1, 0, 3, 3…
+$ vote     &lt;dbl&gt; 2, 1, 1, 2, 1, 2, 2, 2, 1, 1, 1, 2, 1, 2, 2, 2, 1, 1, 1, 1, 2…
+$ prtvtefr &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
+$ clsprty  &lt;dbl&gt; 2, 1, 1, 2, 1, 2, 2, 1, 2, 1, 1, 2, 1, 1, 2, 2, 1, 1, 1, 1, 2…
+$ gndr     &lt;dbl&gt; 2, 1, 2, 2, 1, 2, 1, 1, 1, 1, 2, 2, 1, 2, 2, 2, 1, 1, 1, 2, 1…
+$ yrbrn    &lt;dbl&gt; 1945, 1978, 1971, 1970, 1951, 1990, 1981, 1973, 1950, 1950, 1…
+$ eduyrs   &lt;dbl&gt; 12, 16, 16, 11, 17, 12, 12, 12, 11, 3, 12, 12, 15, 15, 19, 11…
+$ emplrel  &lt;dbl&gt; 1, 3, 3, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 3, 2, 1, 1, 1…
+$ uemp12m  &lt;dbl&gt; 6, 2, 1, 6, 6, 6, 1, 6, 6, 6, 6, 6, 6, 6, 6, 2, 6, 6, 6, 6, 2…
+$ uemp5yr  &lt;dbl&gt; 6, 2, 1, 6, 6, 6, 1, 6, 6, 6, 6, 6, 6, 6, 6, 2, 6, 6, 6, 6, 2…</code></pre>
+</div>
+</div>
+<p>This shows you that you have about 38 variables, some contain NA values (the data is clearly not cleaned yet). The variables refer to individual characteristics of the respondents, which you can find in the codebook of the ESS (provided when you download the data), either here <a href="https://stessrelpubprodwe.blob.core.windows.net/data/round8/survey/ESS8_appendix_a7_e01_1.pdf" class="uri">https://stessrelpubprodwe.blob.core.windows.net/data/round8/survey/ESS8_appendix_a7_e01_1.pdf</a>, or here &lt;&gt;. Some variables are straightforward, with clear names like “essround” or “age,” while others are less intuitive. Occasionally, we can infer the meaning of a variable from its name, but more often than not—either because the name is confusing or the abbreviation doesn’t make much sense—we need to refer to the dataset’s documentation. For this particular version of the dataset, you’ll find the documentation in an HTML file on Moodle (session 2).</p>
+<p>Every high-quality, reliable dataset should have some form of documentation. If it doesn’t, it’s a red flag, and I would advise caution before using it! This documentation is typically called a “codebook.” Codebooks can vary greatly in quality—some are well-organized and easy to read, while others are a challenge to navigate. In this class, you’ll encounter both types, so you’ll be prepared to work with whatever you come across.</p>
+<p>In general, data set you will download online will come with a codebook, basically associating each variable name with its actual name. In the case of variable <code>gndr</code>, the codebook for instance informs you that :</p>
+<p>gndr = Gender |Value| Category| |—–|———–| |1 |Male| |2 |Female| |.a (9)| No answer|</p>
+<p>Moreover, you see that you have 37611 observations - corresponding to the number of respondents to the ESS.</p>
+</section>
+</section>
 <section id="concept-of-logistic-regression" class="level1">
 <h1>Concept of logistic regression</h1>
-<section id="the-logarithm-function" class="level2">
-<h2 class="anchored" data-anchor-id="the-logarithm-function">The logarithm function</h2>
-<p>Before turning to the , it is important to remember what is a logarithm. A logarithm, defined in a certain basis <span class="math inline">\(a\)</span>, is the function</p>
+<section id="the-maximum-of-likelihood-estimation" class="level2">
+<h2 class="anchored" data-anchor-id="the-maximum-of-likelihood-estimation">The maximum of likelihood estimation</h2>
+<section id="constant-probabilities" class="level3">
+<h3 class="anchored" data-anchor-id="constant-probabilities">Constant probabilities</h3>
+<p>Suppose you are interested in the outcome of a binary event, where the probability of the event occurring is <span class="math inline">\(p\)</span> and the probability of it not occurring is <span class="math inline">\(1 - p\)</span>. This follows Bernoulli’s probability distribution:</p>
 <p><span class="math display">\[\begin{equation}
-\text{log}_{a}(x) = y
-\end{equation}\]</span> that satisfies : <span class="math display">\[\begin{equation}
-a^y = x.
+P(X = x) = p^x (1-p)^x \ \text{with} X \in \{0, 1\}
 \end{equation}\]</span></p>
-<p>where a&gt;0. As such, <span class="math inline">\(\text{log}_a(x)\)</span> is only defined for <span class="math inline">\(x&gt;0\)</span> values. For instance, the 10-basis logarithm of 1000 is: <span class="math display">\[\begin{equation}
-\text{log}_{10}(1000) = 3
-\end{equation}\]</span> because <span class="math display">\[\begin{equation}
-10^3 = 1000
-\end{equation}\]</span> The 2-basis logarithm of 4 is: <span class="math display">\[\begin{equation}
-\text{log}_{2}(4) = 2
-\end{equation}\]</span> again because : <span class="math display">\[\begin{equation}
-\text{log}_{2}(4) = 2
-\end{equation}\]</span></p>
-<p>The e-basis (Euler’s number) logarithm is generally called <span class="math inline">\(\text{ln}\)</span>, and gives :</p>
+<p>For example, imagine rolling a fair six-sided die. The probability of rolling a 1 (i.e., <span class="math inline">\(X = 1\)</span>) is <span class="math inline">\(p = 1/6\)</span>, and the probability of rolling anything other than a 1 (i.e., <span class="math inline">\(X = 0\)</span>) is <span class="math inline">\(1 - p = 5/6\)</span>. Many research questions involve finding such probabilities for binary outcomes, such as understanding why people vote or abstain, or why they vote for a particular party. These are binary outcomes, and calculating their probabilities using linear regression would not be appropriate.</p>
+<p>Suppose you observe <span class="math inline">\(N\)</span> independent binary outcomes, each determined by an unknown probability <span class="math inline">\(p\)</span>. Let <span class="math inline">\(n_1\)</span> represent the number of outcomes where <span class="math inline">\(X = 1\)</span>, and <span class="math inline">\(N - n_1\)</span> the number of outcomes where <span class="math inline">\(X = 0\)</span>. The likelihood function is:</p>
 <p><span class="math display">\[\begin{equation}
-\text{ln}(e) = 1
-\end{equation}\]</span> and <span class="math display">\[\begin{equation}
-\text{ln}(1) = 0
+\mathcal{L}(p) = \prod_i^{n_1} (p_i) \prod_i^{N-n_1} (1-p_i) = p_i^{n_1}(1-p_i)^{N-n_1}
 \end{equation}\]</span></p>
-<p>As such, the logarithm of 1 is always 0, for any basis <span class="math inline">\(a\)</span> : \begin{equation} _{a}(1) = 0 \begin{equation}</p>
-<p>Plotting the log value shows the values of <span class="math inline">\(\text{ln}(x)\)</span> for values ranging from 0.01 to 100 gives the following graph, which shows that</p>
+<p>This expression represents the probability of obtaining <span class="math inline">\(X = 1\)</span> <span class="math inline">\(n_1\)</span> times, multiplied by the probability of obtaining <span class="math inline">\(X = 0\)</span> <span class="math inline">\(N - n_1\)</span> times. If you do not know the probability <span class="math inline">\(p\)</span> but have the outcomes for a large number of observations, you can estimate <span class="math inline">\(p\)</span> by maximizing the likelihood function. This method is called .</p>
+</section>
+<section id="a-simple-example" class="level3">
+<h3 class="anchored" data-anchor-id="a-simple-example">A simple example</h3>
+<p>Let’s say you’re interested in estimating the probability of rolling a 1 on a fair die, but you don’t know the probability (which you know theoretically to be 1/6). Let <span class="math inline">\(X = 1\)</span> if you roll a 1 and <span class="math inline">\(X = 0\)</span> otherwise. The probabilities are:</p>
+<p><span class="math display">\[\begin{equation}
+P(X=1) = 1/6 = p_1
+\end{equation}\]</span></p>
+<p>and <span class="math display">\[\begin{equation}
+P(X=0) =5/6 = p_0 = 1-p_1
+\end{equation}\]</span></p>
+<p>You roll the die 10,000 times and want to estimate <span class="math inline">\(p_1\)</span>. The likelihood function for these observations would be:</p>
+<p><span class="math display">\[\begin{equation}
+\mathcal{L} = \Pi_i^{n_1} (p_i) \Pi_i^{10000-n_1} (1-p_i)
+\end{equation}\]</span></p>
+<p>You would typically compute the likelihood function as: <span class="math display">\[\begin{equation}
+\mathcal{L}(p) = \Pi_i^{n_1} (p_i) \Pi_i^{10000-n_1} (1-p_i) = p_i^{n_1} (1-p_i)^{10000-n_1}.
+\end{equation}\]</span> The goal is to maximize the likelihood function to find the value of <span class="math inline">\(p\)</span> that makes the observed data most probable. To do this, take the log of the likelihood function:</p>
+<p><span class="math display">\[\begin{equation}
+\text{log}(\mathcal{L}(p)) = \text{log}(\Pi_i^{10000} (p_i) \Pi_i^{10000} (1-p_i)) = \text{log}(p_i^{N_1})+\text{log}((1-p_i)^{10000-N_1
+\end{equation}\]</span></p>
+<p>which gives :</p>
+<p><span class="math display">\[\begin{equation}
+\text{log}(p_i^{N_1})+\text{log}((1-p_i)^{10000-N_1}) = N_1 \text{log}(p_i) + (10000-N_1)\text{log}(1-p_i)
+\end{equation}\]</span></p>
+<p>Next, differentiate with respect to <span class="math inline">\(p\)</span>: <span class="math display">\[\begin{equation}
+\frac{d\text{log}(\mathbb{L}(p))}{dp} = \frac{n_1}{p} - \frac{10000 - n_1}{1 - p}.
+\end{equation}\]</span> Set the derivative equal to zero to solve for <span class="math inline">\(p\)</span>: <span class="math display">\[\begin{equation}
+\frac{n_1}{p} = \frac{10000 - n_1}{1 - p}.
+\end{equation}\]</span></p>
+<p>This simplifies to: <span class="math display">\[\begin{equation}
+p = \frac{n_1}{10000}.
+\end{equation}\]</span></p>
+<p>This result is simply the proportion of 1’s in the 10,000 rolls, which is the maximum likelihood estimate of the probability. According to the law of large numbers, as <span class="math inline">\(N \to \infty\)</span>, this estimate will converge to the true probability <span class="math inline">\(p\)</span>. Thus, maximizing the likelihood function allows us to estimate the probability distribution that best fits the data.</p>
+</section>
+</section>
+<section id="non-constant-probabilities" class="level2">
+<h2 class="anchored" data-anchor-id="non-constant-probabilities">Non-constant probabilities</h2>
+<p>Now imagine that your probabilities depend on other explanatory variables <span class="math inline">\(x_1, x_2, x_3\)</span>. For example, in a research study seeking to understand voter behavior, the probability of an individual voting might depend on their income, gender, or political affiliation. In this case, you would seek to estimate the relationship between these variables and the outcome of voting.</p>
+<p>The likelihood function in this case would be:</p>
+<p><span class="math display">\[\begin{equation}
+L(x_1, x_2, x_3) = \Pi_{i\  (y_i = 1)}^n p(x_1, x_2, x_3)_i \Pi_{i\  (y_i = 0)}^n (1 - p(x_1, x_2, x_3))_i
+\end{equation}\]</span></p>
+<p>In the simpler case where only one explanatory variable <span class="math inline">\(x\)</span> is considered, the likelihood function is:</p>
+<p><span class="math display">\[\begin{equation}
+L(x) = \Pi_{i\  (y_i = 1)}^n p(x)_i \Pi_{i\  (y_i = 0)}^n (1 - p(x)_i)
+\end{equation}\]</span></p>
+<p>which you would maximize to find the parameters that best fit the data.</p>
+</section>
+<section id="logistic-function" class="level2">
+<h2 class="anchored" data-anchor-id="logistic-function">Logistic function</h2>
+<p>The logistic function is : <span class="math display">\[\begin{equation}
+p_L (x) = \frac{1}{1+ e^{-(\beta_0 + \beta_1 x)}} = \frac{1}{1+e^{-(x-\mu)/s}} = \frac{e^{(x-\mu)/s}}{1+e^{(x-\mu)/s}}
+\end{equation}\]</span> and it is strictly bounded between 0 and 1, which is expected for a probability.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10000</span>)<span class="sc">/</span><span class="dv">100</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x, <span class="fu">log</span>(x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10000</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>mu <span class="ot">&lt;-</span> <span class="dv">5000</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>s <span class="ot">&lt;-</span> <span class="dv">500</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x, <span class="fu">exp</span>((x<span class="sc">-</span>mu)<span class="sc">/</span>s)<span class="sc">/</span>(<span class="dv">1</span><span class="sc">+</span><span class="fu">exp</span>((x<span class="sc">-</span>mu)<span class="sc">/</span>s)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="session2_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="session2_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
-<p><span class="math display">\[\begin{align}
-\text{ln}(x) \le 0 for x \le 1
-\text{ln}(x) &gt; 0 for x &gt; 1
-\end{align}\]</span></p>
+<p>You can use this logistic function in the likelihood function: <span class="math display">\[\begin{equation}
+\mathcal{L}(x) = \Pi_{i\  (y_i = 1)}^n p(x)_i \Pi_{i\  (y_i = 0)}^n (1 - p(x)_i),
+\end{equation}\]</span> maximize it, and find the parameters <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span> that best fit your data.</p>
+<p>This is the logic behind maximum likelihood estimation: you assume your probability follows a certain distribution (in this case, the logistic distribution), and then estimate the parameters that maximize the likelihood of the data. This is precisely what the <code>glm</code> function in R does when it fits a logistic regression model — it computes the parameters that maximize the likelihood function using numerical methods.</p>
+</section>
+<section id="logit" class="level2">
+<h2 class="anchored" data-anchor-id="logit">Logit</h2>
+<p>The logit is the inverse of the logistic function. It is defined as: <span class="math display">\[\begin{equation}
+\text{logit}(p(x)) = \ln (\frac{p(x)}{1-p(x)}) = \beta_0 + \beta_1 x,
+\end{equation}\]</span></p>
+<p>The logit is the inverse of the logistic function. It is defined as:</p>
+<p><span class="math display">\[\begin{equation}
+\text{logit}(p(x)) = \ln \left( \frac{p(x)}{1-p(x)} \right) = \beta_0 + \beta_1 x,
+\end{equation}\]</span></p>
+<p>In other words, the logit is the logarithm of the odds. The odds is simply the ratio ($ $ ), and gives a real number that tells you how many times more likely (or less likely) you are to obtain the outcome. For example, if the probability of an event occurring is 20% (i.e., ($ p = 0.2 $)), the odds are: <span class="math display">\[\begin{equation}
+\text{odds} = \frac{0.2}{1 - 0.2} = 0.2 / 0.8 = 0.25.
+\end{equation}\]</span> This means the event is 4 times less likely to happen than not to happen.</p>
+<p>On the other hand, if the probability of an event occurring is 80% (i.e., ($ p = 0.8 $)), the odds are: <span class="math display">\[\begin{equation}
+\text{odds} = \frac{0.8}{1 - 0.8} = 0.8 / 0.2 = 4.
+\end{equation}\]</span> This means the event is 4 times more likely to happen than not to happen.</p>
+<p>When considering probabilities between 0 and 1, the odds function (<span class="math inline">\(\frac{x}{1-x}\)</span>) increases very rapidly as the denominator approaches zero. This is why the log of the odds (the logit) provides a more manageable and continuous scale. For a visual comparison, here’s a plot in R showing the relationship between the probability (<span class="math inline">\(p\)</span>) and the odds, as well as the logit :</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10000</span>)<span class="sc">/</span><span class="dv">10000</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(p, p<span class="sc">/</span>(<span class="dv">1</span><span class="sc">-</span>p))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="session2_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(p, <span class="fu">log</span>(p<span class="sc">/</span>(<span class="dv">1</span><span class="sc">-</span>p)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="session2_files/figure-html/unnamed-chunk-4-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Hence, you see that the logit associates every probability <span class="math inline">\(p\)</span> with a continuous variable. In the special case where the probability <span class="math inline">\(p\)</span> is a logistic function of variables <span class="math inline">\(X_1, X_2, \dots, X_k\)</span>, we can express this relationship as:</p>
+<p><span class="math display">\[\begin{equation}
+\text{logit}(p | x_1, x_2, x_3) = \ln \left( \frac{p}{1 - p} \right) = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 x_3.
+\end{equation}\]</span></p>
+<p>This is why you can obtain the odds by simply exponentiating the logit, which essentially gives you the odds ratio. In other words:</p>
+<p><span class="math display">\[\begin{equation}
+\text{ODDs} = \frac{p}{1 - p} = e^{\text{logit}(p)} = e^{\beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 x_3}.
+\end{equation}\]</span></p>
+<p>Any variation <span class="math inline">\(\delta x_1\)</span> in the explanatory variable <span class="math inline">\(x_1\)</span> leads to a change in the odds:</p>
+<p><span class="math display">\[\begin{equation}
+\delta \text{ODDs} = e^{\beta_1 \delta x_1}.
+\end{equation}\]</span></p>
+<p>This means that any change in <span class="math inline">\(x_1\)</span> results in a multiplicative change in the odds of the outcome occurring. The model allows you to compute the probability that best characterizes your process and helps to understand how each explanatory variable influences the outcome.</p>
+<p>Now, if you decide that <span class="math inline">\(p\)</span> is a function of other variables <span class="math inline">\(x_1, x_2, x_3\)</span>, you need a function that associates these real numbers with probabilities that range from 0 to 1. This is exactly what the logistic regression model does — it provides a way to model the relationship between the independent variables and a binary outcome, ensuring that the probabilities stay within the valid range of 0 and 1.</p>
+<p>But now, imagine you want to understand what drives the probability. In other words, you want to know how different factors (i.e., the explanatory variables) affect the likelihood of the outcome. The logistic regression model, through maximum likelihood estimation, gives you the answer to this question by estimating the coefficients <span class="math inline">\(\beta_1, \beta_2, \dots, \beta_k\)</span>, which tell you the effect of each variable on the log-odds of the outcome.</p>
 </section>
 </section>
 <section id="case-study-gender-and-voting-for-the-radical-right" class="level1">
@@ -321,7 +536,7 @@ a^y = x.
 <figcaption>The radical right gender gap - Financial Times (2024)</figcaption>
 </figure>
 </div>
-<p>That is why three amazing scholars of Sciences Po have sought to understand whether gender had a positive or negative impact on voting in France, in the European and presidential elections (Piolat, N., Mayer, N., Durovic, A., 2025). How could you do that ?</p>
+<p>That is why three amazing scholars of Sciences Po have sought to understand whether gender had a positive or negative impact on voting for the radical right in France, in the European and presidential elections (Piolat, N., Mayer, N., Durovic, A., 2025). How could you do that ?</p>
 <p>Imagine seeking to understand what influences voting for a given party at a micro level, in the second round of the legislative elections for instance : you may conduct a poll collecting information about voting among different people, as well as questions regarding the typical “variables” that may characterise voting in general (Mayer, 2007) : age, gender, social class (through socio-professional category), etc. Your whole empirical investigation will therefore seek to understand whether these variables increase the individual propensity to vote for the radical right. Hence, your dependent variable, voting for the radical right, will typically be of a YES/NO type, since your data is collected at the individual level.</p>
 <p>If your research puzzle seeks to identify the role of gender on the vote for the radical right, your main independent variable will be gender, and your</p>
 </section>

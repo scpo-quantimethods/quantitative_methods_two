@@ -7,12 +7,14 @@ format: revealjs
 
 ## Your instructor
 
-<!-- 
 - Paul Servais, <paul.servais@sciencespo.fr>. 
-- Trained as physical engineer, then came to SciencesPo (Urban School), graduated last year
+- Trained as physical engineer, then came to SciencesPo (Urban School)
 - Now working on climate politics, comparative politics
 - I've been working on the electoral impacts of wind turbines on the vote for the RN
--->
+
+## And you ?
+- Background ?
+- Expectations ?
 
 ## Course organisation
 - In total, each group will receive six tutorials. 
@@ -37,9 +39,6 @@ format: revealjs
 - 5. Difference-in-differences (DiD) and panel data 
 - 6. Time-series
 
-## And you ?
-- Background ?
-- Expectations ?
 
 ## Course examination
 - Two homeworks (15% each), by groups of 2
@@ -260,7 +259,18 @@ R^2 = \frac{\text{ESS}}{\text{TSS}} = \frac{\sum_i^N (\hat{Y}_i - \bar{Y})^2}{\s
 Y_i = \beta_0+\beta_1 X_{1i} + \beta_2 X_{2i} + \epsilon_i
 \end{equation}
 - Similar interpretation
-- Adj. $R^2$ gives you 
+- Adj. $R^2$ takes into account the number of predictors
+
+## Linear regression with interactions
+- Interaction :
+\begin{equation}
+Y_i = \beta_0+\beta_1 X_{1i} + \beta_2 X_{2i} + \beta_3 X_{1i} X_{2i}  + \epsilon_i
+\end{equation}
+- Any variation $\delta X_{1i}$ translates into :
+\begin{equation}
+\delta Y_i = \delta X_{1i}(\beta_1 + \beta_3 X_{2i})  
+\end{equation}
+- Hence a function of $X_{2i}$ ! The impact of $X_{1i}$ on $Y_i$ is changed as $X_{2i}$ varies
 
 ## Verifying assumptions
 - You can conduct tests to verify that your model respects the assumptions
@@ -396,7 +406,7 @@ ESS<-import("https://jan-rovny.squarespace.com/s/ESS_FR.dta")
 glimpse(ESS)
 ESS <- ESS %>% dplyr::select(euftf, happy,yrbrn, eduyrs, gndr)
 #1.2
-length(ESS)
+length(ESS$euftf)
 #1.3
 summary(ESS)
 #1.4

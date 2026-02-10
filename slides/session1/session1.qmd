@@ -72,7 +72,7 @@ library(readxl) # allows you to read excel file
 - Relative path `data/file.csv`. 
 - Data on the European elections in "France Métropolitaine" (with departements from 1 to 95), provided by the Ministère de l'Intérieur and slightly recoded (right = LR, far_right = RN, incumbents = Macron, socialists = PS, Greens = Verts). 
 - Socio-demographic data [Cagé & Piketty](https://www.unehistoireduconflitpolitique.fr/).
-- You can download those following links [elections](https://github.com/paulservais-1/methods_policyevaluation/raw/main/slides/session1/data/demographics2024.xlsx) and [socio-demographic](https://github.com/paulservais-1/methods_policyevaluation/raw/main/slides/session1/data/demographics2024.xlsx).
+- You can download those following links [elections](https://github.com/paulservais-1/methods_policyevaluation/raw/main/slides/session1/data/elections2024.csv) and [socio-demographic](https://github.com/paulservais-1/methods_policyevaluation/raw/main/slides/session1/data/demographics2024.xlsx).
 
 ```{r}
 #| echo: true
