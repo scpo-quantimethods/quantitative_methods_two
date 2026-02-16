@@ -14,7 +14,7 @@ library(ggplot2)
 library(tidyverse)
 library(rio)
 ```
-1. Using `rio` and the function `import`, import the data from <https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/exercices/exercices2/data/rain_fall.dta>. 
+1. Using `rio` and the function `import`, import the data from <https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/exercices/exercices2/data/rainfall.dta>. 
 2. Have a look at your data using `glimpse()`. Drop all variables except `voted, voted_prev, rain_mm, age, female, year`.
 3. You want to inspect whether the chances of voting change with the rainfall on the day of the election, `rain_mm`. The variable `vote` tells if people have voted in the elections. What would be your dependent and independent variables ? Are they categorical or continuous ?
 4. Count the total number of voters and summarize the `rain_mm` variable. Are there NA's in the data set ?
@@ -37,7 +37,7 @@ library(tidyverse)
 library(rio)
 library(stargazer)
 #1.1
-rain_vote <- import("/Users/paulservais/Library/CloudStorage/ProtonDrive-paservai@protonmail.com-folder/Website/quantitative_methods_two/exercices/exercices2/data/rainfall.dta")
+rain_vote <- import("https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/exercices/exercices2/data/rainfall.dta")
 
 #1.2
 glimpse(rain_vote)

@@ -914,14 +914,14 @@
     "href": "exercices/exercices2/exercices2.html",
     "title": "Exercices 2 : logistic regressions",
     "section": "",
-    "text": "You are interested in knowing whether turnout, the participation in elections, is conditional on weather: that is, do people vote less when it rains? To do so, you are provided with a (fictitious) data set on American elections in 2012, 2016, and 2020.\n\nLoad the following packages :\n\n\nlibrary(ggeffects)\nlibrary(ggplot2)\nlibrary(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.6\n✔ forcats   1.0.1     ✔ stringr   1.6.0\n✔ lubridate 1.9.4     ✔ tibble    3.3.1\n✔ purrr     1.2.1     ✔ tidyr     1.3.2\n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\nlibrary(rio)\n\n\nUsing rio and the function import, import the data from https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/exercices/exercices2/data/rain_fall.dta.\nHave a look at your data using glimpse(). Drop all variables except voted, voted_prev, rain_mm, age, female, year.\nYou want to inspect whether the chances of voting change with the rainfall on the day of the election, rain_mm. The variable vote tells if people have voted in the elections. What would be your dependent and independent variables ? Are they categorical or continuous ?\nCount the total number of voters and summarize the rain_mm variable. Are there NA’s in the data set ?\nUsing mutate, case_when, prepare the voted variable for the logistic regression.\nAssuming you are estimating a logistic regression, what is the mathematical expression of the probability function as a function of rainfall, denoted \\(R_mm\\) ? What is the corresponding expression for the logit of that probability? Finally, what is the expression for the odds ratio?\nRun a logistic regression with one variable to estimate whether the rain changes anything in the probabilities of voting. For a 1-mm increase in the rainfall, how does the likelihood of voting change ? How significant is that result ?\nDoes voting in the previous election change the probabilities of voting in the next one ?\nAdd the variables voted_prev, female, age, rain_mm, as.factor(year) in the predictors, and compare the three models, using the stargazer package;\nUse the ggpredict function from package ggeffects to predict the probabilities of voting depending on rain_mm. Have a look at your predictions.\nUse ggplot to plot the predicted probabilities with their confidence intervals, with their confidence intervals. Hint : use + geom_ribbon(aes(ymin = conf.low, ymax = conf.high), alpha = 0.2) to display smooth confidence intervals, and geom_line() to add a line connecting the dots."
+    "text": "You are interested in knowing whether turnout, the participation in elections, is conditional on weather: that is, do people vote less when it rains? To do so, you are provided with a (fictitious) data set on American elections in 2012, 2016, and 2020.\n\nLoad the following packages :\n\n\nlibrary(ggeffects)\nlibrary(ggplot2)\nlibrary(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.6\n✔ forcats   1.0.1     ✔ stringr   1.6.0\n✔ lubridate 1.9.4     ✔ tibble    3.3.1\n✔ purrr     1.2.1     ✔ tidyr     1.3.2\n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\nlibrary(rio)\n\n\nUsing rio and the function import, import the data from https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/exercices/exercices2/data/rainfall.dta.\nHave a look at your data using glimpse(). Drop all variables except voted, voted_prev, rain_mm, age, female, year.\nYou want to inspect whether the chances of voting change with the rainfall on the day of the election, rain_mm. The variable vote tells if people have voted in the elections. What would be your dependent and independent variables ? Are they categorical or continuous ?\nCount the total number of voters and summarize the rain_mm variable. Are there NA’s in the data set ?\nUsing mutate, case_when, prepare the voted variable for the logistic regression.\nAssuming you are estimating a logistic regression, what is the mathematical expression of the probability function as a function of rainfall, denoted \\(R_mm\\) ? What is the corresponding expression for the logit of that probability? Finally, what is the expression for the odds ratio?\nRun a logistic regression with one variable to estimate whether the rain changes anything in the probabilities of voting. For a 1-mm increase in the rainfall, how does the likelihood of voting change ? How significant is that result ?\nDoes voting in the previous election change the probabilities of voting in the next one ?\nAdd the variables voted_prev, female, age, rain_mm, as.factor(year) in the predictors, and compare the three models, using the stargazer package;\nUse the ggpredict function from package ggeffects to predict the probabilities of voting depending on rain_mm. Have a look at your predictions.\nUse ggplot to plot the predicted probabilities with their confidence intervals, with their confidence intervals. Hint : use + geom_ribbon(aes(ymin = conf.low, ymax = conf.high), alpha = 0.2) to display smooth confidence intervals, and geom_line() to add a line connecting the dots."
   },
   {
     "objectID": "exercices/exercices2/exercices2.html#turnout-and-rain",
     "href": "exercices/exercices2/exercices2.html#turnout-and-rain",
     "title": "Exercices 2 : logistic regressions",
     "section": "",
-    "text": "You are interested in knowing whether turnout, the participation in elections, is conditional on weather: that is, do people vote less when it rains? To do so, you are provided with a (fictitious) data set on American elections in 2012, 2016, and 2020.\n\nLoad the following packages :\n\n\nlibrary(ggeffects)\nlibrary(ggplot2)\nlibrary(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.6\n✔ forcats   1.0.1     ✔ stringr   1.6.0\n✔ lubridate 1.9.4     ✔ tibble    3.3.1\n✔ purrr     1.2.1     ✔ tidyr     1.3.2\n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\nlibrary(rio)\n\n\nUsing rio and the function import, import the data from https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/exercices/exercices2/data/rain_fall.dta.\nHave a look at your data using glimpse(). Drop all variables except voted, voted_prev, rain_mm, age, female, year.\nYou want to inspect whether the chances of voting change with the rainfall on the day of the election, rain_mm. The variable vote tells if people have voted in the elections. What would be your dependent and independent variables ? Are they categorical or continuous ?\nCount the total number of voters and summarize the rain_mm variable. Are there NA’s in the data set ?\nUsing mutate, case_when, prepare the voted variable for the logistic regression.\nAssuming you are estimating a logistic regression, what is the mathematical expression of the probability function as a function of rainfall, denoted \\(R_mm\\) ? What is the corresponding expression for the logit of that probability? Finally, what is the expression for the odds ratio?\nRun a logistic regression with one variable to estimate whether the rain changes anything in the probabilities of voting. For a 1-mm increase in the rainfall, how does the likelihood of voting change ? How significant is that result ?\nDoes voting in the previous election change the probabilities of voting in the next one ?\nAdd the variables voted_prev, female, age, rain_mm, as.factor(year) in the predictors, and compare the three models, using the stargazer package;\nUse the ggpredict function from package ggeffects to predict the probabilities of voting depending on rain_mm. Have a look at your predictions.\nUse ggplot to plot the predicted probabilities with their confidence intervals, with their confidence intervals. Hint : use + geom_ribbon(aes(ymin = conf.low, ymax = conf.high), alpha = 0.2) to display smooth confidence intervals, and geom_line() to add a line connecting the dots."
+    "text": "You are interested in knowing whether turnout, the participation in elections, is conditional on weather: that is, do people vote less when it rains? To do so, you are provided with a (fictitious) data set on American elections in 2012, 2016, and 2020.\n\nLoad the following packages :\n\n\nlibrary(ggeffects)\nlibrary(ggplot2)\nlibrary(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.6\n✔ forcats   1.0.1     ✔ stringr   1.6.0\n✔ lubridate 1.9.4     ✔ tibble    3.3.1\n✔ purrr     1.2.1     ✔ tidyr     1.3.2\n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\nlibrary(rio)\n\n\nUsing rio and the function import, import the data from https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/exercices/exercices2/data/rainfall.dta.\nHave a look at your data using glimpse(). Drop all variables except voted, voted_prev, rain_mm, age, female, year.\nYou want to inspect whether the chances of voting change with the rainfall on the day of the election, rain_mm. The variable vote tells if people have voted in the elections. What would be your dependent and independent variables ? Are they categorical or continuous ?\nCount the total number of voters and summarize the rain_mm variable. Are there NA’s in the data set ?\nUsing mutate, case_when, prepare the voted variable for the logistic regression.\nAssuming you are estimating a logistic regression, what is the mathematical expression of the probability function as a function of rainfall, denoted \\(R_mm\\) ? What is the corresponding expression for the logit of that probability? Finally, what is the expression for the odds ratio?\nRun a logistic regression with one variable to estimate whether the rain changes anything in the probabilities of voting. For a 1-mm increase in the rainfall, how does the likelihood of voting change ? How significant is that result ?\nDoes voting in the previous election change the probabilities of voting in the next one ?\nAdd the variables voted_prev, female, age, rain_mm, as.factor(year) in the predictors, and compare the three models, using the stargazer package;\nUse the ggpredict function from package ggeffects to predict the probabilities of voting depending on rain_mm. Have a look at your predictions.\nUse ggplot to plot the predicted probabilities with their confidence intervals, with their confidence intervals. Hint : use + geom_ribbon(aes(ymin = conf.low, ymax = conf.high), alpha = 0.2) to display smooth confidence intervals, and geom_line() to add a line connecting the dots."
   },
   {
     "objectID": "exercices/exercices2/exercices2.html#ess-voting-in-italy",
@@ -1720,5 +1720,257 @@
     "title": "Session 2 : logistic regressions",
     "section": "Exercice 2",
     "text": "Exercice 2"
+  },
+  {
+    "objectID": "slides/session2/correction.html#two-weeks-ago",
+    "href": "slides/session2/correction.html#two-weeks-ago",
+    "title": "Session 2 : logistic regressions",
+    "section": "Two weeks ago",
+    "text": "Two weeks ago\n\nDescriptive statistics\nRStudio\nLinear regressions\nDiagnostics"
+  },
+  {
+    "objectID": "slides/session2/correction.html#this-week",
+    "href": "slides/session2/correction.html#this-week",
+    "title": "Session 2 : logistic regressions",
+    "section": "This week",
+    "text": "This week\n\nHomework with material covered in session 1 and 2\nYou will receive it today (e-mail)\nRadical right voting in France, gender and age\nUse of AI :\n\nmandatory to mention the usage\nBonus point if you did not use it"
+  },
+  {
+    "objectID": "slides/session2/correction.html#the-logic",
+    "href": "slides/session2/correction.html#the-logic",
+    "title": "Session 2 : logistic regressions",
+    "section": "The logic",
+    "text": "The logic\n\nLinear regressions are good for continuous DVs\nWhat if Y is binary and your IV continuous ?\nMany dependent variables are binary in political science…\nEg. turnout, voting at the individual level"
+  },
+  {
+    "objectID": "slides/session2/correction.html#an-example",
+    "href": "slides/session2/correction.html#an-example",
+    "title": "Session 2 : logistic regressions",
+    "section": "An example",
+    "text": "An example\n\nRovny’s \ninterest in outsiderness and occupational structure as variables explaining voting (political sociology)\nDependent Variable = voting at the individual level: binary\nIV = different definitions of ‘outsiderness’ in the labour market, depending on individual characteristics (continuous metric)"
+  },
+  {
+    "objectID": "slides/session2/correction.html#an-example-1",
+    "href": "slides/session2/correction.html#an-example-1",
+    "title": "Session 2 : logistic regressions",
+    "section": "An example",
+    "text": "An example\n\nResults for right voting\nhow do you get to predicted probabilities ?"
+  },
+  {
+    "objectID": "slides/session2/correction.html#your-scatter-plot",
+    "href": "slides/session2/correction.html#your-scatter-plot",
+    "title": "Session 2 : logistic regressions",
+    "section": "Your scatter plot",
+    "text": "Your scatter plot"
+  },
+  {
+    "objectID": "slides/session2/correction.html#a-linear-regression",
+    "href": "slides/session2/correction.html#a-linear-regression",
+    "title": "Session 2 : logistic regressions",
+    "section": "A linear regression",
+    "text": "A linear regression"
+  },
+  {
+    "objectID": "slides/session2/correction.html#a-linear-regression-1",
+    "href": "slides/session2/correction.html#a-linear-regression-1",
+    "title": "Session 2 : logistic regressions",
+    "section": "A linear regression",
+    "text": "A linear regression\n\nViolates several assumptions about linear models\nHeteroskedastic\nIrrelevant"
+  },
+  {
+    "objectID": "slides/session2/correction.html#but-there-are-probabilities",
+    "href": "slides/session2/correction.html#but-there-are-probabilities",
+    "title": "Session 2 : logistic regressions",
+    "section": "But there are probabilities…",
+    "text": "But there are probabilities…\n\nTake different intervals of X\n\n\n\n\n\n\n\n\n\n\n\nit is continuous :"
+  },
+  {
+    "objectID": "slides/session2/correction.html#a-logistic-regression",
+    "href": "slides/session2/correction.html#a-logistic-regression",
+    "title": "Session 2 : logistic regressions",
+    "section": "A logistic regression",
+    "text": "A logistic regression"
+  },
+  {
+    "objectID": "slides/session2/correction.html#a-logistic-regression-1",
+    "href": "slides/session2/correction.html#a-logistic-regression-1",
+    "title": "Session 2 : logistic regressions",
+    "section": "A logistic regression",
+    "text": "A logistic regression"
+  },
+  {
+    "objectID": "slides/session2/correction.html#logistic-regression",
+    "href": "slides/session2/correction.html#logistic-regression",
+    "title": "Session 2 : logistic regressions",
+    "section": "Logistic regression",
+    "text": "Logistic regression\n\nInstead of a linear function \\[\\begin{equation}\nY = \\beta_0 + \\beta_1 X\n\\end{equation}\\]\nWe assume that Y has a predicted probability that is a non-linear function of X : \\[\\begin{equation}\n\\mathcal{P}(Y = 1) = f_\\mathcal{L}(\\beta_0 + \\beta_1 X) = \\frac{1}{1 + e^{(-(\\beta_0 + \\beta_1 * X))}}\n\\end{equation}\\]\nThe goal is to find \\(\\beta_0, \\beta_1\\) !"
+  },
+  {
+    "objectID": "slides/session2/correction.html#different-logistic-regressions",
+    "href": "slides/session2/correction.html#different-logistic-regressions",
+    "title": "Session 2 : logistic regressions",
+    "section": "Different logistic regressions",
+    "text": "Different logistic regressions"
+  },
+  {
+    "objectID": "slides/session2/correction.html#finding-these-parameters",
+    "href": "slides/session2/correction.html#finding-these-parameters",
+    "title": "Session 2 : logistic regressions",
+    "section": "Finding these parameters",
+    "text": "Finding these parameters\n\nDone through so-called maximum likelihood estimation, based on your data !\n\\(\\beta_0\\), \\(\\beta_1\\) is for one predictor\nYou can have k predictors : \\[\\begin{equation}\n\\mathcal{P}(Y = 1) = f_\\mathcal{L}(\\beta_0 + \\beta_1 X) = \\frac{1}{1 + e^{(-(\\beta_0 + \\beta_1 * X_1+\\beta_2 X_2 + \\beta_3 X_3 +...+ \\beta_k X_k))}}\n\\end{equation}\\]\nthat can be continuous or categorical !"
+  },
+  {
+    "objectID": "slides/session2/correction.html#logistic-regression-in-r",
+    "href": "slides/session2/correction.html#logistic-regression-in-r",
+    "title": "Session 2 : logistic regressions",
+    "section": "Logistic regression in R",
+    "text": "Logistic regression in R\n\nYou can perform a logistic regression in R using glm:\n\n\nlogit_model &lt;- glm(binary_var ~ continuous_var, \n                   data = your_data,\n                   family = 'binomial')\nsummary(logit_model)\n\n\n\n\nCall:\nglm(formula = binary_var ~ continuous_var, family = binomial, \n    data = data)\n\nCoefficients:\n               Estimate Std. Error z value Pr(&gt;|z|)    \n(Intercept)     -0.4420     0.1164  -3.796 0.000147 ***\ncontinuous_var   1.2479     0.1507   8.280  &lt; 2e-16 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\n(Dispersion parameter for binomial family taken to be 1)\n\n    Null deviance: 542.20  on 399  degrees of freedom\nResidual deviance: 446.51  on 398  degrees of freedom\nAIC: 450.51\n\nNumber of Fisher Scoring iterations: 4\n\n\n\nYou need a binary DV !\nHow can you interpret ?"
+  },
+  {
+    "objectID": "slides/session2/correction.html#odds-ratio",
+    "href": "slides/session2/correction.html#odds-ratio",
+    "title": "Session 2 : logistic regressions",
+    "section": "Odds ratio",
+    "text": "Odds ratio\n\nYou want to compare the probabilities of happening with probabilities of not happening…\n\n\\[\\begin{equation}\n\\text{OR} = \\frac{P(Y = 1)}{P(Y=0)} = \\frac{P(Y = 1)}{1- P(Y=1)}\n\\end{equation}\\]\n\nIf p = 0.1 : OR = 1/9\nIf p = 0.8 : OR = 8/2 = 4\nif p = 0.5 : OR = 1\n“how many times more or less likely to happen”"
+  },
+  {
+    "objectID": "slides/session2/correction.html#odds-ratio-1",
+    "href": "slides/session2/correction.html#odds-ratio-1",
+    "title": "Session 2 : logistic regressions",
+    "section": "Odds ratio",
+    "text": "Odds ratio"
+  },
+  {
+    "objectID": "slides/session2/correction.html#logit",
+    "href": "slides/session2/correction.html#logit",
+    "title": "Session 2 : logistic regressions",
+    "section": "Logit",
+    "text": "Logit\n\\[\\begin{equation}\n\\text{logit(p)} = \\ln(\\text{OR}) = \\ln(\\frac{P(Y = 1)}{P(Y=0)}) = \\ln(\\frac{P(Y = 1)}{1- P(Y=1)})\n\\end{equation}\\]\n\nIf p = 0.1 : logit = ln(1/9) &lt; 0\nIf p = 0.5 : logit = 0\nIf p = 0.8 : logit = ln(8/2) = 4 &gt; 0\n“how many times more or less likely to happen”"
+  },
+  {
+    "objectID": "slides/session2/correction.html#logit-1",
+    "href": "slides/session2/correction.html#logit-1",
+    "title": "Session 2 : logistic regressions",
+    "section": "Logit",
+    "text": "Logit"
+  },
+  {
+    "objectID": "slides/session2/correction.html#odds-ratio-and-logit",
+    "href": "slides/session2/correction.html#odds-ratio-and-logit",
+    "title": "Session 2 : logistic regressions",
+    "section": "Odds ratio and logit",
+    "text": "Odds ratio and logit\n\nIf p(x) is a logistic function \\[\\begin{equation}\n\\text{logit}(p) = \\beta_0 + \\beta_1 x\n\\end{equation}\\]\nhence, the ODDs ratio for \\(\\Delta x = 1\\): \\[\\begin{equation}\nOR = e^{\\beta_0 + \\beta_1}\n\\end{equation}\\]\nYou need to exponentiate the results of your logistic regression to get your changes on the predicted probabilities !"
+  },
+  {
+    "objectID": "slides/session2/correction.html#coming-back-to-our-made-up-data",
+    "href": "slides/session2/correction.html#coming-back-to-our-made-up-data",
+    "title": "Session 2 : logistic regressions",
+    "section": "Coming back to our made-up data…",
+    "text": "Coming back to our made-up data…\n\nlibrary(tidyverse)\nlogit_model   &lt;- glm(binary_var ~ continuous_var, data = data, family = binomial)\nprint(summary(logit_model))\n\n\nCall:\nglm(formula = binary_var ~ continuous_var, family = binomial, \n    data = data)\n\nCoefficients:\n               Estimate Std. Error z value Pr(&gt;|z|)    \n(Intercept)     -0.4420     0.1164  -3.796 0.000147 ***\ncontinuous_var   1.2479     0.1507   8.280  &lt; 2e-16 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\n(Dispersion parameter for binomial family taken to be 1)\n\n    Null deviance: 542.20  on 399  degrees of freedom\nResidual deviance: 446.51  on 398  degrees of freedom\nAIC: 450.51\n\nNumber of Fisher Scoring iterations: 4"
+  },
+  {
+    "objectID": "slides/session2/correction.html#coming-back-to-our-made-up-data-1",
+    "href": "slides/session2/correction.html#coming-back-to-our-made-up-data-1",
+    "title": "Session 2 : logistic regressions",
+    "section": "Coming back to our made-up data…",
+    "text": "Coming back to our made-up data…"
+  },
+  {
+    "objectID": "slides/session2/correction.html#coming-back-to-our-made-up-data-2",
+    "href": "slides/session2/correction.html#coming-back-to-our-made-up-data-2",
+    "title": "Session 2 : logistic regressions",
+    "section": "Coming back to our made-up data…",
+    "text": "Coming back to our made-up data…\n\nexp(logit_model$coefficients)\n\n   (Intercept) continuous_var \n     0.6427217      3.4831559 \n\nexp(coef(logit_model)) \n\n   (Intercept) continuous_var \n     0.6427217      3.4831559 \n\nexp(confint(logit_model))\n\n                   2.5 %    97.5 %\n(Intercept)    0.5100188 0.8056597\ncontinuous_var 2.6223532 4.7401695\n\n# TOGETHER : \nexp(cbind(\n  OR = coef(logit_model), \n  confint(logit_model)))\n\n                      OR     2.5 %    97.5 %\n(Intercept)    0.6427217 0.5100188 0.8056597\ncontinuous_var 3.4831559 2.6223532 4.7401695"
+  },
+  {
+    "objectID": "slides/session2/correction.html#coming-back-to-our-made-up-data-3",
+    "href": "slides/session2/correction.html#coming-back-to-our-made-up-data-3",
+    "title": "Session 2 : logistic regressions",
+    "section": "Coming back to our made-up data…",
+    "text": "Coming back to our made-up data…\n\nlibrary(ggeffects)\n\n# like the predcit() function of Base R, we use ggpredict() and specify\n# our variable of interest\npredicted_probs &lt;- ggpredict(logit_model, terms = \"continuous_var\")\npredicted_probs\n\n# Predicted probabilities of binary_var\n\ncontinuous_var | Predicted |     95% CI\n---------------------------------------\n            -3 |      0.01 | 0.01, 0.04\n            -2 |      0.05 | 0.03, 0.09\n            -1 |      0.16 | 0.11, 0.22\n             0 |      0.39 | 0.34, 0.45\n             1 |      0.69 | 0.61, 0.76\n             2 |      0.89 | 0.81, 0.93\n             3 |      0.96 | 0.92, 0.98\n\n\n\n# this is the simplest way of plotting this\nggplot(predicted_probs, aes(x = x, y = predicted)) +\n  # our graph is more or less a line, so geom_line() applies\n  geom_line(color = \"blue\", size = 1) +\n  geom_point() +\n  # geom_ribbon() with the values that ggpredict() provided for the confidence\n  # intervals then gives\n  # us a shade around the geom_()line as CIs\n  geom_ribbon(aes(ymin = conf.low, ymax = conf.high), fill = \"grey\", alpha = 0.3) +\n  labs(\n    title = \"Predicted Probability of Voting by Political Interest\",\n    x = \"Political Interest\",\n    y = \"Predicted Probability of Voting\"\n  ) + \n  theme_minimal() +\n  theme(\n    plot.title = element_text(size = 14, face = \"bold\", hjust = 0.5),\n    axis.title = element_text(size = 12),\n    axis.text = element_text(size = 10)\n  )"
+  },
+  {
+    "objectID": "slides/session2/correction.html#coming-back-to-our-made-up-data-4",
+    "href": "slides/session2/correction.html#coming-back-to-our-made-up-data-4",
+    "title": "Session 2 : logistic regressions",
+    "section": "Coming back to our made-up data…",
+    "text": "Coming back to our made-up data…"
+  },
+  {
+    "objectID": "slides/session2/correction.html#an-example-ess-with-french-data",
+    "href": "slides/session2/correction.html#an-example-ess-with-french-data",
+    "title": "Session 2 : logistic regressions",
+    "section": "An example : ESS with French data",
+    "text": "An example : ESS with French data\n\nYou want to analyse the impact of political interest on turnout\nYou can download it here\n\n\nlibrary(rio)\ness &lt;- import(\"https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/sessions/session2/data/ESS_10_fr.csv\") %&gt;% \n  select(\n    cntry,\n    polintr,\n    trstplt,\n    trstprt,\n    vote,\n    prtvtefr,\n    clsprty,\n    gndr,\n    yrbrn,\n    eduyrs,\n    emplrel,\n    uemp12m,\n    uemp5yr\n  ) %&gt;% filter(cntry == \"FR\")\n\ntable(ess$vote)\n\n\n   1    2    3    7    8 \n1025  590  307    9   46 \n\n\n\nCommon coding for survey data !"
+  },
+  {
+    "objectID": "slides/session2/correction.html#an-example-ess-with-french-data-1",
+    "href": "slides/session2/correction.html#an-example-ess-with-french-data-1",
+    "title": "Session 2 : logistic regressions",
+    "section": "An example : ESS with French data",
+    "text": "An example : ESS with French data\n\nUse mutate and case_when to transform these data :\n\n\ndata %&gt;% mutate(new_value = case_when(\n    condition1 ~ value_if_true1,\n    condition2 ~ value_if_true2,\n    TRUE ~ default_value\n  ))\n\n\ness &lt;- ess |&gt; \n  mutate(\n    vote = case_when(\n      vote %in% c(3, 7, 8, 9) ~ NA_integer_,\n      TRUE ~ vote\n  ))\ntable(ess$vote)\n\n\n   1    2 \n1025  590 \n\n\n\nYou can group the operations :\n\n\ness_final &lt;- ess |&gt; \n  # mutating the dependent variable to get rid of any unnecessary rows\n  # as we have done above\n  mutate(\n    vote = case_when(\n      vote %in% c(3, 7, 8, 9) ~ NA_integer_,\n      vote == 2 ~ 0,\n      vote == 1 ~ 1, \n      TRUE ~ vote\n    ),\n    # Recode 'polintr' to drop values 7 to 9\n    polintr = case_when(\n      polintr %in% c(7:9) ~ NA_integer_,\n      TRUE ~ polintr\n    ),\n    # Recode 'clsprty' 1/2 into 0/1 and drop 7, 8\n    clsprty = case_when(\n      clsprty == 1 ~ 0,\n      clsprty == 2 ~ 1,\n      clsprty %in% c(7, 8) ~ NA_integer_,\n      TRUE ~ clsprty\n    ),\n    # Recode 'gndr' into 0/1 and handle other cases as NAs\n    gndr = case_when(\n      gndr == 1 ~ 0,\n      gndr == 2 ~ 1,\n      TRUE ~ NA_integer_\n    ),\n    # recode eduyrs\n    eduyrs = case_when(\n      eduyrs %in% c(1:55) ~ eduyrs,\n      TRUE ~ NA_integer_\n    ),\n    # this one is very advanced...\n    across(c(trstplt, trstprt), ~case_when(\n      .x &lt;= 10 ~ .x, \n      TRUE ~ NA_integer_\n    ))\n  )"
+  },
+  {
+    "objectID": "slides/session2/correction.html#run-the-model",
+    "href": "slides/session2/correction.html#run-the-model",
+    "title": "Session 2 : logistic regressions",
+    "section": "Run the model",
+    "text": "Run the model\n\nOnce the data is prepared you can run:\n\n\nlogit &lt;- glm(\n  vote ~ polintr + trstplt + trstprt + clsprty + gndr +\n    yrbrn + eduyrs,\n  data = ess_final,\n  family = \"binomial\")\nsummary(logit)\n\n\nCall:\nglm(formula = vote ~ polintr + trstplt + trstprt + clsprty + \n    gndr + yrbrn + eduyrs, family = \"binomial\", data = ess_final)\n\nCoefficients:\n              Estimate Std. Error z value Pr(&gt;|z|)    \n(Intercept)  2.5108522  0.5862850   4.283 1.85e-05 ***\npolintr     -0.5512058  0.0693863  -7.944 1.96e-15 ***\ntrstplt      0.1338448  0.0459037   2.916  0.00355 ** \ntrstprt     -0.0524436  0.0484319  -1.083  0.27888    \nclsprty     -0.8287370  0.1226888  -6.755 1.43e-11 ***\ngndr         0.0543829  0.1155971   0.470  0.63803    \nyrbrn       -0.0002222  0.0002428  -0.915  0.36005    \neduyrs       0.0077066  0.0160365   0.481  0.63082    \n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\n(Dispersion parameter for binomial family taken to be 1)\n\n    Null deviance: 2022  on 1545  degrees of freedom\nResidual deviance: 1803  on 1538  degrees of freedom\n  (431 observations deleted due to missingness)\nAIC: 1819\n\nNumber of Fisher Scoring iterations: 3\n\n\n\nUse stargazer for a nicer visualisation\n\n\nstargazer::stargazer(\n  logit,\n  type = \"text\",\n  dep.var.labels = \"Voting Behavior\",\n  dep.var.caption = c(\"Voting turnout; 0 = abstention | 1 = voted\"),\n  covariate.labels = c(\n    \"Political Interest\",\n    \"Trust in Politicians\",\n    \"Trust in Parties\",\n    \"Feeling Close to a Party\",\n    \"Gender\",\n    \"Year of Birth\",\n    \"Education\"\n  ),\n  star.cutoffs = c(0.05, 0.01, 0.001)\n)\n\n\n===================================================================\n                         Voting turnout; 0 = abstention | 1 = voted\n                         ------------------------------------------\n                                      Voting Behavior              \n-------------------------------------------------------------------\nPolitical Interest                       -0.551***                 \n                                          (0.069)                  \n                                                                   \nTrust in Politicians                      0.134**                  \n                                          (0.046)                  \n                                                                   \nTrust in Parties                           -0.052                  \n                                          (0.048)                  \n                                                                   \nFeeling Close to a Party                 -0.829***                 \n                                          (0.123)                  \n                                                                   \nGender                                     0.054                   \n                                          (0.116)                  \n                                                                   \nYear of Birth                             -0.0002                  \n                                          (0.0002)                 \n                                                                   \nEducation                                  0.008                   \n                                          (0.016)                  \n                                                                   \nConstant                                  2.511***                 \n                                          (0.586)                  \n                                                                   \n-------------------------------------------------------------------\nObservations                               1,546                   \nLog Likelihood                            -901.494                 \nAkaike Inf. Crit.                        1,818.989                 \n===================================================================\nNote:                                 *p&lt;0.05; **p&lt;0.01; ***p&lt;0.001"
+  },
+  {
+    "objectID": "slides/session2/correction.html#interpretation-of-results",
+    "href": "slides/session2/correction.html#interpretation-of-results",
+    "title": "Session 2 : logistic regressions",
+    "section": "Interpretation of results",
+    "text": "Interpretation of results\n\nExponentiating the coefficients :\n\n\n# simply use exp() on the coefficients of the logit\nexp(coef(logit))\n\n(Intercept)     polintr     trstplt     trstprt     clsprty        gndr \n 12.3154202   0.5762545   1.1432154   0.9489079   0.4366004   1.0558888 \n      yrbrn      eduyrs \n  0.9997778   1.0077364 \n\n# here would be a second way of doing it\nexp(logit$coefficients)\n\n(Intercept)     polintr     trstplt     trstprt     clsprty        gndr \n 12.3154202   0.5762545   1.1432154   0.9489079   0.4366004   1.0558888 \n      yrbrn      eduyrs \n  0.9997778   1.0077364 \n\nexp(cbind(\n  OR = coef(logit), \n  confint(logit)))\n\n                    OR     2.5 %     97.5 %\n(Intercept) 12.3154202 4.0202638 51.4692536\npolintr      0.5762545 0.5022735  0.6593841\ntrstplt      1.1432154 1.0454091  1.2517415\ntrstprt      0.9489079 0.8624815  1.0429944\nclsprty      0.4366004 0.3428531  0.5547314\ngndr         1.0558888 0.8419389  1.3248041\nyrbrn        0.9997778 0.9991018  1.0002452\neduyrs       1.0077364 0.9765762  1.0399790\n\n\n\nUsing library(modelsummary) and modelplot(logit, exponentiate = TRUE)\n\n\nlibrary(modelsummary)\nmodelplot(\n  logit,\n  exponentiate = TRUE,\n  coef_map = c(\n    polintr = \"Political Interest\",\n    trstplt = \"Trust in Politicians\",\n    clsprty = \"Close to a Party\",\n    gndr    = \"Gender (Female)\",\n    age     = \"Age\",\n    eduyrs  = \"Years of Education\"\n  ),\n  coef_omit = \"(Intercept)\",   # remove intercept\n  reference = 1                # vertical OR = 1 line\n)"
+  },
+  {
+    "objectID": "slides/session2/correction.html#model-plot",
+    "href": "slides/session2/correction.html#model-plot",
+    "title": "Session 2 : logistic regressions",
+    "section": "Model plot",
+    "text": "Model plot"
+  },
+  {
+    "objectID": "slides/session2/correction.html#predicted-probabilities",
+    "href": "slides/session2/correction.html#predicted-probabilities",
+    "title": "Session 2 : logistic regressions",
+    "section": "Predicted probabilities",
+    "text": "Predicted probabilities\n\nlibrary(ggeffects)\npredicted_probs_gender &lt;- ggpredict(logit, terms = \"gndr\") \n\npredicted_probs_gender\n\n# Predicted probabilities of vote\n\ngndr | Predicted |     95% CI\n-----------------------------\n   0 |      0.61 | 0.57, 0.65\n   1 |      0.62 | 0.58, 0.66\n\nAdjusted for:\n* polintr =    3.00\n* trstplt =    4.00\n* trstprt =    3.00\n* clsprty =    0.55\n*   yrbrn = 1968.00\n*  eduyrs =   13.00\n\npredicted_probs_gender$x\n\n[1] 0 1\n\n\n\npredicted_probs_gender &lt;- ggpredict(logit, terms = \"gndr\") |&gt; \n  mutate(\n    gender = x |&gt; as.factor()\n  ) |&gt; \n  na.omit()\n\nggplot(predicted_probs_gender,\n       aes(x = gender, y = predicted, fill = gender)) +\n  geom_errorbar(aes(ymin = conf.low, ymax = conf.high), width = 0.2) +\n  geom_point(shape = 21, size = 5) +\n  scale_fill_brewer(palette = \"Set1\") +\n  labs(title = \"Predicted Probability of Voting by Gender\",\n       x = \"Gender\",\n       y = \"Predicted Probability of Voting\",\n       fill = \"Gender\") +\n  scale_x_discrete(drop = TRUE) +\n  theme_minimal()"
+  },
+  {
+    "objectID": "slides/session2/correction.html#predicted-probabilities-1",
+    "href": "slides/session2/correction.html#predicted-probabilities-1",
+    "title": "Session 2 : logistic regressions",
+    "section": "Predicted probabilities",
+    "text": "Predicted probabilities"
+  },
+  {
+    "objectID": "slides/session2/correction.html#with-a-continuous-variable",
+    "href": "slides/session2/correction.html#with-a-continuous-variable",
+    "title": "Session 2 : logistic regressions",
+    "section": "With a continuous variable",
+    "text": "With a continuous variable"
+  },
+  {
+    "objectID": "slides/session2/correction.html#exercices-1",
+    "href": "slides/session2/correction.html#exercices-1",
+    "title": "Session 2 : logistic regressions",
+    "section": "Exercices",
+    "text": "Exercices\n\nTurnout and rainfall (mm): see exercices\nTurnout and education years : see exercices\nVoting for the radical right, age and gender (homework)"
+  },
+  {
+    "objectID": "slides/session2/correction.html#exercice-1",
+    "href": "slides/session2/correction.html#exercice-1",
+    "title": "Session 2 : logistic regressions",
+    "section": "Exercice 1",
+    "text": "Exercice 1\n\n# run install.packages() if you haven't the packages already installed\nlibrary(ggeffects)\nlibrary(ggplot2)\nlibrary(tidyverse)\nlibrary(rio)\nlibrary(stargazer)\n#1.1\nrain_vote &lt;- import(\"https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/exercices/exercices2/data/rainfall.dta\")\n\n#1.2\nglimpse(rain_vote)\n\nRows: 6,000\nColumns: 13\n$ voter_id       &lt;dbl&gt; 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6, 7…\n$ year           &lt;dbl&gt; 2012, 2016, 2020, 2012, 2016, 2020, 2012, 2016, 2020, 2…\n$ county         &lt;chr&gt; \"County_05\", \"County_05\", \"County_05\", \"County_39\", \"Co…\n$ age            &lt;dbl&gt; 76, 80, 84, 22, 26, 30, 44, 48, 52, 48, 52, 56, 71, 75,…\n$ female         &lt;dbl&gt; 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0…\n$ party          &lt;chr&gt; \"U\", \"U\", \"U\", \"R\", \"R\", \"R\", \"D\", \"D\", \"D\", \"U\", \"U\", …\n$ rain_mm        &lt;dbl&gt; 5.52, 5.66, 3.32, 6.29, 4.55, 4.56, 6.54, 5.89, 7.77, 0…\n$ voted          &lt;chr&gt; \"voted\", \"voted\", \"voted\", \"did not vote\", \"did not vot…\n$ inperson_eday  &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0…\n$ early_absentee &lt;dbl&gt; 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…\n$ mail           &lt;dbl&gt; 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0…\n$ rain_mm_prev   &lt;dbl&gt; NA, 5.52, 5.66, NA, 6.29, 4.55, NA, 6.54, 5.89, NA, 0.2…\n$ voted_prev     &lt;dbl&gt; NA, 1, 1, NA, 0, 0, NA, 0, 0, NA, 0, 0, NA, 1, 1, NA, 0…\n\nrain_vote &lt;- rain_vote %&gt;% select(voted, voted_prev, rain_mm, age, female, year)\n\n#1.3\n# DV : voting (binary)\n# IV : raining. Likely exogeneous (uncorrelated with the error)\n\n#1.4\ntable(rain_vote$voted)\n\n\ndid not vote        voted \n        4317         1683 \n\nsummary(rain_vote$rain_mm)\n\n   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. \n  0.000   4.540   6.310   6.268   7.960  13.610 \n\nsummary(rain_vote)\n\n    voted             voted_prev        rain_mm            age       \n Length:6000        Min.   :0.0000   Min.   : 0.000   Min.   :18.00  \n Class :character   1st Qu.:0.0000   1st Qu.: 4.540   1st Qu.:38.00  \n Mode  :character   Median :0.0000   Median : 6.310   Median :55.00  \n                    Mean   :0.2495   Mean   : 6.268   Mean   :55.15  \n                    3rd Qu.:0.0000   3rd Qu.: 7.960   3rd Qu.:72.00  \n                    Max.   :1.0000   Max.   :13.610   Max.   :92.00  \n                    NA's   :2000                                     \n     female           year     \n Min.   :0.000   Min.   :2012  \n 1st Qu.:0.000   1st Qu.:2012  \n Median :0.000   Median :2016  \n Mean   :0.493   Mean   :2016  \n 3rd Qu.:1.000   3rd Qu.:2020  \n Max.   :1.000   Max.   :2020  \n                               \n\n#1.5\n# with case_when()\nrain_vote &lt;- rain_vote %&gt;% mutate(\n  voted = case_when(\n    voted == \"voted\" ~ 1,\n    voted == \"did not vote\" ~ 0\n  )\n)\n\n#1.6\nlog_model &lt;- glm(\n  data = rain_vote,\n  voted ~ rain_mm,\n  family = \"binomial\"\n)\nexp(log_model$coefficients)-1\n\n(Intercept)     rain_mm \n 0.03716785 -0.14940336 \n\nexp(coef(log_model))-1\n\n(Intercept)     rain_mm \n 0.03716785 -0.14940336 \n\n#1.7\nlog_model2 &lt;- glm(\n  data = rain_vote,\n  voted ~ voted_prev,\n  family = \"binomial\"\n)\nexp(log_model2$coefficients)-1\n\n(Intercept)  voted_prev \n -0.6342129   1.1209079 \n\nexp(coef(log_model2))-1\n\n(Intercept)  voted_prev \n -0.6342129   1.1209079 \n\n#1.8\nlog_model3 &lt;- glm(\n  data = rain_vote,\n  voted ~ voted_prev+female+age+rain_mm+as.factor(year),\n  family = \"binomial\"\n)\n\n\n#1.8\nstargazer(log_model, log_model2, log_model3,\n  type = \"text\",\n  dep.var.labels = \"Voting Behavior\",\n  dep.var.caption = c(\"Voting turnout; 0 = abstention | 1 = voted\"),\n  star.cutoffs = c(0.05, 0.01, 0.001)\n)\n\n\n================================================================\n                     Voting turnout; 0 = abstention | 1 = voted \n                    --------------------------------------------\n                                  Voting Behavior               \n                         (1)            (2)            (3)      \n----------------------------------------------------------------\nrain_mm               -0.162***                     -0.162***   \n                       (0.012)                       (0.016)    \n                                                                \nas.factor(year)2020                                   -0.100    \n                                                     (0.079)    \n                                                                \nvoted_prev                            0.752***        0.194*    \n                                      (0.076)        (0.084)    \n                                                                \nfemale                                               0.348***   \n                                                     (0.074)    \n                                                                \nage                                                  0.039***   \n                                                     (0.002)    \n                                                                \nConstant                0.036        -1.006***      -2.407***   \n                       (0.075)        (0.041)        (0.169)    \n                                                                \n----------------------------------------------------------------\nObservations            6,000          4,000          4,000     \nLog Likelihood        -3,463.386     -2,428.188     -2,184.353  \nAkaike Inf. Crit.     6,930.772      4,860.375      4,380.706   \n================================================================\nNote:                              *p&lt;0.05; **p&lt;0.01; ***p&lt;0.001\n\n#1.9\npredicted_probs &lt;- ggpredict(log_model3, terms = \"rain_mm\") \npredicted_probs \n\n# Predicted probabilities of voted\n\nrain_mm | Predicted |     95% CI\n--------------------------------\n      0 |      0.51 | 0.46, 0.57\n      2 |      0.43 | 0.39, 0.48\n      4 |      0.36 | 0.33, 0.39\n      6 |      0.29 | 0.27, 0.31\n      8 |      0.23 | 0.21, 0.25\n     10 |      0.17 | 0.15, 0.20\n     12 |      0.13 | 0.11, 0.16\n     14 |      0.10 | 0.08, 0.13\n\nAdjusted for:\n* voted_prev =  0.25\n*     female =  0.49\n*        age = 57.15\n*       year =  2016\n\n#1.10\nggplot(predicted_probs, aes(x = x, y = predicted)) +\n  geom_ribbon(aes(ymin = conf.low, ymax = conf.high), alpha = 0.2) +  # smooth CI\n  geom_line(linewidth = 1.2, color = \"steelblue\") +\n  geom_point(shape = 21, size = 3, color = \"steelblue\") +\n  labs(\n    title = \"Predicted probability of voting by rainfall\",\n    x = \"Rainfall (mm)\",\n    y = \"Predicted probability of voting\"\n  ) +\n  theme_minimal()"
+  },
+  {
+    "objectID": "slides/session2/correction.html#exercice-2",
+    "href": "slides/session2/correction.html#exercice-2",
+    "title": "Session 2 : logistic regressions",
+    "section": "Exercice 2",
+    "text": "Exercice 2\n\n#1.1\ness &lt;- import(\"https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/exercices/exercices2/data/ess_it.csv\")\n\nglimpse(ess)\n\nRows: 2,640\nColumns: 8\n$ cntry   &lt;chr&gt; \"IT\", \"IT\", \"IT\", \"IT\", \"IT\", \"IT\", \"IT\", \"IT\", \"IT\", \"IT\", \"I…\n$ polintr &lt;int&gt; 3, 3, 3, 3, 4, 3, 3, 3, 3, 3, 4, 2, 1, 2, 4, 3, 3, 2, 3, 3, 2,…\n$ trstplt &lt;int&gt; 1, 0, 0, 1, 3, 2, 0, 4, 2, 1, 0, 7, 2, 2, 2, 0, 5, 3, 5, 2, 7,…\n$ vote    &lt;int&gt; 1, 1, 1, 1, 2, 2, 1, 1, 1, 2, 1, 3, 1, 2, 1, 1, 1, 1, 7, 1, 1,…\n$ clsprty &lt;int&gt; 2, 2, 1, 2, 2, 2, 1, 2, 2, 2, 2, 1, 1, 2, 2, 2, 2, 1, 2, 1, 2,…\n$ gndr    &lt;int&gt; 2, 2, 1, 1, 1, 2, 1, 1, 1, 2, 2, 2, 1, 1, 1, 2, 1, 1, 2, 2, 1,…\n$ yrbrn   &lt;int&gt; 1943, 1963, 1963, 1984, 1984, 1964, 1960, 1983, 1961, 1993, 19…\n$ eduyrs  &lt;int&gt; 5, 18, 13, 8, 8, 16, 20, 18, 18, 10, 8, 13, 22, 18, 8, 17, 13,…\n\n#1.2\ntable(ess$vote)\n\n\n   1    2    3    7    8 \n1799  567  209   40   25 \n\ness &lt;- ess |&gt; \n  # mutating the dependent variable to get rid of any unnecessary rows\n  # as we have done above\n  mutate(\n    vote = case_when(\n      vote %in% c(3, 7, 8, 9) ~ NA_integer_,\n      vote == 2 ~ 0,\n      vote == 1 ~ 1, \n      TRUE ~ vote\n    ),\n    # Recode 'polintr' to drop values 7 to 9\n    polintr = case_when(\n      polintr %in% c(7:9) ~ NA_integer_,\n      TRUE ~ polintr\n    ),\n    # Recode 'clsprty' 1/2 into 0/1 and drop 7, 8\n    clsprty = case_when(\n      clsprty == 1 ~ 0,\n      clsprty == 2 ~ 1,\n      clsprty %in% c(7, 8) ~ NA_integer_,\n      TRUE ~ clsprty\n    ),\n    # Recode 'gndr' into 0/1 and handle other cases as NAs\n    gndr = case_when(\n      gndr == 1 ~ 0,\n      gndr == 2 ~ 1,\n      TRUE ~ NA_integer_\n    ),\n    # recode eduyrs\n    eduyrs = case_when(\n      eduyrs %in% c(1:55) ~ eduyrs,\n      TRUE ~ NA_integer_\n    )\n  )\n#1.3\ntable(ess$vote)\n\n\n   0    1 \n 567 1799 \n\n#1.3\nlogit1 &lt;- glm(\n  vote ~  eduyrs,\n  data = ess %&gt;% mutate(age = 2026-yrbrn),\n  family = \"binomial\")\n\nlogit2 &lt;- glm(\n  vote ~ polintr + trstplt + clsprty + gndr +age + eduyrs,\n  data = ess %&gt;% mutate(age = 2026-yrbrn),\n  family = \"binomial\")\n\n#1.4\n# simply use exp() on the coefficients of the logit\nexp(coef(logit))\n\n(Intercept)     polintr     trstplt     trstprt     clsprty        gndr \n 12.3154202   0.5762545   1.1432154   0.9489079   0.4366004   1.0558888 \n      yrbrn      eduyrs \n  0.9997778   1.0077364 \n\n# here would be a second way of doing it\nexp(logit$coefficients)\n\n(Intercept)     polintr     trstplt     trstprt     clsprty        gndr \n 12.3154202   0.5762545   1.1432154   0.9489079   0.4366004   1.0558888 \n      yrbrn      eduyrs \n  0.9997778   1.0077364 \n\nexp(cbind(\n  OR = coef(logit), \n  confint(logit)))\n\n                    OR     2.5 %     97.5 %\n(Intercept) 12.3154202 4.0202638 51.4692536\npolintr      0.5762545 0.5022735  0.6593841\ntrstplt      1.1432154 1.0454091  1.2517415\ntrstprt      0.9489079 0.8624815  1.0429944\nclsprty      0.4366004 0.3428531  0.5547314\ngndr         1.0558888 0.8419389  1.3248041\nyrbrn        0.9997778 0.9991018  1.0002452\neduyrs       1.0077364 0.9765762  1.0399790\n\n#1.5\nstargazer(logit1, logit2, \n          type = \"text\",\n         dep.var.labels = \"Voting Behavior\",\n         dep.var.caption = c(\"Voting turnout; 0 = abstention | 1 = voted\"),\n          star.cutoffs = c(0.05, 0.01, 0.001))\n\n\n=============================================================\n                  Voting turnout; 0 = abstention | 1 = voted \n                  -------------------------------------------\n                                Voting Behavior              \n                           (1)                   (2)         \n-------------------------------------------------------------\npolintr                                       -0.704***      \n                                               (0.080)       \n                                                             \ntrstplt                                        -0.006        \n                                               (0.007)       \n                                                             \nclsprty                                       -1.507***      \n                                               (0.177)       \n                                                             \ngndr                                            0.116        \n                                               (0.112)       \n                                                             \nage                                            0.00001       \n                                              (0.0001)       \n                                                             \neduyrs                  0.094***              0.056***       \n                         (0.012)               (0.014)       \n                                                             \nConstant                  0.041               3.820***       \n                         (0.149)               (0.348)       \n                                                             \n-------------------------------------------------------------\nObservations              2,284                 2,175        \nLog Likelihood         -1,214.665            -1,032.654      \nAkaike Inf. Crit.       2,433.330             2,079.309      \n=============================================================\nNote:                           *p&lt;0.05; **p&lt;0.01; ***p&lt;0.001\n\n#1.6\npredicted_probs &lt;- ggpredict(logit, terms = \"eduyrs\")\npredicted_probs\n\n# Predicted probabilities of vote\n\neduyrs | Predicted |     95% CI\n-------------------------------\n     0 |      0.59 | 0.49, 0.69\n     4 |      0.60 | 0.52, 0.67\n     8 |      0.61 | 0.56, 0.65\n    12 |      0.61 | 0.58, 0.64\n    14 |      0.62 | 0.59, 0.65\n    18 |      0.62 | 0.58, 0.67\n    22 |      0.63 | 0.56, 0.70\n    30 |      0.65 | 0.51, 0.76\n\nAdjusted for:\n* polintr =    3.00\n* trstplt =    4.00\n* trstprt =    3.00\n* clsprty =    0.55\n*    gndr =    0.50\n*   yrbrn = 1968.00\n\nggplot(predicted_probs, aes(x = x, y = predicted)) +\n  geom_line(color = \"blue\", size = 1) +\n  geom_point() +\n  geom_ribbon(aes(ymin = conf.low, ymax = conf.high), fill = \"grey\", alpha = 0.3) +\n  labs(\n    title = \"Predicted Probability of Voting by education years\",\n    x = \"Education years\",\n    y = \"Predicted Probability of Voting\"\n  ) + \n  theme_minimal() +\n  theme(\n    plot.title = element_text(size = 14, face = \"bold\", hjust = 0.5),\n    axis.title = element_text(size = 12),\n    axis.text = element_text(size = 10)\n  )"
   }
 ]
