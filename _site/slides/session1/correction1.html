@@ -3349,7 +3349,7 @@ F-statistic:  1248 on 1 and 3490 DF,  p-value: &lt; 2.2e-16</code></pre>
 <li>Significance levels : compares with <span class="math inline">\(\beta_1 = 0\)</span>
 <ul>
 <li>t-value (<span class="math inline">\(df&gt;1000\)</span>) : <span class="math inline">\(t_{.90} = 1.645\)</span>, <span class="math inline">\(t_{.95} = 1.96\)</span>, <span class="math inline">\(t_{.99} =2.58\)</span></li>
-<li>p-value : confidence level for rejecting the null</li>
+<li>p-value : probability of obtaining a value as extreme as the computed t-stat with the null</li>
 </ul></li>
 </ul>
 </section>
@@ -3447,7 +3447,7 @@ Y_i = \beta_0+\beta_1 X_{1i} + \beta_2 X_{2i} + \beta_3 X_{1i} X_{2i}  + \epsilo
 </ul>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] -7.275958e-15</code></pre>
+<pre><code>[1] -6.548362e-14</code></pre>
 </div>
 
 <div class="cell-output cell-output-stdout">
@@ -3471,18 +3471,18 @@ Y_i = \beta_0+\beta_1 X_{1i} + \beta_2 X_{2i} + \beta_3 X_{1i} X_{2i}  + \epsilo
                                                         linear  
                                    (1)         (2)        (3)   
 ----------------------------------------------------------------
-x                                9.837***    9.996***  9.984*** 
-                                 (0.106)     (0.620)    (0.506) 
+x                                9.945***   10.861***  10.952***
+                                 (0.111)     (0.635)    (0.518) 
                                                                 
-Constant                          66.773     -15.981    24.123  
-                                 (61.176)   (353.231)  (288.035)
+Constant                          9.203      -367.799  -377.855 
+                                 (64.307)   (370.500)  (302.176)
                                                                 
 ----------------------------------------------------------------
 Observations                      1,000       1,000      1,000  
-R2                                0.896       0.207             
-Adjusted R2                       0.895       0.206             
-Residual Std. Error (df = 998)   978.355    5,761.433  3,741.507
-F Statistic (df = 1; 998)      8,554.097*** 259.936***          
+R2                                0.889       0.227             
+Adjusted R2                       0.888       0.226             
+Residual Std. Error (df = 998)  1,012.225   5,863.276  3,876.473
+F Statistic (df = 1; 998)      7,956.824*** 292.325***          
 ================================================================
 Note:                                *p&lt;0.1; **p&lt;0.05; ***p&lt;0.01</code></pre>
 </div>
@@ -3506,18 +3506,18 @@ lm(formula = y ~ x)
 
 Residuals:
      Min       1Q   Median       3Q      Max 
--25168.5  -2532.3    -38.3   2506.5  25566.3 
+-24783.6  -2649.5      9.5   2617.3  26791.7 
 
 Coefficients:
             Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept) 106.7102   346.7680   0.308    0.758    
-x             8.8913     0.6086  14.609   &lt;2e-16 ***
+(Intercept) -67.8556   367.7874  -0.184    0.854    
+x            10.3210     0.6306  16.368   &lt;2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Residual standard error: 5656 on 998 degrees of freedom
-Multiple R-squared:  0.1762,    Adjusted R-squared:  0.1753 
-F-statistic: 213.4 on 1 and 998 DF,  p-value: &lt; 2.2e-16</code></pre>
+Residual standard error: 5820 on 998 degrees of freedom
+Multiple R-squared:  0.2116,    Adjusted R-squared:  0.2108 
+F-statistic: 267.9 on 1 and 998 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a></a><span class="fu">summary</span>(model2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -3526,18 +3526,18 @@ Call:
 lm(formula = y ~ x + w)
 
 Residuals:
-   Min     1Q Median     3Q    Max 
--25183  -2534    -46   2544  25591 
+     Min       1Q   Median       3Q      Max 
+-24664.3  -2672.5    -27.6   2550.0  26734.9 
 
 Coefficients:
             Estimate Std. Error t value Pr(&gt;|t|)
-(Intercept)   106.28     346.93   0.306    0.759
-x             -92.59     360.00  -0.257    0.797
-w             101.48     360.01   0.282    0.778
+(Intercept)   -50.64     368.03  -0.138    0.891
+x             433.82     368.14   1.178    0.239
+w            -423.52     368.15  -1.150    0.250
 
-Residual standard error: 5659 on 997 degrees of freedom
-Multiple R-squared:  0.1762,    Adjusted R-squared:  0.1746 
-F-statistic: 106.6 on 2 and 997 DF,  p-value: &lt; 2.2e-16</code></pre>
+Residual standard error: 5819 on 997 degrees of freedom
+Multiple R-squared:  0.2127,    Adjusted R-squared:  0.2111 
+F-statistic: 134.7 on 2 and 997 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a></a><span class="fu">check_collinearity</span>(model2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -3546,8 +3546,8 @@ F-statistic: 106.6 on 2 and 997 DF,  p-value: &lt; 2.2e-16</code></pre>
 High Correlation
 
  Term      VIF           VIF 95% CI adj. VIF Tolerance Tolerance 95% CI
-    x 3.50e+05 [3.09e+05, 3.95e+05]   591.22  2.86e-06     [0.00, 0.00]
-    w 3.50e+05 [3.09e+05, 3.95e+05]   591.22  2.86e-06     [0.00, 0.00]</code></pre>
+    x 3.41e+05 [3.01e+05, 3.86e+05]   583.92  2.93e-06     [0.00, 0.00]
+    w 3.41e+05 [3.01e+05, 3.86e+05]   583.92  2.93e-06     [0.00, 0.00]</code></pre>
 </div>
 </div>
 </section></section>

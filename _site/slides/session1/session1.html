@@ -439,7 +439,7 @@ Please cite as:
 <li>Relative path <code>data/file.csv</code>.</li>
 <li>Data on the European elections in “France Métropolitaine” (with departements from 1 to 95), provided by the Ministère de l’Intérieur and slightly recoded (right = LR, far_right = RN, incumbents = Macron, socialists = PS, Greens = Verts).</li>
 <li>Socio-demographic data <a href="https://www.unehistoireduconflitpolitique.fr/">Cagé &amp; Piketty</a>.</li>
-<li>You can download those following links <a href="https://github.com/paulservais-1/methods_policyevaluation/raw/main/slides/session1/data/demographics2024.xlsx">elections</a> and <a href="https://github.com/paulservais-1/methods_policyevaluation/raw/main/slides/session1/data/demographics2024.xlsx">socio-demographic</a>.</li>
+<li>You can download those following links <a href="https://github.com/paulservais-1/methods_policyevaluation/raw/main/slides/session1/data/elections2024.csv">elections</a> and <a href="https://github.com/paulservais-1/methods_policyevaluation/raw/main/slides/session1/data/demographics2024.xlsx">socio-demographic</a>.</li>
 </ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>elections2024 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/elections2024.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -3670,7 +3670,7 @@ Y_i = \beta_0+\beta_1 X_{1i} + \beta_2 X_{2i} + \epsilon_i
 </ul>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] -4.183676e-14</code></pre>
+<pre><code>[1] 1.400622e-13</code></pre>
 </div>
 <div class="cell-output-display">
 <div>
@@ -3709,18 +3709,18 @@ Attaching package: 'MASS'</code></pre>
                                                         linear  
                                    (1)         (2)        (3)   
 ----------------------------------------------------------------
-x                                9.970***   10.172***  10.634***
-                                 (0.110)     (0.657)    (0.554) 
+x                               10.046***    9.443***  9.920*** 
+                                 (0.108)     (0.668)    (0.514) 
                                                                 
-Constant                         -29.586      -8.798    -92.912 
-                                 (62.843)   (383.893)  (323.526)
+Constant                         -13.901     275.818    109.069 
+                                 (62.419)   (386.494)  (297.441)
                                                                 
 ----------------------------------------------------------------
 Observations                      1,000       1,000      1,000  
-R2                                0.891       0.193             
-Adjusted R2                       0.891       0.193             
-Residual Std. Error (df = 998)  1,000.397   5,944.353  4,291.050
-F Statistic (df = 1; 998)      8,193.270*** 239.368***          
+R2                                0.896       0.167             
+Adjusted R2                       0.896       0.166             
+Residual Std. Error (df = 998)   999.743    6,159.134  3,903.343
+F Statistic (df = 1; 998)      8,629.900*** 199.842***          
 ================================================================
 Note:                                *p&lt;0.1; **p&lt;0.05; ***p&lt;0.01</code></pre>
 </div>
@@ -3744,18 +3744,18 @@ lm(formula = y ~ x)
 
 Residuals:
      Min       1Q   Median       3Q      Max 
--25176.5  -2730.6   -127.6   3063.6  27276.8 
+-25796.4  -2433.1    -57.7   3001.8  25646.0 
 
 Coefficients:
             Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept)  81.6870   372.2282   0.219    0.826    
-x             9.5739     0.6375  15.019   &lt;2e-16 ***
+(Intercept) 397.2444   381.3427   1.042    0.298    
+x             8.6206     0.6591  13.080   &lt;2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Residual standard error: 5764 on 998 degrees of freedom
-Multiple R-squared:  0.1844,    Adjusted R-squared:  0.1835 
-F-statistic: 225.6 on 1 and 998 DF,  p-value: &lt; 2.2e-16</code></pre>
+Residual standard error: 6077 on 998 degrees of freedom
+Multiple R-squared:  0.1463,    Adjusted R-squared:  0.1455 
+F-statistic: 171.1 on 1 and 998 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -3765,17 +3765,17 @@ lm(formula = y ~ x + w)
 
 Residuals:
      Min       1Q   Median       3Q      Max 
--25173.2  -2739.8   -125.4   3071.6  27283.9 
+-26073.3  -2486.1      2.4   2935.0  25698.4 
 
 Coefficients:
             Estimate Std. Error t value Pr(&gt;|t|)
-(Intercept)    79.97     372.89   0.214    0.830
-x             -22.03     348.90  -0.063    0.950
-w              31.61     348.92   0.091    0.928
+(Intercept)    390.3      381.2   1.024    0.306
+x              532.1      388.2   1.371    0.171
+w             -523.5      388.2  -1.348    0.178
 
-Residual standard error: 5767 on 997 degrees of freedom
-Multiple R-squared:  0.1844,    Adjusted R-squared:  0.1827 
-F-statistic: 112.7 on 2 and 997 DF,  p-value: &lt; 2.2e-16</code></pre>
+Residual standard error: 6075 on 997 degrees of freedom
+Multiple R-squared:  0.1479,    Adjusted R-squared:  0.1462 
+F-statistic: 86.52 on 2 and 997 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu">check_collinearity</span>(model2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -3784,8 +3784,8 @@ F-statistic: 112.7 on 2 and 997 DF,  p-value: &lt; 2.2e-16</code></pre>
 High Correlation
 
  Term      VIF           VIF 95% CI adj. VIF Tolerance Tolerance 95% CI
-    x 2.99e+05 [2.65e+05, 3.39e+05]   547.06  3.34e-06     [0.00, 0.00]
-    w 2.99e+05 [2.65e+05, 3.39e+05]   547.06  3.34e-06     [0.00, 0.00]</code></pre>
+    x 3.47e+05 [3.07e+05, 3.93e+05]   589.27  2.88e-06     [0.00, 0.00]
+    w 3.47e+05 [3.07e+05, 3.93e+05]   589.27  2.88e-06     [0.00, 0.00]</code></pre>
 </div>
 </div>
 </section>

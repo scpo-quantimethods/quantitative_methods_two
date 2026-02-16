@@ -11,20 +11,31 @@ website:
       - menu:
           - text: "Session 1: OLS"
             href: sessions/session1/session1.qmd
+          - text: "Session 2: Logistic regressions"
+            href: sessions/session2/session2.qmd
+          
       - text: Exercices
       - menu:
           - text: "Exercices 1: OLS"
             href: exercices/exercices1/exercices1.qmd
+            
+          - text: "Exercices 2: Logistic regressions"
+            href: exercices/exercices2/exercices2.qmd
+            
       - text: Slides
       - menu:
           - text: "Slides - session 1"
             href: slides/session1/session1.qmd
+            
+          - text: "Slides - session 2"
+            href: slides/session2/session2.qmd
+            
       - text: Homeworks
       - menu:
           - text: "Homework 1"
-            href: homeworks/homework1.qmd
+            href: homeworks/homework.qmd
           - text: "Homework 2"
-            href: homeworks/homework2.qmd
+            href: homeworks/homework.qmd
       - href: about.qmd
         text: About
 

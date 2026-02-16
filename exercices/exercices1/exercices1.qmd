@@ -18,8 +18,12 @@ The [European social survey](https://www.europeansocialsurvey.org/about-ess) "me
 
 
 ```{r}
-#| echo: false
-#| eval: false
+#| echo: true
+#| eval: true
+library(rio)
+library(tidyverse)
+library(stargazer)
+
 ESS<-import("https://jan-rovny.squarespace.com/s/ESS_FR.dta")
 glimpse(ESS)
 ESS <- ESS %>% select(euftf, happy,yrbrn, eduyrs, gndr)
@@ -68,8 +72,8 @@ You can find the recent survey's dataset on the internet at <https://www.chesdat
   9. Compute a last, fully saturated model, with all your variables except `country`, and run tests of multicollinearity and heteroskedasticity. What do you find ? Comment on the results. Add `as.factor(country)` in the regression and comment on the results.
 
 ```{r}
-#| echo: false
-#| eval: false
+#| echo: true
+#| eval: true
 library(rio)
 library(tidyverse)
 library(stargazer)
@@ -141,8 +145,13 @@ You are provided with data about the legislative and the presidential elections 
 
 
 ```{r}
-#| echo: false
-#| eval: false
+#| echo: true
+#| eval: true
+
+library(rio)
+library(tidyverse)
+library(stargazer)
+
 #2.1
 elections_2022 <- import("https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/exercices/exercices1/data/elections_2022.csv")
 socio_demo <- import("https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/exercices/exercices1/data/soc_dem_2022.csv")

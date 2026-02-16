@@ -12,6 +12,7 @@ format: revealjs
 - Now working on climate politics, comparative politics
 - I've been working on the electoral impacts of wind turbines on the vote for the RN
 
+
 ## And you ?
 - Background ?
 - Expectations ?
@@ -244,7 +245,7 @@ summary(model1)
   - magnitude 
 - Significance levels : compares with $\beta_1 = 0$
   - t-value ($df>1000$) : $t_{.90} = 1.645$, $t_{.95} = 1.96$, $t_{.99} =2.58$
-  - p-value : confidence level for rejecting the null
+  - p-value : probability of obtaining a value as extreme as the computed t-stat with the null
 
 ## The $R^2$ value
 - You can divide your explained variance by your total variance:

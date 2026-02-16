@@ -130,6 +130,7 @@ Within the function, you must specify at least one condition, and you can includ
 Here’s how it works:
 
 ```{r}
+#| eval: false
 case_when(
   condition1 ~ value_if_true1,
   condition2 ~ value_if_true2,
@@ -286,7 +287,403 @@ stargazer::stargazer(
   star.cutoffs = c(0.05, 0.01, 0.001)
 )
 ```
+
+## Interpretation of logistic regression 
+
+Interpreting the results of a logistic regression can initially feel challenging because the model predicts probabilities rather than direct outcomes. This may seem abstract at first. However, once you understand how to interpret the coefficients and odds ratios, it becomes much easier to see how the independent variables relate to the binary outcome—without necessarily transforming the coefficients into more intuitive values.
+
+### The odds ratio
+
+To properly understand the logit, we first need to clarify what it represents: it is the logarithm of the odds. The odds themselves are defined as the ratio between the probability that an event occurs, $p$, and the probability that it does not occur, $1-p$.
+
+\begin{equation}
+\text{ODDS} = \frac{p}{1-p}
+\end{equation}
+
+In other words, the odds tell us how much more (or less) likely the event is to happen than not to happen. For example, if an event has a probability of 0.1, its odds are:
+
+\begin{equation}
+\text{ODDS} = \frac{1/10}{9/10} = 1/9
+\end{equation}
+
+This means the event is nine times less likely to occur than not to occur.
+
+If the probability is 0.8, then the odds are:
+
+\begin{equation}
+\text{ODDS} = \frac{8/10}{2/10} = 4,
+\end{equation}
+
+which means the event is four times more likely to happen than not to happen. Notice that when the probability equals 0.5—meaning the event is equally likely to occur or not—the odds equal 1.
+
+Importantly, the odds are always positive and increase very rapidly as $p \rightarrow 1$. To obtain a more symmetric and analytically convenient measure, we usually take the natural logarithm of the odds. The logit is therefore defined as:
+
+\begin{equation}
+\ln(\text{ODDS}) = \ln\left(\frac{p}{1-p}\right)
+\end{equation}
+
+Unlike the odds, the logit can take any real value, positive or negative. The differences betweens the odds ratio function, the logit, and the logistic functions are shown in the panel below.
+
+::: {.panel-tabset}
+
+## Odds ratio
+```{r}
+p <- c(1:10000)/10000 # probabilities 0.0001, 0.0002, 0.0003,... 0.9998, 0.9999
+plot(p, p/(1-p)) # odds
+```
+## Logit function
+```{r}
+plot(p, log(p/(1-p))) # logit
+```
+## Logistic function
+```{r}
+x <- c(1:10000)
+mu <- 5000
+s <- 500
+plot(x, exp((x-mu)/s)/(1+exp((x-mu)/s))) # logistic function
+```
+:::
+
+
+Now, suppose that the probability $p$ follows a logistic function of some variable $x$ (for instance, $p$ could represent the probability of voting, and $x$ a person’s income). Then we can write:
+
+\begin{equation}
+p(x) = \frac{1}{1 + e^{- (\beta_0 + \beta_1 x)}}
+\end{equation}
+
+Taking the logit of this expression yields a simple linear relationship:
+
+\begin{equation}
+\text{logit}(p(x)) = \beta_0 + \beta_1 x.
+\end{equation}
+
+This expression corresponds to the log of the odds. By exponentiating the logit, we recover the odds:
+
+\begin{equation}
+\text{ODDS} = e^{\text{logit}(p(x))} = e^{\beta_0 + \beta_1 x}.
+\end{equation}
+
+Therefore, a change $\delta x$ in $x$ leads to a multiplicative change of $e^{\beta_1 \delta x}$ in the odds. This makes interpretation straightforward: depending on the sign of $\beta_1$, the event becomes more or less likely to occur. 
+
+Hence, in our case : 
+
+```{r}
+# simply use exp() on the coefficients of the logit
+exp(coef(logit))
+# here would be a second way of doing it
+exp(logit$coefficients)
+```
+
+We can—and should—also report the 95% confidence intervals (CIs). As a brief reminder, a confidence interval provides a range of values that is likely to contain the true value of a parameter—in our case, the coefficients of the predictor variables. This range is associated with a specific level of confidence. The most commonly used confidence levels (note that this is simply a statistical convention) are 95% and, less frequently, 99%.
+
+A 95% confidence interval means that if we were to repeatedly estimate the same logistic regression model using many different samples drawn from the same population, the true parameter value would lie within the calculated confidence interval in 95% of those samples.
+
+```{r}
+# most of the times the extra step in the next lines is not necessary and this 
+# line of code is enough
+exp(cbind(
+  OR = coef(logit), 
+  confint(logit)))
+```
+
+Once we exponentiate the coefficient and obtain the odds ratio (OR), interpretation becomes more straightforward. The odds ratio tells us how the odds of the outcome change with a one-unit increase in a predictor variable. For example, if the odds ratio for political interest is below 1, this means that a one-unit increase in political interest decreases the odds of voting (compared to not voting). The same logic applies to the other variables in the model.
+
+One final point about odds ratios—arguably the most intuitive way to interpret them—is to translate them into percentages.
+
+```{r}
+100*(exp(logit$coefficients[-1])-1)
+```
+
+## The logistic regression 
+
+In logistic regression, coefficients represent the change in the log-odds of the outcome for a one-unit increase in the predictor variable, while holding all other variables constant. The sign of the coefficient indicates the direction of the relationship:
+
+- A positive coefficient means that as the predictor increases, the odds of the outcome increase.
+
+- A negative coefficient means that as the predictor increases, the odds of the outcome decrease.
+
+To make interpretation more intuitive, we often convert coefficients into odds ratios by exponentiating them (this simply reverses the logarithm). The odds ratio represents how the odds of the outcome change for a one-unit increase in the predictor variable compared to a reference value.
+
+- An odds ratio greater than 1 indicates a positive association.
+
+- An odds ratio less than 1 indicates a negative association.
+
+It is also important to remember that logistic regression relies on certain assumptions, including linearity in the logit, independence of observations, and appropriate model specification. Violations of these assumptions can affect both model performance and interpretation. We will revisit diagnostic checks for logistic regression models in a later session.
+
+I know this may sound dense. It is somewhat technical, but it becomes much clearer once we apply the concepts to our actual model. Interpreting exponentiated coefficients as odds ratios will also make the results much more intuitive.
+
+Looking at our model summary, we can already see that most independent variables are statistically significant (p < .05). Typically, we focus our interpretation on statistically significant variables and do not interpret those that are not significant.
+
+From the results, we observe that closeness to a party and age are negatively associated with voting behavior. This makes sense given how the variables are coded. According to the codebook, higher values represent respondents who are less interested, less close to a party, or older (depending on the coding). Therefore, higher values correspond to a lower likelihood of voting on election day.
+
+Trust in politicians, however, is coded in the opposite direction. Higher values indicate lower trust. As a result, the positive coefficient suggests that lower trust in politicians increases the likelihood of not voting. Ideally, it would have been better to code all independent variables in the same direction for easier interpretation, but the results can still be interpreted correctly as long as we carefully consider the coding scheme.
+
+## Predicted probabilities 
+
+Overall, we could now present a table with the odds ratios and move on to writing the paper. However, visualizing results often tells a much clearer and more compelling story. In this section, I will show you how to compute predicted probabilities and how to display them in an effective and visually appealing way.
+
+In logistic regression, predicted probabilities represent the likelihood that an event occurs given specific values of the predictor variables. Rather than interpreting log-odds or odds ratios—which can feel abstract—predicted probabilities provide a simple number between 0 and 1. For instance, instead of stating that higher political interest increases the log-odds of voting, we can say that an individual with high political interest has a 75% probability of voting. This makes the results far more intuitive and easier to communicate.
+
+Predicted probabilities are expressed on the original scale of the independent variables (IVs). This means they directly illustrate how changes in variables—such as political interest, trust in politicians, or education—affect the probability of the outcome. If political interest is measured on a scale from 1 to 4, we can examine how the probability of voting changes at each level of that scale, rather than simply noting whether the relationship is positive or negative. This is a major advantage over coefficient plots, which show direction and magnitude but not the actual likelihood of the outcome. Predicted probabilities therefore allow us to present findings in a way that is both intuitive and closely tied to the real-world measurement of our variables.
+
+The key idea is that we select one predictor variable and decide the values at which we want to estimate the outcome. While doing so, we “hold the other independent variables constant.” This allows us to isolate the effect of the variable we are interested in.
+
+To make this absolutely clear: when calculating predicted probabilities, we focus on one independent variable of interest and keep all other variables fixed—typically at their mean or median, or, in the case of a dummy variable, at one of its two possible values. By holding the other variables constant, we can clearly observe the independent effect of the predictor we care about.
+
+
+```{r}
+# this package contains everything we need craft predicted probabilities and
+# visualize them as well
+library(ggeffects)
+
+# like the predcit() function of Base R, we use ggpredict() and specify
+# our variable of interest
+predicted_probs <- ggpredict(logit, terms = "polintr")
+predicted_probs
+
+# this is the simplest way of plotting this
+ggplot(predicted_probs, aes(x = x, y = predicted)) +
+  # our graph is more or less a line, so geom_line() applies
+  geom_line(color = "blue", size = 1) +
+  geom_point() +
+  # geom_ribbon() with the values that ggpredict() provided for the confidence
+  # intervals then gives
+  # us a shade around the geom_()line as CIs
+  geom_ribbon(aes(ymin = conf.low, ymax = conf.high), fill = "grey", alpha = 0.3) +
+  labs(
+    title = "Predicted Probability of Voting by Political Interest",
+    x = "Political Interest",
+    y = "Predicted Probability of Voting"
+  ) + 
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = 14, face = "bold", hjust = 0.5),
+    axis.title = element_text(size = 12),
+    axis.text = element_text(size = 10)
+  )
+
+```
+
+```{r}
+predicted_probs_gender <- ggpredict(logit, terms = "gndr") 
+
+predicted_probs_gender
+
+ggplot(predicted_probs_gender,
+       aes(x = x, y = predicted, fill = x)) +
+  geom_errorbar(aes(ymin = conf.low, ymax = conf.high), width = 0.2) +
+  geom_point(shape = 21, size = 5) +
+  labs(title = "Predicted Probability of Voting by Gender",
+       x = "Gender",
+       y = "Predicted Probability of Voting",
+       fill = "Gender") +
+  scale_x_discrete(drop = TRUE) +
+  theme_minimal()
+```
+
+# Automating processes
+
+In programming, it often takes time to fully understand and apply new concepts. Once we become comfortable with a process, the next logical step is to think about how to automate it. Automation helps make our work faster, cleaner, and more efficient. After we understand a workflow well, we can usually transfer and automate it in other contexts with relatively little effort.
+
+Take today’s logistic regression as an example. We worked with the ESS data and analyzed the 10th round for France, examining which variables predict abstention. But we could just as easily ask the same research question across multiple waves of the ESS or across multiple countries. If I asked you to run the same logit model for all ESS countries, your first instinct might be to copy and paste your code for each country. However, this would quickly lead to a very long and inelegant script—and the longer the code, the greater the risk of making mistakes.
+
+A good rule of thumb in programming is this: if you find yourself repeating the same steps multiple times, and only a few elements (such as variable names or country identifiers) change, then the task can likely be automated. At some point, the goal should be to build a workflow—or pipeline—that allows your code to run as automatically and efficiently as possible.
+
+In RStudio, there are several ways to achieve this. For example, you can use for-loops to perform the same operation sequentially over a list of elements. Alternatively, you can write your own functions. After all, functions such as glimpse() or read_csv2() were written by someone at some point. As R users, we can do the same. By creating our own functions, we can bundle multiple operations together and then apply them to several objects or subsets of a dataset—such as different countries—at once.
+
+Everything that follows is optional, but I think it is important that you are exposed to these ideas early on. Some of you may already feel confident enough to experiment with automation on your own. If not, that is completely fine—you will get there. My goal here is simply to show you what is possible and to give you a sense of what you can achieve with R.
+
+
+## Functions in R
+
+Functions in R are incredibly powerful and essential for efficient and automated programming. A function in R is defined using the function keyword. The basic structure includes the name of the function, a set of parameters, and the body where the actual computations are performed.
+
+The basic syntax is as follows:
+
+There are some minor conventions in RStudio when writing functions. Some of them also apply to other parts than just functions.
+
+1. You should give them some “breathing” space. When you write the accolades, put a space bar in between.
+
+```{r}
+#| eval: false
+#Bad
+function(x){
+  x + 1
+}
+#Good
+function(x) {
+  x + 1
+}
+```
+2. You should always put a space between the equal sign and the value you assign to a variable. Place spaces around all infix operators (=, +, -, <-, etc.)
+
+```{r}
+#| eval: false
+# this is bad
+data<-read.csv("data.csv")
+# this is good
+data <- read.csv("data.csv")
+```
+
+3. “stretch” your code when possible `ctrl + shift + a` can be of help for that
+```{r}
+# this is bad but in a longer example
+country_model <- function(df) {glm(vote ~ polintr + trstplt + trstprt + clsprty + gndr + yrbrn + eduyrs, family = "binomial", data = df)
+}
+# this is better
+country_model <- function(df) {
+  glm(
+    vote ~ polintr + trstplt + trstprt + clsprty + gndr + yrbrn + eduyrs,
+    family = binomial(link = "logit"),
+    data = df
+  )
+}
+```
+4. We usually assign verbs to functions. This means that the name of the function should be a verb that describes what the function does. If we want to create a function that reads the ESS files and does several operations at once, we should call it something like `read_ess()`.
+
+## The `purrr` package
+
+The purrr package in R is a powerful tool for handling repetitive tasks in a more efficient and elegant way. It is part of the Tidyverse, a collection of R packages designed to make data science faster, more intuitive, and more enjoyable.
+
+In simple terms, purrr improves how we work with lists and vectors in R. It provides functions that allow us to apply operations—whether built-in functions or ones we write ourselves—to each element of a list or vector without explicitly writing loops. This approach is known as functional programming.
+
+Put differently, the functions in purrr enable us to systematically apply a function to every element of a list or vector. Depending on which purrr function we use, the resulting output may differ (for example, returning a list, a vector, or a data frame). We can also control the structure of the output within the custom function that we pass to purrr, giving us both flexibility and efficiency.
+
+### The map function
+
+The map() function from the `purrr` package in R is based on a straightforward but powerful idea: it applies a function to each element of a list or vector and returns a new list containing the results. This process is called mapping, which is why the function is named map().
+
+ ![The map function](images/map.png){width=100%}
+
+
+Here’s how map() works in practice:
+
+```{r}
+library(purrr)
+
+# Example list of numbers
+numbers <- list(1, 2, 3, 4, 5)
+
+# Apply the sqrt() function to each element using map()
+sqrt_results <- map(numbers, sqrt)
+
+# Print the results
+print(sqrt_results)
+sqrt_results[1]
+sqrt_results[[1]]
+sqrt_results[[5]]
+
+```
+
+- **Input**: The main input to map() is a list or vector: in this example, the list with numbers (1,2,3,4,5). This can be as simple as a list of numbers or characters, or more complex objects like vectors within lists or even data frames.
+
+- **Function Application**: You provide a function that you want to apply to each element of the input. Here, the function is `sqrt` (square-root). This function can be a built-in R function or one you’ve written yourself. The important point is that it will be applied separately to each element of the list or vector.
+
+- **Iteration**: map() automatically iterates over each element of your input. There’s no need to write a loop—the function takes care of this internally. For each element, map() applies the function you specified.
+
+- **Output**: The results of the function applied to each element are collected into a new list. Each element of the output list corresponds to the result of the function applied to the respective element of the input.
+
+- **Flexibility in Output Type**: purrr offers specialized versions of map() to control the type of output. For instance, map_dbl() returns numeric values (doubles), map_chr() returns character vectors, and so on. This ensures that the output matches the type you expect, making subsequent analysis easier.
+
+
+## Automating logistic regressions 
+
+Here, I present a code workflow that runs the logistic regression we’ve been working on, but simultaneously for all countries in the ESS. It also plots the odds ratio for our variable of interest, political interest, and compares McFadden’s pseudo R² (we’ll revisit this term in the next session).
+
+To do this, I combine ideas from the optional section of Session 1 with the purrr package. The approach is to build one model per ESS country, then `nest()` the results into a new tibble. (Reminder: a tibble is a modern version of a data frame with enhanced printing and subsetting features.) Each row of this tibble contains all the information necessary for a single country-specific model. We then use `map()`` to apply the `tidy()` function from the broom package to each of these models.
+
+Below is a simple function that takes a dataframe as input and returns a logistic regression model. Inside the function, I only specify the `glm()` call we’ve used before. The argument inside `function()`—in this example, df—is arbitrary; it can be any name you like. This name must appear somewhere inside the function, usually where the operation is applied to the input object. In our case, that’s in data = df.
+```{r}
+country_model <- function(df) {
+  glm(vote ~ polintr + trstplt + trstprt + clsprty + gndr + yrbrn + eduyrs, 
+      family = binomial(link = "logit"), data = df)
+}
+```
+To start, I import the ESS data and select only the variables that we want to use. I also perform some initial cleaning—removing unwanted observations or values—to make sure the dataset is ready for analysis.
+
+```{r}
+# Recoding the 'vote' variable to binary (1 or 0)
+# and filtering the dataset based on specified criteria
+prepared_ess <- ess |> 
+  mutate(vote = ifelse(vote == 1, 1, 0)) |> 
+  filter(
+    vote %in% c(0:1),
+    polintr %in% c(1:4),
+    clsprty %in% c(1:2),
+    trstplt %in% c(0:10),
+    trstprt %in% c(0:10),
+    gndr %in% c(1:2),
+    yrbrn %in% c(1900:2010),
+    eduyrs %in% c(0:50)
+  )
+```
+Then we will `nest()` the data as described (here)[https://luissattelmayer.github.io/quant-2025/session1/session1.html#nesting].
+```{r}
+# library for McFadden pseudo R2
+library(pscl)
+library(broom)
+
+ess <- read_csv("data/ESS_10_fr.csv") |>
+  select(cntry,
+         vote,
+         polintr,
+         trstplt,
+         trstprt,
+         clsprty,
+         gndr,
+         yrbrn,
+         eduyrs)
+
+ess_model <- ess |> 
+  as_tibble() |>  # Convert the data frame to a tibble
+  mutate(vote = ifelse(vote == 1, 1, 0)) |>
+  filter(
+    vote %in% c(0:1),
+    polintr %in% c(1:4),
+    clsprty %in% c(1:2),
+    trstplt %in% c(0:10),
+    trstprt %in% c(0:10),
+    gndr %in% c(1:2),
+    yrbrn %in% c(1900:2010),
+    eduyrs %in% c(0:50)
+  ) |>
+  group_by(cntry) |>
+  nest() |>
+  mutate(
+    model = map(data, country_model),
+    tidied = map(model, ~ tidy(.x, conf.int = TRUE, exponentiate = TRUE)),
+    glanced = map(model, glance),
+    augmented = map(model, augment),
+    mcfadden = map(model, ~ pR2(.x)[4])
+  )
+
+
+# Comparing coefficients
+ess_model |>
+  unnest(tidied) |>
+  filter(term == "polintr") |>
+  ggplot(aes(
+    reorder(cntry, estimate),
+    y = exp(estimate),
+    color = cntry,
+    ymin = exp(conf.low),
+    ymax = exp(conf.high)
+  )) +
+  geom_errorbar(width = 0.4) +
+  geom_point() +
+  ylab("Odds-Ratio of political interest") +
+  xlab("Country") + 
+  coord_flip() +
+  theme_minimal() +
+  theme(
+    legend.position = "none"
+  )
+```
+
+
 # Concept of logistic regression  
+
+
 
 ## The maximum of likelihood estimation 
 
@@ -455,30 +852,6 @@ Now, if you decide that $p$ is a function of other variables $x_1, x_2, x_3$, yo
 But now, imagine you want to understand what drives the probability. In other words, you want to know how different factors (i.e., the explanatory variables) affect the likelihood of the outcome. The logistic regression model, through maximum likelihood estimation, gives you the answer to this question by estimating the coefficients $\beta_1, \beta_2, \dots, \beta_k$, which tell you the effect of each variable on the log-odds of the outcome.
 
 
-
-
-# Case study : gender and voting for the radical right
-
-Recent heated debates in academia have been about the impact of gender on the vote for the radical right : while some argue that women vote less for the radical right, because of its misogynistic legacy and , others show that this depends on the context, while some authors argue that radical right, other show that the radical right has renewed its electoral appeal towards women, by developing so-called femo-nationalism, - a sort of . This debate has found powerful echoes in the public debate, as shown by the FT's 2024 paper shown here (Burn-Murdoch, 2024) : 
-
- ![The radical right gender gap - Financial Times (2024)](images/rr_gap.png){width=100%}
-
-
-That is why three amazing scholars of Sciences Po have sought to understand whether gender had a positive or negative impact on voting for the radical right in France, in the European and presidential elections (Piolat, N., Mayer, N., Durovic, A., 2025). How could you do that ?
-
-Imagine seeking to understand what influences voting for a given party at a micro level, in the second round of the legislative elections for instance : you may conduct a poll collecting information about voting among different people, as well as questions regarding the typical "variables" that may characterise voting in general (Mayer, 2007) : age, gender, social class (through socio-professional category), etc. Your whole empirical investigation will therefore seek to understand whether these variables increase the individual propensity to vote for the radical right. Hence, your dependent variable, voting for the radical right, will typically be of a YES/NO type, since your data is collected at the individual level.
-
-If your research puzzle seeks to identify the role of gender on the vote for the radical right, your main independent variable will be gender, and your 
-
-# With one independent variable
-
-
-# Adding control variables
-
-
-# Case study
-
-A typical case study is for instance . A lot of literature has recently developed over the. That is why researchers from my Center, the CEE, have searched to evaluate 
 
 
 # Bibliography 

@@ -1,5 +1,223 @@
 ---
-title: "exercices2"
+title: "Exercices 2 : logistic regressions"
 format: html
 ---
+
+## 1. Turnout and rain
+
+You are interested in knowing whether turnout, the participation in elections, is conditional on weather: that is, do people vote less when it rains? To do so, you are provided with a (fictitious) data set on American elections in 2012, 2016, and 2020.
+
+0. Load the following packages : 
+```{r}
+library(ggeffects)
+library(ggplot2)
+library(tidyverse)
+library(rio)
+```
+1. Using `rio` and the function `import`, import the data from <>. 
+2. Have a look at your data using `glimpse()`. Drop all variables except `voted, voted_prev, rain_mm, age, female, year`.
+3. You want to inspect whether the chances of voting change with the rainfall on the day of the election, `rain_mm`. The variable `vote` tells if people have voted in the elections. What would be your dependent and independent variables ? Are they categorical or continuous ?
+4. Count the total number of voters and summarize the `rain_mm` variable. Are there NA's in the data set ?
+5. Using `mutate`, `case_when`, prepare the `voted` variable for the logistic regression. 
+6. Assuming you are estimating a logistic regression, what is the mathematical expression of the probability function as a function of rainfall, denoted $R_mm$ ? What is the corresponding expression for the logit of that probability? Finally, what is the expression for the odds ratio?
+7. Run a logistic regression with one variable to estimate whether the rain changes anything in the probabilities of voting. For a 1-mm increase in the rainfall, how does the likelihood of voting change ? How significant is that result ? 
+8. Does voting in the previous election change the probabilities of voting in the next one ?
+9. Add the variables `voted_prev, female, age, rain_mm, as.factor(year)` in the predictors, and compare the three models, using the `stargazer` package;
+10. Use the `ggpredict` function from package `ggeffects` to predict the probabilities of voting depending on rain_mm. Have a look at your predictions.
+11. Use `ggplot` to plot the predicted probabilities with their confidence intervals, with their confidence intervals. Hint : use `+ geom_ribbon(aes(ymin = conf.low, ymax = conf.high), alpha = 0.2)` to display smooth confidence intervals, and `geom_line()` to add a line connecting the dots.
+
+```{r}
+#| echo: false
+#| eval: false
+
+# run install.packages() if you haven't the packages already installed
+library(ggeffects)
+library(ggplot2)
+library(tidyverse)
+library(rio)
+library(stargazer)
+#1.1
+rain_vote <- import("/Users/paulservais/Library/CloudStorage/ProtonDrive-paservai@protonmail.com-folder/Website/quantitative_methods_two/exercices/exercices2/data/rainfall.dta")
+
+#1.2
+glimpse(rain_vote)
+rain_vote <- rain_vote %>% select(voted, voted_prev, rain_mm, age, female, year)
+
+#1.3
+# DV : voting (binary)
+# IV : raining. Likely exogeneous (uncorrelated with the error)
+
+#1.4
+table(rain_vote$voted)
+summary(rain_vote$rain_mm)
+summary(rain_vote)
+
+#1.5
+# with case_when()
+rain_vote <- rain_vote %>% mutate(
+  voted = case_when(
+    voted == "voted" ~ 1,
+    voted == "did not vote" ~ 0
+  )
+)
+
+#1.6
+log_model <- glm(
+  data = rain_vote,
+  voted ~ rain_mm,
+  family = "binomial"
+)
+exp(log_model$coefficients)-1
+exp(coef(log_model))-1
+
+#1.7
+log_model2 <- glm(
+  data = rain_vote,
+  voted ~ voted_prev,
+  family = "binomial"
+)
+exp(log_model2$coefficients)-1
+exp(coef(log_model2))-1
+
+#1.8
+log_model3 <- glm(
+  data = rain_vote,
+  voted ~ voted_prev+female+age+rain_mm+as.factor(year),
+  family = "binomial"
+)
+
+
+#1.8
+stargazer(log_model, log_model2, log_model3,
+  type = "text",
+  dep.var.labels = "Voting Behavior",
+  dep.var.caption = c("Voting turnout; 0 = abstention | 1 = voted"),
+  star.cutoffs = c(0.05, 0.01, 0.001)
+)
+
+#1.9
+predicted_probs <- ggpredict(log_model3, terms = "rain_mm") 
+predicted_probs 
+
+#1.10
+ggplot(predicted_probs, aes(x = x, y = predicted)) +
+  geom_ribbon(aes(ymin = conf.low, ymax = conf.high), alpha = 0.2) +  # smooth CI
+  geom_line(linewidth = 1.2, color = "steelblue") +
+  geom_point(shape = 21, size = 3, color = "steelblue") +
+  labs(
+    title = "Predicted probability of voting by rainfall",
+    x = "Rainfall (mm)",
+    y = "Predicted probability of voting"
+  ) +
+  theme_minimal()
+```
+
+## 2. ESS : voting in Italy
+You are provided with a simplified dataset containing ESS data for Italy.
+
+1. Download the dataset and import it into your local environment.
+2. Inspect the dataset using `glimpse`.
+3. Examine the values of the vote variable and modify them using `case_when` if necessary. Prepare the variable for a logistic regression. Review the other variables as well and modify them as needed. You may draw on the theory section for this session for guidance.
+4. Run a logistic regression to analyze whether the number of years of education influences the probability of voting.
+5. Create a variable `age` and include the variables `polintr, trstplt, clsprty, gndr, age, eduyrs` in the logistic regression.
+6. Compare the two models using `stargazer`.
+7. Plot the predicted probability of voting by years of education.
+
+```{r}
+#| echo: false
+#| eval: false
+
+
+#1.1
+ess <- import("/Users/paulservais/Library/CloudStorage/ProtonDrive-paservai@protonmail.com-folder/Website/quantitative_methods_two/sessions/session2/data/ess_it.csv")
+
+glimpse(ess)
+
+#1.2
+table(ess$vote)
+ess <- ess |> 
+  # mutating the dependent variable to get rid of any unnecessary rows
+  # as we have done above
+  mutate(
+    vote = case_when(
+      vote %in% c(3, 7, 8, 9) ~ NA_integer_,
+      vote == 2 ~ 0,
+      vote == 1 ~ 1, 
+      TRUE ~ vote
+    ),
+    # Recode 'polintr' to drop values 7 to 9
+    polintr = case_when(
+      polintr %in% c(7:9) ~ NA_integer_,
+      TRUE ~ polintr
+    ),
+    # Recode 'clsprty' 1/2 into 0/1 and drop 7, 8
+    clsprty = case_when(
+      clsprty == 1 ~ 0,
+      clsprty == 2 ~ 1,
+      clsprty %in% c(7, 8) ~ NA_integer_,
+      TRUE ~ clsprty
+    ),
+    # Recode 'gndr' into 0/1 and handle other cases as NAs
+    gndr = case_when(
+      gndr == 1 ~ 0,
+      gndr == 2 ~ 1,
+      TRUE ~ NA_integer_
+    ),
+    # recode eduyrs
+    eduyrs = case_when(
+      eduyrs %in% c(1:55) ~ eduyrs,
+      TRUE ~ NA_integer_
+    )
+  )
+#1.3
+table(ess$vote)
+
+#1.3
+logit1 <- glm(
+  vote ~  eduyrs,
+  data = ess %>% mutate(age = 2026-yrbrn),
+  family = "binomial")
+
+logit2 <- glm(
+  vote ~ polintr + trstplt + clsprty + gndr +age + eduyrs,
+  data = ess %>% mutate(age = 2026-yrbrn),
+  family = "binomial")
+
+#1.4
+# simply use exp() on the coefficients of the logit
+exp(coef(logit))
+# here would be a second way of doing it
+exp(logit$coefficients)
+exp(cbind(
+  OR = coef(logit), 
+  confint(logit)))
+
+#1.5
+stargazer(logit1, logit2, 
+          type = "text",
+         dep.var.labels = "Voting Behavior",
+         dep.var.caption = c("Voting turnout; 0 = abstention | 1 = voted"),
+          star.cutoffs = c(0.05, 0.01, 0.001))
+
+#1.6
+predicted_probs <- ggpredict(logit, terms = "eduyrs")
+predicted_probs
+
+ggplot(predicted_probs, aes(x = x, y = predicted)) +
+  geom_line(color = "blue", size = 1) +
+  geom_point() +
+  geom_ribbon(aes(ymin = conf.low, ymax = conf.high), fill = "grey", alpha = 0.3) +
+  labs(
+    title = "Predicted Probability of Voting by education years",
+    x = "Education years",
+    y = "Predicted Probability of Voting"
+  ) + 
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = 14, face = "bold", hjust = 0.5),
+    axis.title = element_text(size = 12),
+    axis.text = element_text(size = 10)
+  )
+
+```
 
