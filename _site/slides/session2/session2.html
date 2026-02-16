@@ -220,6 +220,15 @@
 </ul></li>
 </ul>
 </section>
+<section>
+<section id="today" class="title-slide slide level1 center">
+<h1>Today</h1>
+<ol type="1">
+<li>The logic behind logits</li>
+<li>An example with made-up data</li>
+<li>A coding example with ESS data</li>
+</ol>
+</section>
 <section id="the-logic" class="slide level2">
 <h2>The logic</h2>
 <ul>
@@ -526,11 +535,11 @@ continuous_var | Predicted |     95% CI
 <h2>An example : ESS with French data</h2>
 <ul>
 <li>You want to analyse the impact of political interest on turnout</li>
-<li>You can download it <a href="">here</a></li>
+<li>You can download it <a href="https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/sessions/session2/data/ESS_10_fr.csv">here</a></li>
 </ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a></a><span class="fu">library</span>(rio)</span>
-<span id="cb16-2"><a></a>ess <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="st">"/Users/paulservais/Library/CloudStorage/ProtonDrive-paservai@protonmail.com-folder/Website/quantitative_methods_two/sessions/session2/data/ESS_10_fr.csv"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb16-2"><a></a>ess <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="st">"https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/sessions/session2/data/ESS_10_fr.csv"</span>) <span class="sc">%&gt;%</span> </span>
 <span id="cb16-3"><a></a>  <span class="fu">select</span>(</span>
 <span id="cb16-4"><a></a>    cntry,</span>
 <span id="cb16-5"><a></a>    polintr,</span>
@@ -847,17 +856,28 @@ Adjusted for:
 <section id="with-a-continuous-variable" class="slide level2">
 <h2>With a continuous variable</h2>
 
-<img data-src="session2_files/figure-revealjs/unnamed-chunk-31-1.png" width="960" class="r-stretch"></section>
-<section id="exercices" class="slide level2">
+<img data-src="session2_files/figure-revealjs/unnamed-chunk-31-1.png" width="960" class="r-stretch"></section></section>
+<section>
+<section id="exercices" class="title-slide slide level1 center">
+<h1>Exercices</h1>
+
+</section>
+<section id="exercices-1" class="slide level2">
 <h2>Exercices</h2>
 <ul>
 <li>Turnout and rainfall (mm): see exercices</li>
 <li>Turnout and education years : see exercices</li>
 <li>Voting for the radical right, age and gender (homework)</li>
 </ul>
-
-
 </section>
+<section id="exercice-1" class="slide level2">
+<h2>Exercice 1</h2>
+</section>
+<section id="exercice-2" class="slide level2">
+<h2>Exercice 2</h2>
+
+
+</section></section>
     </div>
   <div class="quarto-auto-generated-content" style="display: none;">
 <div class="footer footer-default">

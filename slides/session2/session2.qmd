@@ -567,12 +567,12 @@ ggplot(predicted_probs, aes(x = x, y = predicted)) +
 
 ## An example : ESS with French data {.scrollable}
 - You want to analyse the impact of political interest on turnout
-- You can download it [here]()
+- You can download it [here](https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/sessions/session2/data/ESS_10_fr.csv)
 
 ```{r}
 #| echo: true
 library(rio)
-ess <- import("/Users/paulservais/Library/CloudStorage/ProtonDrive-paservai@protonmail.com-folder/Website/quantitative_methods_two/sessions/session2/data/ESS_10_fr.csv") %>% 
+ess <- import("https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/sessions/session2/data/ESS_10_fr.csv") %>% 
   select(
     cntry,
     polintr,

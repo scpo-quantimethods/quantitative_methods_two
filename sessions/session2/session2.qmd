@@ -44,7 +44,8 @@ When importing a data set, you might need to make some changes in it, to prepare
 Here, I have already imported the data on my computer, and stored it in a subfolder called `data` located in the same folder as my script, which is why I call the relative path `data/ess_10.csv`. You can easily download the same data set by downloading it from the link we provide <>. You can either import it directly using `rio` and the `url` link we provide, or store it on your computer and import it using `import` or `read_csv`. A good reflex is to look at the variable names using `colnames()`, and have a glimpse at your data using `glimpse`, right after import, to inspect it.  
 
 ```{r}
-ess <- read_csv("/Users/paulservais/Library/CloudStorage/ProtonDrive-paservai@protonmail.com-folder/Website/quantitative_methods_two/sessions/session2/data/ESS_10_fr.csv")
+library(rio)
+ess <- import("https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/sessions/session2/data/ESS_10_fr.csv")
 colnames(ess)
 glimpse(ess)
 ```

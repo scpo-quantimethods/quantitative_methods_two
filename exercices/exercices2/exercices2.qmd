@@ -14,7 +14,7 @@ library(ggplot2)
 library(tidyverse)
 library(rio)
 ```
-1. Using `rio` and the function `import`, import the data from <>. 
+1. Using `rio` and the function `import`, import the data from <https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/exercices/exercices2/data/rain_fall.dta>. 
 2. Have a look at your data using `glimpse()`. Drop all variables except `voted, voted_prev, rain_mm, age, female, year`.
 3. You want to inspect whether the chances of voting change with the rainfall on the day of the election, `rain_mm`. The variable `vote` tells if people have voted in the elections. What would be your dependent and independent variables ? Are they categorical or continuous ?
 4. Count the total number of voters and summarize the `rain_mm` variable. Are there NA's in the data set ?
@@ -115,7 +115,7 @@ ggplot(predicted_probs, aes(x = x, y = predicted)) +
 ## 2. ESS : voting in Italy
 You are provided with a simplified dataset containing ESS data for Italy.
 
-1. Download the dataset and import it into your local environment.
+1. Download the dataset and import it into your local environment, using the link <https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/exercices/exercices2/data/ess_it.csv>.
 2. Inspect the dataset using `glimpse`.
 3. Examine the values of the vote variable and modify them using `case_when` if necessary. Prepare the variable for a logistic regression. Review the other variables as well and modify them as needed. You may draw on the theory section for this session for guidance.
 4. Run a logistic regression to analyze whether the number of years of education influences the probability of voting.

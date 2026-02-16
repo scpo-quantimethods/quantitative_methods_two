@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="dcterms.date" content="2026-02-16">
 
-<title>First homework – Quantitative methods II</title>
+<title>First homework - Logistic regressions – Quantitative methods II</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -143,6 +144,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="dropdown-item" href="../sessions/session1/session1.html">
  <span class="dropdown-text">Session 1: OLS</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../sessions/session2/session2.html">
+ <span class="dropdown-text">Session 2: Logistic regressions</span></a>
+  </li>  
     </ul>
   </li>
   <li class="nav-item">
@@ -158,6 +163,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li>
     <a class="dropdown-item" href="../exercices/exercices1/exercices1.html">
  <span class="dropdown-text">Exercices 1: OLS</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../exercices/exercices2/exercices2.html">
+ <span class="dropdown-text">Exercices 2: Logistic regressions</span></a>
   </li>  
     </ul>
   </li>
@@ -175,6 +184,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="dropdown-item" href="../slides/session1/session1.html">
  <span class="dropdown-text">Slides - session 1</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../slides/session2/session2.html">
+ <span class="dropdown-text">Slides - session 2</span></a>
+  </li>  
     </ul>
   </li>
   <li class="nav-item">
@@ -188,11 +201,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu--3">    
         <li>
-    <a class="dropdown-item" href="../homeworks/homework1.html">
+    <a class="dropdown-item" href="../homeworks/homework.html">
  <span class="dropdown-text">Homework 1</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../homeworks/homework2.html">
+    <a class="dropdown-item" href="../homeworks/homework.html">
  <span class="dropdown-text">Homework 2</span></a>
   </li>  
     </ul>
@@ -217,10 +230,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#case-study-gender-and-voting-for-the-radical-right" id="toc-case-study-gender-and-voting-for-the-radical-right" class="nav-link active" data-scroll-target="#case-study-gender-and-voting-for-the-radical-right">Case study : gender and voting for the radical right</a>
-  <ul class="collapse">
+  <li><a href="#case-study-gender-and-voting-for-the-radical-right" id="toc-case-study-gender-and-voting-for-the-radical-right" class="nav-link active" data-scroll-target="#case-study-gender-and-voting-for-the-radical-right">Case study : gender and voting for the radical right</a></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
-  </ul></li>
   </ul>
 </nav>
     </div>
@@ -229,7 +240,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">First homework</h1>
+<h1 class="title">First homework - Logistic regressions</h1>
+<p class="subtitle lead">Quantitative methods II - tutorials</p>
 </div>
 
 
@@ -237,6 +249,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="quarto-title-meta">
 
     
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">February 16, 2026</p>
+    </div>
+  </div>
   
     
   </div>
@@ -248,14 +266,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="case-study-gender-and-voting-for-the-radical-right" class="level1">
 <h1>Case study : gender and voting for the radical right</h1>
-<p>Recent debates in academia have focused on the impact of gender on voting for the radical right. While some scholars argue that women vote less for the radical right, others argue that this effect of gender may depend on the context. Some authors even suggest that the radical right has renewed its electoral appeal to women by developing so-called “femo-nationalism”—a form of nationalism that incorporates elements of feminism. This academic debate has also resonated in the public sphere, as illustrated by the Financial Times’ 2024 paper (Burn-Murdoch, 2024)</p>
+<p>Recent debates in academia have focused on the impact of gender on voting for the radical right. While some scholars argue that women vote less for the radical right, others argue that this effect of gender may depend on the context. Some authors even suggest that the radical right has renewed its electoral appeal to women by developing so-called “femo-nationalism”—a form of nationalism that incorporates elements of feminism. This academic debate has also resonated in the public sphere, as illustrated by the Financial Times’ 2024 paper (Burn-Murdoch, 2024) entitled “A New Global Gender Divide Is Emerging”.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="rr_gap.png" class="img-fluid figure-img" style="width:100.0%"></p>
 <figcaption>The radical right gender gap - Financial Times (2024)</figcaption>
 </figure>
 </div>
-<p>For this reason, researchers have recently sought to understand whether gender has a positive or negative effect on voting for the radical right in France, particularly in the European and legislative elections (Piolat, N., Mayer, N., Durovic, A., 2025). Their papers are available <a href="https://journals.openedition.org/ress/12111">here</a> and <a href="https://shs.cairn.info/revue-revue-francaise-de-science-politique-2025-1-page-39?lang=fr">here</a>. You are provided with a simplified dataset they used to conduct their analysis, which you would like to replicate and eventually extend.</p>
+<p>For this reason, researchers have recently sought to understand whether gender has a positive or negative effect on voting for the radical right in France, particularly in the European and legislative elections (Piolat, N., Mayer, N., Durovic, A., 2025). Their papers are available <a href="https://journals.openedition.org/ress/12111">here</a> and <a href="https://shs.cairn.info/revue-revue-francaise-de-science-politique-2025-1-page-39?lang=fr">here</a>. In order to replicate and complement their findings, you are provided with a simplified dataset they used to conduct their analysis. Using R, you are asked to answer the following questions (by groups of 2 or 3) and submit the code you used in either a PDF or HTML file.</p>
 <ol type="1">
 <li><p>Download the dataset following &lt;&gt; and import it into your local R environment.</p></li>
 <li><p>If you are interested in how voting for the radical right varies by gender, determine:</p></li>
@@ -321,11 +339,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <ol start="9" type="1">
 <li><p>Run a logistic regression including the interaction <code>age*female</code>. Plot the interaction results using <code>library(ggeffects)</code> and <code>ggpredict</code>. Hint: use <code>geom_ribbon()</code> to display confidence intervals.</p></li>
-<li><p>Run a similar regression with <code>female*cohort</code> and plot the interactions using <code>library(ggeffects)</code> and <code>ggpredict()</code>. Hint: use <code>geom_errorbar()</code> to display confidence intervals. Is the linear prediction presented in question 1 a good fit ?</p></li>
+<li><p>Run a similar regression with <code>female*cohort</code> and plot the interactions using <code>library(ggeffects)</code> and <code>ggpredict()</code>. Hint: use <code>geom_errorbar()</code> to display confidence intervals.</p></li>
 <li><p>Bonus : Repeat the analysis for the second round of legislative elections. Compare the results with the first round in a text of 5 lines max.</p></li>
 </ol>
-<section id="references" class="level2">
-<h2 class="anchored" data-anchor-id="references">References</h2>
+</section>
+<section id="references" class="level1">
+<h1>References</h1>
 <ul>
 <li>Burn-Murdoch, John. 2024. “A New Global Gender Divide Is Emerging.” Financial Times. https://www.ft.com/content/29fd9b5c-2f35-41bf-9d4c-994db4e12998 (January 30, 2026).</li>
 <li>Durovic, Anja, Nonna Mayer, and Noémie Piolat. 2025. “Ni tout à fait le même ni tout à fait un autre:Le vote aux élections législatives de 2024 au prisme du genre et de l’âge.” Revue française de science politique 75(1): 39–65. doi:10.3917/rfsp.751.0039.</li>
@@ -333,7 +352,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
