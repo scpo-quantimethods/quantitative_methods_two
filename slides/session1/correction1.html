@@ -3447,7 +3447,7 @@ Y_i = \beta_0+\beta_1 X_{1i} + \beta_2 X_{2i} + \beta_3 X_{1i} X_{2i}  + \epsilo
 </ul>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] -1.667297e-13</code></pre>
+<pre><code>[1] -3.29301e-14</code></pre>
 </div>
 
 <div class="cell-output cell-output-stdout">
@@ -3471,18 +3471,18 @@ Y_i = \beta_0+\beta_1 X_{1i} + \beta_2 X_{2i} + \beta_3 X_{1i} X_{2i}  + \epsilo
                                                         linear  
                                    (1)         (2)        (3)   
 ----------------------------------------------------------------
-x                                9.961***   10.046***  10.577***
-                                 (0.105)     (0.655)    (0.497) 
+x                                9.871***   10.531***  10.598***
+                                 (0.106)     (0.628)    (0.526) 
                                                                 
-Constant                          0.565      -108.452  -233.778 
-                                 (60.979)   (368.424)  (279.571)
+Constant                          22.586     -229.822  -200.689 
+                                 (62.435)   (364.903)  (305.500)
                                                                 
 ----------------------------------------------------------------
 Observations                      1,000       1,000      1,000  
-R2                                0.900       0.191             
-Adjusted R2                       0.900       0.190             
-Residual Std. Error (df = 998)   948.034    5,939.187  3,669.289
-F Statistic (df = 1; 998)      8,955.876*** 235.126***          
+R2                                0.896       0.220             
+Adjusted R2                       0.896       0.219             
+Residual Std. Error (df = 998)   986.677    5,717.326  3,942.575
+F Statistic (df = 1; 998)      8,599.343*** 280.848***          
 ================================================================
 Note:                                *p&lt;0.1; **p&lt;0.05; ***p&lt;0.01</code></pre>
 </div>
@@ -3506,18 +3506,18 @@ lm(formula = y ~ x)
 
 Residuals:
      Min       1Q   Median       3Q      Max 
--23514.4  -2598.1     32.7   2464.1  27641.3 
+-24667.6  -2819.1    -94.1   2639.3  22170.6 
 
 Coefficients:
             Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept) -12.6959   363.9424  -0.035    0.972    
-x             9.9961     0.6472  15.446   &lt;2e-16 ***
+(Intercept) 223.6211   367.5506   0.608    0.543    
+x             9.3321     0.6329  14.744   &lt;2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Residual standard error: 5867 on 998 degrees of freedom
-Multiple R-squared:  0.1929,    Adjusted R-squared:  0.1921 
-F-statistic: 238.6 on 1 and 998 DF,  p-value: &lt; 2.2e-16</code></pre>
+Residual standard error: 5759 on 998 degrees of freedom
+Multiple R-squared:  0.1789,    Adjusted R-squared:  0.178 
+F-statistic: 217.4 on 1 and 998 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a></a><span class="fu">summary</span>(model2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -3527,17 +3527,17 @@ lm(formula = y ~ x + w)
 
 Residuals:
      Min       1Q   Median       3Q      Max 
--23561.3  -2590.9     27.4   2481.0  27655.4 
+-24944.0  -2816.6    -49.8   2654.7  21667.6 
 
 Coefficients:
             Estimate Std. Error t value Pr(&gt;|t|)
-(Intercept)   -8.722    365.571  -0.024    0.981
-x            -34.949    367.780  -0.095    0.924
-w             44.941    367.744   0.122    0.903
+(Intercept)    226.0      367.3   0.615    0.538
+x              586.9      365.8   1.604    0.109
+w             -577.6      365.8  -1.579    0.115
 
-Residual standard error: 5870 on 997 degrees of freedom
-Multiple R-squared:  0.1929,    Adjusted R-squared:  0.1913 
-F-statistic: 119.2 on 2 and 997 DF,  p-value: &lt; 2.2e-16</code></pre>
+Residual standard error: 5755 on 997 degrees of freedom
+Multiple R-squared:  0.1809,    Adjusted R-squared:  0.1793 
+F-statistic: 110.1 on 2 and 997 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a></a><span class="fu">check_collinearity</span>(model2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -3546,8 +3546,8 @@ F-statistic: 119.2 on 2 and 997 DF,  p-value: &lt; 2.2e-16</code></pre>
 High Correlation
 
  Term      VIF           VIF 95% CI adj. VIF Tolerance Tolerance 95% CI
-    x 3.23e+05 [2.85e+05, 3.65e+05]   568.00  3.10e-06     [0.00, 0.00]
-    w 3.23e+05 [2.85e+05, 3.65e+05]   568.00  3.10e-06     [0.00, 0.00]</code></pre>
+    x 3.35e+05 [2.96e+05, 3.78e+05]   578.39  2.99e-06     [0.00, 0.00]
+    w 3.35e+05 [2.96e+05, 3.78e+05]   578.39  2.99e-06     [0.00, 0.00]</code></pre>
 </div>
 </div>
 </section></section>
