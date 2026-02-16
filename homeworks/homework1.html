@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="dcterms.date" content="2026-02-16">
 
-<title>homework1 – Quantitative methods II</title>
+<title>First homework - Logistic regressions – Quantitative methods II</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -41,7 +77,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-0b37c64f34216b628666a8dac638b53b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-afa37c5c79185640b9c231024f4fe5ea.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -109,6 +145,10 @@ ul.task-list li input[type="checkbox"] {
     <a class="dropdown-item" href="../sessions/session1/session1.html">
  <span class="dropdown-text">Session 1: OLS</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../sessions/session2/session2.html">
+ <span class="dropdown-text">Session 2: Logistic regressions</span></a>
+  </li>  
     </ul>
   </li>
   <li class="nav-item">
@@ -124,6 +164,10 @@ ul.task-list li input[type="checkbox"] {
         <li>
     <a class="dropdown-item" href="../exercices/exercices1/exercices1.html">
  <span class="dropdown-text">Exercices 1: OLS</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../exercices/exercices2/exercices2.html">
+ <span class="dropdown-text">Exercices 2: Logistic regressions</span></a>
   </li>  
     </ul>
   </li>
@@ -141,6 +185,10 @@ ul.task-list li input[type="checkbox"] {
     <a class="dropdown-item" href="../slides/session1/session1.html">
  <span class="dropdown-text">Slides - session 1</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../slides/session2/session2.html">
+ <span class="dropdown-text">Slides - session 2</span></a>
+  </li>  
     </ul>
   </li>
   <li class="nav-item">
@@ -154,11 +202,11 @@ ul.task-list li input[type="checkbox"] {
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu--3">    
         <li>
-    <a class="dropdown-item" href="../homeworks/homework1.html">
+    <a class="dropdown-item" href="../homeworks/homework.html">
  <span class="dropdown-text">Homework 1</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../homeworks/homework2.html">
+    <a class="dropdown-item" href="../homeworks/homework.html">
  <span class="dropdown-text">Homework 2</span></a>
   </li>  
     </ul>
@@ -178,17 +226,134 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#case-study-gender-and-voting-for-the-radical-right" id="toc-case-study-gender-and-voting-for-the-radical-right" class="nav-link active" data-scroll-target="#case-study-gender-and-voting-for-the-radical-right">Case study : gender and voting for the radical right</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">First homework - Logistic regressions</h1>
+<p class="subtitle lead">Quantitative methods II - tutorials</p>
+</div>
 
 
 
+<div class="quarto-title-meta">
+
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">February 16, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
 
 
+</header>
 
+
+<section id="case-study-gender-and-voting-for-the-radical-right" class="level1">
+<h1>Case study : gender and voting for the radical right</h1>
+<p>Recent debates in academia have focused on the impact of gender on voting for the radical right. While some scholars argue that women vote less for the radical right, others argue that this effect of gender may depend on the context. Some authors even suggest that the radical right has renewed its electoral appeal to women by developing so-called “femo-nationalism”—a form of nationalism that incorporates elements of feminism. This academic debate has also resonated in the public sphere, as illustrated by the Financial Times’ 2024 paper (Burn-Murdoch, 2024) entitled “A New Global Gender Divide Is Emerging”.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="rr_gap.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<figcaption>The radical right gender gap - Financial Times (2024)</figcaption>
+</figure>
+</div>
+<p>For this reason, researchers have recently sought to understand whether gender has a positive or negative effect on voting for the radical right in France, particularly in the European and legislative elections (Piolat, N., Mayer, N., Durovic, A., 2025). Their papers are available <a href="https://journals.openedition.org/ress/12111">here</a> and <a href="https://shs.cairn.info/revue-revue-francaise-de-science-politique-2025-1-page-39?lang=fr">here</a>. In order to replicate and complement their findings, you are provided with a simplified dataset they used to conduct their analysis. Using R, you are asked to answer the following questions (by groups of 2 or 3) and submit the code you used in either a PDF or HTML file.</p>
+<ol type="1">
+<li><p>Download the dataset following &lt;&gt; and import it into your local R environment.</p></li>
+<li><p>If you are interested in how voting for the radical right varies by gender, determine:</p></li>
+</ol>
+<ul>
+<li><strong>Your dependent variable</strong></li>
+<li><strong>Your independent variable</strong> Are they continuous, categorical ?</li>
+</ul>
+<ol start="3" type="1">
+<li>The dataset is in .stata format. You can inspect the different values a variable takes by calling: <code>attributes(data_set$variable)</code>. Do that for variable <code>first_round_vote</code>. Then, create three variables:</li>
+</ol>
+<ul>
+<li><code>voteRN</code> = 1 if the respondent voted for RN in the first round, 0 otherwise (NA if no answer),</li>
+<li><code>voteREC</code>= 1 if the respondent voted for Reconquête in the first round, 0 otherwise (NA if no answer)</li>
+<li><code>voteRR</code>= 1 if the respondent voted for either RN or Reconquête, 0 otherwise Verify that the number of radical right voters equals the sum of RN and Reconquête voters. Using 2026 as the reference year, create a variable <code>age</code>.</li>
+</ul>
+<ol start="4" type="1">
+<li>Define a variable <code>female = 1</code> if the respondent identifies as a woman, 0 if male, and <code>NA_character_</code> otherwise (too few respondents in other categories or no answer).</li>
+</ol>
+<ul>
+<li>Clean <code>union_member, educ, religion</code>, and <code>income</code> by recoding non-responses as <code>NA</code>.</li>
+<li>Create a nominal variable <code>cohort</code> by grouping ages into decades: <code>&lt;30, 30–39, 40–49, …, 80+</code>, then run</li>
+</ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>dataset<span class="sc">$</span>cohort <span class="ot">&lt;-</span> <span class="fu">factor</span>(data<span class="sc">$</span>cohort,</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>                      <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"20-30"</span>,<span class="st">"30-40"</span>,<span class="st">"40-50"</span>,<span class="st">"50-60"</span>,<span class="st">"60-70"</span>,<span class="st">"70-79"</span>,<span class="st">"80+"</span>),</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">ordered =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>to make sure the cohorts are logically ordered.</p>
+<ol start="5" type="1">
+<li><p>Plot a histogram of the <code>age</code> variable with 10 breaks. Identify the most frequent decade in the dataset.</p></li>
+<li><p>Run a logistic regression predicting the probability of voting for RN based on gender and age. Interpret the results:</p></li>
+</ol>
+<ul>
+<li>How does a one-year increase in age affect the odds of voting for RN?</li>
+<li>How does being a woman affect the odds ratio?</li>
+</ul>
+<ol start="7" type="1">
+<li>Include <code>as.factor(educ)</code> in the regression. Compare models using <code>stargazer()</code> by adapting the code below, which exponentiates the coefficients from your logistic regressions:</li>
+</ol>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>exp_coef1 <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="fu">coef</span>(model1))</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>exp_coef2 <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="fu">coef</span>(model2))</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>exp_ci1 <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="fu">confint</span>(model1))</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>exp_ci2 <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="fu">confint</span>(model2))</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="fu">stargazer</span>(model1, model2,</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>          <span class="at">type =</span> <span class="st">"text"</span>,            </span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>          <span class="at">coef =</span> <span class="fu">list</span>(exp_coef1, exp_coef2),</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>          <span class="at">ci =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>          <span class="at">ci.custom =</span> <span class="fu">list</span>(exp_ci1, exp_ci2),</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>          <span class="at">p.auto =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>          <span class="at">title =</span> <span class="st">"Logistic Regression (Odds Ratios)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Interpret the results: How does attending a “grande école” affect the odds of voting for the radical right? Is the coefficient on gender still significant ?</p>
+<ol start="8" type="1">
+<li>Include in the regression <code>religion, union_member</code>, and <code>income</code>. Only use as.factor(variable) for nominal variables with more than two categories. Disregard the warning : <code>Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred</code>.</li>
+</ol>
+<ul>
+<li>Compare your results. Some religious practices may substantially reduce the odds of voting for RN. Which religions are these? Are the results in line with your expectations?</li>
+<li>Which cohort is most likely to vote for RN?</li>
+</ul>
+<ol start="9" type="1">
+<li><p>Run a logistic regression including the interaction <code>age*female</code>. Plot the interaction results using <code>library(ggeffects)</code> and <code>ggpredict</code>. Hint: use <code>geom_ribbon()</code> to display confidence intervals.</p></li>
+<li><p>Run a similar regression with <code>female*cohort</code> and plot the interactions using <code>library(ggeffects)</code> and <code>ggpredict()</code>. Hint: use <code>geom_errorbar()</code> to display confidence intervals.</p></li>
+<li><p>Bonus : Repeat the analysis for the second round of legislative elections. Compare the results with the first round in a text of 5 lines max.</p></li>
+</ol>
+</section>
+<section id="references" class="level1">
+<h1>References</h1>
+<ul>
+<li>Burn-Murdoch, John. 2024. “A New Global Gender Divide Is Emerging.” Financial Times. https://www.ft.com/content/29fd9b5c-2f35-41bf-9d4c-994db4e12998 (January 30, 2026).</li>
+<li>Durovic, Anja, Nonna Mayer, and Noémie Piolat. 2025. “Ni tout à fait le même ni tout à fait un autre:Le vote aux élections législatives de 2024 au prisme du genre et de l’âge.” Revue française de science politique 75(1): 39–65. doi:10.3917/rfsp.751.0039.</li>
+<li>Durovic, Anja, Nonna Mayer, and Noémie Piolat. 2025. “How Gender and Attitudes towards Gender and Sexuality Shaped Votes in the 2024 European Parliament Elections in France.” Revue européenne des sciences sociales. European Journal of Social Sciences (63–2): 71–97. doi:10.4000/1596h.</li>
+</ul>
+
+
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

@@ -76,7 +76,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-0b37c64f34216b628666a8dac638b53b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-afa37c5c79185640b9c231024f4fe5ea.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -173,6 +173,10 @@ window.Quarto = {
     <a class="dropdown-item" href="../../sessions/session1/session1.html">
  <span class="dropdown-text">Session 1: OLS</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../../sessions/session2/session2.html">
+ <span class="dropdown-text">Session 2: Logistic regressions</span></a>
+  </li>  
     </ul>
   </li>
   <li class="nav-item">
@@ -188,6 +192,10 @@ window.Quarto = {
         <li>
     <a class="dropdown-item" href="../../exercices/exercices1/exercices1.html">
  <span class="dropdown-text">Exercices 1: OLS</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../exercices/exercices2/exercices2.html">
+ <span class="dropdown-text">Exercices 2: Logistic regressions</span></a>
   </li>  
     </ul>
   </li>
@@ -205,6 +213,10 @@ window.Quarto = {
     <a class="dropdown-item" href="../../slides/session1/session1.html">
  <span class="dropdown-text">Slides - session 1</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../../slides/session2/session2.html">
+ <span class="dropdown-text">Slides - session 2</span></a>
+  </li>  
     </ul>
   </li>
   <li class="nav-item">
@@ -218,11 +230,11 @@ window.Quarto = {
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu--3">    
         <li>
-    <a class="dropdown-item" href="../../homeworks/homework1.html">
+    <a class="dropdown-item" href="../../homeworks/homework.html">
  <span class="dropdown-text">Homework 1</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../homeworks/homework2.html">
+    <a class="dropdown-item" href="../../homeworks/homework.html">
  <span class="dropdown-text">Homework 2</span></a>
   </li>  
     </ul>
@@ -251,15 +263,39 @@ window.Quarto = {
   <ul class="collapse">
   <li><a href="#motivation" id="toc-motivation" class="nav-link" data-scroll-target="#motivation">Motivation</a></li>
   </ul></li>
+  <li><a href="#case-study-why-do-people-vote" id="toc-case-study-why-do-people-vote" class="nav-link" data-scroll-target="#case-study-why-do-people-vote">Case study : why do people vote ?</a>
+  <ul class="collapse">
+  <li><a href="#the-ess---european-social-survey" id="toc-the-ess---european-social-survey" class="nav-link" data-scroll-target="#the-ess---european-social-survey">The ESS - European Social Survey</a></li>
+  <li><a href="#importing-the-data" id="toc-importing-the-data" class="nav-link" data-scroll-target="#importing-the-data">Importing the data</a></li>
+  <li><a href="#importing-data" id="toc-importing-data" class="nav-link" data-scroll-target="#importing-data">Importing data</a></li>
+  <li><a href="#running-the-model" id="toc-running-the-model" class="nav-link" data-scroll-target="#running-the-model">Running the model</a></li>
+  <li><a href="#interpretation-of-logistic-regression" id="toc-interpretation-of-logistic-regression" class="nav-link" data-scroll-target="#interpretation-of-logistic-regression">Interpretation of logistic regression</a>
+  <ul class="collapse">
+  <li><a href="#the-odds-ratio" id="toc-the-odds-ratio" class="nav-link" data-scroll-target="#the-odds-ratio">The odds ratio</a></li>
+  </ul></li>
+  <li><a href="#the-logistic-regression" id="toc-the-logistic-regression" class="nav-link" data-scroll-target="#the-logistic-regression">The logistic regression</a></li>
+  <li><a href="#predicted-probabilities" id="toc-predicted-probabilities" class="nav-link" data-scroll-target="#predicted-probabilities">Predicted probabilities</a></li>
+  </ul></li>
+  <li><a href="#automating-processes" id="toc-automating-processes" class="nav-link" data-scroll-target="#automating-processes">Automating processes</a>
+  <ul class="collapse">
+  <li><a href="#functions-in-r" id="toc-functions-in-r" class="nav-link" data-scroll-target="#functions-in-r">Functions in R</a></li>
+  <li><a href="#the-purrr-package" id="toc-the-purrr-package" class="nav-link" data-scroll-target="#the-purrr-package">The <code>purrr</code> package</a>
+  <ul class="collapse">
+  <li><a href="#the-map-function" id="toc-the-map-function" class="nav-link" data-scroll-target="#the-map-function">The map function</a></li>
+  </ul></li>
+  <li><a href="#automating-logistic-regressions" id="toc-automating-logistic-regressions" class="nav-link" data-scroll-target="#automating-logistic-regressions">Automating logistic regressions</a></li>
+  </ul></li>
   <li><a href="#concept-of-logistic-regression" id="toc-concept-of-logistic-regression" class="nav-link" data-scroll-target="#concept-of-logistic-regression">Concept of logistic regression</a>
   <ul class="collapse">
-  <li><a href="#the-maximum-of-likelihood-estimation" id="toc-the-maximum-of-likelihood-estimation" class="nav-link" data-scroll-target="#the-maximum-of-likelihood-estimation">The maximum of likelihood estimation</a></li>
-  <li><a href="#the-logarithm-function" id="toc-the-logarithm-function" class="nav-link" data-scroll-target="#the-logarithm-function">The logarithm function</a></li>
+  <li><a href="#the-maximum-of-likelihood-estimation" id="toc-the-maximum-of-likelihood-estimation" class="nav-link" data-scroll-target="#the-maximum-of-likelihood-estimation">The maximum of likelihood estimation</a>
+  <ul class="collapse">
+  <li><a href="#constant-probabilities" id="toc-constant-probabilities" class="nav-link" data-scroll-target="#constant-probabilities">Constant probabilities</a></li>
+  <li><a href="#a-simple-example" id="toc-a-simple-example" class="nav-link" data-scroll-target="#a-simple-example">A simple example</a></li>
   </ul></li>
-  <li><a href="#case-study-gender-and-voting-for-the-radical-right" id="toc-case-study-gender-and-voting-for-the-radical-right" class="nav-link" data-scroll-target="#case-study-gender-and-voting-for-the-radical-right">Case study : gender and voting for the radical right</a></li>
-  <li><a href="#with-one-independent-variable" id="toc-with-one-independent-variable" class="nav-link" data-scroll-target="#with-one-independent-variable">With one independent variable</a></li>
-  <li><a href="#adding-control-variables" id="toc-adding-control-variables" class="nav-link" data-scroll-target="#adding-control-variables">Adding control variables</a></li>
-  <li><a href="#case-study" id="toc-case-study" class="nav-link" data-scroll-target="#case-study">Case study</a></li>
+  <li><a href="#non-constant-probabilities" id="toc-non-constant-probabilities" class="nav-link" data-scroll-target="#non-constant-probabilities">Non-constant probabilities</a></li>
+  <li><a href="#logistic-function-1" id="toc-logistic-function-1" class="nav-link" data-scroll-target="#logistic-function-1">Logistic function</a></li>
+  <li><a href="#logit" id="toc-logit" class="nav-link" data-scroll-target="#logit">Logit</a></li>
+  </ul></li>
   <li><a href="#bibliography" id="toc-bibliography" class="nav-link" data-scroll-target="#bibliography">Bibliography</a></li>
   </ul>
 </nav>
@@ -274,178 +310,1058 @@ window.Quarto = {
 <h1>Session 2 : logistic regressions</h1>
 <section id="motivation" class="level2">
 <h2 class="anchored" data-anchor-id="motivation">Motivation</h2>
-<p>In the last session and our exercices, we have presented cases where our dependent variables were continuous : either describing the vote for the far-right in french communes, the median income in those communes, party positions from the Chappel Hill survey (scaled and averaged from 1 to 10), or .</p>
-<p>Yet at the end of the class, we have also seen that one of our results was heteroskedastic, and that plotting our residuals vs.&nbsp;our fitted values lead to some weird shapes in the cloud of points. That is due to the fact that our dependent variable, the share of votes in one commune is actually bounded between 0 and 1. A linear regression, by default, does not take these lower bounds into account, which can lead to uncoherent results (e.g.prolonging the linear regression can lead to voting outcomes &gt; 1), and heteroskedasticity.</p>
-<p>In practice, many dependent variables in political science are binary ones : a typical case is when you wonder whether an individual has voted for this or that party, or whether an individual voted or not. Seeking to explain these variables with linear regressions would lead to absurd results, and would violate several assumptions about that model.</p>
-<p>That is why we use other types of regressions to perform such analyses. The one we will see today is best used to analyse binary outcomes (TRUE/FALSE or 1/0 types of outcomes). It is called the <strong>logistic regression</strong>.</p>
+<p>In the previous session and in our exercises, we discussed cases where our dependent variables were continuous. These included the vote share for the far-right in French communes, the median income in those communes, and party positions from the Chapel Hill survey (scaled and averaged from 1 to 10).</p>
+<p>However, at the end of the class, we also observed that one of our results exhibited heteroskedasticity, and that plotting the residuals against the fitted values revealed some unusual shapes in the plot. This issue arises because our dependent variable, the share of votes in a commune, is bounded between 0 and 1. By default, a linear regression model does not account for these bounds, which can lead to inconsistent results (e.g., extending the regression line beyond 1, which is impossible for a share of votes), and heteroskedasticity. In situations where the dependent variable is binary, as is often the case in political science (e.g., whether someone voted or not), applying a linear regression model would violate several assumptions of the model. This is why we use <strong>logistic regression</strong>.</p>
+<p>In practice, many dependent variables in political science are binary. A typical example is when we want to determine whether an individual voted for a particular party, or whether they voted at all. Using linear regression to analyze such variables would yield absurd results and would violate multiple assumptions underlying the model.</p>
+<p>For this reason, we use other types of regressions to perform such analyses. The one we will explore today is particularly suited for binary outcomes (TRUE/FALSE or 1/0 outcomes). This is called <strong>logistic regression</strong>. You should have seen the theory behind these regressions with Prof.&nbsp;Rovny, but if you need a reminder, please go the last sections of this page.</p>
+<p>The objectives of this session are :</p>
+<ol type="1">
+<li>Cleaning data: dropping rows, columns, creating and mutating variables</li>
+<li>Building a generalized linear model (<code>glm()</code>); special focus on logit</li>
+<li>Extracting and interpreting the coefficients</li>
+<li>Visualization of results</li>
+</ol>
+</section>
+</section>
+<section id="case-study-why-do-people-vote" class="level1">
+<h1>Case study : why do people vote ?</h1>
+<p>Imagine that you want to understand what drives people to vote, or not to vote. This example is directly taken from <a href="https://luissattelmayer.github.io/quant-2025/session4/session4.html">Luis Sattelmayer’s</a> class of last year on logistic regressions.</p>
+<p>This is typically a case where you would be interested in a binary outcome : whether people vote or don’t. To analyse that, you would first need data ; you could take information on voter turnout,</p>
+<section id="the-ess---european-social-survey" class="level2">
+<h2 class="anchored" data-anchor-id="the-ess---european-social-survey">The ESS - European Social Survey</h2>
+<p>We will be working with the European Social Survey (ESS), the largest, most comprehensive, and arguably one of the most important surveys on social and political life within the European Union. The survey is conducted in biennial waves, and each participating European country that finances the survey generates its own data. For instance, the French data (which we’ll be using from the latest, 10th wave) are produced at SciencesPo, specifically at the Centre de Données Socio-Politiques (CDSP)!</p>
+<p>The ESS is an incredibly versatile resource, perfect for those who need a broad and detailed dataset for analyzing national politics in Europe or making cross-country comparisons. Learning how to handle, manage, and clean the ESS data will equip you with the skills to work with virtually any dataset you encounter. Additionally, many of you may find the ESS waves useful for your theses or research papers. The survey offers great potential for analysis, not just cross-sectionally but also over time. So, we encourage you to give it a try!</p>
+</section>
+<section id="importing-the-data" class="level2">
+<h2 class="anchored" data-anchor-id="importing-the-data">Importing the data</h2>
+<p>Of course, the first step will be for you to create an R project (.RProj), with a script for this class. Then we can load the library <code>tidyverse</code>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.4     ✔ readr     2.1.6
+✔ forcats   1.0.1     ✔ stringr   1.6.0
+✔ ggplot2   4.0.1     ✔ tibble    3.3.1
+✔ lubridate 1.9.4     ✔ tidyr     1.3.2
+✔ purrr     1.2.1     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+</div>
+<p>When importing a data set, you might need to make some changes in it, to prepare it for the analysis : these steps are essential before conducting any regression analysis (in fact, the regression stage is very rapid given the built-in functions in R). In fact, almost no data set you will download out there will be ready for your analysis. We will guide you through the basics of data management, to make sure you are able to transform data sets according to your needs.</p>
+</section>
+<section id="importing-data" class="level2">
+<h2 class="anchored" data-anchor-id="importing-data">Importing data</h2>
+<p>Here, I have already imported the data on my computer, and stored it in a subfolder called <code>data</code> located in the same folder as my script, which is why I call the relative path <code>data/ess_10.csv</code>. You can easily download the same data set by downloading it from the link we provide &lt;&gt;. You can either import it directly using <code>rio</code> and the <code>url</code> link we provide, or store it on your computer and import it using <code>import</code> or <code>read_csv</code>. A good reflex is to look at the variable names using <code>colnames()</code>, and have a glimpse at your data using <code>glimpse</code>, right after import, to inspect it.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rio)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>ess <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="st">"https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/sessions/session2/data/ESS_10_fr.csv"</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(ess)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "name"     "essround" "edition"  "proddate" "idno"     "cntry"   
+ [7] "dweight"  "pspwght"  "pweight"  "anweight" "prob"     "stratum" 
+[13] "psu"      "polintr"  "trstplt"  "trstprt"  "vote"     "prtvtefr"
+[19] "clsprty"  "gndr"     "yrbrn"    "eduyrs"   "emplrel"  "uemp12m" 
+[25] "uemp5yr" </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(ess)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 33,351
+Columns: 25
+$ name     &lt;chr&gt; "ESS10e02_2", "ESS10e02_2", "ESS10e02_2", "ESS10e02_2", "ESS1…
+$ essround &lt;int&gt; 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 1…
+$ edition  &lt;dbl&gt; 2.2, 2.2, 2.2, 2.2, 2.2, 2.2, 2.2, 2.2, 2.2, 2.2, 2.2, 2.2, 2…
+$ proddate &lt;chr&gt; "21.12.2022", "21.12.2022", "21.12.2022", "21.12.2022", "21.1…
+$ idno     &lt;int&gt; 10002, 10006, 10009, 10024, 10027, 10048, 10053, 10055, 10059…
+$ cntry    &lt;chr&gt; "BG", "BG", "BG", "BG", "BG", "BG", "BG", "BG", "BG", "BG", "…
+$ dweight  &lt;dbl&gt; 1.9393836, 1.6515952, 0.3150246, 0.6730366, 0.3949991, 0.8889…
+$ pspwght  &lt;dbl&gt; 1.2907065, 1.4308782, 0.1131722, 1.4363747, 0.5848892, 0.6274…
+$ pweight  &lt;dbl&gt; 0.2177165, 0.2177165, 0.2177165, 0.2177165, 0.2177165, 0.2177…
+$ anweight &lt;dbl&gt; 0.28100810, 0.31152576, 0.02463945, 0.31272244, 0.12734002, 0…
+$ prob     &lt;dbl&gt; 0.0003137546, 0.0003684259, 0.0019315645, 0.0009040971, 0.001…
+$ stratum  &lt;int&gt; 185, 186, 175, 148, 138, 182, 157, 168, 156, 135, 162, 168, 1…
+$ psu      &lt;int&gt; 2429, 2387, 2256, 2105, 2065, 2377, 2169, 2219, 2155, 2053, 2…
+$ polintr  &lt;int&gt; 4, 1, 3, 4, 1, 1, 3, 3, 3, 3, 1, 4, 2, 2, 3, 3, 2, 2, 4, 2, 3…
+$ trstplt  &lt;int&gt; 3, 6, 3, 0, 0, 0, 5, 1, 2, 0, 5, 4, 7, 5, 2, 2, 2, 2, 0, 3, 0…
+$ trstprt  &lt;int&gt; 3, 7, 2, 0, 0, 0, 3, 1, 2, 0, 7, 4, 2, 6, 2, 1, 3, 1, 0, 3, 3…
+$ vote     &lt;int&gt; 2, 1, 1, 2, 1, 2, 2, 2, 1, 1, 1, 2, 1, 2, 2, 2, 1, 1, 1, 1, 2…
+$ prtvtefr &lt;int&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
+$ clsprty  &lt;int&gt; 2, 1, 1, 2, 1, 2, 2, 1, 2, 1, 1, 2, 1, 1, 2, 2, 1, 1, 1, 1, 2…
+$ gndr     &lt;int&gt; 2, 1, 2, 2, 1, 2, 1, 1, 1, 1, 2, 2, 1, 2, 2, 2, 1, 1, 1, 2, 1…
+$ yrbrn    &lt;int&gt; 1945, 1978, 1971, 1970, 1951, 1990, 1981, 1973, 1950, 1950, 1…
+$ eduyrs   &lt;int&gt; 12, 16, 16, 11, 17, 12, 12, 12, 11, 3, 12, 12, 15, 15, 19, 11…
+$ emplrel  &lt;int&gt; 1, 3, 3, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 3, 2, 1, 1, 1…
+$ uemp12m  &lt;int&gt; 6, 2, 1, 6, 6, 6, 1, 6, 6, 6, 6, 6, 6, 6, 6, 2, 6, 6, 6, 6, 2…
+$ uemp5yr  &lt;int&gt; 6, 2, 1, 6, 6, 6, 1, 6, 6, 6, 6, 6, 6, 6, 6, 2, 6, 6, 6, 6, 2…</code></pre>
+</div>
+</div>
+<p>This shows you that you have about 25 variables, some contain NA values (the data is clearly not cleaned yet). The variables refer to individual characteristics of the respondents, which you can find in the codebook of the ESS (provided when you download the data), either here <a href="https://stessrelpubprodwe.blob.core.windows.net/data/round8/survey/ESS8_appendix_a7_e01_1.pdf" class="uri">https://stessrelpubprodwe.blob.core.windows.net/data/round8/survey/ESS8_appendix_a7_e01_1.pdf</a>, or here &lt;&gt;. Some variables are straightforward, with clear names like “essround” or “age,” while others are less intuitive. Occasionally, we can infer the meaning of a variable from its name, but more often than not—either because the name is confusing or the abbreviation doesn’t make much sense—we need to refer to the dataset’s documentation. For this particular version of the dataset, you’ll find the documentation in an HTML file on Moodle (session 2).</p>
+<p>Every high-quality, reliable dataset should have some form of documentation. If it doesn’t, it’s a red flag, and I would advise caution before using it! This documentation is typically called a “codebook.” Codebooks can vary greatly in quality—some are well-organized and easy to read, while others are a challenge to navigate. In this class, you’ll encounter both types, so you’ll be prepared to work with whatever you come across.</p>
+<p>In general, data set you will download online will come with a codebook, basically associating each variable name with its actual name. In the case of variable <code>gndr</code>, the codebook for instance informs you that it means gender, and that the values refer to:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Value</th>
+<th>Category</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>Male</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>Female</td>
+</tr>
+<tr class="odd">
+<td>.a (9)</td>
+<td>No answer</td>
+</tr>
+</tbody>
+</table>
+<p>Moreover, you see that you have 33 351 observations - corresponding to the number of respondents of the ESS.</p>
+<p>In fact, this dataframe still includes many variables that we won’t need later or that contain no useful information. Let’s remove these first. While this step can be done later, it’s often a good idea to tidy up the dataset at the very beginning, so you start with a cleaner, more manageable dataset.</p>
+<p>You can select the variables you need (using <code>select()</code>) right when importing the CSV file. You can remove variables by calling <code>select(-c(your_variable_name1,your_variable_name2))</code>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>ess <span class="ot">&lt;-</span> ess  <span class="sc">|&gt;</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    cntry,</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    polintr,</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    trstplt,</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    trstprt,</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    vote,</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    prtvtefr,</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    clsprty,</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    gndr,</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    yrbrn,</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    eduyrs,</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    emplrel,</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    uemp12m,</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>    uemp5yr</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(ess)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "cntry"    "polintr"  "trstplt"  "trstprt"  "vote"     "prtvtefr"
+ [7] "clsprty"  "gndr"     "yrbrn"    "eduyrs"   "emplrel"  "uemp12m" 
+[13] "uemp5yr" </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(ess<span class="sc">$</span>cntry)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "BG" "CH" "CZ" "EE" "FI" "FR" "GR" "HR" "HU" "IS" "IT" "LT" "ME" "MK" "NL"
+[16] "NO" "PT" "SI" "SK"</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(ess<span class="sc">$</span>cntry)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+  BG   CH   CZ   EE   FI   FR   GR   HR   HU   IS   IT   LT   ME   MK   NL   NO 
+2718 1523 2476 1542 1577 1977 2799 1592 1849  903 2640 1659 1278 1429 1470 1411 
+  PT   SI   SK 
+1838 1252 1418 </code></pre>
+</div>
+</div>
+<p>This shows you . The functions <code>unique</code> and <code>table</code> allow you to analyse the distribution of a categorical variables, among its different values. You see that France has 1977 observations, which means that the sample contains about 1977 French respondents. You can restrict the data set to the French values by simply calling <code>filter()</code>, which will basically only keep the values that satisfy a certain condition (here <code>cntry == "FR"</code>), and also use table to analyse categorical values with numeric values, like vote.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>ess_fr <span class="ot">&lt;-</span> ess <span class="sc">%&gt;%</span> <span class="fu">filter</span>(cntry <span class="sc">==</span> <span class="st">"FR"</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(ess_fr<span class="sc">$</span>vote)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+   1    2    3    7    8 
+1025  590  307    9   46 </code></pre>
+</div>
+</div>
+<p>If you look at the codebook online, you will find that the values correspond to the following categories :</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Value</th>
+<th>Category</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>Yes</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>No</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>Not eligible to vote</td>
+</tr>
+<tr class="even">
+<td>.a (7)</td>
+<td>Refusal*</td>
+</tr>
+<tr class="odd">
+<td>.b (8)</td>
+<td>Don’t know*</td>
+</tr>
+<tr class="even">
+<td>.c (9)</td>
+<td>No answer*</td>
+</tr>
+</tbody>
+</table>
+<p>And that the question that was asked to the respondents was “some people don’t vote nowadays for one reason or another. Did you vote in the last [country] national election in [month/year] ?”.</p>
+<p>Hence, you see that 590 respondents did not vote in the last election, 1025 did and 307 were not eligible to vote.</p>
+<p>The values 7, 8, and 9 are quite common in survey datasets. They typically represent situations where respondents either didn’t want to answer, their answer was unclear, or they couldn’t remember. You’ll encounter these values in almost every survey-based dataset.</p>
+<p>As already said, we’ll focus on voter turnout. Our goal is to understand what factors encourage people to vote and what decreases the likelihood of voting on election day. Therefore, the question for our dependent variable will be: Did the respondent vote or not? Mathematically, this question cannot be answered using linear regression with the OLS method, as the dependent variable is binary—0 represents “did not vote” and 1 represents “voted.” There are only two possible outcomes, and the variable is not continuous, which violates one of the assumptions of OLS.</p>
+<p>However, if we use the voting turnout variable as it is right now, we won’t have a valid binary variable. It also won’t be reliable, as it includes values that are either irrelevant or will skew our estimations. In fact, logistic regression (logit) can only be applied to binary variables.</p>
+<p>So, before we proceed, we need to transform our dependent variable. We’ll remove unwanted values and convert the 1s and 2s into 0s and 1s.</p>
+<p>First, we need to eliminate the values we’re not interested in. While it’s possible to filter out these values directly (as shown below), I recommend against it. Instead, you should transform these values into NA. Rows with NA values will be excluded from the regression, but if you later decide to run another model with a different dependent variable, you may lose valuable observations that you’ve filtered out. Therefore, a good rule of thumb is to only filter out values if you’re certain you’ll never need them again.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>ess <span class="ot">&lt;-</span> ess <span class="sc">|&gt;</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>vote <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">7</span>, <span class="dv">8</span>, <span class="dv">9</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>We can directly mutate the values within the variable using <code>case_when()</code> inside the <code>mutate()</code> function. While <code>case_when()</code> may seem a bit tricky to read at first, it’s a powerful tool. Essentially, <code>case_when()</code> evaluates a series of conditions and applies the corresponding transformation to each element of a vector or column in a dataset.</p>
+<p>Within the function, you must specify at least one condition, and you can include multiple conditions if needed. If you want the conditions to be evaluated simultaneously, use the &amp; operator between them. If you want the condition to apply when either of two conditions is true, you would use the <code>|`` operator. After specifying the conditions, you use a tilde</code>~`, followed by the new value that the variable should take on if the condition is met.</p>
+<p>Here’s how it works:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">case_when</span>(</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  condition1 <span class="sc">~</span> value_if_true1,</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  condition2 <span class="sc">~</span> value_if_true2,</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="cn">TRUE</span> <span class="sc">~</span> default_value</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Let’s look at an example below. I want the values 3, 7, 8, and 9 in the vote variable to be replaced with NA, as they are irrelevant to our analysis. To do this, we use the mutate() function, and I assign a new column (which I’ll name vote, the same as the original variable). Inside the case_when() function, I specify vote %in% c(3, 7, 8, 9) ~ NA_integer_. This statement means: whenever vote contains the values 3, 7, 8, or 9, replace them with NA_integer_.</p>
+<p>The next line, TRUE ~ vote, serves as a catch-all rule. It says, “For all other cases, keep the original values of vote.” This ensures that any value not matching the previous condition remains unchanged.</p>
+<p>Here’s the code:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>ess <span class="ot">&lt;-</span> ess <span class="sc">|&gt;</span> </span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">vote =</span> <span class="fu">case_when</span>(</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>      vote <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">7</span>, <span class="dv">8</span>, <span class="dv">9</span>) <span class="sc">~</span> <span class="cn">NA_integer_</span>,</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> vote</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  ))</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(ess<span class="sc">$</span>vote)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    1     2 
+23529  7132 </code></pre>
+</div>
+</div>
+<p>Now, we just need to transform the ones and twos into zeros and ones. This is both a matter of convention, my personal coding preference, and, of course, to give you a bit more practice with data management. Since we are focusing on people who have voted, we’ll code those who voted as 1 and those who didn’t as 0.</p>
+<p>We’ll use <code>case_when()</code> again to do this. The code <code>case_when(vote == 1 ~ 1, vote == 2 ~ 0)</code> works as follows: whenever vote equals 1 (indicating that the person voted), we keep it as 1; whenever vote equals 2 (indicating that the person did not vote), we assign it 0.</p>
+<p>With that, we now have our binary dependent variable, which is essential for performing a logit. The <code>table()</code> function will show that we’ve successfully changed the values of the variable, but the total count remains the same.</p>
+<p>In Base R, you could achieve this in a different way, but I personally find that using the <code>mutate()</code> function is the most elegant approach. That said, it’s entirely up to you which method you prefer.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># only use the ifelse() function</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>ess<span class="sc">$</span>vote <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(ess<span class="sc">$</span>vote <span class="sc">==</span> <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="co"># This will leave the value of 1 at 1 and change 2 to 0 for the column vote.</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>ess<span class="sc">$</span>vote[ess<span class="sc">$</span>vote <span class="sc">==</span> <span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>ess<span class="sc">$</span>vote[ess<span class="sc">$</span>vote <span class="sc">==</span> <span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="dv">0</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>We’re very close to finishing the data management part and getting ready to work on our model. However, there are still many variables that are as “untidy” as our initial dependent variable. We need to check the codebook to see if there are specific values we can’t simply replace across the entire dataset and whether they are still irrelevant to our analysis.</p>
+<p>For our independent variables of interest, here’s what we need to do:</p>
+<ul>
+<li><strong>Political interest (<code>polintr</code>)</strong>: Remove values c(7:9).</li>
+<li><strong>Trust in politicians (<code>trstplt</code>)</strong>: No recoding needed (unwanted values are already <code>NA</code>).</li>
+<li><strong>Trust in political parties (<code>trstprt</code>)</strong>: Already done.</li>
+<li><strong>Feeling close to a party (<code>clsprty</code>)</strong>: Convert 1/2 to 0/1 and remove values c(7:8).</li>
+<li><strong>Gender (<code>gndr</code>)</strong>: Convert to 0/1 and remove “no answer” values.</li>
+<li><strong>Year born (<code>yrbrn</code>)</strong>: Already done.</li>
+<li><strong>Years of full-time education completed (<code>eduyrs</code>)</strong>: Already done.</li>
+</ul>
+<p>We’ll tackle all these steps at once using pipes <code>%&gt;%</code> (from the <code>tidyverse</code>) or <code>|&gt;</code> (Base R), which allows us to perform everything in a neat and efficient way. I’ll also re-run the mutation for our dependent variable to demonstrate the flexibility of long pipe chains.</p>
+<p>We start by using <code>mutate()</code> to adjust the independent variables we need for our model. Notice how you can separate the different manipulations with commas inside the same function, which results in clean, readable code. There are various functions for data wrangling, such as <code>recode()</code>, <code>if_else()</code>, and <code>case_when()</code>. For simplicity and clarity, I’ll be using <code>case_when()</code> here, though there’s a newer function, <code>case_match()</code>, that you could also use.</p>
+<p>Now, let’s talk about <code>NA_integer_</code>. In R, <code>NA</code> signifies “not available” or missing data. But R is very particular about the type of data it’s working with. If your variable is numeric, you need to specify that missing values should be treated as numbers. By using <code>NA_integer_</code>, you’re telling R, “This is missing data, but if it were here, it would be a number.” This ensures consistency and avoids confusion when R processes your data. If you’re working with character strings, you’d use <code>NA_character_</code>. For numeric values with decimals, you’d use <code>NA_real_</code> instead of <code>NA_integer_</code>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>ess_final <span class="ot">&lt;-</span> ess <span class="sc">|&gt;</span> </span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># mutating the dependent variable to get rid of any unnecessary rows</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># as we have done above</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">vote =</span> <span class="fu">case_when</span>(</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>      vote <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">7</span>, <span class="dv">8</span>, <span class="dv">9</span>) <span class="sc">~</span> <span class="cn">NA_integer_</span>,</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>      vote <span class="sc">==</span> <span class="dv">2</span> <span class="sc">~</span> <span class="dv">0</span>,</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>      vote <span class="sc">==</span> <span class="dv">1</span> <span class="sc">~</span> <span class="dv">1</span>, </span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> vote</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Recode 'polintr' to drop values 7 to 9</span></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">polintr =</span> <span class="fu">case_when</span>(</span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>      polintr <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">7</span><span class="sc">:</span><span class="dv">9</span>) <span class="sc">~</span> <span class="cn">NA_integer_</span>,</span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> polintr</span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Recode 'clsprty' 1/2 into 0/1 and drop 7, 8</span></span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">clsprty =</span> <span class="fu">case_when</span>(</span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>      clsprty <span class="sc">==</span> <span class="dv">1</span> <span class="sc">~</span> <span class="dv">0</span>,</span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>      clsprty <span class="sc">==</span> <span class="dv">2</span> <span class="sc">~</span> <span class="dv">1</span>,</span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a>      clsprty <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">7</span>, <span class="dv">8</span>) <span class="sc">~</span> <span class="cn">NA_integer_</span>,</span>
+<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> clsprty</span>
+<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Recode 'gndr' into 0/1 and handle other cases as NAs</span></span>
+<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">gndr =</span> <span class="fu">case_when</span>(</span>
+<span id="cb20-25"><a href="#cb20-25" aria-hidden="true" tabindex="-1"></a>      gndr <span class="sc">==</span> <span class="dv">1</span> <span class="sc">~</span> <span class="dv">0</span>,</span>
+<span id="cb20-26"><a href="#cb20-26" aria-hidden="true" tabindex="-1"></a>      gndr <span class="sc">==</span> <span class="dv">2</span> <span class="sc">~</span> <span class="dv">1</span>,</span>
+<span id="cb20-27"><a href="#cb20-27" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="cn">NA_integer_</span></span>
+<span id="cb20-28"><a href="#cb20-28" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb20-29"><a href="#cb20-29" aria-hidden="true" tabindex="-1"></a>    <span class="co"># recode eduyrs</span></span>
+<span id="cb20-30"><a href="#cb20-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">eduyrs =</span> <span class="fu">case_when</span>(</span>
+<span id="cb20-31"><a href="#cb20-31" aria-hidden="true" tabindex="-1"></a>      eduyrs <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">55</span>) <span class="sc">~</span> eduyrs,</span>
+<span id="cb20-32"><a href="#cb20-32" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="cn">NA_integer_</span></span>
+<span id="cb20-33"><a href="#cb20-33" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb20-34"><a href="#cb20-34" aria-hidden="true" tabindex="-1"></a>    <span class="co"># this one is very advanced...</span></span>
+<span id="cb20-35"><a href="#cb20-35" aria-hidden="true" tabindex="-1"></a>    <span class="fu">across</span>(<span class="fu">c</span>(trstplt, trstprt), <span class="sc">~</span><span class="fu">case_when</span>(</span>
+<span id="cb20-36"><a href="#cb20-36" aria-hidden="true" tabindex="-1"></a>      .x <span class="sc">&lt;=</span> <span class="dv">10</span> <span class="sc">~</span> .x, </span>
+<span id="cb20-37"><a href="#cb20-37" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="cn">NA_integer_</span></span>
+<span id="cb20-38"><a href="#cb20-38" aria-hidden="true" tabindex="-1"></a>    ))</span>
+<span id="cb20-39"><a href="#cb20-39" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="running-the-model" class="level2">
+<h2 class="anchored" data-anchor-id="running-the-model">Running the model</h2>
+<p>Once the data preparation is done, the best part is that running a logistic regression model literally takes just one line (or two, depending on the number of independent variables). As you’ll see, it’s quite straightforward.</p>
+<p>The <code>glm()</code> function, which stands for <strong>generalized linear model</strong>, is a part of Base R.</p>
+<p>In Professor Rovny’s lecture, we discussed that for Maximum Likelihood Estimation (MLE), you need to know or assume the distribution of your dependent variable. Based on that distribution, you choose the appropriate linear model. For a binary outcome like voting (yes/no), the distribution is <strong>binomial</strong>. So, within the <code>glm()</code> function, we specify the distribution family as binomial.</p>
+<p>It’s worth mentioning that you can specify other families, such as <strong>Gaussian</strong>, <strong>Poisson</strong>, or <strong>Gamma</strong>, depending on your data. We won’t go into detail about those families here, but the <code>glm()</code> function is quite powerful. By setting <code>family = binomial(link = "logit")</code>, we specify that we’re conducting a <strong>logistic regression</strong>. If you wanted to use a different link, such as <strong>probit</strong> or <strong>cauchy</strong>, you can easily adjust it here. The default is set to logit, so in most cases, you won’t need to specify it explicitly.</p>
+<p>If your dependent variable is incompatible with the chosen family, the function will alert you to a problem.</p>
+<p>For the model we’re building, we’re assuming that voting behavior (whether a person voted or not) is influenced by political interest, trust in politicians, trust in political parties, and feeling close to a party, along with typical control variables like gender, age, and education.</p>
+<p>Please note that this regression isn’t sophisticated enough to be published—it’s simply an example. My hypothesis is that factors like political interest, trust in politics and politicians, and party affiliation are key explanatory variables.</p>
+<p>Just like with an OLS regression, we start by specifying the dependent variable (in this case, <strong>vote</strong>). Then, we separate the dependent variable from the independent variables with a <code>~</code>. Next, we list the predictors, separated by a <code>+</code>. Finally, we specify the data object and the model family.</p>
+<p>Here’s how you can run the model:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>logit <span class="ot">&lt;-</span> <span class="fu">glm</span>(</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  vote <span class="sc">~</span> polintr <span class="sc">+</span> trstplt <span class="sc">+</span> trstprt <span class="sc">+</span> clsprty <span class="sc">+</span> gndr <span class="sc">+</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    yrbrn <span class="sc">+</span> eduyrs,</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> ess_final,</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">family =</span> <span class="st">"binomial"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The object we created, called <strong>logit</strong>, now contains our model along with its coefficients, confidence intervals, and many other details that we’ll explore further! As you can see, the actual process of constructing the model is incredibly simple and only requires a single line of code.</p>
+<p>Now that we’ve created the model, we can examine its components and assess how well it fits our data. The logistic regression model has produced outputs that we can use to make inferences about the relationship between our dependent and independent variables. The simplicity of the code doesn’t mean that the analysis is complete—it’s just the beginning of our exploration!</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broom)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(logit)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 8 × 5
+  term          estimate std.error statistic   p.value
+  &lt;chr&gt;            &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+1 (Intercept)  2.46      0.106        23.2   9.89e-119
+2 polintr     -0.571     0.0196      -29.1   1.14e-186
+3 trstplt      0.0363    0.0128        2.84  4.49e-  3
+4 trstprt      0.0435    0.0131        3.31  9.21e-  4
+5 clsprty     -0.859     0.0340      -25.3   4.48e-141
+6 gndr         0.0956    0.0302        3.16  1.57e-  3
+7 yrbrn        0.0000242 0.0000286     0.846 3.98e-  1
+8 eduyrs       0.0467    0.00403      11.6   3.57e- 31</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>stargazer<span class="sc">::</span><span class="fu">stargazer</span>(</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  logit,</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">type =</span> <span class="st">"text"</span>,</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">dep.var.labels =</span> <span class="st">"Voting Behavior"</span>,</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">dep.var.caption =</span> <span class="fu">c</span>(<span class="st">"Voting turnout; 0 = abstention | 1 = voted"</span>),</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">covariate.labels =</span> <span class="fu">c</span>(</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Political Interest"</span>,</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Trust in Politicians"</span>,</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Trust in Parties"</span>,</span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Feeling Close to a Party"</span>,</span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Gender"</span>,</span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Year of Birth"</span>,</span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Education"</span></span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">star.cutoffs =</span> <span class="fu">c</span>(<span class="fl">0.05</span>, <span class="fl">0.01</span>, <span class="fl">0.001</span>)</span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+===================================================================
+                         Voting turnout; 0 = abstention | 1 = voted
+                         ------------------------------------------
+                                      Voting Behavior              
+-------------------------------------------------------------------
+Political Interest                       -0.571***                 
+                                          (0.020)                  
+                                                                   
+Trust in Politicians                      0.036**                  
+                                          (0.013)                  
+                                                                   
+Trust in Parties                          0.043***                 
+                                          (0.013)                  
+                                                                   
+Feeling Close to a Party                 -0.859***                 
+                                          (0.034)                  
+                                                                   
+Gender                                    0.096**                  
+                                          (0.030)                  
+                                                                   
+Year of Birth                             0.00002                  
+                                         (0.00003)                 
+                                                                   
+Education                                 0.047***                 
+                                          (0.004)                  
+                                                                   
+Constant                                  2.464***                 
+                                          (0.106)                  
+                                                                   
+-------------------------------------------------------------------
+Observations                               28,995                  
+Log Likelihood                          -13,867.550                
+Akaike Inf. Crit.                        27,751.090                
+===================================================================
+Note:                                 *p&lt;0.05; **p&lt;0.01; ***p&lt;0.001</code></pre>
+</div>
+</div>
+</section>
+<section id="interpretation-of-logistic-regression" class="level2">
+<h2 class="anchored" data-anchor-id="interpretation-of-logistic-regression">Interpretation of logistic regression</h2>
+<p>Interpreting the results of a logistic regression can initially feel challenging because the model predicts probabilities rather than direct outcomes. This may seem abstract at first. However, once you understand how to interpret the coefficients and odds ratios, it becomes much easier to see how the independent variables relate to the binary outcome—without necessarily transforming the coefficients into more intuitive values.</p>
+<section id="the-odds-ratio" class="level3">
+<h3 class="anchored" data-anchor-id="the-odds-ratio">The odds ratio</h3>
+<p>To properly understand the logit, we first need to clarify what it represents: it is the logarithm of the odds. The odds themselves are defined as the ratio between the probability that an event occurs, <span class="math inline">\(p\)</span>, and the probability that it does not occur, <span class="math inline">\(1-p\)</span>.</p>
+<p><span class="math display">\[\begin{equation}
+\text{ODDS} = \frac{p}{1-p}
+\end{equation}\]</span></p>
+<p>In other words, the odds tell us how much more (or less) likely the event is to happen than not to happen. For example, if an event has a probability of 0.1, its odds are:</p>
+<p><span class="math display">\[\begin{equation}
+\text{ODDS} = \frac{1/10}{9/10} = 1/9
+\end{equation}\]</span></p>
+<p>This means the event is nine times less likely to occur than not to occur.</p>
+<p>If the probability is 0.8, then the odds are:</p>
+<p><span class="math display">\[\begin{equation}
+\text{ODDS} = \frac{8/10}{2/10} = 4,
+\end{equation}\]</span></p>
+<p>which means the event is four times more likely to happen than not to happen. Notice that when the probability equals 0.5—meaning the event is equally likely to occur or not—the odds equal 1.</p>
+<p>Importantly, the odds are always positive and increase very rapidly as <span class="math inline">\(p \rightarrow 1\)</span>. To obtain a more symmetric and analytically convenient measure, we usually take the natural logarithm of the odds. The logit is therefore defined as:</p>
+<p><span class="math display">\[\begin{equation}
+\ln(\text{ODDS}) = \ln\left(\frac{p}{1-p}\right)
+\end{equation}\]</span></p>
+<p>Unlike the odds, the logit can take any real value, positive or negative. The differences betweens the odds ratio function, the logit, and the logistic functions are shown in the panel below.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Odds ratio</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">Logit function</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false" href="">Logistic function</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10000</span>)<span class="sc">/</span><span class="dv">10000</span> <span class="co"># probabilities 0.0001, 0.0002, 0.0003,... 0.9998, 0.9999</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(p, p<span class="sc">/</span>(<span class="dv">1</span><span class="sc">-</span>p)) <span class="co"># odds</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="session2_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(p, <span class="fu">log</span>(p<span class="sc">/</span>(<span class="dv">1</span><span class="sc">-</span>p))) <span class="co"># logit</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="session2_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10000</span>)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>mu <span class="ot">&lt;-</span> <span class="dv">5000</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>s <span class="ot">&lt;-</span> <span class="dv">500</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x, <span class="fu">exp</span>((x<span class="sc">-</span>mu)<span class="sc">/</span>s)<span class="sc">/</span>(<span class="dv">1</span><span class="sc">+</span><span class="fu">exp</span>((x<span class="sc">-</span>mu)<span class="sc">/</span>s))) <span class="co"># logistic function</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="session2_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>Now, suppose that the probability <span class="math inline">\(p\)</span> follows a logistic function of some variable <span class="math inline">\(x\)</span> (for instance, <span class="math inline">\(p\)</span> could represent the probability of voting, and <span class="math inline">\(x\)</span> a person’s income). Then we can write:</p>
+<p><span class="math display">\[\begin{equation}
+p(x) = \frac{1}{1 + e^{- (\beta_0 + \beta_1 x)}}
+\end{equation}\]</span></p>
+<p>Taking the logit of this expression yields a simple linear relationship:</p>
+<p><span class="math display">\[\begin{equation}
+\text{logit}(p(x)) = \beta_0 + \beta_1 x.
+\end{equation}\]</span></p>
+<p>This expression corresponds to the log of the odds. By exponentiating the logit, we recover the odds:</p>
+<p><span class="math display">\[\begin{equation}
+\text{ODDS} = e^{\text{logit}(p(x))} = e^{\beta_0 + \beta_1 x}.
+\end{equation}\]</span></p>
+<p>Therefore, a change <span class="math inline">\(\delta x\)</span> in <span class="math inline">\(x\)</span> leads to a multiplicative change of <span class="math inline">\(e^{\beta_1 \delta x}\)</span> in the odds. This makes interpretation straightforward: depending on the sign of <span class="math inline">\(\beta_1\)</span>, the event becomes more or less likely to occur.</p>
+<p>Hence, in our case :</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># simply use exp() on the coefficients of the logit</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(<span class="fu">coef</span>(logit))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(Intercept)     polintr     trstplt     trstprt     clsprty        gndr 
+ 11.7462918   0.5651311   1.0370047   1.0444578   0.4235567   1.1003495 
+      yrbrn      eduyrs 
+  1.0000242   1.0478581 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># here would be a second way of doing it</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(logit<span class="sc">$</span>coefficients)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(Intercept)     polintr     trstplt     trstprt     clsprty        gndr 
+ 11.7462918   0.5651311   1.0370047   1.0444578   0.4235567   1.1003495 
+      yrbrn      eduyrs 
+  1.0000242   1.0478581 </code></pre>
+</div>
+</div>
+<p>We can—and should—also report the 95% confidence intervals (CIs). As a brief reminder, a confidence interval provides a range of values that is likely to contain the true value of a parameter—in our case, the coefficients of the predictor variables. This range is associated with a specific level of confidence. The most commonly used confidence levels (note that this is simply a statistical convention) are 95% and, less frequently, 99%.</p>
+<p>A 95% confidence interval means that if we were to repeatedly estimate the same logistic regression model using many different samples drawn from the same population, the true parameter value would lie within the calculated confidence interval in 95% of those samples.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># most of the times the extra step in the next lines is not necessary and this </span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="co"># line of code is enough</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(<span class="fu">cbind</span>(</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">OR =</span> <span class="fu">coef</span>(logit), </span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">confint</span>(logit)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Waiting for profiling to be done...</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                    OR     2.5 %     97.5 %
+(Intercept) 11.7462918 9.5323871 14.4640260
+polintr      0.5651311 0.5437964  0.5871905
+trstplt      1.0370047 1.0113450  1.0633312
+trstprt      1.0444578 1.0179416  1.0716962
+clsprty      0.4235567 0.3961620  0.4525860
+gndr         1.1003495 1.0370081  1.1675544
+yrbrn        1.0000242 0.9999694  1.0000818
+eduyrs       1.0478581 1.0396365  1.0561731</code></pre>
+</div>
+</div>
+<p>Once we exponentiate the coefficient and obtain the odds ratio (OR), interpretation becomes more straightforward. The odds ratio tells us how the odds of the outcome change with a one-unit increase in a predictor variable. For example, if the odds ratio for political interest is below 1, this means that a one-unit increase in political interest decreases the odds of voting (compared to not voting). The same logic applies to the other variables in the model.</p>
+<p>One final point about odds ratios—arguably the most intuitive way to interpret them—is to translate them into percentages.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="dv">100</span><span class="sc">*</span>(<span class="fu">exp</span>(logit<span class="sc">$</span>coefficients[<span class="sc">-</span><span class="dv">1</span>])<span class="sc">-</span><span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      polintr       trstplt       trstprt       clsprty          gndr 
+-43.486886600   3.700470282   4.445775371 -57.644333809  10.034947715 
+        yrbrn        eduyrs 
+  0.002419403   4.785810884 </code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="the-logistic-regression" class="level2">
+<h2 class="anchored" data-anchor-id="the-logistic-regression">The logistic regression</h2>
+<p>In logistic regression, coefficients represent the change in the log-odds of the outcome for a one-unit increase in the predictor variable, while holding all other variables constant. The sign of the coefficient indicates the direction of the relationship:</p>
+<ul>
+<li><p>A positive coefficient means that as the predictor increases, the odds of the outcome increase.</p></li>
+<li><p>A negative coefficient means that as the predictor increases, the odds of the outcome decrease.</p></li>
+</ul>
+<p>To make interpretation more intuitive, we often convert coefficients into odds ratios by exponentiating them (this simply reverses the logarithm). The odds ratio represents how the odds of the outcome change for a one-unit increase in the predictor variable compared to a reference value.</p>
+<ul>
+<li><p>An odds ratio greater than 1 indicates a positive association.</p></li>
+<li><p>An odds ratio less than 1 indicates a negative association.</p></li>
+</ul>
+<p>It is also important to remember that logistic regression relies on certain assumptions, including linearity in the logit, independence of observations, and appropriate model specification. Violations of these assumptions can affect both model performance and interpretation. We will revisit diagnostic checks for logistic regression models in a later session.</p>
+<p>I know this may sound dense. It is somewhat technical, but it becomes much clearer once we apply the concepts to our actual model. Interpreting exponentiated coefficients as odds ratios will also make the results much more intuitive.</p>
+<p>Looking at our model summary, we can already see that most independent variables are statistically significant (p &lt; .05). Typically, we focus our interpretation on statistically significant variables and do not interpret those that are not significant.</p>
+<p>From the results, we observe that closeness to a party and age are negatively associated with voting behavior. This makes sense given how the variables are coded. According to the codebook, higher values represent respondents who are less interested, less close to a party, or older (depending on the coding). Therefore, higher values correspond to a lower likelihood of voting on election day.</p>
+<p>Trust in politicians, however, is coded in the opposite direction. Higher values indicate lower trust. As a result, the positive coefficient suggests that lower trust in politicians increases the likelihood of not voting. Ideally, it would have been better to code all independent variables in the same direction for easier interpretation, but the results can still be interpreted correctly as long as we carefully consider the coding scheme.</p>
+</section>
+<section id="predicted-probabilities" class="level2">
+<h2 class="anchored" data-anchor-id="predicted-probabilities">Predicted probabilities</h2>
+<p>Overall, we could now present a table with the odds ratios and move on to writing the paper. However, visualizing results often tells a much clearer and more compelling story. In this section, I will show you how to compute predicted probabilities and how to display them in an effective and visually appealing way.</p>
+<p>In logistic regression, predicted probabilities represent the likelihood that an event occurs given specific values of the predictor variables. Rather than interpreting log-odds or odds ratios—which can feel abstract—predicted probabilities provide a simple number between 0 and 1. For instance, instead of stating that higher political interest increases the log-odds of voting, we can say that an individual with high political interest has a 75% probability of voting. This makes the results far more intuitive and easier to communicate.</p>
+<p>Predicted probabilities are expressed on the original scale of the independent variables (IVs). This means they directly illustrate how changes in variables—such as political interest, trust in politicians, or education—affect the probability of the outcome. If political interest is measured on a scale from 1 to 4, we can examine how the probability of voting changes at each level of that scale, rather than simply noting whether the relationship is positive or negative. This is a major advantage over coefficient plots, which show direction and magnitude but not the actual likelihood of the outcome. Predicted probabilities therefore allow us to present findings in a way that is both intuitive and closely tied to the real-world measurement of our variables.</p>
+<p>The key idea is that we select one predictor variable and decide the values at which we want to estimate the outcome. While doing so, we “hold the other independent variables constant.” This allows us to isolate the effect of the variable we are interested in.</p>
+<p>To make this absolutely clear: when calculating predicted probabilities, we focus on one independent variable of interest and keep all other variables fixed—typically at their mean or median, or, in the case of a dummy variable, at one of its two possible values. By holding the other variables constant, we can clearly observe the independent effect of the predictor we care about.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># this package contains everything we need craft predicted probabilities and</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="co"># visualize them as well</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggeffects)</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a><span class="co"># like the predcit() function of Base R, we use ggpredict() and specify</span></span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a><span class="co"># our variable of interest</span></span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>predicted_probs <span class="ot">&lt;-</span> <span class="fu">ggpredict</span>(logit, <span class="at">terms =</span> <span class="st">"polintr"</span>)</span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>predicted_probs</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># Predicted probabilities of vote
+
+polintr | Predicted |     95% CI
+--------------------------------
+      1 |      0.92 | 0.91, 0.92
+      2 |      0.86 | 0.85, 0.87
+      3 |      0.78 | 0.77, 0.78
+      4 |      0.66 | 0.65, 0.67
+
+Adjusted for:
+* trstplt =    4.00
+* trstprt =    4.00
+* clsprty =    0.57
+*    gndr =    0.54
+*   yrbrn = 1969.00
+*  eduyrs =   12.00</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># this is the simplest way of plotting this</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(predicted_probs, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> predicted)) <span class="sc">+</span></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># our graph is more or less a line, so geom_line() applies</span></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">"blue"</span>, <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># geom_ribbon() with the values that ggpredict() provided for the confidence</span></span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># intervals then gives</span></span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>  <span class="co"># us a shade around the geom_()line as CIs</span></span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> conf.low, <span class="at">ymax =</span> conf.high), <span class="at">fill =</span> <span class="st">"grey"</span>, <span class="at">alpha =</span> <span class="fl">0.3</span>) <span class="sc">+</span></span>
+<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Predicted Probability of Voting by Political Interest"</span>,</span>
+<span id="cb40-12"><a href="#cb40-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Political Interest"</span>,</span>
+<span id="cb40-13"><a href="#cb40-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Predicted Probability of Voting"</span></span>
+<span id="cb40-14"><a href="#cb40-14" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span> </span>
+<span id="cb40-15"><a href="#cb40-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb40-16"><a href="#cb40-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb40-17"><a href="#cb40-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>, <span class="at">face =</span> <span class="st">"bold"</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>),</span>
+<span id="cb40-18"><a href="#cb40-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>),</span>
+<span id="cb40-19"><a href="#cb40-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>)</span>
+<span id="cb40-20"><a href="#cb40-20" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+ℹ Please use `linewidth` instead.</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="session2_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>predicted_probs_gender <span class="ot">&lt;-</span> <span class="fu">ggpredict</span>(logit, <span class="at">terms =</span> <span class="st">"gndr"</span>) </span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>predicted_probs_gender</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># Predicted probabilities of vote
+
+gndr | Predicted |     95% CI
+-----------------------------
+   0 |      0.77 | 0.76, 0.77
+   1 |      0.78 | 0.78, 0.79
+
+Adjusted for:
+* polintr =    3.00
+* trstplt =    4.00
+* trstprt =    4.00
+* clsprty =    0.57
+*   yrbrn = 1969.00
+*  eduyrs =   12.00</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(predicted_probs_gender,</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> predicted, <span class="at">fill =</span> x)) <span class="sc">+</span></span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> conf.low, <span class="at">ymax =</span> conf.high), <span class="at">width =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="dv">21</span>, <span class="at">size =</span> <span class="dv">5</span>) <span class="sc">+</span></span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Predicted Probability of Voting by Gender"</span>,</span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Gender"</span>,</span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Predicted Probability of Voting"</span>,</span>
+<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">fill =</span> <span class="st">"Gender"</span>) <span class="sc">+</span></span>
+<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_discrete</span>(<span class="at">drop =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
+<span id="cb44-10"><a href="#cb44-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="session2_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="automating-processes" class="level1">
+<h1>Automating processes</h1>
+<p>In programming, it often takes time to fully understand and apply new concepts. Once we become comfortable with a process, the next logical step is to think about how to automate it. Automation helps make our work faster, cleaner, and more efficient. After we understand a workflow well, we can usually transfer and automate it in other contexts with relatively little effort.</p>
+<p>Take today’s logistic regression as an example. We worked with the ESS data and analyzed the 10th round for France, examining which variables predict abstention. But we could just as easily ask the same research question across multiple waves of the ESS or across multiple countries. If I asked you to run the same logit model for all ESS countries, your first instinct might be to copy and paste your code for each country. However, this would quickly lead to a very long and inelegant script—and the longer the code, the greater the risk of making mistakes.</p>
+<p>A good rule of thumb in programming is this: if you find yourself repeating the same steps multiple times, and only a few elements (such as variable names or country identifiers) change, then the task can likely be automated. At some point, the goal should be to build a workflow—or pipeline—that allows your code to run as automatically and efficiently as possible.</p>
+<p>In RStudio, there are several ways to achieve this. For example, you can use for-loops to perform the same operation sequentially over a list of elements. Alternatively, you can write your own functions. After all, functions such as glimpse() or read_csv2() were written by someone at some point. As R users, we can do the same. By creating our own functions, we can bundle multiple operations together and then apply them to several objects or subsets of a dataset—such as different countries—at once.</p>
+<p>Everything that follows is optional, but I think it is important that you are exposed to these ideas early on. Some of you may already feel confident enough to experiment with automation on your own. If not, that is completely fine—you will get there. My goal here is simply to show you what is possible and to give you a sense of what you can achieve with R.</p>
+<section id="functions-in-r" class="level2">
+<h2 class="anchored" data-anchor-id="functions-in-r">Functions in R</h2>
+<p>Functions in R are incredibly powerful and essential for efficient and automated programming. A function in R is defined using the function keyword. The basic structure includes the name of the function, a set of parameters, and the body where the actual computations are performed.</p>
+<p>The basic syntax is as follows:</p>
+<p>There are some minor conventions in RStudio when writing functions. Some of them also apply to other parts than just functions.</p>
+<ol type="1">
+<li>You should give them some “breathing” space. When you write the accolades, put a space bar in between.</li>
+</ol>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Bad</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span>(x){</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>  x <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a><span class="co">#Good</span></span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span>(x) {</span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>  x <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<ol start="2" type="1">
+<li>You should always put a space between the equal sign and the value you assign to a variable. Place spaces around all infix operators (=, +, -, &lt;-, etc.)</li>
+</ol>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co"># this is bad</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>data<span class="ot">&lt;-</span><span class="fu">read.csv</span>(<span class="st">"data.csv"</span>)</span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a><span class="co"># this is good</span></span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<ol start="3" type="1">
+<li>“stretch” your code when possible <code>ctrl + shift + a</code> can be of help for that</li>
+</ol>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co"># this is bad but in a longer example</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>country_model <span class="ot">&lt;-</span> <span class="cf">function</span>(df) {<span class="fu">glm</span>(vote <span class="sc">~</span> polintr <span class="sc">+</span> trstplt <span class="sc">+</span> trstprt <span class="sc">+</span> clsprty <span class="sc">+</span> gndr <span class="sc">+</span> yrbrn <span class="sc">+</span> eduyrs, <span class="at">family =</span> <span class="st">"binomial"</span>, <span class="at">data =</span> df)</span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a><span class="co"># this is better</span></span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>country_model <span class="ot">&lt;-</span> <span class="cf">function</span>(df) {</span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">glm</span>(</span>
+<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a>    vote <span class="sc">~</span> polintr <span class="sc">+</span> trstplt <span class="sc">+</span> trstprt <span class="sc">+</span> clsprty <span class="sc">+</span> gndr <span class="sc">+</span> yrbrn <span class="sc">+</span> eduyrs,</span>
+<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>),</span>
+<span id="cb47-9"><a href="#cb47-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> df</span>
+<span id="cb47-10"><a href="#cb47-10" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb47-11"><a href="#cb47-11" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<ol start="4" type="1">
+<li>We usually assign verbs to functions. This means that the name of the function should be a verb that describes what the function does. If we want to create a function that reads the ESS files and does several operations at once, we should call it something like <code>read_ess()</code>.</li>
+</ol>
+</section>
+<section id="the-purrr-package" class="level2">
+<h2 class="anchored" data-anchor-id="the-purrr-package">The <code>purrr</code> package</h2>
+<p>The purrr package in R is a powerful tool for handling repetitive tasks in a more efficient and elegant way. It is part of the Tidyverse, a collection of R packages designed to make data science faster, more intuitive, and more enjoyable.</p>
+<p>In simple terms, purrr improves how we work with lists and vectors in R. It provides functions that allow us to apply operations—whether built-in functions or ones we write ourselves—to each element of a list or vector without explicitly writing loops. This approach is known as functional programming.</p>
+<p>Put differently, the functions in purrr enable us to systematically apply a function to every element of a list or vector. Depending on which purrr function we use, the resulting output may differ (for example, returning a list, a vector, or a data frame). We can also control the structure of the output within the custom function that we pass to purrr, giving us both flexibility and efficiency.</p>
+<section id="the-map-function" class="level3">
+<h3 class="anchored" data-anchor-id="the-map-function">The map function</h3>
+<p>The map() function from the <code>purrr</code> package in R is based on a straightforward but powerful idea: it applies a function to each element of a list or vector and returns a new list containing the results. This process is called mapping, which is why the function is named map().</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/map.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<figcaption>The map function</figcaption>
+</figure>
+</div>
+<p>Here’s how map() works in practice:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(purrr)</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Example list of numbers</span></span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>numbers <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>)</span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply the sqrt() function to each element using map()</span></span>
+<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a>sqrt_results <span class="ot">&lt;-</span> <span class="fu">map</span>(numbers, sqrt)</span>
+<span id="cb48-8"><a href="#cb48-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-9"><a href="#cb48-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the results</span></span>
+<span id="cb48-10"><a href="#cb48-10" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(sqrt_results)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[[1]]
+[1] 1
+
+[[2]]
+[1] 1.414214
+
+[[3]]
+[1] 1.732051
+
+[[4]]
+[1] 2
+
+[[5]]
+[1] 2.236068</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>sqrt_results[<span class="dv">1</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[[1]]
+[1] 1</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>sqrt_results[[<span class="dv">1</span>]]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>sqrt_results[[<span class="dv">5</span>]]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2.236068</code></pre>
+</div>
+</div>
+<ul>
+<li><p><strong>Input</strong>: The main input to map() is a list or vector: in this example, the list with numbers (1,2,3,4,5). This can be as simple as a list of numbers or characters, or more complex objects like vectors within lists or even data frames.</p></li>
+<li><p><strong>Function Application</strong>: You provide a function that you want to apply to each element of the input. Here, the function is <code>sqrt</code> (square-root). This function can be a built-in R function or one you’ve written yourself. The important point is that it will be applied separately to each element of the list or vector.</p></li>
+<li><p><strong>Iteration</strong>: map() automatically iterates over each element of your input. There’s no need to write a loop—the function takes care of this internally. For each element, map() applies the function you specified.</p></li>
+<li><p><strong>Output</strong>: The results of the function applied to each element are collected into a new list. Each element of the output list corresponds to the result of the function applied to the respective element of the input.</p></li>
+<li><p><strong>Flexibility in Output Type</strong>: purrr offers specialized versions of map() to control the type of output. For instance, map_dbl() returns numeric values (doubles), map_chr() returns character vectors, and so on. This ensures that the output matches the type you expect, making subsequent analysis easier.</p></li>
+</ul>
+</section>
+</section>
+<section id="automating-logistic-regressions" class="level2">
+<h2 class="anchored" data-anchor-id="automating-logistic-regressions">Automating logistic regressions</h2>
+<p>Here, I present a code workflow that runs the logistic regression we’ve been working on, but simultaneously for all countries in the ESS. It also plots the odds ratio for our variable of interest, political interest, and compares McFadden’s pseudo R² (we’ll revisit this term in the next session).</p>
+<p>To do this, I combine ideas from the optional section of Session 1 with the purrr package. The approach is to build one model per ESS country, then <code>nest()</code> the results into a new tibble. (Reminder: a tibble is a modern version of a data frame with enhanced printing and subsetting features.) Each row of this tibble contains all the information necessary for a single country-specific model. We then use <code>map()`` to apply the</code>tidy()` function from the broom package to each of these models.</p>
+<p>Below is a simple function that takes a dataframe as input and returns a logistic regression model. Inside the function, I only specify the <code>glm()</code> call we’ve used before. The argument inside <code>function()</code>—in this example, df—is arbitrary; it can be any name you like. This name must appear somewhere inside the function, usually where the operation is applied to the input object. In our case, that’s in data = df.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>country_model <span class="ot">&lt;-</span> <span class="cf">function</span>(df) {</span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">glm</span>(vote <span class="sc">~</span> polintr <span class="sc">+</span> trstplt <span class="sc">+</span> trstprt <span class="sc">+</span> clsprty <span class="sc">+</span> gndr <span class="sc">+</span> yrbrn <span class="sc">+</span> eduyrs, </span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>), <span class="at">data =</span> df)</span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>To start, I import the ESS data and select only the variables that we want to use. I also perform some initial cleaning—removing unwanted observations or values—to make sure the dataset is ready for analysis.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Recoding the 'vote' variable to binary (1 or 0)</span></span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="co"># and filtering the dataset based on specified criteria</span></span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>prepared_ess <span class="ot">&lt;-</span> ess <span class="sc">|&gt;</span> </span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">vote =</span> <span class="fu">ifelse</span>(vote <span class="sc">==</span> <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a>    vote <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">1</span>),</span>
+<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a>    polintr <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>),</span>
+<span id="cb57-8"><a href="#cb57-8" aria-hidden="true" tabindex="-1"></a>    clsprty <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>),</span>
+<span id="cb57-9"><a href="#cb57-9" aria-hidden="true" tabindex="-1"></a>    trstplt <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">10</span>),</span>
+<span id="cb57-10"><a href="#cb57-10" aria-hidden="true" tabindex="-1"></a>    trstprt <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">10</span>),</span>
+<span id="cb57-11"><a href="#cb57-11" aria-hidden="true" tabindex="-1"></a>    gndr <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>),</span>
+<span id="cb57-12"><a href="#cb57-12" aria-hidden="true" tabindex="-1"></a>    yrbrn <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">1900</span><span class="sc">:</span><span class="dv">2010</span>),</span>
+<span id="cb57-13"><a href="#cb57-13" aria-hidden="true" tabindex="-1"></a>    eduyrs <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">50</span>)</span>
+<span id="cb57-14"><a href="#cb57-14" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Then we will <code>nest()</code> the data as described (here)[https://luissattelmayer.github.io/quant-2025/session1/session1.html#nesting].</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="co"># library for McFadden pseudo R2</span></span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pscl)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Classes and Methods for R originally developed in the
+Political Science Computational Laboratory
+Department of Political Science
+Stanford University (2002-2015),
+by and under the direction of Simon Jackman.
+hurdle and zeroinfl functions by Achim Zeileis.</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broom)</span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a>ess <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/ESS_10_fr.csv"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(cntry,</span>
+<span id="cb60-5"><a href="#cb60-5" aria-hidden="true" tabindex="-1"></a>         vote,</span>
+<span id="cb60-6"><a href="#cb60-6" aria-hidden="true" tabindex="-1"></a>         polintr,</span>
+<span id="cb60-7"><a href="#cb60-7" aria-hidden="true" tabindex="-1"></a>         trstplt,</span>
+<span id="cb60-8"><a href="#cb60-8" aria-hidden="true" tabindex="-1"></a>         trstprt,</span>
+<span id="cb60-9"><a href="#cb60-9" aria-hidden="true" tabindex="-1"></a>         clsprty,</span>
+<span id="cb60-10"><a href="#cb60-10" aria-hidden="true" tabindex="-1"></a>         gndr,</span>
+<span id="cb60-11"><a href="#cb60-11" aria-hidden="true" tabindex="-1"></a>         yrbrn,</span>
+<span id="cb60-12"><a href="#cb60-12" aria-hidden="true" tabindex="-1"></a>         eduyrs)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 33351 Columns: 25</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr  (3): name, proddate, cntry
+dbl (22): essround, edition, idno, dweight, pspwght, pweight, anweight, prob...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>ess_model <span class="ot">&lt;-</span> ess <span class="sc">|&gt;</span> </span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>() <span class="sc">|&gt;</span>  <span class="co"># Convert the data frame to a tibble</span></span>
+<span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">vote =</span> <span class="fu">ifelse</span>(vote <span class="sc">==</span> <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb63-4"><a href="#cb63-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb63-5"><a href="#cb63-5" aria-hidden="true" tabindex="-1"></a>    vote <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">1</span>),</span>
+<span id="cb63-6"><a href="#cb63-6" aria-hidden="true" tabindex="-1"></a>    polintr <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>),</span>
+<span id="cb63-7"><a href="#cb63-7" aria-hidden="true" tabindex="-1"></a>    clsprty <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>),</span>
+<span id="cb63-8"><a href="#cb63-8" aria-hidden="true" tabindex="-1"></a>    trstplt <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">10</span>),</span>
+<span id="cb63-9"><a href="#cb63-9" aria-hidden="true" tabindex="-1"></a>    trstprt <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">10</span>),</span>
+<span id="cb63-10"><a href="#cb63-10" aria-hidden="true" tabindex="-1"></a>    gndr <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>),</span>
+<span id="cb63-11"><a href="#cb63-11" aria-hidden="true" tabindex="-1"></a>    yrbrn <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">1900</span><span class="sc">:</span><span class="dv">2010</span>),</span>
+<span id="cb63-12"><a href="#cb63-12" aria-hidden="true" tabindex="-1"></a>    eduyrs <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">50</span>)</span>
+<span id="cb63-13"><a href="#cb63-13" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb63-14"><a href="#cb63-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(cntry) <span class="sc">|&gt;</span></span>
+<span id="cb63-15"><a href="#cb63-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">nest</span>() <span class="sc">|&gt;</span></span>
+<span id="cb63-16"><a href="#cb63-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb63-17"><a href="#cb63-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">model =</span> <span class="fu">map</span>(data, country_model),</span>
+<span id="cb63-18"><a href="#cb63-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">tidied =</span> <span class="fu">map</span>(model, <span class="sc">~</span> <span class="fu">tidy</span>(.x, <span class="at">conf.int =</span> <span class="cn">TRUE</span>, <span class="at">exponentiate =</span> <span class="cn">TRUE</span>)),</span>
+<span id="cb63-19"><a href="#cb63-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">glanced =</span> <span class="fu">map</span>(model, glance),</span>
+<span id="cb63-20"><a href="#cb63-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">augmented =</span> <span class="fu">map</span>(model, augment),</span>
+<span id="cb63-21"><a href="#cb63-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">mcfadden =</span> <span class="fu">map</span>(model, <span class="sc">~</span> <span class="fu">pR2</span>(.x)[<span class="dv">4</span>])</span>
+<span id="cb63-22"><a href="#cb63-22" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>fitting null model for pseudo-r2
+fitting null model for pseudo-r2
+fitting null model for pseudo-r2
+fitting null model for pseudo-r2
+fitting null model for pseudo-r2
+fitting null model for pseudo-r2
+fitting null model for pseudo-r2
+fitting null model for pseudo-r2
+fitting null model for pseudo-r2
+fitting null model for pseudo-r2
+fitting null model for pseudo-r2
+fitting null model for pseudo-r2
+fitting null model for pseudo-r2
+fitting null model for pseudo-r2
+fitting null model for pseudo-r2
+fitting null model for pseudo-r2
+fitting null model for pseudo-r2
+fitting null model for pseudo-r2
+fitting null model for pseudo-r2</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Comparing coefficients</span></span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>ess_model <span class="sc">|&gt;</span></span>
+<span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest</span>(tidied) <span class="sc">|&gt;</span></span>
+<span id="cb65-4"><a href="#cb65-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(term <span class="sc">==</span> <span class="st">"polintr"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb65-5"><a href="#cb65-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(</span>
+<span id="cb65-6"><a href="#cb65-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">reorder</span>(cntry, estimate),</span>
+<span id="cb65-7"><a href="#cb65-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="fu">exp</span>(estimate),</span>
+<span id="cb65-8"><a href="#cb65-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> cntry,</span>
+<span id="cb65-9"><a href="#cb65-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">ymin =</span> <span class="fu">exp</span>(conf.low),</span>
+<span id="cb65-10"><a href="#cb65-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">ymax =</span> <span class="fu">exp</span>(conf.high)</span>
+<span id="cb65-11"><a href="#cb65-11" aria-hidden="true" tabindex="-1"></a>  )) <span class="sc">+</span></span>
+<span id="cb65-12"><a href="#cb65-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>(<span class="at">width =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
+<span id="cb65-13"><a href="#cb65-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb65-14"><a href="#cb65-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Odds-Ratio of political interest"</span>) <span class="sc">+</span></span>
+<span id="cb65-15"><a href="#cb65-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Country"</span>) <span class="sc">+</span> </span>
+<span id="cb65-16"><a href="#cb65-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb65-17"><a href="#cb65-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb65-18"><a href="#cb65-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb65-19"><a href="#cb65-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">"none"</span></span>
+<span id="cb65-20"><a href="#cb65-20" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="session2_files/figure-html/unnamed-chunk-27-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="concept-of-logistic-regression" class="level1">
 <h1>Concept of logistic regression</h1>
 <section id="the-maximum-of-likelihood-estimation" class="level2">
 <h2 class="anchored" data-anchor-id="the-maximum-of-likelihood-estimation">The maximum of likelihood estimation</h2>
-<p>Imagine that you are interested in the of a binary outcome. This is called Bernoulli’s probability : <span class="math display">\[\begin{equation}
+<section id="constant-probabilities" class="level3">
+<h3 class="anchored" data-anchor-id="constant-probabilities">Constant probabilities</h3>
+<p>Suppose you are interested in the outcome of a binary event, where the probability of the event occurring is <span class="math inline">\(p\)</span> and the probability of it not occurring is <span class="math inline">\(1 - p\)</span>. This follows Bernoulli’s probability distribution:</p>
+<p><span class="math display">\[\begin{equation}
 P(X = x) = p^x (1-p)^x \ \text{with} X \in \{0, 1\}
 \end{equation}\]</span></p>
-<p>That means that obtaining P(X = 1) is associated with probablity <span class="math inline">\(p\)</span>, and obtaining P(X=0) is associated with probability (1-p). In practice, many research questions are interested in finding such probabilities :</p>
-<p>Imagine a random process which gives you N observations of that outcome, with probability p.</p>
-<p>Imagine that you simply want to know who voted, you can find the :. A simple idea would be to maximise the likelihood function, that is</p>
+<p>For example, imagine rolling a fair six-sided die. The probability of rolling a 1 (i.e., <span class="math inline">\(X = 1\)</span>) is <span class="math inline">\(p = 1/6\)</span>, and the probability of rolling anything other than a 1 (i.e., <span class="math inline">\(X = 0\)</span>) is <span class="math inline">\(1 - p = 5/6\)</span>. Many research questions involve finding such probabilities for binary outcomes, such as understanding why people vote or abstain, or why they vote for a particular party. These are binary outcomes, and calculating their probabilities using linear regression would not be appropriate.</p>
+<p>Suppose you observe <span class="math inline">\(N\)</span> independent binary outcomes, each determined by an unknown probability <span class="math inline">\(p\)</span>. Let <span class="math inline">\(n_1\)</span> represent the number of outcomes where <span class="math inline">\(X = 1\)</span>, and <span class="math inline">\(N - n_1\)</span> the number of outcomes where <span class="math inline">\(X = 0\)</span>. The likelihood function is:</p>
 <p><span class="math display">\[\begin{equation}
-\mathbb{L} = \Pi_i^N (p_i) \Pi_i^N (1-p_i)
+\mathcal{L}(p) = \prod_i^{n_1} (p_i) \prod_i^{N-n_1} (1-p_i) = p_i^{n_1}(1-p_i)^{N-n_1}
 \end{equation}\]</span></p>
-<p>Imagine for instance that you are interested in finding the probabilities that you will get 1/6, when rolling a dice with . Let’s call variable X = 1, and X = 0, a binary variable that basically says whether the dices you rolled were equal to 1 (X=1) or 0. Hence you have : <span class="math display">\[\begin{equation}
+<p>This expression represents the probability of obtaining <span class="math inline">\(X = 1\)</span> <span class="math inline">\(n_1\)</span> times, multiplied by the probability of obtaining <span class="math inline">\(X = 0\)</span> <span class="math inline">\(N - n_1\)</span> times. If you do not know the probability <span class="math inline">\(p\)</span> but have the outcomes for a large number of observations, you can estimate <span class="math inline">\(p\)</span> by maximizing the likelihood function. This method is called .</p>
+</section>
+<section id="a-simple-example" class="level3">
+<h3 class="anchored" data-anchor-id="a-simple-example">A simple example</h3>
+<p>Let’s say you’re interested in estimating the probability of rolling a 1 on a fair die, but you don’t know the probability (which you know theoretically to be 1/6). Let <span class="math inline">\(X = 1\)</span> if you roll a 1 and <span class="math inline">\(X = 0\)</span> otherwise. The probabilities are:</p>
+<p><span class="math display">\[\begin{equation}
 P(X=1) = 1/6 = p_1
-\end{equation}\]</span> and <span class="math display">\[\begin{equation}
+\end{equation}\]</span></p>
+<p>and <span class="math display">\[\begin{equation}
 P(X=0) =5/6 = p_0 = 1-p_1
 \end{equation}\]</span></p>
-<p>You do it 10000 times, and you get roughly a 1/6 chance of obtaining 1. Yet you would like to verify that.</p>
+<p>You roll the die 10,000 times and want to estimate <span class="math inline">\(p_1\)</span>. The likelihood function for these observations would be:</p>
 <p><span class="math display">\[\begin{equation}
-\mathbb{L} = \Pi_i^{10000} (p_i) \Pi_i^{10000} (1-p_i)
+\mathcal{L} = \Pi_i^{n_1} (p_i) \Pi_i^{10000-n_1} (1-p_i)
 \end{equation}\]</span></p>
-<p>You would typically obtain the likelihood function <span class="math display">\[\begin{equation}
-\mathbb{L}(p) = \Pi_i^{10000} (p_i) \Pi_i^{10000} (1-p_i) = p_i^{N_1} (1-p_i)^{10000-N_1}
-\end{equation}\]</span></p>
+<p>You would typically compute the likelihood function as: <span class="math display">\[\begin{equation}
+\mathcal{L}(p) = \Pi_i^{n_1} (p_i) \Pi_i^{10000-n_1} (1-p_i) = p_i^{n_1} (1-p_i)^{10000-n_1}.
+\end{equation}\]</span> The goal is to maximize the likelihood function to find the value of <span class="math inline">\(p\)</span> that makes the observed data most probable. To do this, take the log of the likelihood function:</p>
 <p><span class="math display">\[\begin{equation}
-
-\text{log}(\mathbb{L}(p)) = \text{log}(\Pi_i^{10000} (p_i) \Pi_i^{10000} (1-p_i)) = \text{log}(p_i^{N_1})+\text{log}((1-p_i)^{10000-N_1}) = N_1 \text{log}(p_i) + (10000-N_1)\text{log}(1-p_i)
+\text{log}(\mathcal{L}(p)) = \text{log}(\Pi_i^{10000} (p_i) \Pi_i^{10000} (1-p_i)) = \text{log}(p_i^{N_1})+\text{log}((1-p_i)^{10000-N_1
 \end{equation}\]</span></p>
-<p>And your goal would typically be to maximise your likelihood, <span class="math inline">\(\mathbb{L}(p)\)</span>, in order to find p.&nbsp;You could derive <span class="math inline">\(L(p)\)</span> as function of p: <span class="math display">\[\begin{equation}
-\frac{\delta (L(p))}{\delta p} = (N_1-10000)\frac{1}{1-p} + (N_1)\frac{1}{p} = \frac{N_1p- 10000p + N_1 - N_1p}{p(1-p)} = 0
-\end{equation}\]</span> which is only true if</p>
+<p>which gives :</p>
 <p><span class="math display">\[\begin{equation}
-p = \frac{N_1}{10000}
+\text{log}(p_i^{N_1})+\text{log}((1-p_i)^{10000-N_1}) = N_1 \text{log}(p_i) + (10000-N_1)\text{log}(1-p_i)
 \end{equation}\]</span></p>
-<p>which gives you the frequency of your value. Note that due to the law of, you would indeed get : .</p>
-<p>Hence, maximising the likelihood function allows you to estimate the probability distribution that best fits your data, for a variety of functions.</p>
-<p>Now imagine that your aim is precisely to estimate how different other variables can modify these probabilities. That is typically the case if you think of a research problem that would seek to explain voting behavior, depending on income : you would need data on . Hence your goal would be to maximise :</p>
+<p>Next, differentiate with respect to <span class="math inline">\(p\)</span>: <span class="math display">\[\begin{equation}
+\frac{d\text{log}(\mathbb{L}(p))}{dp} = \frac{n_1}{p} - \frac{10000 - n_1}{1 - p}.
+\end{equation}\]</span> Set the derivative equal to zero to solve for <span class="math inline">\(p\)</span>: <span class="math display">\[\begin{equation}
+\frac{n_1}{p} = \frac{10000 - n_1}{1 - p}.
+\end{equation}\]</span></p>
+<p>This simplifies to: <span class="math display">\[\begin{equation}
+p = \frac{n_1}{10000}.
+\end{equation}\]</span></p>
+<p>This result is simply the proportion of 1’s in the 10,000 rolls, which is the maximum likelihood estimate of the probability. According to the law of large numbers, as <span class="math inline">\(N \to \infty\)</span>, this estimate will converge to the true probability <span class="math inline">\(p\)</span>. Thus, maximizing the likelihood function allows us to estimate the probability distribution that best fits the data.</p>
+</section>
+</section>
+<section id="non-constant-probabilities" class="level2">
+<h2 class="anchored" data-anchor-id="non-constant-probabilities">Non-constant probabilities</h2>
+<p>Now imagine that your probabilities depend on other explanatory variables <span class="math inline">\(x_1, x_2, x_3\)</span>. For example, in a research study seeking to understand voter behavior, the probability of an individual voting might depend on their income, gender, or political affiliation. In this case, you would seek to estimate the relationship between these variables and the outcome of voting.</p>
+<p>The likelihood function in this case would be:</p>
 <p><span class="math display">\[\begin{equation}
 L(x_1, x_2, x_3) = \Pi_{i\  (y_i = 1)}^n p(x_1, x_2, x_3)_i \Pi_{i\  (y_i = 0)}^n (1 - p(x_1, x_2, x_3))_i
 \end{equation}\]</span></p>
-<p>And find the relevant functions <span class="math inline">\(p\)</span> that would best fit your data, using the likelihood estimation.</p>
-<p>You would need a function, <span class="math inline">\(p\)</span>, that associates any real value (for instance from the sum <span class="math inline">\(\beta_1x_1+\beta_2 x_2+ \beta_3x_3\)</span>), with a probability between 0 and 1, and we would have : <span class="math display">\[\begin{equation}
-\mathbb{E}(logit(p)|x_1, x_2, x_3) = $\beta_1x_1+\beta_2 x_2+ \beta_3x_3$
-\end{equation}\]</span></p>
-<p>Hence, that would give you the probability that best characterises your process, and as much as you would grow, you.</p>
-<p>If you now decide that <span class="math inline">\(p\)</span> is actually a function of some other variables <span class="math inline">\(x_1, x_2, x_3\)</span>, you need a function that associates these real numbers with probabilities ranging from 0 to 1.</p>
-<p>But now imagine that you want to understand what drives; that is how</p>
-</section>
-<section id="the-logarithm-function" class="level2">
-<h2 class="anchored" data-anchor-id="the-logarithm-function">The logarithm function</h2>
-<p>Before turning to the , it is important to remember what is a logarithm. A logarithm, defined in a certain basis <span class="math inline">\(a\)</span>, is the function</p>
+<p>In the simpler case where only one explanatory variable <span class="math inline">\(x\)</span> is considered, the likelihood function is:</p>
 <p><span class="math display">\[\begin{equation}
-\text{log}_{a}(x) = y
-\end{equation}\]</span> that satisfies : <span class="math display">\[\begin{equation}
-a^y = x.
+L(x) = \Pi_{i\  (y_i = 1)}^n p(x)_i \Pi_{i\  (y_i = 0)}^n (1 - p(x)_i)
 \end{equation}\]</span></p>
-<p>where a&gt;0. As such, <span class="math inline">\(\text{log}_a(x)\)</span> is only defined for <span class="math inline">\(x&gt;0\)</span> values. For instance, the 10-basis logarithm of 1000 is: <span class="math display">\[\begin{equation}
-\text{log}_{10}(1000) = 3
-\end{equation}\]</span> because <span class="math display">\[\begin{equation}
-10^3 = 1000
-\end{equation}\]</span> The 2-basis logarithm of 4 is: <span class="math display">\[\begin{equation}
-\text{log}_{2}(4) = 2
-\end{equation}\]</span> again because : <span class="math display">\[\begin{equation}
-\text{log}_{2}(4) = 2
+<p>which you would maximize to find the parameters that best fit the data.</p>
+</section>
+<section id="logistic-function-1" class="level2">
+<h2 class="anchored" data-anchor-id="logistic-function-1">Logistic function</h2>
+<p>The logistic function is : <span class="math display">\[\begin{equation}
+p_L (x) = \frac{1}{1+ e^{-(\beta_0 + \beta_1 x)}} = \frac{1}{1+e^{-(x-\mu)/s}} = \frac{e^{(x-\mu)/s}}{1+e^{(x-\mu)/s}}
+\end{equation}\]</span> and it is strictly bounded between 0 and 1, which is expected for a probability.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10000</span>)</span>
+<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a>mu <span class="ot">&lt;-</span> <span class="dv">5000</span></span>
+<span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a>s <span class="ot">&lt;-</span> <span class="dv">500</span></span>
+<span id="cb66-4"><a href="#cb66-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x, <span class="fu">exp</span>((x<span class="sc">-</span>mu)<span class="sc">/</span>s)<span class="sc">/</span>(<span class="dv">1</span><span class="sc">+</span><span class="fu">exp</span>((x<span class="sc">-</span>mu)<span class="sc">/</span>s)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="session2_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>You can use this logistic function in the likelihood function: <span class="math display">\[\begin{equation}
+\mathcal{L}(x) = \Pi_{i\  (y_i = 1)}^n p(x)_i \Pi_{i\  (y_i = 0)}^n (1 - p(x)_i),
+\end{equation}\]</span> maximize it, and find the parameters <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span> that best fit your data.</p>
+<p>This is the logic behind maximum likelihood estimation: you assume your probability follows a certain distribution (in this case, the logistic distribution), and then estimate the parameters that maximize the likelihood of the data. This is precisely what the <code>glm</code> function in R does when it fits a logistic regression model — it computes the parameters that maximize the likelihood function using numerical methods.</p>
+</section>
+<section id="logit" class="level2">
+<h2 class="anchored" data-anchor-id="logit">Logit</h2>
+<p>The logit is the inverse of the logistic function. It is defined as: <span class="math display">\[\begin{equation}
+\text{logit}(p(x)) = \ln (\frac{p(x)}{1-p(x)}) = \beta_0 + \beta_1 x,
 \end{equation}\]</span></p>
-<p>The e-basis (Euler’s number) logarithm is generally called <span class="math inline">\(\text{ln}\)</span>, and gives :</p>
+<p>The logit is the inverse of the logistic function. It is defined as:</p>
 <p><span class="math display">\[\begin{equation}
-\text{ln}(e) = 1
-\end{equation}\]</span> and <span class="math display">\[\begin{equation}
-\text{ln}(1) = 0
+\text{logit}(p(x)) = \ln \left( \frac{p(x)}{1-p(x)} \right) = \beta_0 + \beta_1 x,
 \end{equation}\]</span></p>
-<p>As such, the logarithm of 1 is always 0, for any basis <span class="math inline">\(a\)</span> : <span class="math display">\[\begin{equation}
-\text{log}_{a}(1) = 0
-\begin{equation}
-
-Plotting the log value shows the values of $\text{ln}(x)$ for values ranging from 0.01 to 100 gives the following graph, which shows that
-
-
-::: {.cell}
-
-```{.r .cell-code}
-x &lt;- c(1:2)/200
-plot(x, log(x))
-```
-
-::: {.cell-output-display}
-![](session2_files/figure-html/unnamed-chunk-1-1.png){width=672}
-:::
-:::
-
-\begin{align}
-\text{ln}(x) \le 0 \text{ for } x \le 1 \\
-\text{ln}(x) &gt; 0 \text{ for } x &gt; 1
-\end{align}
-
-Moreover, in the interval going from 0 (excluded) to 1, ]0,1], you see that :
-\begin{equation}
-ln(x) \rightarrow 0
-\end{equation}\]</span> when <span class="math inline">\(x \rightarrow 1\)</span>. So the closer you get to 1, the closer to 0 the log becomes. And the more <span class="math inline">\(x \rightarrow 0\)</span>, the more the log gets infinite. this</p>
+<p>In other words, the logit is the logarithm of the odds. The odds is simply the ratio ($ $ ), and gives a real number that tells you how many times more likely (or less likely) you are to obtain the outcome. For example, if the probability of an event occurring is 20% (i.e., ($ p = 0.2 $)), the odds are: <span class="math display">\[\begin{equation}
+\text{odds} = \frac{0.2}{1 - 0.2} = 0.2 / 0.8 = 0.25.
+\end{equation}\]</span> This means the event is 4 times less likely to happen than not to happen.</p>
+<p>On the other hand, if the probability of an event occurring is 80% (i.e., ($ p = 0.8 $)), the odds are: <span class="math display">\[\begin{equation}
+\text{odds} = \frac{0.8}{1 - 0.8} = 0.8 / 0.2 = 4.
+\end{equation}\]</span> This means the event is 4 times more likely to happen than not to happen.</p>
+<p>When considering probabilities between 0 and 1, the odds function (<span class="math inline">\(\frac{x}{1-x}\)</span>) increases very rapidly as the denominator approaches zero. This is why the log of the odds (the logit) provides a more manageable and continuous scale. For a visual comparison, here’s a plot in R showing the relationship between the probability (<span class="math inline">\(p\)</span>) and the odds, as well as the logit :</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10000</span>)<span class="sc">/</span><span class="dv">10000</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x, <span class="sc">-</span><span class="fu">log</span>(x))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10000</span>)<span class="sc">/</span><span class="dv">10000</span></span>
+<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(p, p<span class="sc">/</span>(<span class="dv">1</span><span class="sc">-</span>p))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="session2_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="session2_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(p, <span class="fu">log</span>(p<span class="sc">/</span>(<span class="dv">1</span><span class="sc">-</span>p)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="session2_files/figure-html/unnamed-chunk-29-2.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
-<p>The odds is simply the ratio p/1-p, and gives a real number that tells you how many times more likely (or less likely) you are to obtain your result. If you have 20% of having something occur, it means there are 4x less chances than it not occuring:</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>odds <span class="ot">=</span> <span class="fl">0.2</span><span class="sc">/</span><span class="fl">0.8</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>odds</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.25</code></pre>
-</div>
-</div>
-<p>If you have</p>
-<p>Taking the log of the odds gives you the function, that is : <span class="math display">\[\begin{equation}
-\text{logit}(p) = \ln(\frac{p}{1-p}) = ln(p) - ln(1-p) = \ln(\text{odds_p})
+<p>Hence, you see that the logit associates every probability <span class="math inline">\(p\)</span> with a continuous variable. In the special case where the probability <span class="math inline">\(p\)</span> is a logistic function of variables <span class="math inline">\(X_1, X_2, \dots, X_k\)</span>, we can express this relationship as:</p>
+<p><span class="math display">\[\begin{equation}
+\text{logit}(p | x_1, x_2, x_3) = \ln \left( \frac{p}{1 - p} \right) = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 x_3.
 \end{equation}\]</span></p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10000</span>)<span class="sc">/</span><span class="dv">10000</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x, x<span class="sc">/</span>(<span class="dv">1</span><span class="sc">-</span>x))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="session2_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x, <span class="fu">log</span>(x<span class="sc">/</span>(<span class="dv">1</span><span class="sc">-</span>x)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="session2_files/figure-html/unnamed-chunk-4-2.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
+<p>This is why you can obtain the odds by simply exponentiating the logit, which essentially gives you the odds ratio. In other words:</p>
+<p><span class="math display">\[\begin{equation}
+\text{ODDs} = \frac{p}{1 - p} = e^{\text{logit}(p)} = e^{\beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 x_3}.
+\end{equation}\]</span></p>
+<p>Any variation <span class="math inline">\(\delta x_1\)</span> in the explanatory variable <span class="math inline">\(x_1\)</span> leads to a change in the odds:</p>
+<p><span class="math display">\[\begin{equation}
+\delta \text{ODDs} = e^{\beta_1 \delta x_1}.
+\end{equation}\]</span></p>
+<p>This means that any change in <span class="math inline">\(x_1\)</span> results in a multiplicative change in the odds of the outcome occurring. The model allows you to compute the probability that best characterizes your process and helps to understand how each explanatory variable influences the outcome.</p>
+<p>Now, if you decide that <span class="math inline">\(p\)</span> is a function of other variables <span class="math inline">\(x_1, x_2, x_3\)</span>, you need a function that associates these real numbers with probabilities that range from 0 to 1. This is exactly what the logistic regression model does — it provides a way to model the relationship between the independent variables and a binary outcome, ensuring that the probabilities stay within the valid range of 0 and 1.</p>
+<p>But now, imagine you want to understand what drives the probability. In other words, you want to know how different factors (i.e., the explanatory variables) affect the likelihood of the outcome. The logistic regression model, through maximum likelihood estimation, gives you the answer to this question by estimating the coefficients <span class="math inline">\(\beta_1, \beta_2, \dots, \beta_k\)</span>, which tell you the effect of each variable on the log-odds of the outcome.</p>
 </section>
-</section>
-<section id="case-study-gender-and-voting-for-the-radical-right" class="level1">
-<h1>Case study : gender and voting for the radical right</h1>
-<p>Recent heated debates in academia have been about the impact of gender on the vote for the radical right : while some argue that women vote less for the radical right, because of its misogynistic legacy and , others show that this depends on the context, while some authors argue that radical right, other show that the radical right has renewed its electoral appeal towards women, by developing so-called femo-nationalism, - a sort of . This debate has found powerful echoes in the public debate, as shown by the FT’s 2024 paper shown here (Burn-Murdoch, 2024) :</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="images/rr_gap.png" class="img-fluid figure-img" style="width:100.0%"></p>
-<figcaption>The radical right gender gap - Financial Times (2024)</figcaption>
-</figure>
-</div>
-<p>That is why three amazing scholars of Sciences Po have sought to understand whether gender had a positive or negative impact on voting for the radical right in France, in the European and presidential elections (Piolat, N., Mayer, N., Durovic, A., 2025). How could you do that ?</p>
-<p>Imagine seeking to understand what influences voting for a given party at a micro level, in the second round of the legislative elections for instance : you may conduct a poll collecting information about voting among different people, as well as questions regarding the typical “variables” that may characterise voting in general (Mayer, 2007) : age, gender, social class (through socio-professional category), etc. Your whole empirical investigation will therefore seek to understand whether these variables increase the individual propensity to vote for the radical right. Hence, your dependent variable, voting for the radical right, will typically be of a YES/NO type, since your data is collected at the individual level.</p>
-<p>If your research puzzle seeks to identify the role of gender on the vote for the radical right, your main independent variable will be gender, and your</p>
-</section>
-<section id="with-one-independent-variable" class="level1">
-<h1>With one independent variable</h1>
-</section>
-<section id="adding-control-variables" class="level1">
-<h1>Adding control variables</h1>
-</section>
-<section id="case-study" class="level1">
-<h1>Case study</h1>
-<p>A typical case study is for instance . A lot of literature has recently developed over the. That is why researchers from my Center, the CEE, have searched to evaluate</p>
 </section>
 <section id="bibliography" class="level1">
 <h1>Bibliography</h1>

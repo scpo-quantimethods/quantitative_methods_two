@@ -207,12 +207,19 @@ Paul Servais
 </section>
 <section id="your-instructor" class="slide level2">
 <h2>Your instructor</h2>
-<!-- 
-- Paul Servais, <paul.servais@sciencespo.fr>. 
-- Trained as physical engineer, then came to SciencesPo (Urban School), graduated last year
-- Now working on climate politics, comparative politics
-- I've been working on the electoral impacts of wind turbines on the vote for the RN
--->
+<ul>
+<li>Paul Servais, <a href="mailto:paul.servais@sciencespo.fr" class="email">paul.servais@sciencespo.fr</a>.</li>
+<li>Trained as physical engineer, then came to SciencesPo (Urban School)</li>
+<li>Now working on climate politics, comparative politics</li>
+<li>I’ve been working on the electoral impacts of wind turbines on the vote for the RN</li>
+</ul>
+</section>
+<section id="and-you" class="slide level2">
+<h2>And you ?</h2>
+<ul>
+<li>Background ?</li>
+<li>Expectations ?</li>
+</ul>
 </section>
 <section id="course-organisation" class="slide level2">
 <h2>Course organisation</h2>
@@ -253,13 +260,6 @@ Paul Servais
 <li><ol start="6" type="1">
 <li>Time-series</li>
 </ol></li>
-</ul>
-</section>
-<section id="and-you" class="slide level2">
-<h2>And you ?</h2>
-<ul>
-<li>Background ?</li>
-<li>Expectations ?</li>
 </ul>
 </section>
 <section id="course-examination" class="slide level2">
@@ -3349,7 +3349,7 @@ F-statistic:  1248 on 1 and 3490 DF,  p-value: &lt; 2.2e-16</code></pre>
 <li>Significance levels : compares with <span class="math inline">\(\beta_1 = 0\)</span>
 <ul>
 <li>t-value (<span class="math inline">\(df&gt;1000\)</span>) : <span class="math inline">\(t_{.90} = 1.645\)</span>, <span class="math inline">\(t_{.95} = 1.96\)</span>, <span class="math inline">\(t_{.99} =2.58\)</span></li>
-<li>p-value : confidence level for rejecting the null</li>
+<li>p-value : probability of obtaining a value as extreme as the computed t-stat with the null</li>
 </ul></li>
 </ul>
 </section>
@@ -3369,7 +3369,19 @@ R^2 = \frac{\text{ESS}}{\text{TSS}} = \frac{\sum_i^N (\hat{Y}_i - \bar{Y})^2}{\s
 Y_i = \beta_0+\beta_1 X_{1i} + \beta_2 X_{2i} + \epsilon_i
 \end{equation}\]</span></li>
 <li>Similar interpretation</li>
-<li>Adj. <span class="math inline">\(R^2\)</span> gives you</li>
+<li>Adj. <span class="math inline">\(R^2\)</span> takes into account the number of predictors</li>
+</ul>
+</section>
+<section id="linear-regression-with-interactions" class="slide level2">
+<h2>Linear regression with interactions</h2>
+<ul>
+<li>Interaction : <span class="math display">\[\begin{equation}
+Y_i = \beta_0+\beta_1 X_{1i} + \beta_2 X_{2i} + \beta_3 X_{1i} X_{2i}  + \epsilon_i
+\end{equation}\]</span></li>
+<li>Any variation <span class="math inline">\(\delta X_{1i}\)</span> translates into : <span class="math display">\[\begin{equation}
+\delta Y_i = \delta X_{1i}(\beta_1 + \beta_3 X_{2i})  
+\end{equation}\]</span></li>
+<li>Hence a function of <span class="math inline">\(X_{2i}\)</span> ! The impact of <span class="math inline">\(X_{1i}\)</span> on <span class="math inline">\(Y_i\)</span> is changed as <span class="math inline">\(X_{2i}\)</span> varies</li>
 </ul>
 </section>
 <section id="verifying-assumptions" class="slide level2">
@@ -3435,7 +3447,7 @@ Y_i = \beta_0+\beta_1 X_{1i} + \beta_2 X_{2i} + \epsilon_i
 </ul>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] -1.331618e-13</code></pre>
+<pre><code>[1] -1.667297e-13</code></pre>
 </div>
 
 <div class="cell-output cell-output-stdout">
@@ -3459,18 +3471,18 @@ Y_i = \beta_0+\beta_1 X_{1i} + \beta_2 X_{2i} + \epsilon_i
                                                         linear  
                                    (1)         (2)        (3)   
 ----------------------------------------------------------------
-x                                9.927***   10.830***  10.779***
-                                 (0.110)     (0.618)    (0.524) 
+x                                9.961***   10.046***  10.577***
+                                 (0.105)     (0.655)    (0.497) 
                                                                 
-Constant                          80.216     -196.805  -191.276 
-                                 (64.054)   (356.874)  (302.645)
+Constant                          0.565      -108.452  -233.778 
+                                 (60.979)   (368.424)  (279.571)
                                                                 
 ----------------------------------------------------------------
 Observations                      1,000       1,000      1,000  
-R2                                0.891       0.235             
-Adjusted R2                       0.891       0.235             
-Residual Std. Error (df = 998)  1,009.906   5,580.734  4,098.033
-F Statistic (df = 1; 998)      8,161.708*** 307.043***          
+R2                                0.900       0.191             
+Adjusted R2                       0.900       0.190             
+Residual Std. Error (df = 998)   948.034    5,939.187  3,669.289
+F Statistic (df = 1; 998)      8,955.876*** 235.126***          
 ================================================================
 Note:                                *p&lt;0.1; **p&lt;0.05; ***p&lt;0.01</code></pre>
 </div>
@@ -3494,18 +3506,18 @@ lm(formula = y ~ x)
 
 Residuals:
      Min       1Q   Median       3Q      Max 
--25116.7  -2685.6     88.1   2767.9  27120.5 
+-23514.4  -2598.1     32.7   2464.1  27641.3 
 
 Coefficients:
             Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept)  42.8029   368.0074   0.116    0.907    
-x             9.4163     0.6373  14.775   &lt;2e-16 ***
+(Intercept) -12.6959   363.9424  -0.035    0.972    
+x             9.9961     0.6472  15.446   &lt;2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Residual standard error: 5755 on 998 degrees of freedom
-Multiple R-squared:  0.1795,    Adjusted R-squared:  0.1787 
-F-statistic: 218.3 on 1 and 998 DF,  p-value: &lt; 2.2e-16</code></pre>
+Residual standard error: 5867 on 998 degrees of freedom
+Multiple R-squared:  0.1929,    Adjusted R-squared:  0.1921 
+F-statistic: 238.6 on 1 and 998 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a></a><span class="fu">summary</span>(model2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -3514,18 +3526,18 @@ Call:
 lm(formula = y ~ x + w)
 
 Residuals:
-   Min     1Q Median     3Q    Max 
--25078  -2742     81   2848  27190 
+     Min       1Q   Median       3Q      Max 
+-23561.3  -2590.9     27.4   2481.0  27655.4 
 
 Coefficients:
             Estimate Std. Error t value Pr(&gt;|t|)
-(Intercept)     41.1      368.0   0.112    0.911
-x             -356.4      362.6  -0.983    0.326
-w              365.8      362.6   1.009    0.313
+(Intercept)   -8.722    365.571  -0.024    0.981
+x            -34.949    367.780  -0.095    0.924
+w             44.941    367.744   0.122    0.903
 
-Residual standard error: 5755 on 997 degrees of freedom
-Multiple R-squared:  0.1803,    Adjusted R-squared:  0.1787 
-F-statistic: 109.7 on 2 and 997 DF,  p-value: &lt; 2.2e-16</code></pre>
+Residual standard error: 5870 on 997 degrees of freedom
+Multiple R-squared:  0.1929,    Adjusted R-squared:  0.1913 
+F-statistic: 119.2 on 2 and 997 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a></a><span class="fu">check_collinearity</span>(model2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -3534,8 +3546,8 @@ F-statistic: 109.7 on 2 and 997 DF,  p-value: &lt; 2.2e-16</code></pre>
 High Correlation
 
  Term      VIF           VIF 95% CI adj. VIF Tolerance Tolerance 95% CI
-    x 3.24e+05 [2.86e+05, 3.66e+05]   568.90  3.09e-06     [0.00, 0.00]
-    w 3.24e+05 [2.86e+05, 3.66e+05]   568.90  3.09e-06     [0.00, 0.00]</code></pre>
+    x 3.23e+05 [2.85e+05, 3.65e+05]   568.00  3.10e-06     [0.00, 0.00]
+    w 3.23e+05 [2.85e+05, 3.65e+05]   568.00  3.10e-06     [0.00, 0.00]</code></pre>
 </div>
 </div>
 </section></section>
@@ -3584,9 +3596,9 @@ $ hinctnta &lt;dbl&gt; 7, 8, 10, 5, 7, 8, 7, NA, 1, 5, 1, NA, 1, NA, 1, 8, 1, 5,
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a></a>ESS <span class="ot">&lt;-</span> ESS <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>(euftf, happy,yrbrn, eduyrs, gndr)</span>
 <span id="cb46-2"><a></a><span class="co">#1.2</span></span>
-<span id="cb46-3"><a></a><span class="fu">length</span>(ESS)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb46-3"><a></a><span class="fu">length</span>(ESS<span class="sc">$</span>euftf)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 5</code></pre>
+<pre><code>[1] 1917</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a></a><span class="co">#1.3</span></span>
 <span id="cb48-2"><a></a><span class="fu">summary</span>(ESS)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
