@@ -2,7 +2,7 @@
 title: "First homework - Logistic regressions"
 subtitle : "Quantitative methods II - tutorials"
 date: today
-format: pdf
+format: html
 ---
 
 
