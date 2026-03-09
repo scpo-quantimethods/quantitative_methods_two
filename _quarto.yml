@@ -13,6 +13,8 @@ website:
             href: sessions/session1/session1.qmd
           - text: "Session 2: Logistic regressions"
             href: sessions/session2/session2.qmd
+          - text: "Session 3: Multinomial regressions"
+            href: sessions/session3/session3.qmd
           
       - text: Exercices
       - menu:
@@ -22,6 +24,9 @@ website:
           - text: "Exercices 2: Logistic regressions"
             href: exercices/exercices2/exercices2.qmd
             
+          - text: "Exercices 3: Multinomial regressions"
+            href: exercices/exercices3/exercices3.qmd
+            
       - text: Slides
       - menu:
           - text: "Slides - session 1"
@@ -29,6 +34,9 @@ website:
             
           - text: "Slides - session 2"
             href: slides/session2/session2.qmd
+            
+          - text: "Slides - session 3"
+            href: slides/session3/session3.qmd
             
       - text: Homeworks
       - menu:
