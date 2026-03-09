@@ -269,13 +269,14 @@ ln \left( \frac{Pr(Y=K-1|x)}{Pr(Y=K|x)} \right) &amp;=\beta_{0,K-1} + \beta_{1,K
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a></a><span class="fu">library</span>(rio)</span>
 <span id="cb1-2"><a></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-3"><a></a>ess<span class="ot">&lt;-</span><span class="fu">import</span>(<span class="st">"https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/sessions/session3/data/ESS11e04_1.csv"</span>)</span>
-<span id="cb1-4"><a></a>data <span class="ot">&lt;-</span>ess <span class="sc">|&gt;</span> <span class="co">#this is a pipe you can also use %&gt;%</span></span>
-<span id="cb1-5"><a></a>  <span class="fu">select</span>(cntry, <span class="co">#select your variables of interest</span></span>
-<span id="cb1-6"><a></a>         prtclhes,</span>
-<span id="cb1-7"><a></a>         gndr,</span>
-<span id="cb1-8"><a></a>         agea,</span>
-<span id="cb1-9"><a></a>         eduyrs) <span class="sc">|&gt;</span></span>
-<span id="cb1-10"><a></a>  <span class="fu">filter</span>(cntry<span class="sc">==</span><span class="st">"ES"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-4"><a></a><span class="co">#ess&lt;-read.csv("ESS11e04_1.csv")</span></span>
+<span id="cb1-5"><a></a>data <span class="ot">&lt;-</span>ess <span class="sc">|&gt;</span> <span class="co">#this is a pipe you can also use %&gt;%</span></span>
+<span id="cb1-6"><a></a>  <span class="fu">select</span>(cntry, <span class="co">#select your variables of interest</span></span>
+<span id="cb1-7"><a></a>         prtclhes,</span>
+<span id="cb1-8"><a></a>         gndr,</span>
+<span id="cb1-9"><a></a>         agea,</span>
+<span id="cb1-10"><a></a>         eduyrs) <span class="sc">|&gt;</span></span>
+<span id="cb1-11"><a></a>  <span class="fu">filter</span>(cntry<span class="sc">==</span><span class="st">"ES"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </section>
@@ -349,7 +350,7 @@ Female   Male
 <div class="cell-output-display">
 <div>
 <figure>
-<p><img data-src="correction3_files/figure-revealjs/unnamed-chunk-4-1.png" width="960"></p>
+<p><img data-src="session3_files/figure-revealjs/unnamed-chunk-4-1.png" width="960"></p>
 </figure>
 </div>
 </div>
@@ -360,7 +361,7 @@ Female   Male
 <div class="cell-output-display">
 <div>
 <figure>
-<p><img data-src="correction3_files/figure-revealjs/unnamed-chunk-5-1.png" width="960"></p>
+<p><img data-src="session3_files/figure-revealjs/unnamed-chunk-5-1.png" width="960"></p>
 </figure>
 </div>
 </div>
@@ -506,23 +507,23 @@ Vox     4.8434070 0.9459258 0.9434965 2.9316757</code></pre>
 
     <script>
       // Create table-specific functions using external factory
-      const tableFns_44bjv9w22xlxhqrrfeuw = TinyTable.createTableFunctions("tinytable_44bjv9w22xlxhqrrfeuw");
+      const tableFns_phraxi62gz2e4sni3e82 = TinyTable.createTableFunctions("tinytable_phraxi62gz2e4sni3e82");
       // tinytable span after
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: '6', j: 3 }, { i: '6', j: 4 }, { i: '6', j: 5 } ], css_id: 'tinytable_css_hpu544xkzz7p2bvd078a',}, 
-          { positions: [ { i: '1', j: 3 }, { i: '2', j: 3 }, { i: '3', j: 3 }, { i: '4', j: 3 }, { i: '5', j: 3 }, { i: '1', j: 4 }, { i: '2', j: 4 }, { i: '3', j: 4 }, { i: '4', j: 4 }, { i: '5', j: 4 }, { i: '1', j: 5 }, { i: '2', j: 5 }, { i: '3', j: 5 }, { i: '4', j: 5 }, { i: '5', j: 5 } ], css_id: 'tinytable_css_ik6md5inay9wxs5j3i4g',}, 
-          { positions: [ { i: '0', j: 3 }, { i: '0', j: 4 }, { i: '0', j: 5 } ], css_id: 'tinytable_css_3qdclorhb16a6en3v7zp',}, 
-          { positions: [ { i: '6', j: 1 }, { i: '6', j: 2 } ], css_id: 'tinytable_css_sefbrfrkycubbzsdv81i',}, 
-          { positions: [ { i: '1', j: 1 }, { i: '2', j: 1 }, { i: '3', j: 1 }, { i: '4', j: 1 }, { i: '5', j: 1 }, { i: '1', j: 2 }, { i: '2', j: 2 }, { i: '3', j: 2 }, { i: '4', j: 2 }, { i: '5', j: 2 } ], css_id: 'tinytable_css_gs7tpyqunmkp4uvev541',}, 
-          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 } ], css_id: 'tinytable_css_cpjwe0x28j2jflxs1xew',}, 
+          { positions: [ { i: '6', j: 3 }, { i: '6', j: 4 }, { i: '6', j: 5 } ], css_id: 'tinytable_css_safb3yp7otlozvla2zyg',}, 
+          { positions: [ { i: '1', j: 3 }, { i: '2', j: 3 }, { i: '3', j: 3 }, { i: '4', j: 3 }, { i: '5', j: 3 }, { i: '1', j: 4 }, { i: '2', j: 4 }, { i: '3', j: 4 }, { i: '4', j: 4 }, { i: '5', j: 4 }, { i: '1', j: 5 }, { i: '2', j: 5 }, { i: '3', j: 5 }, { i: '4', j: 5 }, { i: '5', j: 5 } ], css_id: 'tinytable_css_97xwqr1scealp6clnxjz',}, 
+          { positions: [ { i: '0', j: 3 }, { i: '0', j: 4 }, { i: '0', j: 5 } ], css_id: 'tinytable_css_6qj1ytwzdwfsl6xcsgch',}, 
+          { positions: [ { i: '6', j: 1 }, { i: '6', j: 2 } ], css_id: 'tinytable_css_64fo4di9tdozo6xbxbyc',}, 
+          { positions: [ { i: '1', j: 1 }, { i: '2', j: 1 }, { i: '3', j: 1 }, { i: '4', j: 1 }, { i: '5', j: 1 }, { i: '1', j: 2 }, { i: '2', j: 2 }, { i: '3', j: 2 }, { i: '4', j: 2 }, { i: '5', j: 2 } ], css_id: 'tinytable_css_s3xcym66nqrzfo66moh8',}, 
+          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 } ], css_id: 'tinytable_css_8acet43095he98b5wl9f',}, 
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  tableFns_44bjv9w22xlxhqrrfeuw.styleCell(cell.i, cell.j, group.css_id);
+                  tableFns_phraxi62gz2e4sni3e82.styleCell(cell.i, cell.j, group.css_id);
               });
           });
       });
@@ -531,15 +532,15 @@ Vox     4.8434070 0.9459258 0.9434965 2.9316757</code></pre>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.css">
     <style>
     /* tinytable css entries after */
-    #tinytable_44bjv9w22xlxhqrrfeuw td.tinytable_css_hpu544xkzz7p2bvd078a, #tinytable_44bjv9w22xlxhqrrfeuw th.tinytable_css_hpu544xkzz7p2bvd078a {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
-    #tinytable_44bjv9w22xlxhqrrfeuw td.tinytable_css_ik6md5inay9wxs5j3i4g, #tinytable_44bjv9w22xlxhqrrfeuw th.tinytable_css_ik6md5inay9wxs5j3i4g { text-align: center }
-    #tinytable_44bjv9w22xlxhqrrfeuw td.tinytable_css_3qdclorhb16a6en3v7zp, #tinytable_44bjv9w22xlxhqrrfeuw th.tinytable_css_3qdclorhb16a6en3v7zp {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
-    #tinytable_44bjv9w22xlxhqrrfeuw td.tinytable_css_sefbrfrkycubbzsdv81i, #tinytable_44bjv9w22xlxhqrrfeuw th.tinytable_css_sefbrfrkycubbzsdv81i {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
-    #tinytable_44bjv9w22xlxhqrrfeuw td.tinytable_css_gs7tpyqunmkp4uvev541, #tinytable_44bjv9w22xlxhqrrfeuw th.tinytable_css_gs7tpyqunmkp4uvev541 { text-align: left }
-    #tinytable_44bjv9w22xlxhqrrfeuw td.tinytable_css_cpjwe0x28j2jflxs1xew, #tinytable_44bjv9w22xlxhqrrfeuw th.tinytable_css_cpjwe0x28j2jflxs1xew {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
+    #tinytable_phraxi62gz2e4sni3e82 td.tinytable_css_safb3yp7otlozvla2zyg, #tinytable_phraxi62gz2e4sni3e82 th.tinytable_css_safb3yp7otlozvla2zyg {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
+    #tinytable_phraxi62gz2e4sni3e82 td.tinytable_css_97xwqr1scealp6clnxjz, #tinytable_phraxi62gz2e4sni3e82 th.tinytable_css_97xwqr1scealp6clnxjz { text-align: center }
+    #tinytable_phraxi62gz2e4sni3e82 td.tinytable_css_6qj1ytwzdwfsl6xcsgch, #tinytable_phraxi62gz2e4sni3e82 th.tinytable_css_6qj1ytwzdwfsl6xcsgch {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
+    #tinytable_phraxi62gz2e4sni3e82 td.tinytable_css_64fo4di9tdozo6xbxbyc, #tinytable_phraxi62gz2e4sni3e82 th.tinytable_css_64fo4di9tdozo6xbxbyc {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
+    #tinytable_phraxi62gz2e4sni3e82 td.tinytable_css_s3xcym66nqrzfo66moh8, #tinytable_phraxi62gz2e4sni3e82 th.tinytable_css_s3xcym66nqrzfo66moh8 { text-align: left }
+    #tinytable_phraxi62gz2e4sni3e82 td.tinytable_css_8acet43095he98b5wl9f, #tinytable_phraxi62gz2e4sni3e82 th.tinytable_css_8acet43095he98b5wl9f {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
     </style>
     <div class="container">
-      <table class="tinytable" id="tinytable_44bjv9w22xlxhqrrfeuw" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="tinytable" id="tinytable_phraxi62gz2e4sni3e82" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
         <caption>Multinomial Regression Results</caption>
         <thead>
               <tr>
@@ -693,23 +694,23 @@ Note:               *p&lt;0.1; **p&lt;0.05; ***p&lt;0.01</code></pre>
 
     <script>
       // Create table-specific functions using external factory
-      const tableFns_m473dtwaxx3k4324bojk = TinyTable.createTableFunctions("tinytable_m473dtwaxx3k4324bojk");
+      const tableFns_uau51f751jsoobcbis1o = TinyTable.createTableFunctions("tinytable_uau51f751jsoobcbis1o");
       // tinytable span after
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: '6', j: 3 }, { i: '6', j: 4 }, { i: '6', j: 5 } ], css_id: 'tinytable_css_vghibmaw7dejnuv594kb',}, 
-          { positions: [ { i: '1', j: 3 }, { i: '2', j: 3 }, { i: '3', j: 3 }, { i: '4', j: 3 }, { i: '5', j: 3 }, { i: '1', j: 4 }, { i: '2', j: 4 }, { i: '3', j: 4 }, { i: '4', j: 4 }, { i: '5', j: 4 }, { i: '1', j: 5 }, { i: '2', j: 5 }, { i: '3', j: 5 }, { i: '4', j: 5 }, { i: '5', j: 5 } ], css_id: 'tinytable_css_b5ur4evpt8ddghgpzxn6',}, 
-          { positions: [ { i: '0', j: 3 }, { i: '0', j: 4 }, { i: '0', j: 5 } ], css_id: 'tinytable_css_9b3iht0w4zm5rlmy4y4g',}, 
-          { positions: [ { i: '6', j: 1 }, { i: '6', j: 2 } ], css_id: 'tinytable_css_bvd40sro26pei04bec6p',}, 
-          { positions: [ { i: '1', j: 1 }, { i: '2', j: 1 }, { i: '3', j: 1 }, { i: '4', j: 1 }, { i: '5', j: 1 }, { i: '1', j: 2 }, { i: '2', j: 2 }, { i: '3', j: 2 }, { i: '4', j: 2 }, { i: '5', j: 2 } ], css_id: 'tinytable_css_fflcfiqjlo2tk8hkvjzd',}, 
-          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 } ], css_id: 'tinytable_css_z7jxaa41rssua4175gkw',}, 
+          { positions: [ { i: '6', j: 3 }, { i: '6', j: 4 }, { i: '6', j: 5 } ], css_id: 'tinytable_css_hzoszme72stmhlhj6118',}, 
+          { positions: [ { i: '1', j: 3 }, { i: '2', j: 3 }, { i: '3', j: 3 }, { i: '4', j: 3 }, { i: '5', j: 3 }, { i: '1', j: 4 }, { i: '2', j: 4 }, { i: '3', j: 4 }, { i: '4', j: 4 }, { i: '5', j: 4 }, { i: '1', j: 5 }, { i: '2', j: 5 }, { i: '3', j: 5 }, { i: '4', j: 5 }, { i: '5', j: 5 } ], css_id: 'tinytable_css_tt23p3e26f5edhui0m82',}, 
+          { positions: [ { i: '0', j: 3 }, { i: '0', j: 4 }, { i: '0', j: 5 } ], css_id: 'tinytable_css_pe9x4jq3tf2pzam7miyx',}, 
+          { positions: [ { i: '6', j: 1 }, { i: '6', j: 2 } ], css_id: 'tinytable_css_x6xx65kyfg3v6o6w83o0',}, 
+          { positions: [ { i: '1', j: 1 }, { i: '2', j: 1 }, { i: '3', j: 1 }, { i: '4', j: 1 }, { i: '5', j: 1 }, { i: '1', j: 2 }, { i: '2', j: 2 }, { i: '3', j: 2 }, { i: '4', j: 2 }, { i: '5', j: 2 } ], css_id: 'tinytable_css_sqrznchjqcrykehzeak8',}, 
+          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 } ], css_id: 'tinytable_css_dz5jer8ot6660lhuasrb',}, 
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  tableFns_m473dtwaxx3k4324bojk.styleCell(cell.i, cell.j, group.css_id);
+                  tableFns_uau51f751jsoobcbis1o.styleCell(cell.i, cell.j, group.css_id);
               });
           });
       });
@@ -718,15 +719,15 @@ Note:               *p&lt;0.1; **p&lt;0.05; ***p&lt;0.01</code></pre>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.css">
     <style>
     /* tinytable css entries after */
-    #tinytable_m473dtwaxx3k4324bojk td.tinytable_css_vghibmaw7dejnuv594kb, #tinytable_m473dtwaxx3k4324bojk th.tinytable_css_vghibmaw7dejnuv594kb {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
-    #tinytable_m473dtwaxx3k4324bojk td.tinytable_css_b5ur4evpt8ddghgpzxn6, #tinytable_m473dtwaxx3k4324bojk th.tinytable_css_b5ur4evpt8ddghgpzxn6 { text-align: center }
-    #tinytable_m473dtwaxx3k4324bojk td.tinytable_css_9b3iht0w4zm5rlmy4y4g, #tinytable_m473dtwaxx3k4324bojk th.tinytable_css_9b3iht0w4zm5rlmy4y4g {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
-    #tinytable_m473dtwaxx3k4324bojk td.tinytable_css_bvd40sro26pei04bec6p, #tinytable_m473dtwaxx3k4324bojk th.tinytable_css_bvd40sro26pei04bec6p {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
-    #tinytable_m473dtwaxx3k4324bojk td.tinytable_css_fflcfiqjlo2tk8hkvjzd, #tinytable_m473dtwaxx3k4324bojk th.tinytable_css_fflcfiqjlo2tk8hkvjzd { text-align: left }
-    #tinytable_m473dtwaxx3k4324bojk td.tinytable_css_z7jxaa41rssua4175gkw, #tinytable_m473dtwaxx3k4324bojk th.tinytable_css_z7jxaa41rssua4175gkw {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
+    #tinytable_uau51f751jsoobcbis1o td.tinytable_css_hzoszme72stmhlhj6118, #tinytable_uau51f751jsoobcbis1o th.tinytable_css_hzoszme72stmhlhj6118 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
+    #tinytable_uau51f751jsoobcbis1o td.tinytable_css_tt23p3e26f5edhui0m82, #tinytable_uau51f751jsoobcbis1o th.tinytable_css_tt23p3e26f5edhui0m82 { text-align: center }
+    #tinytable_uau51f751jsoobcbis1o td.tinytable_css_pe9x4jq3tf2pzam7miyx, #tinytable_uau51f751jsoobcbis1o th.tinytable_css_pe9x4jq3tf2pzam7miyx {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
+    #tinytable_uau51f751jsoobcbis1o td.tinytable_css_x6xx65kyfg3v6o6w83o0, #tinytable_uau51f751jsoobcbis1o th.tinytable_css_x6xx65kyfg3v6o6w83o0 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
+    #tinytable_uau51f751jsoobcbis1o td.tinytable_css_sqrznchjqcrykehzeak8, #tinytable_uau51f751jsoobcbis1o th.tinytable_css_sqrznchjqcrykehzeak8 { text-align: left }
+    #tinytable_uau51f751jsoobcbis1o td.tinytable_css_dz5jer8ot6660lhuasrb, #tinytable_uau51f751jsoobcbis1o th.tinytable_css_dz5jer8ot6660lhuasrb {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
     </style>
     <div class="container">
-      <table class="tinytable" id="tinytable_m473dtwaxx3k4324bojk" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="tinytable" id="tinytable_uau51f751jsoobcbis1o" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
         <caption>Multinomial Regression Results</caption>
         <thead>
               <tr>
@@ -841,7 +842,7 @@ Note:               *p&lt;0.1; **p&lt;0.05; ***p&lt;0.01</code></pre>
 <span id="cb28-6"><a></a>  <span class="fu">theme_light</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
-<img data-src="correction3_files/figure-revealjs/unnamed-chunk-15-1.png" width="960" class="r-stretch"></section>
+<img data-src="session3_files/figure-revealjs/unnamed-chunk-15-1.png" width="960" class="r-stretch"></section>
 <section id="predictive-probability-for-gender" class="slide level2">
 <h2>Predictive probability for gender</h2>
 <div class="cell">
@@ -858,7 +859,7 @@ Note:               *p&lt;0.1; **p&lt;0.05; ***p&lt;0.01</code></pre>
 <span id="cb29-11"><a></a>  <span class="fu">theme_light</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
-<img data-src="correction3_files/figure-revealjs/unnamed-chunk-16-1.png" width="960" class="r-stretch"></section>
+<img data-src="session3_files/figure-revealjs/unnamed-chunk-16-1.png" width="960" class="r-stretch"></section>
 <section id="goodness-of-fit" class="slide level2">
 <h2>Goodness of fit</h2>
 <h3 id="pseudo-r2">Pseudo <span class="math inline">\(R^2\)</span></h3>
@@ -946,615 +947,11 @@ modelB  9 1682.920</code></pre>
 <p>We are interested in understanding why people vote Populist Radical-Right parties (this example is inspired by <a href="https://luissattelmayer.github.io/quant-2025/session5/session5.html">Luis Sattelmayer</a>). We will focus on Germany. We will use the 11th round of the ESS. You can download the data here <a href="https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/exercices/exercices3/data/ESS11e04_1.csv" class="uri">https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/exercices/exercices3/data/ESS11e04_1.csv</a> and the codebook <a href="https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/exercices/exercices3/data/ESS11e04_1%20codebook.html">here</a>.</p>
 </div>
 </section>
-<section id="exercise-1-1" class="slide level2 scrollable">
-<h2>Exercise 1</h2>
-<ol type="1">
-<li>Import the data into R. Hint: use <code>import()</code> function.</li>
-</ol>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a></a>ess<span class="ot">&lt;-</span><span class="fu">import</span>(<span class="st">"https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/exercices/exercices3/data/ESS11e04_1.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<ol start="2" type="1">
-<li><p>Select only the variable <code>cntry, prtvgde1, imueclt, eduyrs, hinctnta, stflife, trstplt, gndr</code>and filter the observation to keep only German respondents. Hint: <code>select</code> and <code>filter</code> function.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a></a>ess<span class="ot">&lt;-</span>ess<span class="sc">%&gt;%</span></span>
-<span id="cb42-2"><a></a>  <span class="fu">select</span>(cntry, prtvgde1, imueclt, eduyrs, hinctnta, stflife, </span>
-<span id="cb42-3"><a></a>         trstplt, gndr) <span class="sc">%&gt;%</span></span>
-<span id="cb42-4"><a></a>  <span class="fu">filter</span>(cntry<span class="sc">==</span><span class="st">"DE"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div></li>
-<li><p>Have a look at your data. Hint: <code>glimpse</code> or <code>head</code> function.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a></a><span class="fu">glimpse</span>(ess)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Rows: 2,420
-Columns: 8
-$ cntry    &lt;chr&gt; "DE", "DE", "DE", "DE", "DE", "DE", "DE", "DE", "DE", "DE", "…
-$ prtvgde1 &lt;int&gt; 1, 3, 66, 2, 2, 2, 2, 6, 5, 77, 77, 88, 4, 88, 66, 77, 1, 2, …
-$ imueclt  &lt;int&gt; 10, 8, 5, 8, 5, 8, 5, 2, 5, 6, 5, 5, 5, 5, 5, 5, 7, 7, 5, 6, …
-$ eduyrs   &lt;int&gt; 17, 17, 5, 13, 17, 17, 11, 15, 14, 20, 15, 9, 28, 17, 20, 18,…
-$ hinctnta &lt;int&gt; 9, 3, 77, 8, 10, 6, 4, 8, 7, 10, 4, 5, 3, 8, 77, 77, 6, 6, 5,…
-$ stflife  &lt;int&gt; 8, 7, 10, 10, 8, 8, 7, 9, 9, 9, 8, 5, 9, 8, 9, 8, 9, 8, 5, 8,…
-$ trstplt  &lt;int&gt; 5, 5, 7, 8, 7, 7, 6, 0, 4, 6, 6, 5, 7, 5, 4, 6, 5, 4, 5, 3, 1…
-$ gndr     &lt;int&gt; 1, 2, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 2, 2, 2, 1…</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a></a><span class="fu">head</span>(ess)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>  cntry prtvgde1 imueclt eduyrs hinctnta stflife trstplt gndr
-1    DE        1      10     17        9       8       5    1
-2    DE        3       8     17        3       7       5    2
-3    DE       66       5      5       77      10       7    1
-4    DE        2       8     13        8      10       8    2
-5    DE        2       5     17       10       8       7    1
-6    DE        2       8     17        6       8       7    1</code></pre>
-</div>
-</div></li>
-<li><p>Clean your data.</p>
-<ul>
-<li><p>Transform observations that have are equal to 55, 66, 77, 88, 99, 7777, 8888, 9999 for the prtvgde1, imueclt, eduyrs, hinctnta, stflife, trstplt variable as NAs.</p></li>
-<li><p>Recode the gndr variable as Man (gnder=1) and Woman (gnder=2).</p></li>
-<li><p>Create a variable vote based on the prtvgde1 variable (use the name of the party)</p>
-<table class="caption-top">
-<colgroup>
-<col style="width: 50%">
-<col style="width: 50%">
-</colgroup>
-<tbody>
-<tr class="odd">
-<td>1</td>
-<td>Christian Democratic Union/Christian Social Union (CDU/CSU)</td>
-</tr>
-<tr class="even">
-<td>2</td>
-<td>Social Democratic Party (SPD)</td>
-</tr>
-<tr class="odd">
-<td>3</td>
-<td>The Left (Die Linke)</td>
-</tr>
-<tr class="even">
-<td>4</td>
-<td>Alliance 90/The Greens (Bündnis 90/Die Grünen)</td>
-</tr>
-<tr class="odd">
-<td>5</td>
-<td>Free Democratic Party (FDP)</td>
-</tr>
-<tr class="even">
-<td>6</td>
-<td>Alternative for Germany (AFD)</td>
-</tr>
-<tr class="odd">
-<td>7</td>
-<td>Free Voters (Freie Wähler)</td>
-</tr>
-<tr class="even">
-<td>8</td>
-<td>Grassroots Democratic Party of Germany (dieBasis)</td>
-</tr>
-<tr class="odd">
-<td>9</td>
-<td>Party for Labour, Rule of Law, Animal Protection, Promotion of Elites and Grassroots Democratic Initiative (Die PARTEI)</td>
-</tr>
-</tbody>
-</table></li>
-</ul></li>
-</ol>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a></a>ess<span class="ot">&lt;-</span>ess<span class="sc">%&gt;%</span></span>
-<span id="cb47-2"><a></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(prtvgde1<span class="sc">:</span>trstplt,</span>
-<span id="cb47-3"><a></a>                <span class="sc">~</span><span class="fu">case_when</span>(. <span class="sc">%in%</span> </span>
-<span id="cb47-4"><a></a>                             <span class="fu">c</span>(<span class="dv">55</span>, <span class="dv">66</span>, <span class="dv">77</span>, <span class="dv">88</span>, <span class="dv">99</span>, <span class="dv">7777</span>, </span>
-<span id="cb47-5"><a></a>                               <span class="dv">8888</span>, <span class="dv">9999</span>)<span class="sc">~</span><span class="cn">NA_integer_</span>,</span>
-<span id="cb47-6"><a></a>                           <span class="cn">TRUE</span><span class="sc">~</span>.)),</span>
-<span id="cb47-7"><a></a>         <span class="at">gndr=</span><span class="fu">case_when</span>(gndr<span class="sc">==</span><span class="dv">1</span> <span class="sc">~</span><span class="st">"Man"</span>,</span>
-<span id="cb47-8"><a></a>                        gndr<span class="sc">==</span><span class="dv">2</span><span class="sc">~</span><span class="st">"Woman"</span>))</span>
-<span id="cb47-9"><a></a></span>
-<span id="cb47-10"><a></a><span class="co">#ess$vote[is.na(ess$prtvgde1)]&lt;-NA</span></span>
-<span id="cb47-11"><a></a>ess<span class="sc">$</span>vote[ess<span class="sc">$</span>prtvgde1<span class="sc">==</span><span class="dv">1</span>]<span class="ot">&lt;-</span><span class="st">"CDU/CSU"</span></span>
-<span id="cb47-12"><a></a>ess<span class="sc">$</span>vote[ess<span class="sc">$</span>prtvgde1<span class="sc">==</span><span class="dv">2</span>]<span class="ot">&lt;-</span><span class="st">"SPD"</span></span>
-<span id="cb47-13"><a></a>ess<span class="sc">$</span>vote[ess<span class="sc">$</span>prtvgde1<span class="sc">==</span><span class="dv">3</span>]<span class="ot">&lt;-</span><span class="st">"Die Linke"</span></span>
-<span id="cb47-14"><a></a>ess<span class="sc">$</span>vote[ess<span class="sc">$</span>prtvgde1<span class="sc">==</span><span class="dv">4</span>]<span class="ot">&lt;-</span><span class="st">"Bündnis 90/Die Grünen"</span></span>
-<span id="cb47-15"><a></a>ess<span class="sc">$</span>vote[ess<span class="sc">$</span>prtvgde1<span class="sc">==</span><span class="dv">5</span>]<span class="ot">&lt;-</span><span class="st">"FDP"</span></span>
-<span id="cb47-16"><a></a>ess<span class="sc">$</span>vote[ess<span class="sc">$</span>prtvgde1<span class="sc">==</span><span class="dv">6</span>]<span class="ot">&lt;-</span><span class="st">"AFD"</span></span>
-<span id="cb47-17"><a></a>ess<span class="sc">$</span>vote[ess<span class="sc">$</span>prtvgde1<span class="sc">==</span><span class="dv">7</span>]<span class="ot">&lt;-</span><span class="st">"Freie Wähler"</span></span>
-<span id="cb47-18"><a></a>ess<span class="sc">$</span>vote[ess<span class="sc">$</span>prtvgde1<span class="sc">==</span><span class="dv">8</span>]<span class="ot">&lt;-</span><span class="st">"dieBasis"</span></span>
-<span id="cb47-19"><a></a>ess<span class="sc">$</span>vote[ess<span class="sc">$</span>prtvgde1<span class="sc">==</span><span class="dv">9</span>]<span class="ot">&lt;-</span><span class="st">"Die PARTEI"</span></span>
-<span id="cb47-20"><a></a>ess<span class="sc">$</span>vote<span class="ot">&lt;-</span><span class="fu">as.factor</span>(ess<span class="sc">$</span>vote)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<ol start="5" type="1">
-<li><p>Relevel your party variable so that the AFD party is the baseline.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a></a>ess<span class="sc">$</span>vote<span class="ot">&lt;-</span><span class="fu">relevel</span>(ess<span class="sc">$</span>vote,<span class="at">ref=</span><span class="st">"AFD"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div></li>
-<li><p>We want to understand if thinking that immigrants enrich a country’s culture decreases the likelihood of voting for the AFD. Run a multinomial regression with the `<code>imueclt</code>` variable as the predictor. Have a look at the coefficients. Hint: use the `multinom()` function.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a></a>reg1<span class="ot">&lt;-</span><span class="fu">multinom</span>(vote<span class="sc">~</span>imueclt,</span>
-<span id="cb49-2"><a></a>               <span class="at">data=</span>ess,</span>
-<span id="cb49-3"><a></a>               <span class="at">Hess=</span><span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># weights:  27 (16 variable)
-initial  value 3403.500870 
-iter  10 value 2509.963922
-iter  20 value 2398.037823
-iter  30 value 2386.438178
-final  value 2386.437917 
-converged</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a></a><span class="fu">stargazer</span>(reg1,<span class="at">type=</span><span class="st">"text"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-=================================================================================================================
-                                                        Dependent variable:                                      
-                  -----------------------------------------------------------------------------------------------
-                  Bündnis 90/Die Grünen  CDU/CSU  Die Linke Die PARTEI dieBasis     FDP    Freie Wähler    SPD   
-                           (1)             (2)       (3)       (4)        (5)       (6)        (7)         (8)   
------------------------------------------------------------------------------------------------------------------
-imueclt                 0.976***        0.460***  0.805***   1.033***    0.287   0.482***    0.414***   0.607*** 
-                         (0.068)         (0.059)   (0.083)   (0.194)    (0.221)   (0.070)    (0.099)     (0.061) 
-
-Constant                -3.803***        -0.085   -4.042*** -7.756***  -3.999*** -1.656***  -2.670***   -1.031***
-                         (0.350)         (0.240)   (0.485)   (1.475)    (1.105)   (0.329)    (0.513)     (0.264) 
-
------------------------------------------------------------------------------------------------------------------
-Akaike Inf. Crit.       4,804.876       4,804.876 4,804.876 4,804.876  4,804.876 4,804.876  4,804.876   4,804.876
-=================================================================================================================
-Note:                                                                                 *p&lt;0.1; **p&lt;0.05; ***p&lt;0.01</code></pre>
-</div>
-</div></li>
-<li><p>Add control variables (gender and education) to your regression. Does the `<code>imueclt</code>` coefficient changes?</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a></a>reg2<span class="ot">&lt;-</span><span class="fu">multinom</span>(vote<span class="sc">~</span>imueclt<span class="sc">+</span>gndr<span class="sc">+</span>eduyrs,</span>
-<span id="cb53-2"><a></a>               <span class="at">data=</span>ess,</span>
-<span id="cb53-3"><a></a>               <span class="at">Hess=</span><span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># weights:  45 (32 variable)
-initial  value 3401.303646 
-iter  10 value 2720.014842
-iter  20 value 2533.430880
-iter  30 value 2355.662001
-iter  40 value 2350.434358
-iter  50 value 2350.410623
-final  value 2350.410420 
-converged</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a></a><span class="fu">stargazer</span>(reg2,<span class="at">type=</span><span class="st">"text"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-=================================================================================================================
-                                                        Dependent variable:                                      
-                  -----------------------------------------------------------------------------------------------
-                  Bündnis 90/Die Grünen  CDU/CSU  Die Linke Die PARTEI dieBasis     FDP    Freie Wähler    SPD   
-                           (1)             (2)       (3)       (4)        (5)       (6)        (7)         (8)   
------------------------------------------------------------------------------------------------------------------
-imueclt                 0.907***        0.441***  0.771***   0.967***    0.235   0.432***    0.399***   0.590*** 
-                         (0.070)         (0.060)   (0.085)   (0.198)    (0.229)   (0.072)    (0.102)     (0.063) 
-
-gndrWoman               0.798***         0.591**   0.662*     -0.198     0.806     0.342      0.525      0.631** 
-                         (0.298)         (0.277)   (0.355)   (0.748)    (1.049)   (0.329)    (0.463)     (0.283) 
-
-eduyrs                  0.205***          0.063    0.116*    0.251**     0.167   0.180***     0.051       0.067  
-                         (0.052)         (0.049)   (0.060)   (0.098)    (0.169)   (0.056)    (0.080)     (0.050) 
-
-Constant                -6.795***        -1.115   -5.800*** -11.135*** -6.502**  -4.167***  -3.526***   -2.150***
-                         (0.787)         (0.702)   (0.943)   (2.049)    (2.649)   (0.829)    (1.193)     (0.721) 
-
------------------------------------------------------------------------------------------------------------------
-Akaike Inf. Crit.       4,764.821       4,764.821 4,764.821 4,764.821  4,764.821 4,764.821  4,764.821   4,764.821
-=================================================================================================================
-Note:                                                                                 *p&lt;0.1; **p&lt;0.05; ***p&lt;0.01</code></pre>
-</div>
-</div></li>
-<li><p>Compare the AIC and BIC of models from points 6 and 7. Hint: use the <code>BIC()</code> and <code>AIC()</code> functions.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a></a><span class="fu">AIC</span>(reg1,reg2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>     df      AIC
-reg1 16 4804.876
-reg2 32 4764.821</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb59"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a></a><span class="fu">BIC</span>(reg1,reg2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>     df      BIC
-reg1 16 4890.402
-reg2 32 4935.852</code></pre>
-</div>
-</div></li>
-<li><p>Now, we are interested in seeing the influence of trust in politicians (<code>trstplt</code> variable) on voting.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb61"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a></a>reg3<span class="ot">&lt;-</span><span class="fu">multinom</span>(vote<span class="sc">~</span>trstplt,</span>
-<span id="cb61-2"><a></a>               <span class="at">data=</span>ess,</span>
-<span id="cb61-3"><a></a>               <span class="at">Hess=</span><span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># weights:  27 (16 variable)
-initial  value 3410.092544 
-iter  10 value 2525.149502
-iter  20 value 2450.591375
-final  value 2449.930077 
-converged</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb63"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a></a><span class="fu">stargazer</span>(reg3,<span class="at">type=</span><span class="st">"text"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-=================================================================================================================
-                                                        Dependent variable:                                      
-                  -----------------------------------------------------------------------------------------------
-                  Bündnis 90/Die Grünen  CDU/CSU  Die Linke Die PARTEI dieBasis     FDP    Freie Wähler    SPD   
-                           (1)             (2)       (3)       (4)        (5)       (6)        (7)         (8)   
------------------------------------------------------------------------------------------------------------------
-trstplt                 0.916***        0.636***  0.631***   0.702***    0.197   0.578***    0.322***   0.735*** 
-                         (0.079)         (0.075)   (0.089)   (0.162)    (0.269)   (0.084)    (0.115)     (0.077) 
-
-Constant                -1.444***         0.194   -1.605*** -3.938***  -3.287*** -1.043***  -1.621***    -0.316  
-                         (0.228)         (0.183)   (0.282)   (0.717)    (0.737)   (0.242)    (0.332)     (0.195) 
-
------------------------------------------------------------------------------------------------------------------
-Akaike Inf. Crit.       4,931.860       4,931.860 4,931.860 4,931.860  4,931.860 4,931.860  4,931.860   4,931.860
-=================================================================================================================
-Note:                                                                                 *p&lt;0.1; **p&lt;0.05; ***p&lt;0.01</code></pre>
-</div>
-</div></li>
-<li><p>Add controls variable (gender and education) to your regression.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb65"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a></a>reg4<span class="ot">&lt;-</span><span class="fu">multinom</span>(vote<span class="sc">~</span>trstplt<span class="sc">+</span>gndr<span class="sc">+</span>eduyrs,</span>
-<span id="cb65-2"><a></a>               <span class="at">data=</span>ess,</span>
-<span id="cb65-3"><a></a>               <span class="at">Hess=</span><span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># weights:  45 (32 variable)
-initial  value 3407.895319 
-iter  10 value 2611.788153
-iter  20 value 2497.395767
-iter  30 value 2423.675596
-iter  40 value 2397.802156
-final  value 2396.667361 
-converged</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb67"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a></a><span class="fu">stargazer</span>(reg4,<span class="at">type=</span><span class="st">"text"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-=================================================================================================================
-                                                        Dependent variable:                                      
-                  -----------------------------------------------------------------------------------------------
-                  Bündnis 90/Die Grünen  CDU/CSU  Die Linke Die PARTEI dieBasis     FDP    Freie Wähler    SPD   
-                           (1)             (2)       (3)       (4)        (5)       (6)        (7)         (8)   
------------------------------------------------------------------------------------------------------------------
-trstplt                 0.860***        0.619***  0.591***   0.623***    0.141   0.534***    0.301**    0.717*** 
-                         (0.081)         (0.077)   (0.091)   (0.168)    (0.277)   (0.086)    (0.117)     (0.078) 
-
-gndrWoman               0.880***         0.597**   0.755**    -0.023     0.796     0.307      0.567      0.645** 
-                         (0.289)         (0.272)   (0.345)   (0.741)    (1.038)   (0.323)    (0.454)     (0.277) 
-
-eduyrs                  0.230***          0.049   0.152***   0.299***    0.182   0.174***     0.073       0.063  
-                         (0.050)         (0.048)   (0.058)   (0.096)    (0.167)   (0.054)    (0.079)     (0.049) 
-
-Constant                -5.060***        -0.688   -3.994*** -8.240***  -6.098**  -3.562***   -2.816**   -1.419** 
-                         (0.739)         (0.681)   (0.871)   (1.666)    (2.593)   (0.802)    (1.153)     (0.695) 
-
------------------------------------------------------------------------------------------------------------------
-Akaike Inf. Crit.       4,857.335       4,857.335 4,857.335 4,857.335  4,857.335 4,857.335  4,857.335   4,857.335
-=================================================================================================================
-Note:                                                                                 *p&lt;0.1; **p&lt;0.05; ***p&lt;0.01</code></pre>
-</div>
-</div></li>
-<li><p>Compute the pseudo- $R^2$.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb69"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a></a><span class="fu">pR2</span>(reg4)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>fitting null model for pseudo-r2
-# weights:  18 (8 variable)
-initial  value 3407.895319 
-iter  10 value 2572.607162
-final  value 2569.466630 
-converged</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>          llh       llhNull            G2      McFadden          r2ML 
--2.396667e+03 -2.569467e+03  3.455985e+02  6.725103e-02  1.997436e-01 
-         r2CU 
- 2.072880e-01 </code></pre>
-</div>
-</div></li>
-<li><p>Show the predicted probabilities of the trust variable.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb72"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a></a>prediction<span class="ot">&lt;-</span><span class="fu">plot_predictions</span>(reg4,</span>
-<span id="cb72-2"><a></a>                            <span class="at">type=</span><span class="st">"probs"</span>,</span>
-<span id="cb72-3"><a></a>                            <span class="at">condition=</span><span class="st">"trstplt"</span>,</span>
-<span id="cb72-4"><a></a>                            <span class="at">draw=</span><span class="cn">FALSE</span>)</span>
-<span id="cb72-5"><a></a></span>
-<span id="cb72-6"><a></a><span class="fu">ggplot</span>(prediction, <span class="fu">aes</span>(<span class="at">x=</span>trstplt, <span class="at">y=</span>estimate,<span class="at">group=</span>group,<span class="at">color=</span>group))<span class="sc">+</span></span>
-<span id="cb72-7"><a></a>  <span class="fu">geom_line</span>()<span class="sc">+</span></span>
-<span id="cb72-8"><a></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> conf.low, <span class="at">ymax =</span> conf.high), <span class="at">alpha =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
-<span id="cb72-9"><a></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>group)<span class="sc">+</span></span>
-<span id="cb72-10"><a></a>  <span class="fu">theme_light</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<div>
-<figure>
-<p><img data-src="correction3_files/figure-revealjs/unnamed-chunk-31-1.png" width="960"></p>
-</figure>
-</div>
-</div>
-</div></li>
-</ol>
-</section>
 <section id="exercise-2" class="slide level2">
 <h2>Exercise 2</h2>
 <div class="r-fit-text">
 <p>In this exercise, you will use a dataset on student educational choices (you can find it here <a href="https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/exercices/exercices3/data/student.RData" class="uri">https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/exercices/exercices3/data/student.RData</a>). The data contains information on 200 students. The student had the possibility of selecting between three different programs to further their education. The choice was between general, vocational and academic. The goal of this example is to understand which predictors can tell us more about why students decided to choose a specific academic program.</p>
 </div>
-</section>
-<section id="exercise-2-1" class="slide level2 scrollable">
-<h2>Exercise 2</h2>
-<ol type="1">
-<li>Import the data</li>
-</ol>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb73"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a></a>student<span class="ot">&lt;-</span><span class="fu">import</span>(<span class="st">"https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/exercices/exercices3/data/student.RData"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<ol start="2" type="1">
-<li>Have a look at your dataset. Recode the prog variable so that instead of NA, you should have the name of the program students have selected (general, vocation or academic). Hint: use <code>glimpse()</code>, <code>mutate()</code> and <code>case_when()</code>.</li>
-</ol>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb74"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a></a><span class="fu">glimpse</span>(student)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Rows: 200
-Columns: 17
-$ Student &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18,…
-$ id      &lt;dbl&gt; 45, 108, 15, 67, 153, 51, 164, 133, 2, 53, 1, 128, 16, 106, 89…
-$ gender  &lt;chr&gt; "female", "male", "male", "male", "male", "female", "male", "m…
-$ ses     &lt;chr&gt; "low", "middle", "high", "low", "middle", "high", "middle", "m…
-$ schtyp  &lt;chr&gt; "public", "public", "public", "public", "public", "public", "p…
-$ prog    &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
-$ read    &lt;dbl&gt; 34, 34, 39, 37, 39, 42, 31, 50, 39, 34, 34, 39, 47, 36, 35, 44…
-$ write   &lt;dbl&gt; 35, 33, 39, 37, 31, 36, 36, 31, 41, 37, 44, 33, 31, 44, 35, 44…
-$ math    &lt;dbl&gt; 41, 41, 44, 42, 40, 42, 46, 40, 33, 46, 40, 38, 44, 37, 40, 39…
-$ science &lt;dbl&gt; 29, 36, 26, 33, 39, 31, 39, 34, 42, 39, 39, 47, 36, 42, 51, 34…
-$ socst   &lt;dbl&gt; 26, 36, 42, 32, 51, 39, 46, 31, 41, 31, 41, 41, 36, 41, 33, 46…
-$ honors  &lt;chr&gt; "not enrolled", "not enrolled", "not enrolled", "not enrolled"…
-$ awards  &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,…
-$ cid     &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,…
-$ prog0   &lt;dbl&gt; 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1,…
-$ prog1   &lt;dbl&gt; 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1, 0,…
-$ prog2   &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0,…</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb76"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a></a>student <span class="ot">&lt;-</span> student <span class="sc">%&gt;%</span></span>
-<span id="cb76-2"><a></a>  <span class="fu">mutate</span>(<span class="at">prog =</span> <span class="fu">case_when</span>(prog0<span class="sc">==</span><span class="dv">1</span> <span class="sc">~</span> <span class="st">"General"</span>,</span>
-<span id="cb76-3"><a></a>                          prog1<span class="sc">==</span><span class="dv">1</span> <span class="sc">~</span> <span class="st">"Vocational"</span>,</span>
-<span id="cb76-4"><a></a>                          prog2<span class="sc">==</span><span class="dv">1</span> <span class="sc">~</span> <span class="st">"Academic"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<ol start="2" type="1">
-<li>Now, run a multinomial regression to explain the influence of socio-economic status on the educational program choice.</li>
-</ol>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb77"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a></a><span class="fu">library</span>(nnet)</span>
-<span id="cb77-2"><a></a>model1<span class="ot">&lt;-</span><span class="fu">multinom</span>(prog<span class="sc">~</span>ses,</span>
-<span id="cb77-3"><a></a>                <span class="at">data=</span>student,</span>
-<span id="cb77-4"><a></a>                <span class="at">Hess=</span><span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># weights:  12 (6 variable)
-initial  value 219.722458 
-iter  10 value 195.705407
-final  value 195.705188 
-converged</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb79"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a></a><span class="fu">stargazer</span>(model1,<span class="at">type=</span><span class="st">"text"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-==============================================
-                      Dependent variable:     
-                  ----------------------------
-                     General      Vocational  
-                       (1)            (2)     
-----------------------------------------------
-seslow               1.369***       1.332**   
-                     (0.500)        (0.550)   
-                                              
-sesmiddle             0.752*       1.442***   
-                     (0.456)        (0.471)   
-                                              
-Constant            -1.540***      -1.792***  
-                     (0.367)        (0.408)   
-                                              
-----------------------------------------------
-Akaike Inf. Crit.    403.410        403.410   
-==============================================
-Note:              *p&lt;0.1; **p&lt;0.05; ***p&lt;0.01</code></pre>
-</div>
-</div>
-<ol start="3" type="1">
-<li>Look at the ODDS ratio</li>
-</ol>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb81"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a></a><span class="fu">exp</span>(<span class="fu">coef</span>(model1))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>           (Intercept)   seslow sesmiddle
-General      0.2142844 3.929851  2.121225
-Vocational   0.1666648 3.789498  4.227326</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb83"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a></a><span class="fu">library</span>(modelsummary)</span>
-<span id="cb83-2"><a></a><span class="fu">modelsummary</span>(model1,</span>
-<span id="cb83-3"><a></a>             <span class="at">stars=</span><span class="cn">TRUE</span>,</span>
-<span id="cb83-4"><a></a>             <span class="at">stars_method=</span><span class="st">"simple"</span>,</span>
-<span id="cb83-5"><a></a>             <span class="at">coef_map=</span><span class="fu">c</span>(<span class="st">"seslow"</span><span class="ot">=</span><span class="st">"Low Socioeconomic status"</span>,</span>
-<span id="cb83-6"><a></a>                        <span class="st">"sesmiddle"</span><span class="ot">=</span><span class="st">"Middle Socioeconomic status"</span>),</span>
-<span id="cb83-7"><a></a>             <span class="at">title=</span><span class="st">"Multinomial Regression Results"</span>,</span>
-<span id="cb83-8"><a></a>             <span class="at">output=</span><span class="st">"html"</span>,</span>
-<span id="cb83-9"><a></a>             <span class="at">shape=</span> model<span class="sc">+</span>term<span class="sc">~</span>response,</span>
-<span id="cb83-10"><a></a>             <span class="at">gof_map=</span>tibble<span class="sc">::</span><span class="fu">tribble</span>(<span class="sc">~</span>raw,<span class="sc">~</span>clean,<span class="sc">~</span>fmt,</span>
-<span id="cb83-11"><a></a>                                     <span class="st">"AIC"</span>,<span class="st">"Akaike Inf. Crit."</span>,<span class="dv">2</span>,</span>
-<span id="cb83-12"><a></a>                                     <span class="st">"BIC"</span>,<span class="st">"Bayesian Inf. Crit."</span>,<span class="dv">2</span>,</span>
-<span id="cb83-13"><a></a>                                     <span class="st">"logLik"</span>,<span class="st">"Log-Likelihood"</span>,<span class="dv">2</span>,</span>
-<span id="cb83-14"><a></a>                                     <span class="st">"deviance"</span>,<span class="st">"Deviance"</span>,<span class="dv">2</span>),</span>
-<span id="cb83-15"><a></a>             <span class="at">exponentiate =</span> <span class="cn">TRUE</span></span>
-<span id="cb83-16"><a></a>             ) <span class="co">#</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<!-- preamble start -->
-
-    <script src="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.js"></script>
-
-    <script>
-      // Create table-specific functions using external factory
-      const tableFns_66avrkak8mkmgim0secl = TinyTable.createTableFunctions("tinytable_66avrkak8mkmgim0secl");
-      // tinytable span after
-      window.addEventListener('load', function () {
-          var cellsToStyle = [
-            // tinytable style arrays after
-          { positions: [ { i: '4', j: 3 }, { i: '4', j: 4 } ], css_id: 'tinytable_css_5p3nqucgdn8lg04tkdz9',}, 
-          { positions: [ { i: '1', j: 3 }, { i: '2', j: 3 }, { i: '3', j: 3 }, { i: '1', j: 4 }, { i: '2', j: 4 }, { i: '3', j: 4 } ], css_id: 'tinytable_css_omrd78sa4p4nfv00jwfu',}, 
-          { positions: [ { i: '0', j: 3 }, { i: '0', j: 4 } ], css_id: 'tinytable_css_tpwly91ydr7u8atjtel8',}, 
-          { positions: [ { i: '4', j: 1 }, { i: '4', j: 2 } ], css_id: 'tinytable_css_1zpdd0g0kxbxeqb9k9pr',}, 
-          { positions: [ { i: '1', j: 1 }, { i: '2', j: 1 }, { i: '3', j: 1 }, { i: '1', j: 2 }, { i: '2', j: 2 }, { i: '3', j: 2 } ], css_id: 'tinytable_css_61v8waemqgwqqlcptk3t',}, 
-          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 } ], css_id: 'tinytable_css_rgr19kaxljp174yr7vob',}, 
-          ];
-
-          // Loop over the arrays to style the cells
-          cellsToStyle.forEach(function (group) {
-              group.positions.forEach(function (cell) {
-                  tableFns_66avrkak8mkmgim0secl.styleCell(cell.i, cell.j, group.css_id);
-              });
-          });
-      });
-    </script>
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.css">
-    <style>
-    /* tinytable css entries after */
-    #tinytable_66avrkak8mkmgim0secl td.tinytable_css_5p3nqucgdn8lg04tkdz9, #tinytable_66avrkak8mkmgim0secl th.tinytable_css_5p3nqucgdn8lg04tkdz9 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
-    #tinytable_66avrkak8mkmgim0secl td.tinytable_css_omrd78sa4p4nfv00jwfu, #tinytable_66avrkak8mkmgim0secl th.tinytable_css_omrd78sa4p4nfv00jwfu { text-align: center }
-    #tinytable_66avrkak8mkmgim0secl td.tinytable_css_tpwly91ydr7u8atjtel8, #tinytable_66avrkak8mkmgim0secl th.tinytable_css_tpwly91ydr7u8atjtel8 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
-    #tinytable_66avrkak8mkmgim0secl td.tinytable_css_1zpdd0g0kxbxeqb9k9pr, #tinytable_66avrkak8mkmgim0secl th.tinytable_css_1zpdd0g0kxbxeqb9k9pr {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
-    #tinytable_66avrkak8mkmgim0secl td.tinytable_css_61v8waemqgwqqlcptk3t, #tinytable_66avrkak8mkmgim0secl th.tinytable_css_61v8waemqgwqqlcptk3t { text-align: left }
-    #tinytable_66avrkak8mkmgim0secl td.tinytable_css_rgr19kaxljp174yr7vob, #tinytable_66avrkak8mkmgim0secl th.tinytable_css_rgr19kaxljp174yr7vob {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
-    </style>
-    <div class="container">
-      <table class="tinytable" id="tinytable_66avrkak8mkmgim0secl" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
-        <caption>Multinomial Regression Results</caption>
-        <thead>
-              <tr>
-                <th scope="col" data-row="0" data-col="1"> </th>
-                <th scope="col" data-row="0" data-col="2">  </th>
-                <th scope="col" data-row="0" data-col="3">General</th>
-                <th scope="col" data-row="0" data-col="4">Vocational</th>
-              </tr>
-        </thead>
-        <tfoot><tr><td colspan="4">+ p &lt; 0.1, * p &lt; 0.05, ** p &lt; 0.01, *** p &lt; 0.001</td></tr></tfoot>
-        <tbody>
-                <tr>
-                  <td data-row="1" data-col="1">(1)</td>
-                  <td data-row="1" data-col="2">Low Socioeconomic status</td>
-                  <td data-row="1" data-col="3">3.930**</td>
-                  <td data-row="1" data-col="4">3.789*</td>
-                </tr>
-                <tr>
-                  <td data-row="2" data-col="1"></td>
-                  <td data-row="2" data-col="2"></td>
-                  <td data-row="2" data-col="3">(1.965)</td>
-                  <td data-row="2" data-col="4">(2.085)</td>
-                </tr>
-                <tr>
-                  <td data-row="3" data-col="1"></td>
-                  <td data-row="3" data-col="2">Middle Socioeconomic status</td>
-                  <td data-row="3" data-col="3">2.121+</td>
-                  <td data-row="3" data-col="4">4.227**</td>
-                </tr>
-                <tr>
-                  <td data-row="4" data-col="1"></td>
-                  <td data-row="4" data-col="2"></td>
-                  <td data-row="4" data-col="3">(0.967)</td>
-                  <td data-row="4" data-col="4">(1.990)</td>
-                </tr>
-        </tbody>
-      </table>
-    </div>
-<!-- hack to avoid NA insertion in last line -->
-</div>
-</div>
-<ol start="4" type="1">
-<li><p>Add math, read, write, science and socst as control variables to your regression.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb84"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a></a>model2<span class="ot">&lt;-</span><span class="fu">multinom</span>(prog<span class="sc">~</span>ses<span class="sc">+</span>math<span class="sc">+</span>read<span class="sc">+</span>write<span class="sc">+</span>science<span class="sc">+</span>socst,</span>
-<span id="cb84-2"><a></a>                <span class="at">data=</span>student,</span>
-<span id="cb84-3"><a></a>                <span class="at">Hess=</span><span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># weights:  27 (16 variable)
-initial  value 219.722458 
-iter  10 value 180.674669
-iter  20 value 159.902074
-final  value 159.901300 
-converged</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb86"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a></a><span class="fu">stargazer</span>(model2, <span class="at">type=</span><span class="st">"text"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-==============================================
-                      Dependent variable:     
-                  ----------------------------
-                     General      Vocational  
-                       (1)            (2)     
-----------------------------------------------
-seslow                1.015*         0.311    
-                     (0.576)        (0.664)   
-
-sesmiddle             0.608         1.162**   
-                     (0.495)        (0.554)   
-
-math                -0.097***      -0.117***  
-                     (0.034)        (0.037)   
-
-read                  -0.045        -0.035    
-                     (0.030)        (0.033)   
-
-write                 -0.026        -0.034    
-                     (0.030)        (0.030)   
-
-science              0.100***       0.054*    
-                     (0.030)        (0.031)   
-
-socst                 -0.022       -0.071***  
-                     (0.026)        (0.027)   
-
-Constant             3.425**       8.929***   
-                     (1.673)        (1.816)   
-
-----------------------------------------------
-Akaike Inf. Crit.    351.803        351.803   
-==============================================
-Note:              *p&lt;0.1; **p&lt;0.05; ***p&lt;0.01</code></pre>
-</div>
-</div></li>
-<li><p>Look at the predicted probabilities of the socio-economic status</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb88"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb88-1"><a></a>pred<span class="ot">&lt;-</span><span class="fu">plot_predictions</span>(model2,</span>
-<span id="cb88-2"><a></a>                       <span class="at">type=</span><span class="st">"probs"</span>,</span>
-<span id="cb88-3"><a></a>                       <span class="at">condition=</span><span class="st">"ses"</span>,</span>
-<span id="cb88-4"><a></a>                       <span class="at">draw=</span><span class="cn">FALSE</span>)</span>
-<span id="cb88-5"><a></a></span>
-<span id="cb88-6"><a></a><span class="fu">ggplot</span>(pred, <span class="fu">aes</span>(<span class="at">x=</span>ses, <span class="at">y=</span>estimate,<span class="at">group=</span>group,<span class="at">color=</span>group))<span class="sc">+</span></span>
-<span id="cb88-7"><a></a>  <span class="fu">geom_pointrange</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> conf.low, <span class="at">ymax =</span> conf.high))<span class="sc">+</span></span>
-<span id="cb88-8"><a></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>group)<span class="sc">+</span></span>
-<span id="cb88-9"><a></a>  <span class="fu">theme_light</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<div>
-<figure>
-<p><img data-src="correction3_files/figure-revealjs/unnamed-chunk-37-1.png" width="960"></p>
-</figure>
-</div>
-</div>
-</div></li>
-<li><p>What is the goodness of fit of your model?</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb89"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb89-1"><a></a><span class="fu">pR2</span>(model2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>fitting null model for pseudo-r2
-# weights:  6 (2 variable)
-initial  value 219.722458 
-final  value 204.096674 
-converged</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>         llh      llhNull           G2     McFadden         r2ML         r2CU 
--159.9013001 -204.0966742   88.3907482    0.2165414    0.3572206    0.4105527 </code></pre>
-</div>
-</div></li>
-</ol>
 
 
 </section></section>
