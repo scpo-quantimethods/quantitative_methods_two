@@ -73,7 +73,7 @@ You can find the recent survey's dataset on the internet at <https://www.chesdat
 
 ```{r}
 #| echo: true
-#| eval: true
+#| eval: false
 library(rio)
 library(tidyverse)
 library(stargazer)
