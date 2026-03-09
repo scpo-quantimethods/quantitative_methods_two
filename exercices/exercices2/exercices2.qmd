@@ -1,6 +1,6 @@
 ---
 title: "Exercices 2 : logistic regressions"
-format: pdf
+format: html
 ---
 
 ## 1. Turnout and rain
