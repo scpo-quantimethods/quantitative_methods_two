@@ -172,18 +172,60 @@
     "href": "slides/session3/session3.html#this-week",
     "title": "Session 3: Multinomial Regression",
     "section": "This week",
-    "text": "This week\n\nMultinomial Regression\nHow to write a research paper?\nExercises"
+    "text": "This week\n\nHow to write a research paper?\nMultinomial Regression\nExercises"
   },
   {
-    "objectID": "slides/session3/session3.html#multinomial-regression",
-    "href": "slides/session3/session3.html#multinomial-regression",
+    "objectID": "slides/session3/session3.html#how-to-write-a-research-paper",
+    "href": "slides/session3/session3.html#how-to-write-a-research-paper",
+    "title": "Session 3: Multinomial Regression",
+    "section": "How to write a research paper",
+    "text": "How to write a research paper\nStructure:\n\nIntroduction\nTheory\n\nLiterature review\nResearch question\nHypotheses\n\nMethodology\n\nData\nMethods\n\nResults\nDiagnostics\nConclusion"
+  },
+  {
+    "objectID": "slides/session3/session3.html#where-to-start",
+    "href": "slides/session3/session3.html#where-to-start",
+    "title": "Session 3: Multinomial Regression",
+    "section": "Where to start ?",
+    "text": "Where to start ?\n\nFully deductive :\n\nThink of a topic you are interested in\nThink of a question\nLook into the literature\nDevelop your research question/hypotheses"
+  },
+  {
+    "objectID": "slides/session3/session3.html#next-steps",
+    "href": "slides/session3/session3.html#next-steps",
+    "title": "Session 3: Multinomial Regression",
+    "section": "Next steps",
+    "text": "Next steps\n\nCheck data availability on your research problem\nEnough information ?\nSelect method that will be useful for your purposes\n\nDependent variable ?\nIndepedent variables ?"
+  },
+  {
+    "objectID": "slides/session3/session3.html#methods-you-can-apply",
+    "href": "slides/session3/session3.html#methods-you-can-apply",
+    "title": "Session 3: Multinomial Regression",
+    "section": "Methods you can apply",
+    "text": "Methods you can apply\n\nMultiple regressions OLS\nLogistic regressions\nMultinomial regressions\nDifference-in-differences\nRegression discontinuity design\nInstrumental variable\nTime series"
+  },
+  {
+    "objectID": "slides/session3/session3.html#analysis",
+    "href": "slides/session3/session3.html#analysis",
+    "title": "Session 3: Multinomial Regression",
+    "section": "Analysis",
+    "text": "Analysis\n\nCleaning the data set\nLook at descriptive statistics\nCreate your model\nPerformance of your model\nInterpret and comment your results"
+  },
+  {
+    "objectID": "slides/session3/session3.html#your-paper",
+    "href": "slides/session3/session3.html#your-paper",
+    "title": "Session 3: Multinomial Regression",
+    "section": "Your paper",
+    "text": "Your paper\n\nBe clear\n\nTheoretical mechanism\nDV & IV identification\nHypothesis\n\nAdd only the main results/figures/graphs in the text\nRepeat your results in the intro and conclusion"
+  },
+  {
+    "objectID": "slides/session3/session3.html#multinomial-regression-1",
+    "href": "slides/session3/session3.html#multinomial-regression-1",
     "title": "Session 3: Multinomial Regression",
     "section": "Multinomial Regression",
     "text": "Multinomial Regression\nWhat is a multinomial regression?\nWhen should you use a multinomial regression?"
   },
   {
-    "objectID": "slides/session3/session3.html#multinomial-regression-1",
-    "href": "slides/session3/session3.html#multinomial-regression-1",
+    "objectID": "slides/session3/session3.html#multinomial-regression-2",
+    "href": "slides/session3/session3.html#multinomial-regression-2",
     "title": "Session 3: Multinomial Regression",
     "section": "Multinomial Regression",
     "text": "Multinomial Regression\nSimilar to logistic regression\nThe dependent variable = categorical variable (K&gt;2)\nRun simultaneously different simple logistic regressions\nAlways the same baseline for the different regressions"
@@ -802,21 +844,21 @@
     "href": "slides/session1/correction1.html#heteroskedasticity-1",
     "title": "Quantitative methods 2",
     "section": "Heteroskedasticity",
-    "text": "Heteroskedasticity\n\nNormality of the errors, \\(\\epsilon \\approx N(0,\\sigma^2)\\)\n\n\n\n[1] 1.039879e-14\n\n\n\nWarning: Heteroscedasticity (non-constant error variance) detected (p &lt; .001)."
+    "text": "Heteroskedasticity\n\nNormality of the errors, \\(\\epsilon \\approx N(0,\\sigma^2)\\)\n\n\n\n[1] -1.641007e-13\n\n\n\nWarning: Heteroscedasticity (non-constant error variance) detected (p &lt; .001)."
   },
   {
     "objectID": "slides/session1/correction1.html#comparing-models",
     "href": "slides/session1/correction1.html#comparing-models",
     "title": "Quantitative methods 2",
     "section": "Comparing models",
-    "text": "Comparing models\n\nNormality of the errors, \\(\\epsilon \\approx N(0,\\sigma^2)\\)\n\n\n\n\n================================================================\n                                      Dependent variable:       \n                               ---------------------------------\n                                               y                \n                                         OLS            robust  \n                                                        linear  \n                                   (1)         (2)        (3)   \n----------------------------------------------------------------\nx                                9.958***    9.282***  9.825*** \n                                 (0.112)     (0.635)    (0.554) \n                                                                \nConstant                         -26.908     151.983    -45.217 \n                                 (65.024)   (367.264)  (320.691)\n                                                                \n----------------------------------------------------------------\nObservations                      1,000       1,000      1,000  \nR2                                0.888       0.177             \nAdjusted R2                       0.888       0.176             \nResidual Std. Error (df = 998)  1,024.793   5,668.208  4,095.647\nF Statistic (df = 1; 998)      7,931.045*** 213.979***          \n================================================================\nNote:                                *p&lt;0.1; **p&lt;0.05; ***p&lt;0.01"
+    "text": "Comparing models\n\nNormality of the errors, \\(\\epsilon \\approx N(0,\\sigma^2)\\)\n\n\n\n\n================================================================\n                                      Dependent variable:       \n                               ---------------------------------\n                                               y                \n                                         OLS            robust  \n                                                        linear  \n                                   (1)         (2)        (3)   \n----------------------------------------------------------------\nx                                9.904***   10.736***  10.991***\n                                 (0.114)     (0.613)    (0.497) \n                                                                \nConstant                         115.159*    -11.777   -106.018 \n                                 (66.184)   (352.528)  (285.867)\n                                                                \n----------------------------------------------------------------\nObservations                      1,000       1,000      1,000  \nR2                                0.884       0.235             \nAdjusted R2                       0.884       0.234             \nResidual Std. Error (df = 998)  1,047.803   5,644.144  3,689.565\nF Statistic (df = 1; 998)      7,578.197*** 306.878***          \n================================================================\nNote:                                *p&lt;0.1; **p&lt;0.05; ***p&lt;0.01"
   },
   {
     "objectID": "slides/session1/correction1.html#multicollinearity",
     "href": "slides/session1/correction1.html#multicollinearity",
     "title": "Quantitative methods 2",
     "section": "Multicollinearity",
-    "text": "Multicollinearity\n\nTwo independent variables are highly correlated\n\n\ny &lt;- 10*x + rnorm(1000, 0, 10*(x))\nw &lt;- x + rnorm(1000, 0, 0.5)\nmodel1 &lt;- lm(y ~ x)\nmodel2 &lt;- lm(y ~ x + w)\nsummary(model1)\n\n\nCall:\nlm(formula = y ~ x)\n\nResiduals:\n   Min     1Q Median     3Q    Max \n-26247  -2726   -142   2651  36097 \n\nCoefficients:\n            Estimate Std. Error t value Pr(&gt;|t|)    \n(Intercept) 222.8207   378.0640   0.589    0.556    \nx             8.7440     0.6532  13.387   &lt;2e-16 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 5835 on 998 degrees of freedom\nMultiple R-squared:  0.1522,    Adjusted R-squared:  0.1514 \nF-statistic: 179.2 on 1 and 998 DF,  p-value: &lt; 2.2e-16\n\nsummary(model2)\n\n\nCall:\nlm(formula = y ~ x + w)\n\nResiduals:\n   Min     1Q Median     3Q    Max \n-26194  -2714   -138   2657  36046 \n\nCoefficients:\n            Estimate Std. Error t value Pr(&gt;|t|)\n(Intercept)   228.48     379.08   0.603    0.547\nx             -74.37     368.99  -0.202    0.840\nw              83.10     368.94   0.225    0.822\n\nResidual standard error: 5838 on 997 degrees of freedom\nMultiple R-squared:  0.1523,    Adjusted R-squared:  0.1506 \nF-statistic: 89.54 on 2 and 997 DF,  p-value: &lt; 2.2e-16\n\ncheck_collinearity(model2)\n\n# Check for Multicollinearity\n\nHigh Correlation\n\n Term      VIF           VIF 95% CI adj. VIF Tolerance Tolerance 95% CI\n    x 3.19e+05 [2.82e+05, 3.61e+05]   564.64  3.14e-06     [0.00, 0.00]\n    w 3.19e+05 [2.82e+05, 3.61e+05]   564.64  3.14e-06     [0.00, 0.00]"
+    "text": "Multicollinearity\n\nTwo independent variables are highly correlated\n\n\ny &lt;- 10*x + rnorm(1000, 0, 10*(x))\nw &lt;- x + rnorm(1000, 0, 0.5)\nmodel1 &lt;- lm(y ~ x)\nmodel2 &lt;- lm(y ~ x + w)\nsummary(model1)\n\n\nCall:\nlm(formula = y ~ x)\n\nResiduals:\n     Min       1Q   Median       3Q      Max \n-26960.9  -2760.6     97.3   2382.2  30687.2 \n\nCoefficients:\n             Estimate Std. Error t value Pr(&gt;|t|)    \n(Intercept) -247.4274   359.1509  -0.689    0.491    \nx             10.7419     0.6244  17.204   &lt;2e-16 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 5750 on 998 degrees of freedom\nMultiple R-squared:  0.2287,    Adjusted R-squared:  0.228 \nF-statistic:   296 on 1 and 998 DF,  p-value: &lt; 2.2e-16\n\nsummary(model2)\n\n\nCall:\nlm(formula = y ~ x + w)\n\nResiduals:\n     Min       1Q   Median       3Q      Max \n-26933.8  -2779.8     86.8   2372.6  30725.1 \n\nCoefficients:\n            Estimate Std. Error t value Pr(&gt;|t|)\n(Intercept)  -247.95     359.33  -0.690    0.490\nx             -60.16     363.82  -0.165    0.869\nw              70.91     363.83   0.195    0.846\n\nResidual standard error: 5753 on 997 degrees of freedom\nMultiple R-squared:  0.2288,    Adjusted R-squared:  0.2272 \nF-statistic: 147.9 on 2 and 997 DF,  p-value: &lt; 2.2e-16\n\ncheck_collinearity(model2)\n\n# Check for Multicollinearity\n\nHigh Correlation\n\n Term      VIF           VIF 95% CI adj. VIF Tolerance Tolerance 95% CI\n    x 3.39e+05 [3.00e+05, 3.84e+05]   582.41  2.95e-06     [0.00, 0.00]\n    w 3.39e+05 [3.00e+05, 3.84e+05]   582.41  2.95e-06     [0.00, 0.00]"
   },
   {
     "objectID": "slides/session1/correction1.html#exercice-1",
@@ -1145,21 +1187,21 @@
     "href": "slides/session1/session1.html#heteroskedasticity-1",
     "title": "Quantitative methods 2",
     "section": "Heteroskedasticity",
-    "text": "Heteroskedasticity\n\nNormality of the errors, \\(\\epsilon \\approx N(0,\\sigma^2)\\)\n\n\n\n[1] 1.32468e-13\n\n\n\nWarning: Heteroscedasticity (non-constant error variance) detected (p &lt; .001)."
+    "text": "Heteroskedasticity\n\nNormality of the errors, \\(\\epsilon \\approx N(0,\\sigma^2)\\)\n\n\n\n[1] 7.574208e-14\n\n\n\nWarning: Heteroscedasticity (non-constant error variance) detected (p &lt; .001)."
   },
   {
     "objectID": "slides/session1/session1.html#comparing-models",
     "href": "slides/session1/session1.html#comparing-models",
     "title": "Quantitative methods 2",
     "section": "Comparing models",
-    "text": "Comparing models\n\nNormality of the errors, \\(\\epsilon \\approx N(0,\\sigma^2)\\)\n\n\n\n\n================================================================\n                                      Dependent variable:       \n                               ---------------------------------\n                                               y                \n                                         OLS            robust  \n                                                        linear  \n                                   (1)         (2)        (3)   \n----------------------------------------------------------------\nx                                9.992***   10.103***  10.608***\n                                 (0.113)     (0.613)    (0.481) \n                                                                \nConstant                         -19.249      83.698    -69.347 \n                                 (63.765)   (349.513)  (274.241)\n                                                                \n----------------------------------------------------------------\nObservations                      1,000       1,000      1,000  \nR2                                0.887       0.214             \nAdjusted R2                       0.887       0.213             \nResidual Std. Error (df = 998)  1,012.132   5,544.926  3,622.408\nF Statistic (df = 1; 998)      7,848.493*** 271.324***          \n================================================================\nNote:                                *p&lt;0.1; **p&lt;0.05; ***p&lt;0.01"
+    "text": "Comparing models\n\nNormality of the errors, \\(\\epsilon \\approx N(0,\\sigma^2)\\)\n\n\n\n\n================================================================\n                                      Dependent variable:       \n                               ---------------------------------\n                                               y                \n                                         OLS            robust  \n                                                        linear  \n                                   (1)         (2)        (3)   \n----------------------------------------------------------------\nx                                9.959***   10.132***  10.306***\n                                 (0.105)     (0.656)    (0.568) \n                                                                \nConstant                          27.811     -180.594  -184.776 \n                                 (61.139)   (375.017)  (324.916)\n                                                                \n----------------------------------------------------------------\nObservations                      1,000       1,000      1,000  \nR2                                0.900       0.193             \nAdjusted R2                       0.900       0.192             \nResidual Std. Error (df = 998)   960.424    5,837.096  4,176.552\nF Statistic (df = 1; 998)      8,999.072*** 238.873***          \n================================================================\nNote:                                *p&lt;0.1; **p&lt;0.05; ***p&lt;0.01"
   },
   {
     "objectID": "slides/session1/session1.html#multicollinearity",
     "href": "slides/session1/session1.html#multicollinearity",
     "title": "Quantitative methods 2",
     "section": "Multicollinearity",
-    "text": "Multicollinearity\n\nTwo independent variables are highly correlated\n\n\ny &lt;- 10*x + rnorm(1000, 0, 10*(x))\nw &lt;- x + rnorm(1000, 0, 0.5)\nmodel1 &lt;- lm(y ~ x)\nmodel2 &lt;- lm(y ~ x + w)\nsummary(model1)\n\n\nCall:\nlm(formula = y ~ x)\n\nResiduals:\n   Min     1Q Median     3Q    Max \n-25639  -2290   -256   2591  23723 \n\nCoefficients:\n            Estimate Std. Error t value Pr(&gt;|t|)    \n(Intercept) 341.5946   369.4969   0.924    0.355    \nx             9.0259     0.6484  13.921   &lt;2e-16 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 5862 on 998 degrees of freedom\nMultiple R-squared:  0.1626,    Adjusted R-squared:  0.1618 \nF-statistic: 193.8 on 1 and 998 DF,  p-value: &lt; 2.2e-16\n\nsummary(model2)\n\n\nCall:\nlm(formula = y ~ x + w)\n\nResiduals:\n     Min       1Q   Median       3Q      Max \n-25683.5  -2293.0   -272.2   2556.3  23670.5 \n\nCoefficients:\n            Estimate Std. Error t value Pr(&gt;|t|)\n(Intercept)   344.89     369.86   0.932    0.351\nx             -90.88     361.61  -0.251    0.802\nw              99.90     361.60   0.276    0.782\n\nResidual standard error: 5865 on 997 degrees of freedom\nMultiple R-squared:  0.1627,    Adjusted R-squared:  0.161 \nF-statistic: 96.84 on 2 and 997 DF,  p-value: &lt; 2.2e-16\n\ncheck_collinearity(model2)\n\n# Check for Multicollinearity\n\nHigh Correlation\n\n Term      VIF           VIF 95% CI adj. VIF Tolerance Tolerance 95% CI\n    x 3.11e+05 [2.75e+05, 3.52e+05]   557.45  3.22e-06     [0.00, 0.00]\n    w 3.11e+05 [2.75e+05, 3.52e+05]   557.45  3.22e-06     [0.00, 0.00]"
+    "text": "Multicollinearity\n\nTwo independent variables are highly correlated\n\n\ny &lt;- 10*x + rnorm(1000, 0, 10*(x))\nw &lt;- x + rnorm(1000, 0, 0.5)\nmodel1 &lt;- lm(y ~ x)\nmodel2 &lt;- lm(y ~ x + w)\nsummary(model1)\n\n\nCall:\nlm(formula = y ~ x)\n\nResiduals:\n   Min     1Q Median     3Q    Max \n-29819  -2736    183   2639  28112 \n\nCoefficients:\n             Estimate Std. Error t value Pr(&gt;|t|)    \n(Intercept) -320.5154   376.7857  -0.851    0.395    \nx             10.4424     0.6586  15.854   &lt;2e-16 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 5865 on 998 degrees of freedom\nMultiple R-squared:  0.2012,    Adjusted R-squared:  0.2004 \nF-statistic: 251.4 on 1 and 998 DF,  p-value: &lt; 2.2e-16\n\nsummary(model2)\n\n\nCall:\nlm(formula = y ~ x + w)\n\nResiduals:\n     Min       1Q   Median       3Q      Max \n-29702.5  -2718.2    149.3   2623.2  28299.3 \n\nCoefficients:\n            Estimate Std. Error t value Pr(&gt;|t|)\n(Intercept)   -310.7      377.0  -0.824    0.410\nx              356.8      385.6   0.925    0.355\nw             -346.4      385.6  -0.898    0.369\n\nResidual standard error: 5865 on 997 degrees of freedom\nMultiple R-squared:  0.2018,    Adjusted R-squared:  0.2002 \nF-statistic: 126.1 on 2 and 997 DF,  p-value: &lt; 2.2e-16\n\ncheck_collinearity(model2)\n\n# Check for Multicollinearity\n\nHigh Correlation\n\n Term      VIF           VIF 95% CI adj. VIF Tolerance Tolerance 95% CI\n    x 3.43e+05 [3.03e+05, 3.88e+05]   585.37  2.92e-06     [0.00, 0.00]\n    w 3.43e+05 [3.03e+05, 3.88e+05]   585.37  2.92e-06     [0.00, 0.00]"
   },
   {
     "objectID": "slides/session1/session1.html#exercice-1",
@@ -1470,18 +1512,18 @@
     "text": "Exercice 2"
   },
   {
-    "objectID": "slides/session3/correction3.html#last-session",
-    "href": "slides/session3/correction3.html#last-session",
+    "objectID": "slides/session3/correction3.html#last-sessions",
+    "href": "slides/session3/correction3.html#last-sessions",
     "title": "Session 3: Multinomial Regression",
-    "section": "Last session",
-    "text": "Last session\nLogistic regression\nOdds\nHomework"
+    "section": "Last sessions",
+    "text": "Last sessions\n\nDescriptive statistics and linear regressions\nLogistic regression\nOdds\nHomework"
   },
   {
     "objectID": "slides/session3/correction3.html#homework",
     "href": "slides/session3/correction3.html#homework",
     "title": "Session 3: Multinomial Regression",
     "section": "Homework",
-    "text": "Homework\nComments?\nFeedback?"
+    "text": "Homework\n\nStill have to grade some of your homeworks\nResults were good so far\nComments?\nFeedback?"
   },
   {
     "objectID": "slides/session3/correction3.html#this-week",
@@ -1491,15 +1533,57 @@
     "text": "This week\n\nMultinomial Regression\nHow to write a research paper?\nExercises"
   },
   {
-    "objectID": "slides/session3/correction3.html#multinomial-regression",
-    "href": "slides/session3/correction3.html#multinomial-regression",
+    "objectID": "slides/session3/correction3.html#how-to-write-a-research-paper",
+    "href": "slides/session3/correction3.html#how-to-write-a-research-paper",
+    "title": "Session 3: Multinomial Regression",
+    "section": "How to write a research paper",
+    "text": "How to write a research paper\nStructure:\n\nIntroduction\nTheory\n\nLiterature review\nResearch question\nHypotheses\n\nMethodology\n\nData\nMethods\n\nResults\nDiagnostics\nConclusion"
+  },
+  {
+    "objectID": "slides/session3/correction3.html#where-to-start",
+    "href": "slides/session3/correction3.html#where-to-start",
+    "title": "Session 3: Multinomial Regression",
+    "section": "Where to start ?",
+    "text": "Where to start ?\n\nFully deductive :\n\nThink of a topic you are interested in\nThink of a question\nLook into the literature\nDevelop your research question/hypotheses"
+  },
+  {
+    "objectID": "slides/session3/correction3.html#next-steps",
+    "href": "slides/session3/correction3.html#next-steps",
+    "title": "Session 3: Multinomial Regression",
+    "section": "Next steps",
+    "text": "Next steps\n\nCheck data availability on your research problem\nEnough information ?\nSelect method that will be useful for your purposes\n\nDependent variable ?\nIndepedent variables ?"
+  },
+  {
+    "objectID": "slides/session3/correction3.html#methods-you-can-apply",
+    "href": "slides/session3/correction3.html#methods-you-can-apply",
+    "title": "Session 3: Multinomial Regression",
+    "section": "Methods you can apply",
+    "text": "Methods you can apply\n\nMultiple regressions OLS\nLogistic regressions\nMultinomial regressions\nDifference-in-differences\nRegression discontinuity design\nInstrumental variable\nTime series"
+  },
+  {
+    "objectID": "slides/session3/correction3.html#analysis",
+    "href": "slides/session3/correction3.html#analysis",
+    "title": "Session 3: Multinomial Regression",
+    "section": "Analysis",
+    "text": "Analysis\n\nCleaning the data set\nLook at descriptive statistics\nCreate your model\nPerformance of your model\nInterpret and comment your results"
+  },
+  {
+    "objectID": "slides/session3/correction3.html#your-paper",
+    "href": "slides/session3/correction3.html#your-paper",
+    "title": "Session 3: Multinomial Regression",
+    "section": "Your paper",
+    "text": "Your paper\n\nBe clear\n\nTheoretical mechanism\nDV & IV identification\nHypothesis\n\nAdd only the main results/figures/graphs in the text\nRepeat your results in the intro and conclusion"
+  },
+  {
+    "objectID": "slides/session3/correction3.html#multinomial-regression-1",
+    "href": "slides/session3/correction3.html#multinomial-regression-1",
     "title": "Session 3: Multinomial Regression",
     "section": "Multinomial Regression",
     "text": "Multinomial Regression\nWhat is a multinomial regression?\nWhen should you use a multinomial regression?"
   },
   {
-    "objectID": "slides/session3/correction3.html#multinomial-regression-1",
-    "href": "slides/session3/correction3.html#multinomial-regression-1",
+    "objectID": "slides/session3/correction3.html#multinomial-regression-2",
+    "href": "slides/session3/correction3.html#multinomial-regression-2",
     "title": "Session 3: Multinomial Regression",
     "section": "Multinomial Regression",
     "text": "Multinomial Regression\nSimilar to logistic regression\nThe dependent variable = categorical variable (K&gt;2)\nRun simultaneously different simple logistic regressions\nAlways the same baseline for the different regressions"
