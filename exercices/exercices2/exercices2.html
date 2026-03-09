@@ -177,6 +177,10 @@ window.Quarto = {
     <a class="dropdown-item" href="../../sessions/session2/session2.html">
  <span class="dropdown-text">Session 2: Logistic regressions</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../../sessions/session3/session3.html">
+ <span class="dropdown-text">Session 3: Multinomial regressions</span></a>
+  </li>  
     </ul>
   </li>
   <li class="nav-item">
@@ -197,6 +201,10 @@ window.Quarto = {
     <a class="dropdown-item" href="../../exercices/exercices2/exercices2.html">
  <span class="dropdown-text">Exercices 2: Logistic regressions</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../../exercices/exercices3/exercices3.qmd">
+ <span class="dropdown-text">Exercices 3: Multinomial regressions</span></a>
+  </li>  
     </ul>
   </li>
   <li class="nav-item">
@@ -216,6 +224,10 @@ window.Quarto = {
         <li>
     <a class="dropdown-item" href="../../slides/session2/session2.html">
  <span class="dropdown-text">Slides - session 2</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../slides/session3/session3.qmd">
+ <span class="dropdown-text">Slides - session 3</span></a>
   </li>  
     </ul>
   </li>
@@ -322,6 +334,217 @@ window.Quarto = {
 <li>Use the <code>ggpredict</code> function from package <code>ggeffects</code> to predict the probabilities of voting depending on rain_mm. Have a look at your predictions.</li>
 <li>Use <code>ggplot</code> to plot the predicted probabilities with their confidence intervals, with their confidence intervals. Hint : use <code>+ geom_ribbon(aes(ymin = conf.low, ymax = conf.high), alpha = 0.2)</code> to display smooth confidence intervals, and <code>geom_line()</code> to add a line connecting the dots.</li>
 </ol>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># run install.packages() if you haven't the packages already installed</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggeffects)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rio)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stargazer)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Please cite as: </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code> Hlavac, Marek (2022). stargazer: Well-Formatted Regression and Summary Statistics Tables.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code> R package version 5.2.3. https://CRAN.R-project.org/package=stargazer </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">#1.1</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>rain_vote <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="st">"https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/exercices/exercices2/data/rainfall.dta"</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co">#1.2</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(rain_vote)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 6,000
+Columns: 13
+$ voter_id       &lt;dbl&gt; 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6, 7…
+$ year           &lt;dbl&gt; 2012, 2016, 2020, 2012, 2016, 2020, 2012, 2016, 2020, 2…
+$ county         &lt;chr&gt; "County_05", "County_05", "County_05", "County_39", "Co…
+$ age            &lt;dbl&gt; 76, 80, 84, 22, 26, 30, 44, 48, 52, 48, 52, 56, 71, 75,…
+$ female         &lt;dbl&gt; 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0…
+$ party          &lt;chr&gt; "U", "U", "U", "R", "R", "R", "D", "D", "D", "U", "U", …
+$ rain_mm        &lt;dbl&gt; 5.52, 5.66, 3.32, 6.29, 4.55, 4.56, 6.54, 5.89, 7.77, 0…
+$ voted          &lt;chr&gt; "voted", "voted", "voted", "did not vote", "did not vot…
+$ inperson_eday  &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0…
+$ early_absentee &lt;dbl&gt; 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
+$ mail           &lt;dbl&gt; 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0…
+$ rain_mm_prev   &lt;dbl&gt; NA, 5.52, 5.66, NA, 6.29, 4.55, NA, 6.54, 5.89, NA, 0.2…
+$ voted_prev     &lt;dbl&gt; NA, 1, 1, NA, 0, 0, NA, 0, 0, NA, 0, 0, NA, 1, 1, NA, 0…</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>rain_vote <span class="ot">&lt;-</span> rain_vote <span class="sc">%&gt;%</span> <span class="fu">select</span>(voted, voted_prev, rain_mm, age, female, year)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co">#1.3</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># DV : voting (binary)</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co"># IV : raining. Likely exogeneous (uncorrelated with the error)</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co">#1.4</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(rain_vote<span class="sc">$</span>voted)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+did not vote        voted 
+        4317         1683 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(rain_vote<span class="sc">$</span>rain_mm)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  0.000   4.540   6.310   6.268   7.960  13.610 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(rain_vote)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    voted             voted_prev        rain_mm            age       
+ Length:6000        Min.   :0.0000   Min.   : 0.000   Min.   :18.00  
+ Class :character   1st Qu.:0.0000   1st Qu.: 4.540   1st Qu.:38.00  
+ Mode  :character   Median :0.0000   Median : 6.310   Median :55.00  
+                    Mean   :0.2495   Mean   : 6.268   Mean   :55.15  
+                    3rd Qu.:0.0000   3rd Qu.: 7.960   3rd Qu.:72.00  
+                    Max.   :1.0000   Max.   :13.610   Max.   :92.00  
+                    NA's   :2000                                     
+     female           year     
+ Min.   :0.000   Min.   :2012  
+ 1st Qu.:0.000   1st Qu.:2012  
+ Median :0.000   Median :2016  
+ Mean   :0.493   Mean   :2016  
+ 3rd Qu.:1.000   3rd Qu.:2020  
+ Max.   :1.000   Max.   :2020  
+                               </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co">#1.5</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="co"># with case_when()</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>rain_vote <span class="ot">&lt;-</span> rain_vote <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">voted =</span> <span class="fu">case_when</span>(</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    voted <span class="sc">==</span> <span class="st">"voted"</span> <span class="sc">~</span> <span class="dv">1</span>,</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    voted <span class="sc">==</span> <span class="st">"did not vote"</span> <span class="sc">~</span> <span class="dv">0</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="co">#1.6</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>log_model <span class="ot">&lt;-</span> <span class="fu">glm</span>(</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> rain_vote,</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>  voted <span class="sc">~</span> rain_mm,</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">family =</span> <span class="st">"binomial"</span></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(log_model<span class="sc">$</span>coefficients)<span class="sc">-</span><span class="dv">1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(Intercept)     rain_mm 
+ 0.03716785 -0.14940336 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(<span class="fu">coef</span>(log_model))<span class="sc">-</span><span class="dv">1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(Intercept)     rain_mm 
+ 0.03716785 -0.14940336 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co">#1.7</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>log_model2 <span class="ot">&lt;-</span> <span class="fu">glm</span>(</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> rain_vote,</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  voted <span class="sc">~</span> voted_prev,</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">family =</span> <span class="st">"binomial"</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(log_model2<span class="sc">$</span>coefficients)<span class="sc">-</span><span class="dv">1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(Intercept)  voted_prev 
+ -0.6342129   1.1209079 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(<span class="fu">coef</span>(log_model2))<span class="sc">-</span><span class="dv">1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(Intercept)  voted_prev 
+ -0.6342129   1.1209079 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co">#1.8</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>log_model3 <span class="ot">&lt;-</span> <span class="fu">glm</span>(</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> rain_vote,</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  voted <span class="sc">~</span> voted_prev<span class="sc">+</span>female<span class="sc">+</span>age<span class="sc">+</span>rain_mm<span class="sc">+</span><span class="fu">as.factor</span>(year),</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">family =</span> <span class="st">"binomial"</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a><span class="co">#1.8</span></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a><span class="fu">stargazer</span>(log_model, log_model2, log_model3,</span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">type =</span> <span class="st">"text"</span>,</span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">dep.var.labels =</span> <span class="st">"Voting Behavior"</span>,</span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">dep.var.caption =</span> <span class="fu">c</span>(<span class="st">"Voting turnout; 0 = abstention | 1 = voted"</span>),</span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">star.cutoffs =</span> <span class="fu">c</span>(<span class="fl">0.05</span>, <span class="fl">0.01</span>, <span class="fl">0.001</span>)</span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+================================================================
+                     Voting turnout; 0 = abstention | 1 = voted 
+                    --------------------------------------------
+                                  Voting Behavior               
+                         (1)            (2)            (3)      
+----------------------------------------------------------------
+rain_mm               -0.162***                     -0.162***   
+                       (0.012)                       (0.016)    
+                                                                
+as.factor(year)2020                                   -0.100    
+                                                     (0.079)    
+                                                                
+voted_prev                            0.752***        0.194*    
+                                      (0.076)        (0.084)    
+                                                                
+female                                               0.348***   
+                                                     (0.074)    
+                                                                
+age                                                  0.039***   
+                                                     (0.002)    
+                                                                
+Constant                0.036        -1.006***      -2.407***   
+                       (0.075)        (0.041)        (0.169)    
+                                                                
+----------------------------------------------------------------
+Observations            6,000          4,000          4,000     
+Log Likelihood        -3,463.386     -2,428.188     -2,184.353  
+Akaike Inf. Crit.     6,930.772      4,860.375      4,380.706   
+================================================================
+Note:                              *p&lt;0.05; **p&lt;0.01; ***p&lt;0.001</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co">#1.9</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>predicted_probs <span class="ot">&lt;-</span> <span class="fu">ggpredict</span>(log_model3, <span class="at">terms =</span> <span class="st">"rain_mm"</span>) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Data were 'prettified'. Consider using `terms="rain_mm [all]"` to get
+  smooth plots.</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>predicted_probs </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># Predicted probabilities of voted
+
+rain_mm | Predicted |     95% CI
+--------------------------------
+      0 |      0.51 | 0.46, 0.57
+      2 |      0.43 | 0.39, 0.48
+      4 |      0.36 | 0.33, 0.39
+      6 |      0.29 | 0.27, 0.31
+      8 |      0.23 | 0.21, 0.25
+     10 |      0.17 | 0.15, 0.20
+     12 |      0.13 | 0.11, 0.16
+     14 |      0.10 | 0.08, 0.13
+
+Adjusted for:
+* voted_prev =  0.25
+*     female =  0.49
+*        age = 57.15
+*       year =  2016</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co">#1.10</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(predicted_probs, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> predicted)) <span class="sc">+</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> conf.low, <span class="at">ymax =</span> conf.high), <span class="at">alpha =</span> <span class="fl">0.2</span>) <span class="sc">+</span>  <span class="co"># smooth CI</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="fl">1.2</span>, <span class="at">color =</span> <span class="st">"steelblue"</span>) <span class="sc">+</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="dv">21</span>, <span class="at">size =</span> <span class="dv">3</span>, <span class="at">color =</span> <span class="st">"steelblue"</span>) <span class="sc">+</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Predicted probability of voting by rainfall"</span>,</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Rainfall (mm)"</span>,</span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Predicted probability of voting"</span></span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="exercices2_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
 </section>
 <section id="ess-voting-in-italy" class="level2">
 <h2 class="anchored" data-anchor-id="ess-voting-in-italy">2. ESS : voting in Italy</h2>
@@ -335,6 +558,208 @@ window.Quarto = {
 <li>Compare the two models using <code>stargazer</code>.</li>
 <li>Plot the predicted probability of voting by years of education.</li>
 </ol>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co">#1.1</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>ess <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="st">"https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/exercices/exercices2/data/ess_it.csv"</span>)</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(ess)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 2,640
+Columns: 8
+$ cntry   &lt;chr&gt; "IT", "IT", "IT", "IT", "IT", "IT", "IT", "IT", "IT", "IT", "I…
+$ polintr &lt;int&gt; 3, 3, 3, 3, 4, 3, 3, 3, 3, 3, 4, 2, 1, 2, 4, 3, 3, 2, 3, 3, 2,…
+$ trstplt &lt;int&gt; 1, 0, 0, 1, 3, 2, 0, 4, 2, 1, 0, 7, 2, 2, 2, 0, 5, 3, 5, 2, 7,…
+$ vote    &lt;int&gt; 1, 1, 1, 1, 2, 2, 1, 1, 1, 2, 1, 3, 1, 2, 1, 1, 1, 1, 7, 1, 1,…
+$ clsprty &lt;int&gt; 2, 2, 1, 2, 2, 2, 1, 2, 2, 2, 2, 1, 1, 2, 2, 2, 2, 1, 2, 1, 2,…
+$ gndr    &lt;int&gt; 2, 2, 1, 1, 1, 2, 1, 1, 1, 2, 2, 2, 1, 1, 1, 2, 1, 1, 2, 2, 1,…
+$ yrbrn   &lt;int&gt; 1943, 1963, 1963, 1984, 1984, 1964, 1960, 1983, 1961, 1993, 19…
+$ eduyrs  &lt;int&gt; 5, 18, 13, 8, 8, 16, 20, 18, 18, 10, 8, 13, 22, 18, 8, 17, 13,…</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co">#1.2</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(ess<span class="sc">$</span>vote)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+   1    2    3    7    8 
+1799  567  209   40   25 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>ess <span class="ot">&lt;-</span> ess <span class="sc">|&gt;</span> </span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># mutating the dependent variable to get rid of any unnecessary rows</span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># as we have done above</span></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">vote =</span> <span class="fu">case_when</span>(</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>      vote <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">7</span>, <span class="dv">8</span>, <span class="dv">9</span>) <span class="sc">~</span> <span class="cn">NA_integer_</span>,</span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>      vote <span class="sc">==</span> <span class="dv">2</span> <span class="sc">~</span> <span class="dv">0</span>,</span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>      vote <span class="sc">==</span> <span class="dv">1</span> <span class="sc">~</span> <span class="dv">1</span>, </span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> vote</span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Recode 'polintr' to drop values 7 to 9</span></span>
+<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">polintr =</span> <span class="fu">case_when</span>(</span>
+<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a>      polintr <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">7</span><span class="sc">:</span><span class="dv">9</span>) <span class="sc">~</span> <span class="cn">NA_integer_</span>,</span>
+<span id="cb35-14"><a href="#cb35-14" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> polintr</span>
+<span id="cb35-15"><a href="#cb35-15" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb35-16"><a href="#cb35-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Recode 'clsprty' 1/2 into 0/1 and drop 7, 8</span></span>
+<span id="cb35-17"><a href="#cb35-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">clsprty =</span> <span class="fu">case_when</span>(</span>
+<span id="cb35-18"><a href="#cb35-18" aria-hidden="true" tabindex="-1"></a>      clsprty <span class="sc">==</span> <span class="dv">1</span> <span class="sc">~</span> <span class="dv">0</span>,</span>
+<span id="cb35-19"><a href="#cb35-19" aria-hidden="true" tabindex="-1"></a>      clsprty <span class="sc">==</span> <span class="dv">2</span> <span class="sc">~</span> <span class="dv">1</span>,</span>
+<span id="cb35-20"><a href="#cb35-20" aria-hidden="true" tabindex="-1"></a>      clsprty <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">7</span>, <span class="dv">8</span>) <span class="sc">~</span> <span class="cn">NA_integer_</span>,</span>
+<span id="cb35-21"><a href="#cb35-21" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> clsprty</span>
+<span id="cb35-22"><a href="#cb35-22" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb35-23"><a href="#cb35-23" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Recode 'gndr' into 0/1 and handle other cases as NAs</span></span>
+<span id="cb35-24"><a href="#cb35-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">gndr =</span> <span class="fu">case_when</span>(</span>
+<span id="cb35-25"><a href="#cb35-25" aria-hidden="true" tabindex="-1"></a>      gndr <span class="sc">==</span> <span class="dv">1</span> <span class="sc">~</span> <span class="dv">0</span>,</span>
+<span id="cb35-26"><a href="#cb35-26" aria-hidden="true" tabindex="-1"></a>      gndr <span class="sc">==</span> <span class="dv">2</span> <span class="sc">~</span> <span class="dv">1</span>,</span>
+<span id="cb35-27"><a href="#cb35-27" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="cn">NA_integer_</span></span>
+<span id="cb35-28"><a href="#cb35-28" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb35-29"><a href="#cb35-29" aria-hidden="true" tabindex="-1"></a>    <span class="co"># recode eduyrs</span></span>
+<span id="cb35-30"><a href="#cb35-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">eduyrs =</span> <span class="fu">case_when</span>(</span>
+<span id="cb35-31"><a href="#cb35-31" aria-hidden="true" tabindex="-1"></a>      eduyrs <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">55</span>) <span class="sc">~</span> eduyrs,</span>
+<span id="cb35-32"><a href="#cb35-32" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="cn">NA_integer_</span></span>
+<span id="cb35-33"><a href="#cb35-33" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb35-34"><a href="#cb35-34" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb35-35"><a href="#cb35-35" aria-hidden="true" tabindex="-1"></a><span class="co">#1.3</span></span>
+<span id="cb35-36"><a href="#cb35-36" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(ess<span class="sc">$</span>vote)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+   0    1 
+ 567 1799 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co">#1.3</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>logit1 <span class="ot">&lt;-</span> <span class="fu">glm</span>(</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>  vote <span class="sc">~</span>  eduyrs,</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> ess <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">age =</span> <span class="dv">2026</span><span class="sc">-</span>yrbrn),</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">family =</span> <span class="st">"binomial"</span>)</span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>logit2 <span class="ot">&lt;-</span> <span class="fu">glm</span>(</span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>  vote <span class="sc">~</span> polintr <span class="sc">+</span> trstplt <span class="sc">+</span> clsprty <span class="sc">+</span> gndr <span class="sc">+</span>age <span class="sc">+</span> eduyrs,</span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> ess <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">age =</span> <span class="dv">2026</span><span class="sc">-</span>yrbrn),</span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">family =</span> <span class="st">"binomial"</span>)</span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a><span class="co">#1.4</span></span>
+<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a><span class="co"># simply use exp() on the coefficients of the logit</span></span>
+<span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(<span class="fu">coef</span>(logit1))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(Intercept)      eduyrs 
+   1.041496    1.098984 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># here would be a second way of doing it</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(logit1<span class="sc">$</span>coefficients)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(Intercept)      eduyrs 
+   1.041496    1.098984 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(<span class="fu">cbind</span>(</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">OR =</span> <span class="fu">coef</span>(logit1), </span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">confint</span>(logit1)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Waiting for profiling to be done...</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                  OR     2.5 %   97.5 %
+(Intercept) 1.041496 0.7779327 1.394698
+eduyrs      1.098984 1.0734494 1.125548</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co">#1.5</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="fu">stargazer</span>(logit1, logit2, </span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">type =</span> <span class="st">"text"</span>,</span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">dep.var.labels =</span> <span class="st">"Voting Behavior"</span>,</span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">dep.var.caption =</span> <span class="fu">c</span>(<span class="st">"Voting turnout; 0 = abstention | 1 = voted"</span>),</span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>          <span class="at">star.cutoffs =</span> <span class="fu">c</span>(<span class="fl">0.05</span>, <span class="fl">0.01</span>, <span class="fl">0.001</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+=============================================================
+                  Voting turnout; 0 = abstention | 1 = voted 
+                  -------------------------------------------
+                                Voting Behavior              
+                           (1)                   (2)         
+-------------------------------------------------------------
+polintr                                       -0.704***      
+                                               (0.080)       
+                                                             
+trstplt                                        -0.006        
+                                               (0.007)       
+                                                             
+clsprty                                       -1.507***      
+                                               (0.177)       
+                                                             
+gndr                                            0.116        
+                                               (0.112)       
+                                                             
+age                                            0.00001       
+                                              (0.0001)       
+                                                             
+eduyrs                  0.094***              0.056***       
+                         (0.012)               (0.014)       
+                                                             
+Constant                  0.041               3.820***       
+                         (0.149)               (0.348)       
+                                                             
+-------------------------------------------------------------
+Observations              2,284                 2,175        
+Log Likelihood         -1,214.665            -1,032.654      
+Akaike Inf. Crit.       2,433.330             2,079.309      
+=============================================================
+Note:                           *p&lt;0.05; **p&lt;0.01; ***p&lt;0.001</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co">#1.6</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>predicted_probs <span class="ot">&lt;-</span> <span class="fu">ggpredict</span>(logit2, <span class="at">terms =</span> <span class="st">"eduyrs"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Data were 'prettified'. Consider using `terms="eduyrs [all]"` to get
+  smooth plots.</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>predicted_probs</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># Predicted probabilities of vote
+
+eduyrs | Predicted |     95% CI
+-------------------------------
+     2 |      0.69 | 0.63, 0.75
+     6 |      0.74 | 0.70, 0.78
+     8 |      0.76 | 0.73, 0.79
+    12 |      0.80 | 0.78, 0.82
+    16 |      0.83 | 0.81, 0.85
+    18 |      0.85 | 0.82, 0.87
+    22 |      0.87 | 0.84, 0.90
+    28 |      0.91 | 0.86, 0.94
+
+Adjusted for:
+* polintr =   3.00
+* trstplt =   3.00
+* clsprty =   0.70
+*    gndr =   0.53
+*     age = -15.62</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Not all rows are shown in the output. Use `print(..., n = Inf)` to show
+  all rows.</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(predicted_probs, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> predicted)) <span class="sc">+</span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">"blue"</span>, <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> conf.low, <span class="at">ymax =</span> conf.high), <span class="at">fill =</span> <span class="st">"grey"</span>, <span class="at">alpha =</span> <span class="fl">0.3</span>) <span class="sc">+</span></span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Predicted Probability of Voting by education years"</span>,</span>
+<span id="cb51-7"><a href="#cb51-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Education years"</span>,</span>
+<span id="cb51-8"><a href="#cb51-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Predicted Probability of Voting"</span></span>
+<span id="cb51-9"><a href="#cb51-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span> </span>
+<span id="cb51-10"><a href="#cb51-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb51-11"><a href="#cb51-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb51-12"><a href="#cb51-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>, <span class="at">face =</span> <span class="st">"bold"</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>),</span>
+<span id="cb51-13"><a href="#cb51-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>),</span>
+<span id="cb51-14"><a href="#cb51-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>)</span>
+<span id="cb51-15"><a href="#cb51-15" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+ℹ Please use `linewidth` instead.</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="exercices2_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
 
 
 </section>

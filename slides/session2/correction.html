@@ -220,6 +220,17 @@
 </ul></li>
 </ul>
 </section>
+<section id="website" class="slide level2">
+<h2>Website</h2>
+<ul>
+<li>Updated with :
+<ul>
+<li>Corrections of last week’s exercices</li>
+<li>Today’s session (theory) &amp; slides</li>
+<li>Exercices for today</li>
+</ul></li>
+</ul>
+</section>
 <section>
 <section id="today" class="title-slide slide level1 center">
 <h1>Today</h1>
@@ -327,7 +338,7 @@ Y = \beta_0 + \beta_1 X
 <li>Done through so-called maximum likelihood estimation, based on your data !</li>
 <li><span class="math inline">\(\beta_0\)</span>, <span class="math inline">\(\beta_1\)</span> is for one predictor</li>
 <li>You can have k predictors : <span class="math display">\[\begin{equation}
-\mathcal{P}(Y = 1) = f_\mathcal{L}(\beta_0 + \beta_1 X) = \frac{1}{1 + e^{(-(\beta_0 + \beta_1 * X_1+\beta_2 X_2 + \beta_3 X_3 +...+ \beta_k X_k))}}
+\mathcal{P}(Y = 1) = \frac{1}{1 + e^{(-(\beta_0 + \beta_1 * X_1+\beta_2 X_2 + \beta_3 X_3 +...+ \beta_k X_k))}}
 \end{equation}\]</span></li>
 <li>that can be continuous or categorical !</li>
 </ul>
@@ -377,7 +388,7 @@ Number of Fisher Scoring iterations: 4</code></pre>
 <li>You want to compare the probabilities of happening with probabilities of not happening…</li>
 </ul>
 <p><span class="math display">\[\begin{equation}
-\text{OR} = \frac{P(Y = 1)}{P(Y=0)} = \frac{P(Y = 1)}{1- P(Y=1)}
+\text{OR} = \frac{P(Y = 1)}{P(Y=0)} = \frac{P(Y = 1)}{1- P(Y=1)} = \frac{ \frac{1}{1+e^{-(\beta_0 + \beta_1 x)}}}{1-\frac{1}{1+e^{-(\beta_0 + \beta_1 x)}}} =e^{(\beta_0 + \beta_1 x)}
 \end{equation}\]</span></p>
 <ul>
 <li>If p = 0.1 : OR = 1/9</li>
@@ -1063,7 +1074,12 @@ Adjusted for:
 <span id="cb58-11"><a></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
-<img data-src="correction_files/figure-revealjs/unnamed-chunk-32-1.png" width="960" class="r-stretch"></section>
+<img data-src="correction_files/figure-revealjs/unnamed-chunk-32-1.png" width="960" class="r-stretch"></section></section>
+<section>
+<section id="exercice-1-1" class="title-slide slide level1 center">
+<h1>Exercice 1</h1>
+
+<img data-src="correction_files/figure-revealjs/unnamed-chunk-33-1.png" width="960" class="r-stretch"></section>
 <section id="exercice-2" class="slide level2 scrollable">
 <h2>Exercice 2</h2>
 <div class="cell">
@@ -1257,9 +1273,13 @@ Adjusted for:
 <span id="cb75-15"><a></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
+<img data-src="correction_files/figure-revealjs/unnamed-chunk-34-1.png" width="960" class="r-stretch"></section>
+<section id="exercice-2-1" class="slide level2">
+<h2>Exercice 2</h2>
 
 
-<img data-src="correction_files/figure-revealjs/unnamed-chunk-33-1.png" width="960" class="r-stretch"></section></section>
+
+<img data-src="correction_files/figure-revealjs/unnamed-chunk-35-1.png" width="960" class="r-stretch"></section></section>
     </div>
   <div class="quarto-auto-generated-content" style="display: none;">
 <div class="footer footer-default">
