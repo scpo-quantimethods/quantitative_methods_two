@@ -20,10 +20,8 @@ website:
       - menu:
           - text: "Exercices 1: OLS"
             href: exercices/exercices1/exercices1.qmd
-            
           - text: "Exercices 2: Logistic regressions"
             href: exercices/exercices2/exercices2.qmd
-            
           - text: "Exercices 3: Multinomial regressions"
             href: exercices/exercices3/exercices3.qmd
             

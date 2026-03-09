@@ -176,7 +176,7 @@ Here is the codebook of the dataset:
 
 -   **schtyp**: Categorical. Type of school: "private" or "public".
 
--   **prog**: Categorical. Program of study chosen: 0 = General, 1 = Vocational, 2 = Academic.
+-   **prog**: Categorical. Program of study chosen
 
 -   **read**: Continuous. Reading test score.
 
@@ -213,15 +213,15 @@ save(student,file="student.RData")
 student<-import("https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/exercices/exercices3/data/student.RData")
 ```
 
-2.  Have a look at your dataset. Recode the *prog* variable so that the categories are not 0, 1, 2 but general, vocational, academic. Hint: use `glimpse`, `mutate()` and `case_when()`.
+2.  Have a look at your dataset. Recode the prog variable so that instead of NA, you should have the name of the programm students have selected (general, vocation or academic). Hint: use `glimpse`, `mutate()` and `case_when()`.
 
 ```{r, echo=FALSE, eval=FALSE}
 glimpse(student)
 
 student <- student %>%
-  mutate(prog = case_when(prog==0 ~ "General",
-                          prog==1 ~ "Vocational",
-                          prog==2 ~ "Academic"))
+  mutate(prog = case_when(prog0==1 ~ "General",
+                          prog1==1 ~ "Vocational",
+                          prog2==1 ~ "Academic"))
 ```
 
 2.  Now, run a multinomial regression to explain the influence of socio-economic status on the educational program choice.

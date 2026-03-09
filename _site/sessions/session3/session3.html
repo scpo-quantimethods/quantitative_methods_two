@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Jessica De Rongé">
 
-<title>Regression discontinuity – Quantitative methods II</title>
+<title>Session 3 - Multinomial Regression – Quantitative methods II</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -69,6 +105,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../../styles.css">
 </head>
@@ -116,18 +181,6 @@ ul.task-list li input[type="checkbox"] {
     <a class="dropdown-item" href="../../sessions/session3/session3.html">
  <span class="dropdown-text">Session 3: Multinomial regressions</span></a>
   </li>  
-        <li>
-    <a class="dropdown-item" href="../../sessions/session4/session4.html">
- <span class="dropdown-text">Session 4: Difference-in-Differences (DiD)</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../../sessions/session5/session5.html">
- <span class="dropdown-text">Session 5: Regression Discontinuity Design (RDD) and Instrumental Variables</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../../sessions/session6/session6.html">
- <span class="dropdown-text">Session 6: Time Series</span></a>
-  </li>  
     </ul>
   </li>
   <li class="nav-item">
@@ -149,20 +202,32 @@ ul.task-list li input[type="checkbox"] {
  <span class="dropdown-text">Exercices 2: Logistic regressions</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../exercices/exercices3/exercices3.html">
+    <a class="dropdown-item" href="../../exercices/exercices3/exercices3.qmd">
  <span class="dropdown-text">Exercices 3: Multinomial regressions</span></a>
   </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <span class="nav-link">
+<span class="menu-text">Slides</span>
+    </span>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu--2" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text"></span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu--2">    
         <li>
-    <a class="dropdown-item" href="../../exercices/exercices4/exercices4.html">
- <span class="dropdown-text">Exercices 4: Difference-in-Differences (DiD)</span></a>
+    <a class="dropdown-item" href="../../slides/session1/session1.html">
+ <span class="dropdown-text">Slides - session 1</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../exercices/exercices5/exercices5.html">
- <span class="dropdown-text">Exercices 5: Regression Discontinuity Design (RDD) and Instrumental Variables</span></a>
+    <a class="dropdown-item" href="../../slides/session2/session2.html">
+ <span class="dropdown-text">Slides - session 2</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../exercices/exercices6/exercices6.html">
- <span class="dropdown-text">Exercices 6: Time Series</span></a>
+    <a class="dropdown-item" href="../../slides/session3/session3.qmd">
+ <span class="dropdown-text">Slides - session 3</span></a>
   </li>  
     </ul>
   </li>
@@ -172,16 +237,16 @@ ul.task-list li input[type="checkbox"] {
     </span>
   </li>  
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu--2" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu--3" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text"></span>
     </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu--2">    
+    <ul class="dropdown-menu" aria-labelledby="nav-menu--3">    
         <li>
-    <a class="dropdown-item" href="../../homeworks/homework1.html">
+    <a class="dropdown-item" href="../../homeworks/homework.html">
  <span class="dropdown-text">Homework 1</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../homeworks/homework2.html">
+    <a class="dropdown-item" href="../../homeworks/homework.html">
  <span class="dropdown-text">Homework 2</span></a>
   </li>  
     </ul>
@@ -201,21 +266,59 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#multinomial-logistic-regression-reminders" id="toc-multinomial-logistic-regression-reminders" class="nav-link" data-scroll-target="#multinomial-logistic-regression-reminders">Multinomial logistic regression: reminders</a>
+  <ul class="collapse">
+  <li><a href="#when-do-you-use-it" id="toc-when-do-you-use-it" class="nav-link" data-scroll-target="#when-do-you-use-it">When do you use it?</a></li>
+  <li><a href="#what-is-a-multinomial-regression" id="toc-what-is-a-multinomial-regression" class="nav-link" data-scroll-target="#what-is-a-multinomial-regression">What is a multinomial regression?</a></li>
+  </ul></li>
+  <li><a href="#conducting-multinomial-regression-in-r" id="toc-conducting-multinomial-regression-in-r" class="nav-link" data-scroll-target="#conducting-multinomial-regression-in-r">Conducting multinomial regression in R</a>
+  <ul class="collapse">
+  <li><a href="#data-cleaning" id="toc-data-cleaning" class="nav-link" data-scroll-target="#data-cleaning">Data cleaning</a></li>
+  <li><a href="#descriptive-statistics" id="toc-descriptive-statistics" class="nav-link" data-scroll-target="#descriptive-statistics">Descriptive statistics</a></li>
+  <li><a href="#construction-of-the-model" id="toc-construction-of-the-model" class="nav-link" data-scroll-target="#construction-of-the-model">Construction of the model</a>
+  <ul class="collapse">
+  <li><a href="#interpretation" id="toc-interpretation" class="nav-link" data-scroll-target="#interpretation">Interpretation</a></li>
+  <li><a href="#predictive-probabilities" id="toc-predictive-probabilities" class="nav-link" data-scroll-target="#predictive-probabilities">Predictive probabilities</a></li>
+  </ul></li>
+  <li><a href="#diagnostics-of-the-model" id="toc-diagnostics-of-the-model" class="nav-link" data-scroll-target="#diagnostics-of-the-model">Diagnostics of the model</a>
+  <ul class="collapse">
+  <li><a href="#multicollinearity" id="toc-multicollinearity" class="nav-link" data-scroll-target="#multicollinearity">Multicollinearity</a></li>
+  <li><a href="#independence-of-irrelevant-alternatives-assumption" id="toc-independence-of-irrelevant-alternatives-assumption" class="nav-link" data-scroll-target="#independence-of-irrelevant-alternatives-assumption">Independence of Irrelevant Alternatives Assumption</a></li>
+  </ul></li>
+  <li><a href="#goodness-of-fit" id="toc-goodness-of-fit" class="nav-link" data-scroll-target="#goodness-of-fit">Goodness of fit</a>
+  <ul class="collapse">
+  <li><a href="#pseudo-r2" id="toc-pseudo-r2" class="nav-link" data-scroll-target="#pseudo-r2">Pseudo <span class="math inline">\(R^2\)</span></a></li>
+  <li><a href="#aic-akaike-information-criterion" id="toc-aic-akaike-information-criterion" class="nav-link" data-scroll-target="#aic-akaike-information-criterion">AIC (Akaike Information Criterion)</a></li>
+  <li><a href="#bic-bayesian-information-criterion" id="toc-bic-bayesian-information-criterion" class="nav-link" data-scroll-target="#bic-bayesian-information-criterion">BIC (Bayesian Information Criterion)</a></li>
+  </ul></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Regression discontinuity</h1>
+<h1 class="title">Session 3 - Multinomial Regression</h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Jessica De Rongé </p>
+          </div>
+  </div>
     
   
     
@@ -226,9 +329,782 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>About this site</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'dplyr'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:stats':
+
+    filter, lag</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rio)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>In this session, you will learn to produce a multinomial regression. This type of regression is frequent when your dependent variable is qualitative and has no order between categories. The logic behind is very similar to the simple logistic regression. To illustrate this method, an example using the European Social Survey (round 11) data will be used. The plan of this session is the following:</p>
+<ol type="1">
+<li>Multinomial regression: reminders</li>
+<li>Conducting multinomial regression in R</li>
+<li>Exercises</li>
+</ol>
+</section>
+<section id="multinomial-logistic-regression-reminders" class="level1">
+<h1>Multinomial logistic regression: reminders</h1>
+<section id="when-do-you-use-it" class="level2">
+<h2 class="anchored" data-anchor-id="when-do-you-use-it">When do you use it?</h2>
+<p>First of all, in which case does it make sense to use a multinomial model? This is the first question you should ask yourself before starting your analysis. The main reason for choosing this type of model is based on your dependent variable. You should use a multinomial regression when you have a qualitative nominal variable.</p>
+<p>What is a qualitative nominal variable? It is a variable that has more than two categories and there is no existing order of the categories. For example, if in a survey you ask respondents what their favourite colour is, they will answer blue, red, etc. When you will analyse this favourite colour variable, you will have different categories, each representing a colour. However, it makes no sense to order the different categories.</p>
+</section>
+<section id="what-is-a-multinomial-regression" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-a-multinomial-regression">What is a multinomial regression?</h2>
+<p>A multinomial logistic regression is a model where you simultaneously estimate single binary logit regressions for all the different possible categories of your dependent variable. Remember the logistic regression equation:</p>
+<p><span class="math display">\[
+ln\left( \frac{Pr(Y=1)}{Pr(Y=0)} \right)=\beta_{0}+\beta_{1}x_{1}+\dots+\beta_{j}x_{j}
+\]</span></p>
+<p>For the multinominal logistic regression, you do not only have two categories, so you will have one equation for every category. For example, your dependent variable is a university program. The nominal variable has three categories: social sciences (A), natural sciences (B) and medicine (C). You have one explanatory variable that is parent education (X). The multinomial model will be:</p>
+<p><span class="math display">\[
+ln \left( \frac{Pr(A|x)}{Pr(C|x)} \right)=\beta_{0,A|C} + \beta_{1,A|C}X
+\]</span> <span class="math display">\[
+ln \left( \frac{Pr(B|x)}{Pr(C|x)} \right)=\beta_{0,B|C} + \beta_{1,B|C}X
+\]</span></p>
+<p>As you can see, in both equations, the denominator in the fraction is the same. This is because the multinomial analysis always compares the different outcomes to a reference or baseline. You can decide which category you want as the baseline in your analysis. Furthermore, you see that we only estimate two and not three equations. This is because the third equation is:</p>
+<p><span class="math display">\[
+ln \left( \frac{Pr(C|x)}{Pr(C|x)} \right)=\beta_{0,C|C} + \beta_{1,C|C}X
+\]</span></p>
+<p>However: <span class="math inline">\(\frac{Pr(C|x)}{Pr(C|x)}=1\)</span> and <span class="math inline">\(ln(1)=0\)</span></p>
+<p>So, the parameters for the reference category are equal to 0: <span class="math inline">\(\beta_{0,C|C}=0\)</span> and <span class="math inline">\(\beta_{1,C|C}=0\)</span> .</p>
+<p>The idea is that you choose a baseline category (also understood as the reference), for which all the parameters will be constrained to 0. Then, the different logit regressions will run between the baseline and the other categories of your dependent variable. The multinomial logistic regression will assess the probability of the categorical outcomes compared to your baseline.</p>
+</section>
+</section>
+<section id="conducting-multinomial-regression-in-r" class="level1">
+<h1>Conducting multinomial regression in R</h1>
+<p>In this example, we will use the ESS dataset from round 11 (<a href="https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/sessions/session3/data/ESS11e04_1.csv">ESS11</a>). The objective of this analysis is to understand which predictors can help us understand party identification. We are interested in the Spanish case. We propose one simple hypothesis:</p>
+<blockquote class="blockquote">
+<p><strong>H1</strong>: The socio-economic status of a citizen influences his party identification</p>
+</blockquote>
+<p>This is a simple and naive hypothesis to explain party identification, as the objective of this session is to learn to conduct a multinomial regression and not a class on party identification. The ESS has a number of different variables about socio-economic status (you should have a look at the codebook to know more) but for this example, we will focus on three explanatory variables: gender, age and education.</p>
+<p>First of all, you should import the ESS dataset into R. Once it is done, you can select the variables you want to keep in your dataset. You should have a look at the codebook to find the name of the variable you are interested in. It will also tell you how that variable is coded. You should also restrict your sample to only Spanish observations.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">#ess&lt;-read.csv("ESS11e04_1.csv")</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>ess<span class="ot">&lt;-</span><span class="fu">import</span>(<span class="st">"https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/sessions/session3/data/ESS11e04_1.csv"</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span>ess <span class="sc">|&gt;</span> <span class="co">#this is a pipe you can also use %&gt;%</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(cntry, <span class="co">#select your variables of interest</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>         prtclhes,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>         gndr,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>         agea,</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>         eduyrs) <span class="sc">|&gt;</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(cntry<span class="sc">==</span><span class="st">"ES"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="data-cleaning" class="level3">
+<h3 class="anchored" data-anchor-id="data-cleaning">Data cleaning</h3>
+<p>Before starting the analysis, you should verify that your data is cleaned and ready to go. In the case of the ESS, a few data cleaning steps are needed. First of all, if you look at the codebook you will see that people who answered “Don’t know or No answer” to a survey question were not coded as NA but with another code such as 9999. This is problematic for us. We need to transform those values into NA. Secondly, the party identification variable is coded from 1 to 20. R will thus read this variable as a numerical variable and not a categorical variable so you should recode this variable with the name of the party.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>data_clean <span class="ot">&lt;-</span> data <span class="sc">|&gt;</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">c</span>(<span class="st">"prtclhes"</span>,<span class="st">"eduyrs"</span>), <span class="sc">~</span><span class="fu">case_when</span>(</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>      . <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">66</span>, <span class="dv">77</span>, <span class="dv">88</span>, <span class="dv">99</span>, <span class="dv">7777</span>, <span class="dv">8888</span>, <span class="dv">9999</span>) <span class="sc">~</span> <span class="cn">NA_integer_</span>,</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> .</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    )),</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">agea=</span><span class="fu">case_when</span>(agea<span class="sc">==</span><span class="dv">999</span><span class="sc">~</span><span class="cn">NA_integer_</span>,</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>                   <span class="cn">TRUE</span><span class="sc">~</span>agea),</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">gndr =</span> <span class="fu">recode</span>(gndr, <span class="st">`</span><span class="at">1</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"Male"</span>, <span class="st">`</span><span class="at">2</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"Female"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>data_clean<span class="sc">$</span>party[data_clean<span class="sc">$</span>prtclhes<span class="sc">==</span><span class="dv">1</span>]<span class="ot">&lt;-</span><span class="st">"PP"</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>data_clean<span class="sc">$</span>party[data_clean<span class="sc">$</span>prtclhes<span class="sc">==</span><span class="dv">2</span>]<span class="ot">&lt;-</span><span class="st">"PSOE"</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>data_clean<span class="sc">$</span>party[data_clean<span class="sc">$</span>prtclhes<span class="sc">==</span><span class="dv">3</span>]<span class="ot">&lt;-</span><span class="st">"Vox"</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>data_clean<span class="sc">$</span>party[data_clean<span class="sc">$</span>prtclhes<span class="sc">==</span><span class="dv">4</span>]<span class="ot">&lt;-</span><span class="st">"SUMAR"</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>data_clean<span class="sc">$</span>party[data_clean<span class="sc">$</span>prtclhes<span class="sc">==</span><span class="dv">5</span>]<span class="ot">&lt;-</span><span class="st">"ERC"</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>data_clean<span class="sc">$</span>party[data_clean<span class="sc">$</span>prtclhes<span class="sc">==</span><span class="dv">6</span>]<span class="ot">&lt;-</span><span class="st">"JuntsxCat"</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>data_clean<span class="sc">$</span>party[data_clean<span class="sc">$</span>prtclhes<span class="sc">==</span><span class="dv">7</span>]<span class="ot">&lt;-</span><span class="st">"EH-Bildu"</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>data_clean<span class="sc">$</span>party[data_clean<span class="sc">$</span>prtclhes<span class="sc">==</span><span class="dv">8</span>]<span class="ot">&lt;-</span><span class="st">"EAJ-PNV"</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>data_clean<span class="sc">$</span>party[data_clean<span class="sc">$</span>prtclhes<span class="sc">==</span><span class="dv">9</span>]<span class="ot">&lt;-</span><span class="st">"BNG"</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>data_clean<span class="sc">$</span>party[data_clean<span class="sc">$</span>prtclhes<span class="sc">==</span><span class="dv">10</span>]<span class="ot">&lt;-</span><span class="st">"Coalición Canaria"</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>data_clean<span class="sc">$</span>party[data_clean<span class="sc">$</span>prtclhes<span class="sc">==</span><span class="dv">11</span>]<span class="ot">&lt;-</span><span class="st">"UPN"</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>data_clean<span class="sc">$</span>party[data_clean<span class="sc">$</span>prtclhes<span class="sc">==</span><span class="dv">12</span>]<span class="ot">&lt;-</span><span class="st">"PACMA"</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>data_clean<span class="sc">$</span>party[data_clean<span class="sc">$</span>prtclhes<span class="sc">==</span><span class="dv">13</span>]<span class="ot">&lt;-</span><span class="st">"Unidas Podemos"</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>data_clean<span class="sc">$</span>party[data_clean<span class="sc">$</span>prtclhes<span class="sc">==</span><span class="dv">14</span>]<span class="ot">&lt;-</span><span class="st">"Izquierda Unida"</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>data_clean<span class="sc">$</span>party[data_clean<span class="sc">$</span>prtclhes<span class="sc">==</span><span class="dv">16</span>]<span class="ot">&lt;-</span><span class="st">"Cuidadanos"</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>data_clean<span class="sc">$</span>party[data_clean<span class="sc">$</span>prtclhes<span class="sc">==</span><span class="dv">17</span>]<span class="ot">&lt;-</span><span class="st">"CUP"</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>data_clean<span class="sc">$</span>party[data_clean<span class="sc">$</span>prtclhes<span class="sc">==</span><span class="dv">18</span>]<span class="ot">&lt;-</span><span class="st">"Compromís"</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>data_clean<span class="sc">$</span>party[data_clean<span class="sc">$</span>prtclhes<span class="sc">==</span><span class="dv">19</span>]<span class="ot">&lt;-</span><span class="st">"Drago Canarias"</span></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>data_clean<span class="sc">$</span>party[data_clean<span class="sc">$</span>prtclhes<span class="sc">==</span><span class="dv">20</span>]<span class="ot">&lt;-</span><span class="st">"Alianza Catalana"</span></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>data_clean<span class="sc">$</span>party[data_clean<span class="sc">$</span>prtclhes<span class="sc">==</span><span class="dv">50</span>]<span class="ot">&lt;-</span><span class="st">"Other"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="descriptive-statistics" class="level3">
+<h3 class="anchored" data-anchor-id="descriptive-statistics">Descriptive statistics</h3>
+<p>The first step, before conducting any analysis, is to produce the descriptive statistics of your variables. For the categorical variable, you should either produce a proportional table or a bar-plot. For the continuous variable, a descriptive statistics table should be done.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">Proportional table</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">bar-plot</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false">Descriptive statistics table</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(data_clean<span class="sc">$</span>gndr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Female   Male 
+   969    875 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(data_clean<span class="sc">$</span>party)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+ Alianza Catalana               BNG Coalición Canaria         Compromís 
+                3                18                 8                 4 
+       Cuidadanos               CUP    Drago Canarias           EAJ-PNV 
+                7                 2                 4                11 
+         EH-Bildu               ERC   Izquierda Unida         JuntsxCat 
+               22                22                15                18 
+            Other             PACMA                PP              PSOE 
+                7                 7               246               347 
+            SUMAR    Unidas Podemos               UPN               Vox 
+               72                18                 2                71 </code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data_clean,<span class="fu">aes</span>(<span class="at">x=</span>gndr))<span class="sc">+</span><span class="fu">geom_bar</span>()<span class="sc">+</span><span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="session3_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data_clean,<span class="fu">aes</span>(<span class="at">x=</span>party))<span class="sc">+</span><span class="fu">geom_bar</span>()<span class="sc">+</span><span class="fu">coord_flip</span>()<span class="sc">+</span><span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="session3_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>As you can see in the table and barplot, while there exists a lot of different parties in Spain, in the ESS sample, very few categories have more than 50 observations. As this is a pedagogical example, it is easier to select only a few parties to conduct our analysis. We will keep only the categories which have at least 50 observations (Vox, Sumar, PSOE and PP).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>model_data<span class="ot">&lt;-</span><span class="fu">subset</span>(data_clean,party<span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Vox"</span>,<span class="st">"SUMAR"</span>,<span class="st">"PSOE"</span>,<span class="st">"PP"</span>))</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>model_data<span class="sc">$</span>party<span class="ot">&lt;-</span><span class="fu">as.factor</span>(model_data<span class="sc">$</span>party)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>data_clean <span class="sc">|&gt;</span> <span class="fu">select</span>(agea,</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>                     eduyrs)<span class="sc">|&gt;</span> <span class="fu">summary</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      agea        eduyrs     
+ Min.   :16   Min.   : 0.00  
+ 1st Qu.:35   1st Qu.:10.00  
+ Median :50   Median :14.00  
+ Mean   :50   Mean   :14.49  
+ 3rd Qu.:64   3rd Qu.:18.00  
+ Max.   :90   Max.   :69.00  
+ NA's   :9    NA's   :40     </code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="construction-of-the-model" class="level2">
+<h2 class="anchored" data-anchor-id="construction-of-the-model">Construction of the model</h2>
+<p>In R, you will need to use the <code>multinom</code> function from the <code>nnet</code> package. In terms of argument, you need to specify three elements.</p>
+<p><code>multinom(formula, data, Hess)</code>:</p>
+<ul>
+<li><p>formula: specify your equation as Y ~ X</p></li>
+<li><p>data: specify the name of the dataset</p></li>
+<li><p>Hess=TRUE: specify you want the Hessian matrix</p></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nnet)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>model1<span class="ot">&lt;-</span><span class="fu">multinom</span>(party<span class="sc">~</span>agea<span class="sc">+</span>eduyrs<span class="sc">+</span>gndr,</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">data=</span>model_data,</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">Hess=</span><span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># weights:  20 (12 variable)
+initial  value 1009.222295 
+iter  10 value 815.592150
+iter  20 value 792.782491
+iter  20 value 792.782491
+iter  20 value 792.782491
+final  value 792.782491 
+converged</code></pre>
+</div>
+</div>
+<p>Once you have created your model, you should look at the results. Like in the logistic regression, the coefficient corresponds to the log-odds model. If you want the odds, you need to take the exponential of your coefficient. For the log-odds model, you can use the <code>summary</code> or <code>stargazer</code> functions. While the coefficients of the log-odds are hard to interpret, you can still look at significance of your coefficients.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Call:
+multinom(formula = party ~ agea + eduyrs + gndr, data = model_data, 
+    Hess = TRUE)
+
+Coefficients:
+      (Intercept)         agea       eduyrs   gndrMale
+PSOE    0.9827809 -0.006102718 -0.009162402 -0.3491925
+SUMAR  -0.7184806 -0.035307751  0.088393989 -0.2477047
+Vox     1.5776184 -0.055591186 -0.058162655  1.0755742
+
+Std. Errors:
+      (Intercept)        agea     eduyrs  gndrMale
+PSOE    0.4481136 0.005245025 0.01581284 0.1686127
+SUMAR   0.6482621 0.008481858 0.02372699 0.2825177
+Vox     0.7259083 0.008575475 0.03037332 0.3220699
+
+Residual Deviance: 1585.565 
+AIC: 1609.565 </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stargazer)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Please cite as: </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code> Hlavac, Marek (2022). stargazer: Well-Formatted Regression and Summary Statistics Tables.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code> R package version 5.2.3. https://CRAN.R-project.org/package=stargazer </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">stargazer</span>(model1,<span class="at">type=</span><span class="st">"text"</span>,</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">covariate.labels=</span><span class="fu">c</span>(<span class="st">"age"</span>,<span class="st">"education years"</span>,<span class="st">"Male"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+===============================================
+                       Dependent variable:     
+                  -----------------------------
+                    PSOE      SUMAR      Vox   
+                     (1)       (2)       (3)   
+-----------------------------------------------
+age                -0.006   -0.035*** -0.056***
+                   (0.005)   (0.008)   (0.009) 
+                                               
+education years    -0.009   0.088***   -0.058* 
+                   (0.016)   (0.024)   (0.030) 
+                                               
+Male              -0.349**   -0.248   1.076*** 
+                   (0.169)   (0.283)   (0.322) 
+                                               
+Constant           0.983**   -0.718    1.578** 
+                   (0.448)   (0.648)   (0.726) 
+                                               
+-----------------------------------------------
+Akaike Inf. Crit. 1,609.565 1,609.565 1,609.565
+===============================================
+Note:               *p&lt;0.1; **p&lt;0.05; ***p&lt;0.01</code></pre>
+</div>
+</div>
+<p>To look at the exponential values of your coefficient, there are two methods. You can directly look at the coefficient or you can use the <code>modelsummary</code> function (from the <code>modelsummary</code> package) to create a regression table with your exponential coefficients.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(<span class="fu">coef</span>(model1))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      (Intercept)      agea    eduyrs  gndrMale
+PSOE    2.6718761 0.9939159 0.9908794 0.7052574
+SUMAR   0.4874924 0.9653083 1.0924184 0.7805904
+Vox     4.8434070 0.9459258 0.9434965 2.9316757</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(modelsummary)</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">modelsummary</span>(model1,</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">stars=</span><span class="cn">TRUE</span>,</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">stars_method=</span><span class="st">"simple"</span>,</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">coef_map=</span><span class="fu">c</span>(<span class="st">"agea"</span><span class="ot">=</span><span class="st">"Age"</span>,</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>                        <span class="st">"eduyrs"</span><span class="ot">=</span><span class="st">"Years of education"</span>,</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>                        <span class="st">"gndrMale"</span><span class="ot">=</span><span class="st">"Male"</span>),</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>             <span class="at">title=</span><span class="st">"Multinomial Regression Results"</span>,</span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>             <span class="at">output=</span><span class="st">"html"</span>,</span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>             <span class="at">shape=</span> model<span class="sc">+</span>term<span class="sc">~</span>response,</span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>             <span class="at">gof_map=</span>tibble<span class="sc">::</span><span class="fu">tribble</span>(<span class="sc">~</span>raw,<span class="sc">~</span>clean,<span class="sc">~</span>fmt,</span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>                                     <span class="st">"AIC"</span>,<span class="st">"Akaike Inf. Crit."</span>,<span class="dv">2</span>,</span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>                                     <span class="st">"BIC"</span>,<span class="st">"Bayesian Inf. Crit."</span>,<span class="dv">2</span>,</span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>                                     <span class="st">"logLik"</span>,<span class="st">"Log-Likelihood"</span>,<span class="dv">2</span>,</span>
+<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a>                                     <span class="st">"deviance"</span>,<span class="st">"Deviance"</span>,<span class="dv">2</span>),</span>
+<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a>             <span class="at">exponentiate =</span> <span class="cn">TRUE</span></span>
+<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a>             ) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<!-- preamble start -->
+
+    <script src="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.js"></script>
+
+    <script>
+      // Create table-specific functions using external factory
+      const tableFns_0qjmr7190ftqi86f3yma = TinyTable.createTableFunctions("tinytable_0qjmr7190ftqi86f3yma");
+      // tinytable span after
+      window.addEventListener('load', function () {
+          var cellsToStyle = [
+            // tinytable style arrays after
+          { positions: [ { i: '6', j: 3 }, { i: '6', j: 4 }, { i: '6', j: 5 } ], css_id: 'tinytable_css_61ygprinc5i9qpdubvqg',}, 
+          { positions: [ { i: '1', j: 3 }, { i: '2', j: 3 }, { i: '3', j: 3 }, { i: '4', j: 3 }, { i: '5', j: 3 }, { i: '1', j: 4 }, { i: '2', j: 4 }, { i: '3', j: 4 }, { i: '4', j: 4 }, { i: '5', j: 4 }, { i: '1', j: 5 }, { i: '2', j: 5 }, { i: '3', j: 5 }, { i: '4', j: 5 }, { i: '5', j: 5 } ], css_id: 'tinytable_css_acxc495m3snfr7s47kcj',}, 
+          { positions: [ { i: '0', j: 3 }, { i: '0', j: 4 }, { i: '0', j: 5 } ], css_id: 'tinytable_css_krlajubdj6frgsk2tkxh',}, 
+          { positions: [ { i: '6', j: 1 }, { i: '6', j: 2 } ], css_id: 'tinytable_css_pgnodgb4gujzd29hg25j',}, 
+          { positions: [ { i: '1', j: 1 }, { i: '2', j: 1 }, { i: '3', j: 1 }, { i: '4', j: 1 }, { i: '5', j: 1 }, { i: '1', j: 2 }, { i: '2', j: 2 }, { i: '3', j: 2 }, { i: '4', j: 2 }, { i: '5', j: 2 } ], css_id: 'tinytable_css_t6vszt96nhoxe2ssah5c',}, 
+          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 } ], css_id: 'tinytable_css_6ua9p2bafo3imopf4xzg',}, 
+          ];
+
+          // Loop over the arrays to style the cells
+          cellsToStyle.forEach(function (group) {
+              group.positions.forEach(function (cell) {
+                  tableFns_0qjmr7190ftqi86f3yma.styleCell(cell.i, cell.j, group.css_id);
+              });
+          });
+      });
+    </script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.css">
+    <style>
+    /* tinytable css entries after */
+    #tinytable_0qjmr7190ftqi86f3yma td.tinytable_css_61ygprinc5i9qpdubvqg, #tinytable_0qjmr7190ftqi86f3yma th.tinytable_css_61ygprinc5i9qpdubvqg {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
+    #tinytable_0qjmr7190ftqi86f3yma td.tinytable_css_acxc495m3snfr7s47kcj, #tinytable_0qjmr7190ftqi86f3yma th.tinytable_css_acxc495m3snfr7s47kcj { text-align: center }
+    #tinytable_0qjmr7190ftqi86f3yma td.tinytable_css_krlajubdj6frgsk2tkxh, #tinytable_0qjmr7190ftqi86f3yma th.tinytable_css_krlajubdj6frgsk2tkxh {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
+    #tinytable_0qjmr7190ftqi86f3yma td.tinytable_css_pgnodgb4gujzd29hg25j, #tinytable_0qjmr7190ftqi86f3yma th.tinytable_css_pgnodgb4gujzd29hg25j {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
+    #tinytable_0qjmr7190ftqi86f3yma td.tinytable_css_t6vszt96nhoxe2ssah5c, #tinytable_0qjmr7190ftqi86f3yma th.tinytable_css_t6vszt96nhoxe2ssah5c { text-align: left }
+    #tinytable_0qjmr7190ftqi86f3yma td.tinytable_css_6ua9p2bafo3imopf4xzg, #tinytable_0qjmr7190ftqi86f3yma th.tinytable_css_6ua9p2bafo3imopf4xzg {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
+    </style>
+    <div class="container">
+      <table class="tinytable" id="tinytable_0qjmr7190ftqi86f3yma" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+        <caption>Multinomial Regression Results</caption>
+        <thead>
+              <tr>
+                <th scope="col" data-row="0" data-col="1"> </th>
+                <th scope="col" data-row="0" data-col="2">  </th>
+                <th scope="col" data-row="0" data-col="3">PSOE</th>
+                <th scope="col" data-row="0" data-col="4">SUMAR</th>
+                <th scope="col" data-row="0" data-col="5">Vox</th>
+              </tr>
+        </thead>
+        <tfoot><tr><td colspan="5">+ p &lt; 0.1, * p &lt; 0.05, ** p &lt; 0.01, *** p &lt; 0.001</td></tr></tfoot>
+        <tbody>
+                <tr>
+                  <td data-row="1" data-col="1">(1)</td>
+                  <td data-row="1" data-col="2">Age</td>
+                  <td data-row="1" data-col="3">0.994</td>
+                  <td data-row="1" data-col="4">0.965***</td>
+                  <td data-row="1" data-col="5">0.946***</td>
+                </tr>
+                <tr>
+                  <td data-row="2" data-col="1"></td>
+                  <td data-row="2" data-col="2"></td>
+                  <td data-row="2" data-col="3">(0.005)</td>
+                  <td data-row="2" data-col="4">(0.008)</td>
+                  <td data-row="2" data-col="5">(0.008)</td>
+                </tr>
+                <tr>
+                  <td data-row="3" data-col="1"></td>
+                  <td data-row="3" data-col="2">Years of education</td>
+                  <td data-row="3" data-col="3">0.991</td>
+                  <td data-row="3" data-col="4">1.092***</td>
+                  <td data-row="3" data-col="5">0.943+</td>
+                </tr>
+                <tr>
+                  <td data-row="4" data-col="1"></td>
+                  <td data-row="4" data-col="2"></td>
+                  <td data-row="4" data-col="3">(0.016)</td>
+                  <td data-row="4" data-col="4">(0.026)</td>
+                  <td data-row="4" data-col="5">(0.029)</td>
+                </tr>
+                <tr>
+                  <td data-row="5" data-col="1"></td>
+                  <td data-row="5" data-col="2">Male</td>
+                  <td data-row="5" data-col="3">0.705*</td>
+                  <td data-row="5" data-col="4">0.781</td>
+                  <td data-row="5" data-col="5">2.932***</td>
+                </tr>
+                <tr>
+                  <td data-row="6" data-col="1"></td>
+                  <td data-row="6" data-col="2"></td>
+                  <td data-row="6" data-col="3">(0.119)</td>
+                  <td data-row="6" data-col="4">(0.221)</td>
+                  <td data-row="6" data-col="5">(0.944)</td>
+                </tr>
+        </tbody>
+      </table>
+    </div>
+<!-- hack to avoid NA insertion in last line -->
+</div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>modelsummary<span class="sc">::</span><span class="fu">get_gof</span>(model1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       aic      bic  r.squared adj.r.squared      rmse nobs
+1 1609.565 1664.649 0.07135657     0.0701852 0.3930433  728</code></pre>
+</div>
+</div>
+<section id="interpretation" class="level3">
+<h3 class="anchored" data-anchor-id="interpretation">Interpretation</h3>
+<p>Once you have produced your regression table, you can now interpret the results. The first element you can see is that coefficients between the <code>stargazer</code> table and the <code>modelsummary</code> table are different. This is normal, as in the second table we use the exponential coefficients. However, this does not change the level of significance of your coefficients. When interpreting your results, it is important to make sure if you are interpreting the coefficient or the exponential coefficient because the interpretation is quite different.</p>
+<p>Secondly, you can see that you only have three columns in your table (the different parties). By looking at the name of your columns, you can see which party is the reference category. Here, the reference is PP (you know that because you have no estimated coefficients for that parties). Remember the coefficients of your category of reference are equal to <span class="math inline">\(0\)</span>. Now, looking at the coefficients for the other parties, you need to keep in mind that they are estimated by running a logistic regression between the party (for example: Vox) and the reference party (here, PP). In more mathematical terms, for each column you run a regression where your dependent variable is equal to 1 when the respondent feels close to a party (for example: Vox) and 0 if the respondent felt closed the reference party (here PP). So you need to interpret every result as the likelihood of feeling close the Vox/PSOE/Sumar party instead of feeling close to the PP party.</p>
+<p>Starting with the first regression table (computed with <code>stargazer</code>), you need to interpret the effect of the coefficient in relation to the log-odds. If we interpret the results for the PSOE party, you can see that only the gender variable is significant. When you are a man instead of a woman, the log-odds of feeling close to the PSOE party (compared to the PP party) will decrease by 0.35. If we look at the SUMAR party, while the gender variable is not significant, both age and education year variables are significant. When the variable age increases by one unit, the log-odds of preferring the SUMAR party to the PP party decrease by a 0.03 unit (holding all other variables constant). When the number of education years of a Spanish citizen increases by one-unit, the multinomial log-odds of preferring SUMAR party to the PP party will increase by a 0.08 unit.</p>
+<p>Coefficients of your second table are actually the odds ratio. This means that the interpretation is different from the first table. First of all, because an exponential will always be positive. As you can see, all your negative coefficients from the <code>stargazer</code> regression table became positive. Secondly, the odds ratio should be interpreted as an increase or decrease of the probability of being in the comparison group (here, SUMAR/PSOE/Vox) compared to the risk of falling into the referent group (here PP). If the ratio is <span class="math inline">\(&gt;1\)</span>, the risk of falling into the comparison group is more likely than falling into the referent group. In contrast, a ratio <span class="math inline">\(&lt;1\)</span> indicates that the probability of being in the comparison group compared to the referent group decreases. Looking at our results for the Vox party, if you are a man, you are almost 3 times more likely to feel close to the Vox party than to the PP party.</p>
+<section id="re-leveling-your-dependent-variable" class="level4">
+<h4 class="anchored" data-anchor-id="re-leveling-your-dependent-variable">Re-leveling your dependent variable</h4>
+<p>As you can see in the model, R has automatically selected the PP party as the baseline. If you want to specify another category as your baseline, you need to re-level your dependent variable. To re-level your dataset, you can use the <code>relevel</code> function. Once you have relevelled your function, you can compute the multinomial model again.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>model_data<span class="sc">$</span>party<span class="ot">&lt;-</span><span class="fu">relevel</span>(model_data<span class="sc">$</span>party,<span class="at">ref =</span> <span class="st">"Vox"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>model2<span class="ot">&lt;-</span><span class="fu">multinom</span>(party<span class="sc">~</span>agea<span class="sc">+</span>eduyrs<span class="sc">+</span>gndr,</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">data=</span>model_data,</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">Hess=</span><span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># weights:  20 (12 variable)
+initial  value 1009.222295 
+iter  10 value 801.928022
+final  value 792.782491 
+converged</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">stargazer</span>(model2,<span class="at">type=</span><span class="st">"text"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+===============================================
+                       Dependent variable:     
+                  -----------------------------
+                     PP       PSOE      SUMAR  
+                     (1)       (2)       (3)   
+-----------------------------------------------
+agea              0.056***  0.049***   0.020*  
+                   (0.009)   (0.008)   (0.010) 
+                                               
+eduyrs             0.058*    0.049*   0.147*** 
+                   (0.030)   (0.030)   (0.035) 
+                                               
+gndrMale          -1.076*** -1.425*** -1.323***
+                   (0.322)   (0.313)   (0.379) 
+                                               
+Constant          -1.578**   -0.595   -2.296***
+                   (0.726)   (0.696)   (0.834) 
+                                               
+-----------------------------------------------
+Akaike Inf. Crit. 1,609.565 1,609.565 1,609.565
+===============================================
+Note:               *p&lt;0.1; **p&lt;0.05; ***p&lt;0.01</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">modelsummary</span>(model2,</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">stars=</span><span class="cn">TRUE</span>,</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">stars_method=</span><span class="st">"simple"</span>,</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">coef_map=</span><span class="fu">c</span>(<span class="st">"agea"</span><span class="ot">=</span><span class="st">"Age"</span>,</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>                        <span class="st">"eduyrs"</span><span class="ot">=</span><span class="st">"Years of education"</span>,</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>                        <span class="st">"gndrMale"</span><span class="ot">=</span><span class="st">"Male"</span>),</span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>             <span class="at">title=</span><span class="st">"Multinomial Regression Results"</span>,</span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>             <span class="at">output=</span><span class="st">"html"</span>,</span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>             <span class="at">shape=</span> model<span class="sc">+</span>term<span class="sc">~</span>response,</span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>             <span class="at">gof_map=</span>tibble<span class="sc">::</span><span class="fu">tribble</span>(<span class="sc">~</span>raw,<span class="sc">~</span>clean,<span class="sc">~</span>fmt,</span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>                                     <span class="st">"AIC"</span>,<span class="st">"Akaike Inf. Crit."</span>,<span class="dv">2</span>,</span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a>                                     <span class="st">"BIC"</span>,<span class="st">"Bayesian Inf. Crit."</span>,<span class="dv">2</span>,</span>
+<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a>                                     <span class="st">"logLik"</span>,<span class="st">"Log-Likelihood"</span>,<span class="dv">2</span>,</span>
+<span id="cb38-14"><a href="#cb38-14" aria-hidden="true" tabindex="-1"></a>                                     <span class="st">"deviance"</span>,<span class="st">"Deviance"</span>,<span class="dv">2</span>),</span>
+<span id="cb38-15"><a href="#cb38-15" aria-hidden="true" tabindex="-1"></a>             <span class="at">exponentiate =</span> <span class="cn">TRUE</span></span>
+<span id="cb38-16"><a href="#cb38-16" aria-hidden="true" tabindex="-1"></a>             ) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<!-- preamble start -->
+
+    <script src="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.js"></script>
+
+    <script>
+      // Create table-specific functions using external factory
+      const tableFns_pmqwd5fekkreol2j7i53 = TinyTable.createTableFunctions("tinytable_pmqwd5fekkreol2j7i53");
+      // tinytable span after
+      window.addEventListener('load', function () {
+          var cellsToStyle = [
+            // tinytable style arrays after
+          { positions: [ { i: '6', j: 3 }, { i: '6', j: 4 }, { i: '6', j: 5 } ], css_id: 'tinytable_css_q8ms7zwpwbmughpk319a',}, 
+          { positions: [ { i: '1', j: 3 }, { i: '2', j: 3 }, { i: '3', j: 3 }, { i: '4', j: 3 }, { i: '5', j: 3 }, { i: '1', j: 4 }, { i: '2', j: 4 }, { i: '3', j: 4 }, { i: '4', j: 4 }, { i: '5', j: 4 }, { i: '1', j: 5 }, { i: '2', j: 5 }, { i: '3', j: 5 }, { i: '4', j: 5 }, { i: '5', j: 5 } ], css_id: 'tinytable_css_9ej8meo1xx745nfu9ftk',}, 
+          { positions: [ { i: '0', j: 3 }, { i: '0', j: 4 }, { i: '0', j: 5 } ], css_id: 'tinytable_css_7wfzrtopwn0fy0gpwl59',}, 
+          { positions: [ { i: '6', j: 1 }, { i: '6', j: 2 } ], css_id: 'tinytable_css_jvmco2wo5qpvnisod4d9',}, 
+          { positions: [ { i: '1', j: 1 }, { i: '2', j: 1 }, { i: '3', j: 1 }, { i: '4', j: 1 }, { i: '5', j: 1 }, { i: '1', j: 2 }, { i: '2', j: 2 }, { i: '3', j: 2 }, { i: '4', j: 2 }, { i: '5', j: 2 } ], css_id: 'tinytable_css_h202trge2rqr9c3cwufr',}, 
+          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 } ], css_id: 'tinytable_css_28k3nputf4m87mb0gxvi',}, 
+          ];
+
+          // Loop over the arrays to style the cells
+          cellsToStyle.forEach(function (group) {
+              group.positions.forEach(function (cell) {
+                  tableFns_pmqwd5fekkreol2j7i53.styleCell(cell.i, cell.j, group.css_id);
+              });
+          });
+      });
+    </script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.css">
+    <style>
+    /* tinytable css entries after */
+    #tinytable_pmqwd5fekkreol2j7i53 td.tinytable_css_q8ms7zwpwbmughpk319a, #tinytable_pmqwd5fekkreol2j7i53 th.tinytable_css_q8ms7zwpwbmughpk319a {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
+    #tinytable_pmqwd5fekkreol2j7i53 td.tinytable_css_9ej8meo1xx745nfu9ftk, #tinytable_pmqwd5fekkreol2j7i53 th.tinytable_css_9ej8meo1xx745nfu9ftk { text-align: center }
+    #tinytable_pmqwd5fekkreol2j7i53 td.tinytable_css_7wfzrtopwn0fy0gpwl59, #tinytable_pmqwd5fekkreol2j7i53 th.tinytable_css_7wfzrtopwn0fy0gpwl59 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
+    #tinytable_pmqwd5fekkreol2j7i53 td.tinytable_css_jvmco2wo5qpvnisod4d9, #tinytable_pmqwd5fekkreol2j7i53 th.tinytable_css_jvmco2wo5qpvnisod4d9 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
+    #tinytable_pmqwd5fekkreol2j7i53 td.tinytable_css_h202trge2rqr9c3cwufr, #tinytable_pmqwd5fekkreol2j7i53 th.tinytable_css_h202trge2rqr9c3cwufr { text-align: left }
+    #tinytable_pmqwd5fekkreol2j7i53 td.tinytable_css_28k3nputf4m87mb0gxvi, #tinytable_pmqwd5fekkreol2j7i53 th.tinytable_css_28k3nputf4m87mb0gxvi {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
+    </style>
+    <div class="container">
+      <table class="tinytable" id="tinytable_pmqwd5fekkreol2j7i53" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+        <caption>Multinomial Regression Results</caption>
+        <thead>
+              <tr>
+                <th scope="col" data-row="0" data-col="1"> </th>
+                <th scope="col" data-row="0" data-col="2">  </th>
+                <th scope="col" data-row="0" data-col="3">PP</th>
+                <th scope="col" data-row="0" data-col="4">PSOE</th>
+                <th scope="col" data-row="0" data-col="5">SUMAR</th>
+              </tr>
+        </thead>
+        <tfoot><tr><td colspan="5">+ p &lt; 0.1, * p &lt; 0.05, ** p &lt; 0.01, *** p &lt; 0.001</td></tr></tfoot>
+        <tbody>
+                <tr>
+                  <td data-row="1" data-col="1">(1)</td>
+                  <td data-row="1" data-col="2">Age</td>
+                  <td data-row="1" data-col="3">1.057***</td>
+                  <td data-row="1" data-col="4">1.051***</td>
+                  <td data-row="1" data-col="5">1.020+</td>
+                </tr>
+                <tr>
+                  <td data-row="2" data-col="1"></td>
+                  <td data-row="2" data-col="2"></td>
+                  <td data-row="2" data-col="3">(0.009)</td>
+                  <td data-row="2" data-col="4">(0.009)</td>
+                  <td data-row="2" data-col="5">(0.011)</td>
+                </tr>
+                <tr>
+                  <td data-row="3" data-col="1"></td>
+                  <td data-row="3" data-col="2">Years of education</td>
+                  <td data-row="3" data-col="3">1.060+</td>
+                  <td data-row="3" data-col="4">1.050+</td>
+                  <td data-row="3" data-col="5">1.158***</td>
+                </tr>
+                <tr>
+                  <td data-row="4" data-col="1"></td>
+                  <td data-row="4" data-col="2"></td>
+                  <td data-row="4" data-col="3">(0.032)</td>
+                  <td data-row="4" data-col="4">(0.031)</td>
+                  <td data-row="4" data-col="5">(0.040)</td>
+                </tr>
+                <tr>
+                  <td data-row="5" data-col="1"></td>
+                  <td data-row="5" data-col="2">Male</td>
+                  <td data-row="5" data-col="3">0.341***</td>
+                  <td data-row="5" data-col="4">0.241***</td>
+                  <td data-row="5" data-col="5">0.266***</td>
+                </tr>
+                <tr>
+                  <td data-row="6" data-col="1"></td>
+                  <td data-row="6" data-col="2"></td>
+                  <td data-row="6" data-col="3">(0.110)</td>
+                  <td data-row="6" data-col="4">(0.075)</td>
+                  <td data-row="6" data-col="5">(0.101)</td>
+                </tr>
+        </tbody>
+      </table>
+    </div>
+<!-- hack to avoid NA insertion in last line -->
+</div>
+</div>
+</section>
+</section>
+<section id="predictive-probabilities" class="level3">
+<h3 class="anchored" data-anchor-id="predictive-probabilities">Predictive probabilities</h3>
+<p>In multinomial analysis, besides interpreting the exponential coefficients, you can also look at the predicted probabilities to understand how your explanatory variable influences the outcomes of your dependent variable.</p>
+<p>Recall: To compute the predicted probabilities, you need to hold constant (at their means or other logical values in the context of your analysis) every independent variable of your model except one. You let vary the only independent variable you did not hold constant to estimate the predicted probabilities of that variable on the possible outcomes of your dependent variable. You can estimate predicted probabilities for every independent variable of your model.</p>
+<p>To compute the predicted probabilities, you can use the <code>ggpredict()</code> function (as seen in session 2) or you can use the <code>marginaleffects</code> package (and more specifically the <code>plot_predictions()</code> function). This will directly compute the prediction (you do not need to compute them manually).</p>
+<p><code>plot_predictions(model, type="probs", condition=variable, draw=FALSE)</code>:</p>
+<ul>
+<li><p>model: name of your multinomial model</p></li>
+<li><p>type=“probs”: specify that you want to estimate probabilities (so a value between 0 and 1)</p></li>
+<li><p>condition=variable: specify the independent variable for which you want to compute the predicted probabilities</p></li>
+<li><p>draw=FALSE: to get a data frame with the prediction if draw=TRUE, you will also get a ggplot2 graph.</p></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(marginaleffects)</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>pred_agea<span class="ot">&lt;-</span><span class="fu">plot_predictions</span>(</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  model1,</span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">type=</span><span class="st">"probs"</span>,</span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">condition=</span><span class="st">"agea"</span>,</span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">draw=</span><span class="cn">FALSE</span>)</span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(pred_agea)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  rowid group  estimate  std.error statistic      p.value  s.value  conf.low
+1     1    PP 0.2012785 0.03686291  5.460191 4.756229e-08 24.32561 0.1290286
+2     2    PP 0.2071207 0.03650697  5.673455 1.399461e-08 26.09055 0.1355683
+3     3    PP 0.2129273 0.03611174  5.896346 3.716388e-09 28.00345 0.1421496
+4     4    PP 0.2186917 0.03567956  6.129327 8.825147e-10 30.07766 0.1487610
+5     5    PP 0.2244074 0.03521296  6.372864 1.855302e-10 32.32763 0.1553913
+6     6    PP 0.2300688 0.03471468  6.627419 3.416064e-11 34.76887 0.1620292
+  conf.high eduyrs   gndr party     agea  df
+1 0.2735285     14 Female  PSOE 16.00000 Inf
+2 0.2786730     14 Female  PSOE 17.51020 Inf
+3 0.2837050     14 Female  PSOE 19.02041 Inf
+4 0.2886223     14 Female  PSOE 20.53061 Inf
+5 0.2934235     14 Female  PSOE 22.04082 Inf
+6 0.2981083     14 Female  PSOE 23.55102 Inf</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>pred_agea <span class="sc">|&gt;</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>agea,<span class="at">y=</span>estimate,<span class="at">group=</span>group,<span class="at">color=</span>group))<span class="sc">+</span></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>()<span class="sc">+</span></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> conf.low, <span class="at">ymax =</span> conf.high), <span class="at">alpha =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>group)<span class="sc">+</span></span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="session3_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>pred_gndr<span class="ot">&lt;-</span><span class="fu">plot_predictions</span>(</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  model1,</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">type=</span><span class="st">"probs"</span>,</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">condition=</span><span class="st">"gndr"</span>,</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">draw=</span><span class="cn">FALSE</span>)</span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>pred_gndr <span class="sc">|&gt;</span></span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>gndr,<span class="at">y=</span>estimate,<span class="at">group=</span>group,<span class="at">color=</span>group))<span class="sc">+</span></span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_pointrange</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> conf.low, <span class="at">ymax =</span> conf.high))<span class="sc">+</span></span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>group)<span class="sc">+</span></span>
+<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="session3_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="diagnostics-of-the-model" class="level2">
+<h2 class="anchored" data-anchor-id="diagnostics-of-the-model">Diagnostics of the model</h2>
+<p>It is always good practice to check the diagnostic of your model. As you know, estimates of your model will change depending on a number of factors (scale of your variables, the variables included into the model…). The estimation process is based under different assumptions. If the assumptions are invalid, the estimation of your model becomes biased.</p>
+<section id="multicollinearity" class="level3">
+<h3 class="anchored" data-anchor-id="multicollinearity">Multicollinearity</h3>
+<p>Multicollinearity happens when you have independent variables that are highly correlated between them (meaning that they capture the same information). Multicollinearity can introduce unreliable estimation because it can lead to inflated standard errors impacting the confidence intervals and impacting the statistical significance of your coefficient. For more details on multicollinearity, you should go back to the first session on OLS.</p>
+<p>To look at multicollinearity of your multinomial model, you can use the VIF and the <code>check_collinearity()</code> function from the <code>performance package</code>.</p>
+<p>In the example, no variables obtain a VIF that is higher than 10. We do not detect a problem of multicollinearity.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(performance)</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="fu">check_collinearity</span>(model1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># Check for Multicollinearity
+
+Low Correlation
+
+   Term  VIF   VIF 95% CI adj. VIF Tolerance Tolerance 95% CI
+   agea 1.62 [1.48, 1.80]     1.27      0.62     [0.56, 0.68]
+ eduyrs 1.53 [1.40, 1.70]     1.24      0.65     [0.59, 0.71]
+   gndr 1.25 [1.16, 1.38]     1.12      0.80     [0.72, 0.86]</code></pre>
+</div>
+</div>
+</section>
+<section id="independence-of-irrelevant-alternatives-assumption" class="level3">
+<h3 class="anchored" data-anchor-id="independence-of-irrelevant-alternatives-assumption">Independence of Irrelevant Alternatives Assumption</h3>
+<p>The Independence of Irrelevant Alternatives (IIA) is an important assumption of a multinomial model. This assumption follows that the choice between alternative A and B is independent of alternative C. In our example, we make the assumption that choosing to identify with the Vox party over the Sumar party is independent from the option to identify with the PSOE party.</p>
+</section>
+</section>
+<section id="goodness-of-fit" class="level2">
+<h2 class="anchored" data-anchor-id="goodness-of-fit">Goodness of fit</h2>
+<p>Goodness of fit refers to how well the model you construct fit your data. It evaluates how well your expectations (your theoretical model) are similar to the observed values (your data sample). Different criteria exist to evaluate the goodness of fit. Not all criteria should be used for any type of model.</p>
+<section id="pseudo-r2" class="level3">
+<h3 class="anchored" data-anchor-id="pseudo-r2">Pseudo <span class="math inline">\(R^2\)</span></h3>
+<p>In OLS, one of the first goodness of fit your model you will look at is the <span class="math inline">\(R^2\)</span> or adjusted <span class="math inline">\(R^2\)</span>. This indicator tells you how much variance of your dependent variable is explained by the model. In a multinomial analysis, the <span class="math inline">\(R^2\)</span> does not exist. However, you can compute another indice called McFadden’s Pseudo <span class="math inline">\(R^2\)</span> which can be interpreted similarly than the <span class="math inline">\(R^2\)</span>. To compute this pseudo <span class="math inline">\(R^2\)</span>, you can use the <code>pR2()</code> function from the <code>pscl</code> package.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pscl)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Classes and Methods for R originally developed in the
+Political Science Computational Laboratory
+Department of Political Science
+Stanford University (2002-2015),
+by and under the direction of Simon Jackman.
+hurdle and zeroinfl functions by Achim Zeileis.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pR2</span>(model2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>fitting null model for pseudo-r2
+# weights:  8 (3 variable)
+initial  value 1009.222295 
+final  value 853.699564 
+converged</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          llh       llhNull            G2      McFadden          r2ML 
+-792.78249056 -853.69956411  121.83414709    0.07135657    0.15410040 
+         r2CU 
+   0.17043030 </code></pre>
+</div>
+</div>
+</section>
+<section id="aic-akaike-information-criterion" class="level3">
+<h3 class="anchored" data-anchor-id="aic-akaike-information-criterion">AIC (Akaike Information Criterion)</h3>
+<p>The AIC criterion is a criterion that should be used when you compare different models. With only one model, you cannot interpret your AIC. The reason behind this is that there are no thresholds for the AIC model to say that is a bad or acceptable model. The AIC is used when you compare nested models. Nested models are models where you evaluate different models by dropping some independent variables in some models but keeping them in other models. The dependent variable needs to be the same in all nested models. From our example, we could use the AIC to compare two models:</p>
+<ul>
+<li><p>One where we include age, education years and gender</p></li>
+<li><p>One where we include only age and gender</p></li>
+</ul>
+<p>The AIC is computed based on the likelihood estimation of your model and on the number of predictors included in it. You should select the model with the smallest AIC because a smaller AIC means that the model fits the data better than the model with the higher AIC. It is important to keep in mind that the AIC helps you select the best model between a list of models but does not guarantee that your model is actually good.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>modelA<span class="ot">&lt;-</span><span class="fu">multinom</span>(party<span class="sc">~</span>agea<span class="sc">+</span>eduyrs<span class="sc">+</span>gndr,</span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">data=</span>model_data,</span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">Hess=</span><span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># weights:  20 (12 variable)
+initial  value 1009.222295 
+iter  10 value 801.928022
+final  value 792.782491 
+converged</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>modelB<span class="ot">&lt;-</span><span class="fu">multinom</span>(party<span class="sc">~</span>agea<span class="sc">+</span>gndr,</span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">data=</span>model_data,</span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">Hess=</span><span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># weights:  16 (9 variable)
+initial  value 1018.926355 
+iter  10 value 813.343153
+final  value 811.760657 
+converged</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">AIC</span>(modelA, modelB)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in AIC.default(modelA, modelB): models are not all fitted to the same
+number of observations</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       df      AIC
+modelA 12 1609.565
+modelB  9 1641.521</code></pre>
+</div>
+</div>
+</section>
+<section id="bic-bayesian-information-criterion" class="level3">
+<h3 class="anchored" data-anchor-id="bic-bayesian-information-criterion">BIC (Bayesian Information Criterion)</h3>
+<p>Another goodness of fit indicator is the Bayesian Information Criterion. This criterion comes from Bayesian statistics, which is different from the frequentist statistics (that you are learning in this course). It works similarly to the AIC meaning that you used it to select between models and that you prefer the model with the smallest BIC. The difference between the AIC, is that the BIC will also penalise a model that includes variables that are less useful in your model (to limit problems of overfitting).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">BIC</span>(modelA,modelB)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in BIC.default(modelA, modelB): models are not all fitted to the same
+number of observations</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       df      BIC
+modelA 12 1664.649
+modelB  9 1682.920</code></pre>
+</div>
+</div>
 
 
+</section>
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

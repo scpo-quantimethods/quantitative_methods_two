@@ -7,22 +7,21 @@ execute:
 editor: visual
 ---
 
-## Last sessions
+## Last session
 
+Logistic regression
 
-1. Descriptive statistics and linear regressions
+Odds
 
-2. Logistic regression
-- Odds
-- Homework
+Homework
 
 ------------------------------------------------------------------------
 
 ## Homework
 
-- Comments?
-- Feedback?
-- 
+Comments?
+
+Feedback?
 
 ------------------------------------------------------------------------
 
@@ -94,7 +93,6 @@ In this example, we will use the ESS dataset from round 11 ([ESS11](https://gith
 library(rio)
 library(tidyverse)
 ess<-import("https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/sessions/session3/data/ESS11e04_1.csv")
-#ess<-read.csv("ESS11e04_1.csv")
 data <-ess |> #this is a pipe you can also use %>%
   select(cntry, #select your variables of interest
          prtclhes,
@@ -429,6 +427,7 @@ We are interested in understanding why people vote Populist Radical-Right partie
 
 1.  Import the data into R. Hint: use `import()` function.
 
+
 ```{r}
 ess<-import("https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/exercices/exercices3/data/ESS11e04_1.csv")
 ```
@@ -564,7 +563,7 @@ ess$vote<-as.factor(ess$vote)
 
     ```
 
-------------------------------------------------------------------------
+---
 
 ## Exercise 2
 
@@ -572,17 +571,19 @@ ess$vote<-as.factor(ess$vote)
 In this exercise, you will use a dataset on student educational choices (you can find it here <https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/exercices/exercices3/data/student.RData>). The data contains information on 200 students. The student had the possibility of selecting between three different programs to further their education. The choice was between general, vocational and academic. The goal of this example is to understand which predictors can tell us more about why students decided to choose a specific academic program.
 :::
 
-------------------------------------------------------------------------
+---
 
 ## Exercise 2 {.scrollable}
 
 1.  Import the data
 
+
 ```{r}
 student<-import("https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/exercices/exercices3/data/student.RData")
 ```
 
-2.  Have a look at your dataset. Recode the *prog* variable so that the categories are not 0, 1, 2 but general, vocational, academic. Hint: use `glimpse`, `mutate()` and `case_when()`.
+
+2.  Have a look at your dataset. Recode the prog variable so that instead of NA, you should have the name of the program students have selected (general, vocation or academic). Hint: use `glimpse()`, `mutate()` and `case_when()`.
 
 ```{r}
 glimpse(student)
@@ -656,3 +657,4 @@ modelsummary(model1,
     ```{r}
     pR2(model2)
     ```
+
