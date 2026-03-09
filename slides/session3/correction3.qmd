@@ -597,7 +597,7 @@ student <- student %>%
 ```{r}
 library(nnet)
 model1<-multinom(prog~ses,
-                data=hsbdemo,
+                data=student,
                 Hess=TRUE)
 
 stargazer(model1,type="text")
@@ -631,7 +631,7 @@ modelsummary(model1,
 
     ```{r}
     model2<-multinom(prog~ses+math+read+write+science+socst,
-                    data=hsbdemo,
+                    data=student,
                     Hess=TRUE)
     stargazer(model2, type="text")
     ```
