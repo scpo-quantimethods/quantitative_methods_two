@@ -24,11 +24,87 @@ Feedback?
 
 ------------------------------------------------------------------------
 
+
 ## This week
 
-1.  Multinomial Regression
-2.  How to write a research paper?
+1.  How to write a research paper?
+2.  Multinomial Regression
 3.  Exercises
+
+------------------------------------------------------------------------
+
+## How to write a research paper {.scrollable}
+Structure:
+
+- Introduction 
+
+- Theory 
+
+  - Literature review
+  - Research question
+  - Hypotheses
+  
+- Methodology
+  - Data
+  - Methods
+  
+- Results
+- Diagnostics
+- Conclusion
+
+------------------------------------------------------------------------
+
+## Where to start ?
+
+- Fully deductive : 
+  - Think of a topic you are interested in 
+  - Think of a question
+  - Look into the literature
+  - Develop your research question/hypotheses
+
+
+------------------------------------------------------------------------
+
+## Next steps
+- Check data availability on your research problem
+- Enough information ?
+- Select method that will be useful for your purposes 
+    - Dependent variable ?
+    - Indepedent variables ?
+
+------------------------------------------------------------------------
+
+## Methods you can apply
+- Multiple regressions OLS
+- Logistic regressions
+- Multinomial regressions
+- Difference-in-differences
+- Regression discontinuity design
+- Instrumental variable
+- Time series
+
+------------------------------------------------------------------------
+
+## Analysis
+- Cleaning the data set
+- Look at descriptive statistics
+- Create your model
+- Performance of your model 
+- **Interpret** and **comment** your results
+
+------------------------------------------------------------------------
+
+## Your paper
+- Be clear 
+  - Theoretical mechanism
+  - DV & IV identification
+  - Hypothesis
+- Add only the main results/figures/graphs in the text
+- Repeat your results in the intro and conclusion
+
+------------------------------------------------------------------------
+
+# Multinomial Regression
 
 ------------------------------------------------------------------------
 

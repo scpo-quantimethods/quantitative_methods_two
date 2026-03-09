@@ -1999,7 +1999,7 @@
     "href": "slides/session3/correction3.html#homework",
     "title": "Session 3: Multinomial Regression",
     "section": "Homework",
-    "text": "Homework\nComments?\nFeedback?"
+    "text": "Homework\n\nStill have to grade some of your homeworks\nResults were good so far\nComments?\nFeedback?"
   },
   {
     "objectID": "slides/session3/correction3.html#this-week",
@@ -2020,7 +2020,7 @@
     "href": "slides/session3/correction3.html#multinomial-regression-1",
     "title": "Session 3: Multinomial Regression",
     "section": "Multinomial Regression",
-    "text": "Multinomial Regression\nSimilar to logistic regression\nThe dependent variable = categorical variable (K&gt;2)\nRun simultaneously different simple logistic regressions\nAlways the same baseline for the different regressions"
+    "text": "Multinomial Regression\nWhat is a multinomial regression?\nWhen should you use a multinomial regression?"
   },
   {
     "objectID": "slides/session3/correction3.html#multinommial-regression-formula",
@@ -2231,5 +2231,61 @@
     "title": "Quantitative methods 2",
     "section": "",
     "text": "Paul Servais, paul.servais@sciencespo.fr.\nTrained as physical engineer, then came to SciencesPo (Urban School)\nNow working on climate politics, comparative politics\nI’ve been working on the electoral impacts of wind turbines on the vote for the RN"
+  },
+  {
+    "objectID": "slides/session3/correction3.html#last-sessions",
+    "href": "slides/session3/correction3.html#last-sessions",
+    "title": "Session 3: Multinomial Regression",
+    "section": "Last sessions",
+    "text": "Last sessions\n\nDescriptive statistics and linear regressions\nLogistic regression\nOdds\nHomework"
+  },
+  {
+    "objectID": "slides/session3/correction3.html#how-to-write-a-research-paper",
+    "href": "slides/session3/correction3.html#how-to-write-a-research-paper",
+    "title": "Session 3: Multinomial Regression",
+    "section": "How to write a research paper",
+    "text": "How to write a research paper\nStructure:\n\nIntroduction\nTheory\n\nLiterature review\nResearch question\nHypotheses\n\nMethodology\n\nData\nMethods\n\nResults\nDiagnostics\nConclusion"
+  },
+  {
+    "objectID": "slides/session3/correction3.html#where-to-start",
+    "href": "slides/session3/correction3.html#where-to-start",
+    "title": "Session 3: Multinomial Regression",
+    "section": "Where to start ?",
+    "text": "Where to start ?\n\nFully deductive :\n\nThink of a topic you are interested in\nThink of a question\nLook into the literature\nDevelop your research question/hypotheses"
+  },
+  {
+    "objectID": "slides/session3/correction3.html#next-steps",
+    "href": "slides/session3/correction3.html#next-steps",
+    "title": "Session 3: Multinomial Regression",
+    "section": "Next steps",
+    "text": "Next steps\n\nCheck data availability on your research problem\nEnough information ?\nSelect method that will be useful for your purposes\n\nDependent variable ?\nIndepedent variables ?"
+  },
+  {
+    "objectID": "slides/session3/correction3.html#methods-you-can-apply",
+    "href": "slides/session3/correction3.html#methods-you-can-apply",
+    "title": "Session 3: Multinomial Regression",
+    "section": "Methods you can apply",
+    "text": "Methods you can apply\n\nMultiple regressions OLS\nLogistic regressions\nMultinomial regressions\nDifference-in-differences\nRegression discontinuity design\nInstrumental variable\nTime series"
+  },
+  {
+    "objectID": "slides/session3/correction3.html#analysis",
+    "href": "slides/session3/correction3.html#analysis",
+    "title": "Session 3: Multinomial Regression",
+    "section": "Analysis",
+    "text": "Analysis\n\nCleaning the data set\nLook at descriptive statistics\nCreate your model\nPerformance of your model\nInterpret and comment your results"
+  },
+  {
+    "objectID": "slides/session3/correction3.html#your-paper",
+    "href": "slides/session3/correction3.html#your-paper",
+    "title": "Session 3: Multinomial Regression",
+    "section": "Your paper",
+    "text": "Your paper\n\nBe clear\n\nTheoretical mechanism\nDV & IV identification\nHypothesis\n\nAdd only the main results/figures/graphs in the text\nRepeat your results in the intro and conclusion"
+  },
+  {
+    "objectID": "slides/session3/correction3.html#multinomial-regression-2",
+    "href": "slides/session3/correction3.html#multinomial-regression-2",
+    "title": "Session 3: Multinomial Regression",
+    "section": "Multinomial Regression",
+    "text": "Multinomial Regression\nSimilar to logistic regression\nThe dependent variable = categorical variable (K&gt;2)\nRun simultaneously different simple logistic regressions\nAlways the same baseline for the different regressions"
   }
 ]

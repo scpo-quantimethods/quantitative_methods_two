@@ -1,6 +1,5 @@
 ---
 title: "Session 3 - Multinomial Regression"
-author: "Jessica De Rongé"
 toc: true
 toc-depth: 3
 webr:
