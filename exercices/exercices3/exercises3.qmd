@@ -1,7 +1,6 @@
 ---
 title: "Session 3 exercises"
 format: html
-editor: visual
 ---
 
 Start by loading the different packages.

@@ -20,9 +20,9 @@ editor: visual
 
 ## Homework
 
-Comments?
-
-Feedback?
+- Comments?
+- Feedback?
+- 
 
 ------------------------------------------------------------------------
 
