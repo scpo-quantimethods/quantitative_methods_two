@@ -1,6 +1,6 @@
 ---
 title: "Session 3 exercises"
-format: pdf
+format: html
 editor: visual
 ---
 
