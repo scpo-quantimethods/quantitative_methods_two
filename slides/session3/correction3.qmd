@@ -7,13 +7,14 @@ execute:
 editor: visual
 ---
 
-## Last session
+## Last sessions
 
-Logistic regression
 
-Odds
+1. Descriptive statistics and linear regressions
 
-Homework
+2. Logistic regression
+- Odds
+- Homework
 
 ------------------------------------------------------------------------
 
@@ -587,9 +588,9 @@ student<-import("https://github.com/scpo-quantimethods/quantitative_methods_two/
 glimpse(student)
 
 student <- student %>%
-  mutate(prog = case_when(prog==0 ~ "General",
-                          prog==1 ~ "Vocational",
-                          prog==2 ~ "Academic"))
+  mutate(prog = case_when(prog0==1 ~ "General",
+                          prog1==1 ~ "Vocational",
+                          prog2==1 ~ "Academic"))
 ```
 
 2.  Now, run a multinomial regression to explain the influence of socio-economic status on the educational program choice.
