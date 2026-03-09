@@ -1,6 +1,389 @@
 ---
-title: "Regression discontinuity"
+title: "Session 3 - Multinomial Regression"
+author: "Jessica De Rongé"
+toc: true
+toc-depth: 3
+webr:
+  packages:
+    - dplyr
+    - tidyverse
 ---
 
-About this site
+```{r}
+library(tidyr)
+library(dplyr)
+library(ggplot2)
+library(rio)
+```
+
+# Introduction
+
+In this session, you will learn to produce a multinomial regression. This type of regression is frequent when your dependent variable is qualitative and has no order between categories. The logic behind is very similar to the simple logistic regression. To illustrate this method, an example using the European Social Survey (round 11) data will be used. The plan of this session is the following:
+
+1.  Multinomial regression: reminders
+2.  Conducting multinomial regression in R
+3.  Exercises
+
+# Multinomial logistic regression: reminders
+
+## When do you use it?
+
+First of all, in which case does it make sense to use a multinomial model? This is the first question you should ask yourself before starting your analysis. The main reason for choosing this type of model is based on your dependent variable. You should use a multinomial regression when you have a qualitative nominal variable.
+
+What is a qualitative nominal variable? It is a variable that has more than two categories and there is no existing order of the categories. For example, if in a survey you ask respondents what their favourite colour is, they will answer blue, red, etc. When you will analyse this favourite colour variable, you will have different categories, each representing a colour. However, it makes no sense to order the different categories.
+
+## What is a multinomial regression?
+
+A multinomial logistic regression is a model where you simultaneously estimate single binary logit regressions for all the different possible categories of your dependent variable. Remember the logistic regression equation:
+
+$$
+ln\left( \frac{Pr(Y=1)}{Pr(Y=0)} \right)=\beta_{0}+\beta_{1}x_{1}+\dots+\beta_{j}x_{j}
+$$
+
+For the multinominal logistic regression, you do not only have two categories, so you will have one equation for every category. For example, your dependent variable is a university program. The nominal variable has three categories: social sciences (A), natural sciences (B) and medicine (C). You have one explanatory variable that is parent education (X). The multinomial model will be:
+
+$$
+ln \left( \frac{Pr(A|x)}{Pr(C|x)} \right)=\beta_{0,A|C} + \beta_{1,A|C}X
+$$ $$
+ln \left( \frac{Pr(B|x)}{Pr(C|x)} \right)=\beta_{0,B|C} + \beta_{1,B|C}X
+$$
+
+As you can see, in both equations, the denominator in the fraction is the same. This is because the multinomial analysis always compares the different outcomes to a reference or baseline. You can decide which category you want as the baseline in your analysis. Furthermore, you see that we only estimate two and not three equations. This is because the third equation is:
+
+$$
+ln \left( \frac{Pr(C|x)}{Pr(C|x)} \right)=\beta_{0,C|C} + \beta_{1,C|C}X
+$$
+
+However: $\frac{Pr(C|x)}{Pr(C|x)}=1$ and $ln(1)=0$
+
+So, the parameters for the reference category are equal to 0: $\beta_{0,C|C}=0$ and $\beta_{1,C|C}=0$ .
+
+The idea is that you choose a baseline category (also understood as the reference), for which all the parameters will be constrained to 0. Then, the different logit regressions will run between the baseline and the other categories of your dependent variable. The multinomial logistic regression will assess the probability of the categorical outcomes compared to your baseline.
+
+# Conducting multinomial regression in R
+
+In this example, we will use the ESS dataset from round 11 ([ESS11](https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/sessions/session3/data/ESS11e04_1.csv)). The objective of this analysis is to understand which predictors can help us understand party identification. We are interested in the Spanish case. We propose one simple hypothesis:
+
+> **H1**: The socio-economic status of a citizen influences his party identification
+
+This is a simple and naive hypothesis to explain party identification, as the objective of this session is to learn to conduct a multinomial regression and not a class on party identification. The ESS has a number of different variables about socio-economic status (you should have a look at the codebook to know more) but for this example, we will focus on three explanatory variables: gender, age and education.
+
+First of all, you should import the ESS dataset into R. Once it is done, you can select the variables you want to keep in your dataset. You should have a look at the codebook to find the name of the variable you are interested in. It will also tell you how that variable is coded. You should also restrict your sample to only Spanish observations.
+
+```{r}
+#ess<-read.csv("ESS11e04_1.csv")
+ess<-import("https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/sessions/session3/data/ESS11e04_1.csv")
+data <-ess |> #this is a pipe you can also use %>%
+  select(cntry, #select your variables of interest
+         prtclhes,
+         gndr,
+         agea,
+         eduyrs) |>
+  filter(cntry=="ES")
+```
+
+### Data cleaning
+
+Before starting the analysis, you should verify that your data is cleaned and ready to go. In the case of the ESS, a few data cleaning steps are needed. First of all, if you look at the codebook you will see that people who answered "Don't know or No answer" to a survey question were not coded as NA but with another code such as 9999. This is problematic for us. We need to transform those values into NA. Secondly, the party identification variable is coded from 1 to 20. R will thus read this variable as a numerical variable and not a categorical variable so you should recode this variable with the name of the party.
+
+```{r}
+data_clean <- data |>
+  mutate(across(c("prtclhes","eduyrs"), ~case_when(
+      . %in% c(66, 77, 88, 99, 7777, 8888, 9999) ~ NA_integer_,
+      TRUE ~ .
+    )),
+    agea=case_when(agea==999~NA_integer_,
+                   TRUE~agea),
+  gndr = recode(gndr, `1` = "Male", `2` = "Female"))
+```
+
+```{r}
+data_clean$party[data_clean$prtclhes==1]<-"PP"
+data_clean$party[data_clean$prtclhes==2]<-"PSOE"
+data_clean$party[data_clean$prtclhes==3]<-"Vox"
+data_clean$party[data_clean$prtclhes==4]<-"SUMAR"
+data_clean$party[data_clean$prtclhes==5]<-"ERC"
+data_clean$party[data_clean$prtclhes==6]<-"JuntsxCat"
+data_clean$party[data_clean$prtclhes==7]<-"EH-Bildu"
+data_clean$party[data_clean$prtclhes==8]<-"EAJ-PNV"
+data_clean$party[data_clean$prtclhes==9]<-"BNG"
+data_clean$party[data_clean$prtclhes==10]<-"Coalición Canaria"
+data_clean$party[data_clean$prtclhes==11]<-"UPN"
+data_clean$party[data_clean$prtclhes==12]<-"PACMA"
+data_clean$party[data_clean$prtclhes==13]<-"Unidas Podemos"
+data_clean$party[data_clean$prtclhes==14]<-"Izquierda Unida"
+data_clean$party[data_clean$prtclhes==16]<-"Cuidadanos"
+data_clean$party[data_clean$prtclhes==17]<-"CUP"
+data_clean$party[data_clean$prtclhes==18]<-"Compromís"
+data_clean$party[data_clean$prtclhes==19]<-"Drago Canarias"
+data_clean$party[data_clean$prtclhes==20]<-"Alianza Catalana"
+data_clean$party[data_clean$prtclhes==50]<-"Other"
+
+```
+
+### Descriptive statistics
+
+The first step, before conducting any analysis, is to produce the descriptive statistics of your variables. For the categorical variable, you should either produce a proportional table or a bar-plot. For the continuous variable, a descriptive statistics table should be done.
+
+
+::: {.panel-tabset}
+
+
+#### Proportional table
+
+```{r}
+table(data_clean$gndr)
+table(data_clean$party)
+
+```
+
+#### bar-plot
+
+```{r}
+ggplot(data_clean,aes(x=gndr))+geom_bar()+theme_bw()
+```
+
+```{r}
+library(ggplot2)
+ggplot(data_clean,aes(x=party))+geom_bar()+coord_flip()+theme_bw()
+```
+
+As you can see in the table and barplot, while there exists a lot of different parties in Spain, in the ESS sample, very few categories have more than 50 observations. As this is a pedagogical example, it is easier to select only a few parties to conduct our analysis. We will keep only the categories which have at least 50 observations (Vox, Sumar, PSOE and PP).
+
+```{r}
+model_data<-subset(data_clean,party%in% c("Vox","SUMAR","PSOE","PP"))
+model_data$party<-as.factor(model_data$party)
+```
+
+#### Descriptive statistics table
+
+```{r}
+data_clean |> select(agea,
+                     eduyrs)|> summary()
+```
+
+:::
+
+## Construction of the model
+
+In R, you will need to use the `multinom` function from the `nnet` package. In terms of argument, you need to specify three elements.
+
+`multinom(formula, data, Hess)`:
+
+-   formula: specify your equation as Y \~ X
+
+-   data: specify the name of the dataset
+
+-   Hess=TRUE: specify you want the Hessian matrix
+
+```{r}
+library(nnet)
+model1<-multinom(party~agea+eduyrs+gndr,
+                data=model_data,
+                Hess=TRUE)
+
+```
+
+Once you have created your model, you should look at the results. Like in the logistic regression, the coefficient corresponds to the log-odds model. If you want the odds, you need to take the exponential of your coefficient. For the log-odds model, you can use the `summary` or `stargazer` functions. While the coefficients of the log-odds are hard to interpret, you can still look at significance of your coefficients.
+
+```{r}
+summary(model1)
+
+```
+
+```{r}
+library(stargazer)
+stargazer(model1,type="text",
+          covariate.labels=c("age","education years","Male"))
+```
+
+To look at the exponential values of your coefficient, there are two methods. You can directly look at the coefficient or you can use the `modelsummary` function (from the `modelsummary` package) to create a regression table with your exponential coefficients.
+
+```{r}
+exp(coef(model1))
+
+
+```
+
+```{r}
+library(modelsummary)
+modelsummary(model1,
+             stars=TRUE,
+             stars_method="simple",
+             coef_map=c("agea"="Age",
+                        "eduyrs"="Years of education",
+                        "gndrMale"="Male"),
+             title="Multinomial Regression Results",
+             output="html",
+             shape= model+term~response,
+             gof_map=tibble::tribble(~raw,~clean,~fmt,
+                                     "AIC","Akaike Inf. Crit.",2,
+                                     "BIC","Bayesian Inf. Crit.",2,
+                                     "logLik","Log-Likelihood",2,
+                                     "deviance","Deviance",2),
+             exponentiate = TRUE
+             ) 
+
+modelsummary::get_gof(model1)
+```
+
+### Interpretation
+
+Once you have produced your regression table, you can now interpret the results. The first element you can see is that coefficients between the `stargazer` table and the `modelsummary` table are different. This is normal, as in the second table we use the exponential coefficients. However, this does not change the level of significance of your coefficients. When interpreting your results, it is important to make sure if you are interpreting the coefficient or the exponential coefficient because the interpretation is quite different.
+
+Secondly, you can see that you only have three columns in your table (the different parties). By looking at the name of your columns, you can see which party is the reference category. Here, the reference is PP (you know that because you have no estimated coefficients for that parties). Remember the coefficients of your category of reference are equal to $0$. Now, looking at the coefficients for the other parties, you need to keep in mind that they are estimated by running a logistic regression between the party (for example: Vox) and the reference party (here, PP). In more mathematical terms, for each column you run a regression where your dependent variable is equal to 1 when the respondent feels close to a party (for example: Vox) and 0 if the respondent felt closed the reference party (here PP). So you need to interpret every result as the likelihood of feeling close the Vox/PSOE/Sumar party instead of feeling close to the PP party.
+
+Starting with the first regression table (computed with `stargazer`), you need to interpret the effect of the coefficient in relation to the log-odds. If we interpret the results for the PSOE party, you can see that only the gender variable is significant. When you are a man instead of a woman, the log-odds of feeling close to the PSOE party (compared to the PP party) will decrease by 0.35. If we look at the SUMAR party, while the gender variable is not significant, both age and education year variables are significant. When the variable age increases by one unit, the log-odds of preferring the SUMAR party to the PP party decrease by a 0.03 unit (holding all other variables constant). When the number of education years of a Spanish citizen increases by one-unit, the multinomial log-odds of preferring SUMAR party to the PP party will increase by a 0.08 unit.
+
+Coefficients of your second table are actually the odds ratio. This means that the interpretation is different from the first table. First of all, because an exponential will always be positive. As you can see, all your negative coefficients from the `stargazer` regression table became positive. Secondly, the odds ratio should be interpreted as an increase or decrease of the probability of being in the comparison group (here, SUMAR/PSOE/Vox) compared to the risk of falling into the referent group (here PP). If the ratio is $>1$, the risk of falling into the comparison group is more likely than falling into the referent group. In contrast, a ratio $<1$ indicates that the probability of being in the comparison group compared to the referent group decreases. Looking at our results for the Vox party, if you are a man, you are almost 3 times more likely to feel close to the Vox party than to the PP party.
+
+#### Re-leveling your dependent variable
+
+As you can see in the model, R has automatically selected the PP party as the baseline. If you want to specify another category as your baseline, you need to re-level your dependent variable. To re-level your dataset, you can use the `relevel` function. Once you have relevelled your function, you can compute the multinomial model again.
+
+```{r}
+model_data$party<-relevel(model_data$party,ref = "Vox")
+```
+
+```{r}
+model2<-multinom(party~agea+eduyrs+gndr,
+                data=model_data,
+                Hess=TRUE)
+
+stargazer(model2,type="text")
+
+modelsummary(model2,
+             stars=TRUE,
+             stars_method="simple",
+             coef_map=c("agea"="Age",
+                        "eduyrs"="Years of education",
+                        "gndrMale"="Male"),
+             title="Multinomial Regression Results",
+             output="html",
+             shape= model+term~response,
+             gof_map=tibble::tribble(~raw,~clean,~fmt,
+                                     "AIC","Akaike Inf. Crit.",2,
+                                     "BIC","Bayesian Inf. Crit.",2,
+                                     "logLik","Log-Likelihood",2,
+                                     "deviance","Deviance",2),
+             exponentiate = TRUE
+             ) 
+```
+
+### Predictive probabilities
+
+In multinomial analysis, besides interpreting the exponential coefficients, you can also look at the predicted probabilities to understand how your explanatory variable influences the outcomes of your dependent variable.
+
+Recall: To compute the predicted probabilities, you need to hold constant (at their means or other logical values in the context of your analysis) every independent variable of your model except one. You let vary the only independent variable you did not hold constant to estimate the predicted probabilities of that variable on the possible outcomes of your dependent variable. You can estimate predicted probabilities for every independent variable of your model.
+
+To compute the predicted probabilities, you can use the `ggpredict()` function (as seen in session 2) or you can use the `marginaleffects` package (and more specifically the `plot_predictions()` function). This will directly compute the prediction (you do not need to compute them manually).
+
+`plot_predictions(model, type="probs", condition=variable, draw=FALSE)`:
+
+-   model: name of your multinomial model
+
+-   type="probs": specify that you want to estimate probabilities (so a value between 0 and 1)
+
+-   condition=variable: specify the independent variable for which you want to compute the predicted probabilities
+
+-   draw=FALSE: to get a data frame with the prediction if draw=TRUE, you will also get a ggplot2 graph.
+
+```{r}
+library(marginaleffects)
+pred_agea<-plot_predictions(
+  model1,
+  type="probs",
+  condition="agea",
+  draw=FALSE)
+
+head(pred_agea)
+```
+
+```{r}
+pred_agea |>
+  ggplot(aes(x=agea,y=estimate,group=group,color=group))+
+  geom_line()+
+  geom_ribbon(aes(ymin = conf.low, ymax = conf.high), alpha = 0.2) +
+  facet_wrap(~group)+
+  theme_light()
+```
+
+```{r}
+pred_gndr<-plot_predictions(
+  model1,
+  type="probs",
+  condition="gndr",
+  draw=FALSE)
+
+pred_gndr |>
+  ggplot(aes(x=gndr,y=estimate,group=group,color=group))+
+  geom_pointrange(aes(ymin = conf.low, ymax = conf.high))+
+  facet_wrap(~group)+
+  theme_light()
+```
+
+## Diagnostics of the model
+
+It is always good practice to check the diagnostic of your model. As you know, estimates of your model will change depending on a number of factors (scale of your variables, the variables included into the model...). The estimation process is based under different assumptions. If the assumptions are invalid, the estimation of your model becomes biased.
+
+### Multicollinearity
+
+Multicollinearity happens when you have independent variables that are highly correlated between them (meaning that they capture the same information). Multicollinearity can introduce unreliable estimation because it can lead to inflated standard errors impacting the confidence intervals and impacting the statistical significance of your coefficient. For more details on multicollinearity, you should go back to the first session on OLS.
+
+To look at multicollinearity of your multinomial model, you can use the VIF and the `check_collinearity()` function from the `performance package`.
+
+In the example, no variables obtain a VIF that is higher than 10. We do not detect a problem of multicollinearity.
+
+```{r}
+library(performance)
+check_collinearity(model1)
+```
+
+### Independence of Irrelevant Alternatives Assumption
+
+The Independence of Irrelevant Alternatives (IIA) is an important assumption of a multinomial model. This assumption follows that the choice between alternative A and B is independent of alternative C. In our example, we make the assumption that choosing to identify with the Vox party over the Sumar party is independent from the option to identify with the PSOE party.
+
+## Goodness of fit
+
+Goodness of fit refers to how well the model you construct fit your data. It evaluates how well your expectations (your theoretical model) are similar to the observed values (your data sample). Different criteria exist to evaluate the goodness of fit. Not all criteria should be used for any type of model.
+
+### Pseudo $R^2$
+
+In OLS, one of the first goodness of fit your model you will look at is the $R^2$ or adjusted $R^2$. This indicator tells you how much variance of your dependent variable is explained by the model. In a multinomial analysis, the $R^2$ does not exist. However, you can compute another indice called McFadden's Pseudo $R^2$ which can be interpreted similarly than the $R^2$. To compute this pseudo $R^2$, you can use the `pR2()` function from the `pscl` package.
+
+```{r}
+library(pscl)
+pR2(model2)
+```
+
+### AIC (Akaike Information Criterion)
+
+The AIC criterion is a criterion that should be used when you compare different models. With only one model, you cannot interpret your AIC. The reason behind this is that there are no thresholds for the AIC model to say that is a bad or acceptable model. The AIC is used when you compare nested models. Nested models are models where you evaluate different models by dropping some independent variables in some models but keeping them in other models. The dependent variable needs to be the same in all nested models. From our example, we could use the AIC to compare two models:
+
+-   One where we include age, education years and gender
+
+-   One where we include only age and gender
+
+The AIC is computed based on the likelihood estimation of your model and on the number of predictors included in it. You should select the model with the smallest AIC because a smaller AIC means that the model fits the data better than the model with the higher AIC. It is important to keep in mind that the AIC helps you select the best model between a list of models but does not guarantee that your model is actually good.
+
+```{r}
+modelA<-multinom(party~agea+eduyrs+gndr,
+                data=model_data,
+                Hess=TRUE)
+
+modelB<-multinom(party~agea+gndr,
+                data=model_data,
+                Hess=TRUE)
+
+AIC(modelA, modelB)
+```
+
+
+### BIC (Bayesian Information Criterion)
+
+Another goodness of fit indicator is the Bayesian Information Criterion. This criterion comes from Bayesian statistics, which is different from the frequentist statistics (that you are learning in this course). It works similarly to the AIC meaning that you used it to select between models and that you prefer the model with the smallest BIC. The difference between the AIC, is that the BIC will also penalise a model that includes variables that are less useful in your model (to limit problems of overfitting).
+
+```{r}
+BIC(modelA,modelB)
+```
 

@@ -1,0 +1,431 @@
+---
+title: "Session 3: Multinomial Regression"
+author: "Jessica De Rongé & Paul Servais"
+format: revealjs
+execute:
+  echo: true
+editor: visual
+---
+
+## Last session
+
+Logistic regression
+
+Odds
+
+Homework
+
+------------------------------------------------------------------------
+
+## Homework
+
+Comments?
+
+Feedback?
+
+------------------------------------------------------------------------
+
+## This week
+
+1.  Multinomial Regression
+2.  How to write a research paper?
+3.  Exercises
+
+------------------------------------------------------------------------
+
+## Multinomial Regression
+
+What is a multinomial regression?
+
+When should you use a multinomial regression?
+
+------------------------------------------------------------------------
+
+## Multinomial Regression
+
+Similar to logistic regression
+
+The dependent variable = categorical variable (K\>2)
+
+Run simultaneously different simple logistic regressions
+
+Always the same baseline for the different regressions
+
+------------------------------------------------------------------------
+
+## Multinommial Regression formula
+
+-   Dependent variable Y (Y=a,...,K)
+
+-   Independent variable X
+
+\begin{align}
+ln \left( \frac{Pr(Y=A|x)}{Pr(Y=K|x)} \right) &=\beta_{0,A} + \beta_{1,A}X \\
+ln \left( \frac{Pr(Y=B|x)}{Pr(Y=K|x)} \right) &=\beta_{0,B} + \beta_{1,B}X \\
+&\vdots\\
+ln \left( \frac{Pr(Y=K-1|x)}{Pr(Y=K|x)} \right) &=\beta_{0,K-1} + \beta_{1,K-1}X \\
+\end{align}
+
+------------------------------------------------------------------------
+
+## In R
+
+In R, you will need to use the `multinom` function from the `nnet` package. In terms of argument, you need to specify three elements.
+
+`multinom(formula, data, Hess)`:
+
+-   formula: specify your equation as Y \~ X
+
+-   data: specify the name of the dataset
+
+-   Hess=TRUE: specify you want the Hessian matrix
+
+------------------------------------------------------------------------
+
+## Example
+
+::: r-fit-text
+In this example, we will use the ESS dataset from round 11 ([ESS11](https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/sessions/session3/data/ESS11e04_1.csv)). The objective of this analysis is to understand which predictors can help us understand party identification. We are interested in the Spanish case. We propose one simple hypothesis:
+
+> **H1**: The socio-economic status of a citizen influences his party identification
+
+```{r}
+library(rio)
+library(tidyverse)
+ess<-import("https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/sessions/session3/data/ESS11e04_1.csv")
+#ess<-read.csv("ESS11e04_1.csv")
+data <-ess |> #this is a pipe you can also use %>%
+  select(cntry, #select your variables of interest
+         prtclhes,
+         gndr,
+         agea,
+         eduyrs) |>
+  filter(cntry=="ES")
+```
+:::
+
+------------------------------------------------------------------------
+
+## Data cleaning
+
+```{r}
+data_clean <- data |>
+  mutate(across(c("prtclhes","eduyrs"), ~case_when(
+      . %in% c(66, 77, 88, 99, 7777, 8888, 9999) ~ NA_integer_,
+      TRUE ~ .
+    )),
+    agea=case_when(agea==999~NA_integer_,
+                   TRUE~agea),
+  gndr = recode(gndr, `1` = "Male", `2` = "Female"))
+
+data_clean$party[data_clean$prtclhes==1]<-"PP"
+data_clean$party[data_clean$prtclhes==2]<-"PSOE"
+data_clean$party[data_clean$prtclhes==3]<-"Vox"
+data_clean$party[data_clean$prtclhes==4]<-"SUMAR"
+data_clean$party[data_clean$prtclhes==5]<-"ERC"
+data_clean$party[data_clean$prtclhes==6]<-"JuntsxCat"
+data_clean$party[data_clean$prtclhes==7]<-"EH-Bildu"
+data_clean$party[data_clean$prtclhes==8]<-"EAJ-PNV"
+data_clean$party[data_clean$prtclhes==9]<-"BNG"
+data_clean$party[data_clean$prtclhes==10]<-"Coalición Canaria"
+data_clean$party[data_clean$prtclhes==11]<-"UPN"
+data_clean$party[data_clean$prtclhes==12]<-"PACMA"
+data_clean$party[data_clean$prtclhes==13]<-"Unidas Podemos"
+data_clean$party[data_clean$prtclhes==14]<-"Izquierda Unida"
+data_clean$party[data_clean$prtclhes==16]<-"Cuidadanos"
+data_clean$party[data_clean$prtclhes==17]<-"CUP"
+data_clean$party[data_clean$prtclhes==18]<-"Compromís"
+data_clean$party[data_clean$prtclhes==19]<-"Drago Canarias"
+data_clean$party[data_clean$prtclhes==20]<-"Alianza Catalana"
+data_clean$party[data_clean$prtclhes==50]<-"Other"
+```
+
+------------------------------------------------------------------------
+
+## Descriptive statistics
+
+:::: r-fit-text
+::: panel-tabset
+### Proportional table
+
+```{r}
+table(data_clean$gndr)
+table(data_clean$party)
+
+```
+
+### bar-plot
+
+```{r}
+ggplot(data_clean,aes(x=gndr))+geom_bar()+theme_bw()
+```
+
+```{r}
+library(ggplot2)
+ggplot(data_clean,aes(x=party))+geom_bar()+coord_flip()+theme_bw()
+```
+
+### Descriptive statistics table
+
+```{r}
+data_clean |> select(agea,
+                     eduyrs)|> summary()
+```
+:::
+::::
+
+------------------------------------------------------------------------
+
+## Model
+
+```{r}
+model_data<-subset(data_clean,party%in% c("Vox","SUMAR","PSOE","PP"))
+model_data$party<-as.factor(model_data$party)
+
+library(nnet)
+model1<-multinom(party~agea+eduyrs+gndr,
+                data=model_data,
+                Hess=TRUE)
+```
+
+------------------------------------------------------------------------
+
+## Log-odds coefficients
+
+```{r}
+summary(model1)
+```
+
+------------------------------------------------------------------------
+
+## Log-odds coefficients II
+
+```{r}
+library(stargazer)
+stargazer(model1,type="text",
+          covariate.labels=c("age","education years","Male"))
+```
+
+------------------------------------------------------------------------
+
+## Odds
+
+```{r}
+exp(coef(model1))
+```
+
+------------------------------------------------------------------------
+
+## Odds II {.scrollable}
+
+```{r}
+library(modelsummary)
+modelsummary(model1,
+             stars=TRUE,
+             stars_method="simple",
+             coef_map=c("agea"="Age",
+                        "eduyrs"="Years of education",
+                        "gndrMale"="Male"),
+             title="Multinomial Regression Results",
+             output="html",
+             shape= model+term~response,
+             gof_map=tibble::tribble(~raw,~clean,~fmt,
+                                     "AIC","Akaike Inf. Crit.",2,
+                                     "BIC","Bayesian Inf. Crit.",2,
+                                     "logLik","Log-Likelihood",2,
+                                     "deviance","Deviance",2),
+             exponentiate = TRUE
+             ) 
+```
+
+------------------------------------------------------------------------
+
+## Interpretation
+
+Which party is used as the baseline/reference?
+
+::: notes
+Which party is used as the baseline/reference? PP party
+
+Which variables have statistically significant coefficients? age for SUMAR and VOX education years for SUMAR gender for PSOE and VOX
+
+Do all variables have significant coefficients for all parties? no PSOE only gender SUMAR age and education Vox age and gender
+
+What is the effect of the variable gender (in odds) for the Vox party? Almost three times more likely to vote for the Vox party than to vote for the PP party if you are a man
+:::
+
+Which variable have statistically significant coefficients?
+
+Do all variable have significant coefficients for all parties?
+
+What is the effect of the variable gender (in odds) for the Vox party?
+
+------------------------------------------------------------------------
+
+## Select your baseline
+
+If you want a specific category as the baseline, you need to relevel your variable.
+
+```{r}
+model_data$party<-relevel(model_data$party,ref = "Vox")
+```
+
+------------------------------------------------------------------------
+
+## Analysis with new reference category
+
+```{r}
+model2<-multinom(party~agea+eduyrs+gndr,
+                data=model_data,
+                Hess=TRUE)
+
+stargazer(model2,type="text")
+
+modelsummary(model2,
+             stars=TRUE,
+             stars_method="simple",
+             coef_map=c("agea"="Age",
+                        "eduyrs"="Years of education",
+                        "gndrMale"="Male"),
+             title="Multinomial Regression Results",
+             output="html",
+             shape= model+term~response,
+             gof_map=tibble::tribble(~raw,~clean,~fmt,
+                                     "AIC","Akaike Inf. Crit.",2,
+                                     "BIC","Bayesian Inf. Crit.",2,
+                                     "logLik","Log-Likelihood",2,
+                                     "deviance","Deviance",2),
+             exponentiate = TRUE
+             ) 
+```
+
+------------------------------------------------------------------------
+
+## Predictive probabilities
+
+::: r-fit-text
+To compute the predicted probabilities, you can use the `ggpredict()` function (as seen in session 2) or you can use the `marginaleffects` package (and more specifically the `plot_predictions()` function). This will directly compute the prediction (you do not need to compute them manually).
+
+`plot_predictions(model, type="probs", condition=variable, draw=FALSE)`:
+
+-   model: name of your multinomial model
+
+-   type="probs": specify that you want to estimate probabilities (so a value between 0 and 1)
+
+-   condition=variable: specify the independent variable for which you want to compute the predicted probabilities
+
+-   draw=FALSE: to get a data frame with the prediction if draw=TRUE, you will also get a ggplot2 graph.
+:::
+
+------------------------------------------------------------------------
+
+## Predictive probabilities for age
+
+```{r}
+library(marginaleffects)
+pred_agea<-plot_predictions(
+  model1,
+  type="probs",
+  condition="agea",
+  draw=FALSE)
+
+head(pred_agea)
+
+
+```
+
+------------------------------------------------------------------------
+
+## Plot predictive probabilities for age
+
+```{r}
+pred_agea |>
+  ggplot(aes(x=agea,y=estimate,group=group,color=group))+
+  geom_line()+
+  geom_ribbon(aes(ymin = conf.low, ymax = conf.high), alpha = 0.2) +
+  facet_wrap(~group)+
+  theme_light()
+```
+
+------------------------------------------------------------------------
+
+## Predictive probability for gender
+
+```{r}
+pred_gndr<-plot_predictions(
+  model1,
+  type="probs",
+  condition="gndr",
+  draw=FALSE)
+
+pred_gndr |>
+  ggplot(aes(x=gndr,y=estimate,group=group,color=group))+
+  geom_pointrange(aes(ymin = conf.low, ymax = conf.high))+
+  facet_wrap(~group)+
+  theme_light()
+```
+
+------------------------------------------------------------------------
+
+## Goodness of fit
+
+### Pseudo $R^2$
+
+::: r-fit-text
+In multinomial regression, you should compute McFadden's Pseudo $R^2$ which can be interpreted similarly than the $R^2$ (which cannot be computed for a multinomial regression). To compute this pseudo $R^2$, you can use the `pR2()` function from the `pscl` package.
+
+```{r}
+library(pscl)
+pR2(model2)
+```
+:::
+
+------------------------------------------------------------------------
+
+### AIC (Akaike Information Criterion)
+
+The AIC criterion is a criterion that should be used when you compare different models. With only one model, you cannot interpret your AIC. The reason behind this is that there are no thresholds for the AIC model to say that is a bad or acceptable model. The AIC is used when you compare nested models. You should select the model with the smallest AIC because a smaller AIC means that the model fits the data better than the model with a higher AIC.
+
+------------------------------------------------------------------------
+
+```{r}
+modelA<-multinom(party~agea+eduyrs+gndr,
+                data=model_data,
+                Hess=TRUE)
+
+modelB<-multinom(party~agea+gndr,
+                data=model_data,
+                Hess=TRUE)
+
+AIC(modelA, modelB)
+```
+
+------------------------------------------------------------------------
+
+### BIC (Bayesian Information Criterion)
+
+Another goodness of fit indicator is the Bayesian Information Criterion. It works similarly to the AIC meaning that you used it to select between models and that you prefer the model with the lowest BIC. The difference between the AIC, is that the BIC will also penalise a model that includes variables that are less useful in your model (to limit problems of overfitting).
+
+```{r}
+BIC(modelA,modelB)
+```
+
+------------------------------------------------------------------------
+
+# Exercises
+
+------------------------------------------------------------------------
+
+## Exercise 1
+
+::: r-fit-text
+We are interested in understanding why people vote Populist Radical-Right parties (this example is inspired by [Luis Sattelmayer](https://luissattelmayer.github.io/quant-2025/session5/session5.html)). We will focus on Germany. We will use the 11th round of the ESS. You can download the data here <https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/exercices/exercices3/data/ESS11e04_1.csv> and the codebook [here](https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/exercices/exercices3/data/ESS11e04_1%20codebook.html).
+:::
+
+------------------------------------------------------------------------
+
+## Exercise 2
+
+::: r-fit-text
+In this exercise, you will use a dataset on student educational choices (you can find it here <https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/exercices/exercices3/data/student.RData>). The data contains information on 200 students. The student had the possibility of selecting between three different programs to further their education. The choice was between general, vocational and academic. The goal of this example is to understand which predictors can tell us more about why students decided to choose a specific academic program.
+:::

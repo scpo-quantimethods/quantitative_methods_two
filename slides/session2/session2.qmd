@@ -18,6 +18,12 @@ format: revealjs
   - mandatory to mention the usage
   - Bonus point if you did not use it
 
+## Website
+- Updated with :
+  - Corrections of last week's exercices
+  - Today's session (theory) & slides
+  - Exercices for today
+
 # Today
 1. The logic behind logits
 2. An example with made-up data

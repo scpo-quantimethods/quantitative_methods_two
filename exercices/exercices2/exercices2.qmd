@@ -1,6 +1,6 @@
 ---
 title: "Exercices 2 : logistic regressions"
-format: html
+format: pdf
 ---
 
 ## 1. Turnout and rain
@@ -27,8 +27,8 @@ library(rio)
 11. Use `ggplot` to plot the predicted probabilities with their confidence intervals, with their confidence intervals. Hint : use `+ geom_ribbon(aes(ymin = conf.low, ymax = conf.high), alpha = 0.2)` to display smooth confidence intervals, and `geom_line()` to add a line connecting the dots.
 
 ```{r}
-#| echo: false
-#| eval: false
+#| echo: true
+#| eval: true
 
 # run install.packages() if you haven't the packages already installed
 library(ggeffects)
@@ -124,12 +124,12 @@ You are provided with a simplified dataset containing ESS data for Italy.
 7. Plot the predicted probability of voting by years of education.
 
 ```{r}
-#| echo: false
-#| eval: false
+#| echo: true
+#| eval: true
 
 
 #1.1
-ess <- import("/Users/paulservais/Library/CloudStorage/ProtonDrive-paservai@protonmail.com-folder/Website/quantitative_methods_two/sessions/session2/data/ess_it.csv")
+ess <- import("https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/exercices/exercices2/data/ess_it.csv")
 
 glimpse(ess)
 
@@ -185,12 +185,12 @@ logit2 <- glm(
 
 #1.4
 # simply use exp() on the coefficients of the logit
-exp(coef(logit))
+exp(coef(logit1))
 # here would be a second way of doing it
-exp(logit$coefficients)
+exp(logit1$coefficients)
 exp(cbind(
-  OR = coef(logit), 
-  confint(logit)))
+  OR = coef(logit1), 
+  confint(logit1)))
 
 #1.5
 stargazer(logit1, logit2, 
@@ -200,7 +200,7 @@ stargazer(logit1, logit2,
           star.cutoffs = c(0.05, 0.01, 0.001))
 
 #1.6
-predicted_probs <- ggpredict(logit, terms = "eduyrs")
+predicted_probs <- ggpredict(logit2, terms = "eduyrs")
 predicted_probs
 
 ggplot(predicted_probs, aes(x = x, y = predicted)) +

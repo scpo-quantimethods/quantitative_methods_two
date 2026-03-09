@@ -1,0 +1,290 @@
+---
+title: "Session 3 exercises"
+format: pdf
+editor: visual
+---
+
+Start by loading the different packages.
+
+```{r}
+library(tidyverse)
+library(rio)
+library(nnet)
+library(marginaleffects)
+library(stargazer)
+library(pscl)
+```
+
+# Exercise 1
+
+We are interested in understanding why people vote Populist Radical-Right parties (this example is inspired by [Luis Sattelmayer](https://luissattelmayer.github.io/quant-2025/session5/session5.html)). We will focus on Germany. We will use the 11th round of the ESS. You can download the data here <https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/exercices/exercices3/data/ESS11e04_1.csv> and the codebook [here](https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/exercices/exercices3/data/ESS11e04_1%20codebook.html).
+
+1.  Import the data into R. Hint: use `import()` function.
+
+    ```{r, eval=FALSE,echo=FALSE}
+    ess <- read.csv("ESS11e04_1.csv")
+
+    ```
+
+```{r, echo=FALSE, eval=FALSE}
+ess<-import("https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/exercices/exercices3/data/ESS11e04_1.csv")
+```
+
+2.  Select only the variable `cntry, prtvgde1, imueclt, eduyrs, hinctnta, stflife, trstplt, gndr`and filter the observation to keep only German respondents. Hint: `select` and `filter` function.
+
+    ```{r, echo=FALSE, eval=FALSE}
+    ess<-ess%>%
+      select(cntry, prtvgde1, imueclt, eduyrs, hinctnta, stflife, 
+             trstplt, gndr) %>%
+      filter(cntry=="DE")
+    ```
+
+3.  Have a look at your data. Hint: `glimpse` or `head` function.
+
+    ```{r, echo=FALSE, eval=FALSE}
+    glimpse(ess)
+    head(ess)
+    ```
+
+4.  Clean your data.
+
+    -   Transform observations that have are equal to 55, 66, 77, 88, 99, 7777, 8888, 9999 for the prtvgde1, imueclt, eduyrs, hinctnta, stflife, trstplt variable as NAs.
+
+    -   Recode the gndr variable as Man (gnder=1) and Woman (gnder=2).
+
+    -   Create a variable vote based on the prtvgde1 variable (use the name of the party)
+
+        |  |  |
+        |------------------------------------|------------------------------------|
+        | 1 | Christian Democratic Union/Christian Social Union (CDU/CSU) |
+        | 2 | Social Democratic Party (SPD) |
+        | 3 | The Left (Die Linke) |
+        | 4 | Alliance 90/The Greens (Bündnis 90/Die Grünen) |
+        | 5 | Free Democratic Party (FDP) |
+        | 6 | Alternative for Germany (AFD) |
+        | 7 | Free Voters (Freie Wähler) |
+        | 8 | Grassroots Democratic Party of Germany (dieBasis) |
+        | 9 | Party for Labour, Rule of Law, Animal Protection, Promotion of Elites and Grassroots Democratic Initiative (Die PARTEI) |
+
+```{r, echo=FALSE, eval=FALSE}
+ess<-ess%>%
+  mutate(across(prtvgde1:trstplt,
+                ~case_when(. %in% 
+                             c(55, 66, 77, 88, 99, 7777, 
+                               8888, 9999)~NA_integer_,
+                           TRUE~.)),
+         gndr=case_when(gndr==1 ~"Man",
+                        gndr==2~"Woman"))
+
+#ess$vote[is.na(ess$prtvgde1)]<-NA
+ess$vote[ess$prtvgde1==1]<-"CDU/CSU"
+ess$vote[ess$prtvgde1==2]<-"SPD"
+ess$vote[ess$prtvgde1==3]<-"Die Linke"
+ess$vote[ess$prtvgde1==4]<-"Bündnis 90/Die Grünen"
+ess$vote[ess$prtvgde1==5]<-"FDP"
+ess$vote[ess$prtvgde1==6]<-"AFD"
+ess$vote[ess$prtvgde1==7]<-"Freie Wähler"
+ess$vote[ess$prtvgde1==8]<-"dieBasis"
+ess$vote[ess$prtvgde1==9]<-"Die PARTEI"
+ess$vote<-as.factor(ess$vote)
+  
+```
+
+5.  Relevel your party variable so that the AFD party is the baseline.
+
+    ```{r, echo=FALSE, eval=FALSE}
+    ess$vote<-relevel(ess$vote,ref="AFD")
+    ```
+
+6.  We want to understand if thinking that immigrants enrich a country's culture decreases the likelihood of voting for the AFD. Run a multinomial regression with the \``imueclt`\` variable as the predictor. Have a look at the coefficients. Hint: use the \`multinom()\` function.
+
+    ```{r, echo=FALSE, eval=FALSE}
+    reg1<-multinom(vote~imueclt,
+                   data=ess,
+                   Hess=TRUE)
+    stargazer(reg1,type="text")
+    ```
+
+7.  Add control variables (gender and education) to your regression. Does the \``imueclt`\` coefficient changes?
+
+    ```{r, echo=FALSE, eval=FALSE}
+    reg2<-multinom(vote~imueclt+gndr+eduyrs,
+                   data=ess,
+                   Hess=TRUE)
+    stargazer(reg2,type="text")
+    ```
+
+8.  Compare the AIC and BIC of models from points 6 and 7. Hint: use the `BIC()` and `AIC()` functions.
+
+    ```{r, echo=FALSE, eval=FALSE}
+    AIC(reg1,reg2)
+    BIC(reg1,reg2)
+    ```
+
+9.  Now, we are interested in seeing the influence of trust in politicians (`trstplt` variable) on voting.
+
+    ```{r, echo=FALSE, eval=FALSE}
+    reg3<-multinom(vote~trstplt,
+                   data=ess,
+                   Hess=TRUE)
+    stargazer(reg3,type="text")
+    ```
+
+10. Add controls variable (gender and education) to your regression.
+
+    ```{r, echo=FALSE, eval=FALSE}
+    reg4<-multinom(vote~trstplt+gndr+eduyrs,
+                   data=ess,
+                   Hess=TRUE)
+    stargazer(reg4,type="text")
+    ```
+
+11. Compute the pseudo- \$R\^2\$.
+
+    ```{r, echo=FALSE, eval=FALSE}
+    pR2(reg4)
+    ```
+
+12. Show the predicted probabilities of the trust variable.
+
+    ```{r, echo=FALSE, eval=FALSE}
+    prediction<-plot_predictions(reg4,
+                                type="probs",
+                                condition="trstplt",
+                                draw=FALSE)
+
+    ggplot(prediction, aes(x=trstplt, y=estimate,group=group,color=group))+
+      geom_line()+
+      geom_ribbon(aes(ymin = conf.low, ymax = conf.high), alpha = 0.2) +
+      facet_wrap(~group)+
+      theme_light()
+
+    ```
+
+# Exercise 2
+
+In this exercise, you will use a dataset on student educational choices (you can find it here <https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/exercices/exercices3/data/student.RData>, data from the glsm package). The data contains information on 200 students. The student had the possibility of selecting between three different programs to further their education. The choice was between general, vocational and academic. The goal of this example is to understand which predictors can tell us more about why students decided to choose a specific academic program.
+
+Here is the codebook of the dataset:
+
+-   **Student**: Categorical. Student identification code.
+
+-   **id**: Categorical. Unique identifier for each student.
+
+-   **gender**: Categorical. Student gender: "female" or "male".
+
+-   **ses**: Categorical. Socioeconomic status: "low", "middle", "high".
+
+-   **schtyp**: Categorical. Type of school: "private" or "public".
+
+-   **prog**: Categorical. Program of study chosen: 0 = General, 1 = Vocational, 2 = Academic.
+
+-   **read**: Continuous. Reading test score.
+
+-   **write**: Continuous. Writing test score.
+
+-   **math**: Continuous. Math test score.
+
+-   **science**: Continuous. Science test score.
+
+-   **socst**: Continuous. Social studies test score.
+
+-   **honors**: Categorical. Honors enrollment status: "enrolled" or "not enrolled".
+
+-   **awards**: Integer. Number of awards received, ranging from 0 to 9.
+
+-   **cid**: Categorical. Unspecified score, ranging from 0 to 20.
+
+-   **prog0**: Binary. 1 if prog = General, 0 otherwise.
+
+-   **prog1**: Binary. 1 if prog = Vocational, 0 otherwise.
+
+-   **prog2**: Binary. 1 if prog = Academic, 0 otherwise.
+
+1.  Import the data
+
+```{r, eval=FALSE,echo=FALSE}
+library(glsm)
+data("hsbdemo")
+student<-hsbdemo
+save(student,file="student.RData")
+```
+
+```{r, echo=FALSE, eval=FALSE}
+student<-import("https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/exercices/exercices3/data/student.RData")
+```
+
+2.  Have a look at your dataset. Recode the *prog* variable so that the categories are not 0, 1, 2 but general, vocational, academic. Hint: use `glimpse`, `mutate()` and `case_when()`.
+
+```{r, echo=FALSE, eval=FALSE}
+glimpse(student)
+
+student <- student %>%
+  mutate(prog = case_when(prog==0 ~ "General",
+                          prog==1 ~ "Vocational",
+                          prog==2 ~ "Academic"))
+```
+
+2.  Now, run a multinomial regression to explain the influence of socio-economic status on the educational program choice.
+
+```{r, echo=FALSE, eval=FALSE}
+library(nnet)
+model1<-multinom(prog~ses,
+                data=hsbdemo,
+                Hess=TRUE)
+
+stargazer(model1,type="text")
+
+```
+
+3.  Look at the ODDS ratio
+
+```{r, echo=FALSE, eval=FALSE}
+exp(coef(model1))
+
+library(modelsummary)
+modelsummary(model1,
+             stars=TRUE,
+             stars_method="simple",
+             coef_map=c("seslow"="Low Socioeconomic status",
+                        "sesmiddle"="Middle Socioeconomic status"),
+             title="Multinomial Regression Results",
+             output="html",
+             shape= model+term~response,
+             gof_map=tibble::tribble(~raw,~clean,~fmt,
+                                     "AIC","Akaike Inf. Crit.",2,
+                                     "BIC","Bayesian Inf. Crit.",2,
+                                     "logLik","Log-Likelihood",2,
+                                     "deviance","Deviance",2),
+             exponentiate = TRUE
+             ) #
+```
+
+4.  Add math, read, write, science and socst as control variables to your regression.
+
+    ```{r, echo=FALSE, eval=FALSE}
+    model2<-multinom(prog~ses+math+read+write+science+socst,
+                    data=hsbdemo,
+                    Hess=TRUE)
+    stargazer(model2, type="text")
+    ```
+
+5.  Look at the predicted probabilities of the socio-economic status
+
+    ```{r, echo=FALSE, eval=FALSE}
+    pred<-plot_predictions(model2,
+                           type="probs",
+                           condition="ses",
+                           draw=FALSE)
+
+    ggplot(pred, aes(x=ses, y=estimate,group=group,color=group))+
+      geom_pointrange(aes(ymin = conf.low, ymax = conf.high))+
+      facet_wrap(~group)+
+      theme_light()
+    ```
+
+6.  What is the goodness of fit of your model?
+
+    ```{r, echo=FALSE, eval=FALSE}
+    pR2(model2)
+    ```

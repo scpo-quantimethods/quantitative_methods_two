@@ -2,9 +2,8 @@
 title: "First homework - Logistic regressions"
 subtitle : "Quantitative methods II - tutorials"
 date: today
-format: html
+format: pdf
 ---
-
 
 # Case study : gender and voting for the radical right
 
@@ -15,27 +14,27 @@ Recent debates in academia have focused on the impact of gender on voting for th
 
 For this reason, researchers have recently sought to understand whether gender has a positive or negative effect on voting for the radical right in France, particularly in the European and legislative elections (Piolat, N., Mayer, N., Durovic, A., 2025). Their papers are available [here](https://journals.openedition.org/ress/12111) and [here](https://shs.cairn.info/revue-revue-francaise-de-science-politique-2025-1-page-39?lang=fr). In order to replicate and complement their findings, you are provided with a simplified dataset they used to conduct their analysis. Using R, you are asked to answer the following questions (by groups of 2 or 3) and submit the code you used in either a PDF or HTML file.
 
-1. Download the dataset following <> and import it into your local R environment.
+1. Download the dataset following <https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/sessions/session2/data/poll2024.RData> and import it into your local R environment.
 
 2. If you are interested in how voting for the radical right varies by gender, determine:
 - **Your dependent variable** 
 - **Your independent variable** 
-Are they continuous, categorical ? 
+Are they continuous, categorical ? Drop all the variables except `second_round_vote, gender, union_member, diploma`, `religious_affiliation`, `income` and `birth_year`.
 
-3. The dataset is in .stata format. You can inspect the different values a variable takes by calling: `attributes(data_set$variable)`. Do that for variable `first_round_vote`. Then, create three variables:
-- `voteRN` = 1 if the respondent voted for RN in the first round, 0 otherwise (NA if no answer), 
-- `voteREC`= 1 if the respondent voted for Reconquête in the first round, 0 otherwise (NA if no answer)
-- `voteRR`= 1 if the respondent voted for either RN or Reconquête, 0 otherwise
-Verify that the number of radical right voters equals the sum of RN and Reconquête voters. Using 2026 as the reference year, create a variable `age`.
+3. The dataset is in .stata format. You can inspect the different values a variable takes by calling: `attributes(data_set$variable)` - it basically contains the codebook. Do that for variable `second_round_vote`. Then, create the following variables:
+- `voteRN` = 1 if the respondent voted for RN in the second round, 0 otherwise (NA if no answer)
+- Using 2026 as the reference year, create a variable `age`. 
 
-4. Define a variable `female = 1` if the respondent identifies as a woman, 0 if male, and `NA_character_` otherwise (too few respondents in other categories or no answer).
-- Clean `union_member, educ, religion`, and `income` by recoding non-responses as `NA`.
-- Create a nominal variable `cohort` by grouping ages into decades: `<30, 30–39, 40–49, …, 80+`, then run 
+4. Define a variable `female = 1` if the respondent identifies as a woman, 0 if male, and `NA_integer_` otherwise (too few respondents in other categories or no answer).
+- Clean `union_member, diploma, religion`, and `income` by recoding non-responses as `NA`.
+- Create a nominal variable `cohort` by grouping ages into decades: `20-29, 30–39, 40–49, …, 80+`, then run 
 ```{r}
 #| eval: false
-dataset$cohort <- factor(data$cohort,
-                      levels = c("20-30","30-40","40-50","50-60","60-70","70-79","80+"),
-                      ordered = TRUE)
+data$cohort <- factor(
+  data$cohort,
+  levels = c("20-29","30-39","40-49","50-59","60-69","70-79","80+"),
+  ordered = FALSE
+)
 ```
 to make sure the cohorts are logically ordered.
 
@@ -45,7 +44,7 @@ to make sure the cohorts are logically ordered.
 - How does a one-year increase in age affect the odds of voting for RN?
 - How does being a woman affect the odds ratio?
 
-7. Include `as.factor(educ)` in the regression. Compare models using `stargazer()` by adapting the code below, which exponentiates the coefficients from your logistic regressions:
+7. Include `as.factor(diploma)` in the regression. Compare models using `stargazer()` by adapting the code below, which exponentiates the coefficients from your logistic regressions and adds the exponentiated values to the stargazer table:
 ```{r}
 #| eval: false
 exp_coef1 <- exp(coef(model1))
@@ -62,17 +61,17 @@ stargazer(model1, model2,
           p.auto = FALSE,
           title = "Logistic Regression (Odds Ratios)")
 ```
-Interpret the results: How does attending a “grande école” affect the odds of voting for the radical right? Is the coefficient on gender still significant ?
+Interpret the results: How does attending a “grande école” affect the odds of voting for the RN? Is the coefficient on gender still significant ?
 
-8. Include in the regression `religion, union_member`, and `income`. Only use as.factor(variable) for nominal variables with more than two categories. Disregard the warning : `Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred`.
+8. Include in the regression `religion, union_member`, and `income`. Only use as.factor(variable) for nominal variables with more than two categories. If it appears, disregard the following warning : `Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred`.
 - Compare your results. Some religious practices may substantially reduce the odds of voting for RN. Which religions are these? Are the results in line with your expectations?
-- Which cohort is most likely to vote for RN? 
+- Replace `age` with your cohort variable. Which cohort is most likely to vote for RN? 
 
 9. Run a logistic regression including the interaction `age*female`. Plot the interaction results using `library(ggeffects)` and `ggpredict`. Hint: use `geom_ribbon()` to display confidence intervals.
 
 10. Run a similar regression with `female*cohort` and plot the interactions using `library(ggeffects)` and `ggpredict()`. Hint: use `geom_errorbar()` to display confidence intervals.
 
-11. Bonus : Repeat the analysis for the second round of legislative elections. Compare the results with the first round in a text of 5 lines max. 
+11. Bonus point: Repeat the analysis of question 8 and 9, 10 for the first round of legislative elections. Compare the results with the second round in a text of 5 lines max. 
 
 
 # References
@@ -140,16 +139,23 @@ data <- dataset %>% mutate(
     TRUE ~ NA_integer_
   ),
   cohort = case_when(
-    age < 30 ~ "20-30",
-    age >= 30 & age < 40 ~ "30-40",
-    age >= 40 & age < 50 ~ "40-50",
-    age >= 50 & age < 60 ~ "50-60",
-    age >= 60 & age < 70 ~ "60-70",
-    age >= 70 & age < 70 ~ "70-80",
+    age < 30 ~ "20-29",
+    age >= 30 & age < 40 ~ "30-39",
+    age >= 40 & age < 50 ~ "40-49",
+    age >= 50 & age < 60 ~ "50-59",
+    age >= 60 & age < 70 ~ "60-69",
+    age >= 70 & age < 70 ~ "70-79",
     age >= 80 ~ "80+",
     TRUE ~ NA_character_
   )
 )
+
+data$cohort <- factor(
+  data$cohort,
+  levels = c("20-29","30-39","40-49","50-59","60-69","70-79","80+"),
+  ordered = FALSE
+)
+
 
 #1.5
 hist((data$age), breaks = 10)
@@ -223,9 +229,7 @@ ggplot(pred, aes(x = x, y = predicted, color = group)) +
     theme(text = element_text(size = 14))
 
 #1.10
-data$cohort <- factor(data$cohort,
-                      levels = c("20-30","30-40","40-50","50-60","60-70","70-79","80+"),
-                      ordered = TRUE)
+
 logit6 <- glm(
   voteRN ~ female*cohort + as.factor(educ) + union + as.factor(religion) + as.factor(income),
   data = data,

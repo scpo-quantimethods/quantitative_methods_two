@@ -466,14 +466,17 @@ ggplot(predicted_probs, aes(x = x, y = predicted)) +
 ```
 
 ```{r}
-predicted_probs_gender <- ggpredict(logit, terms = "gndr") 
-
-predicted_probs_gender
+predicted_probs_gender <- ggpredict(logit, terms = "gndr") |> 
+  mutate(
+    gender = x |> as.factor()
+  ) |> 
+  na.omit()
 
 ggplot(predicted_probs_gender,
-       aes(x = x, y = predicted, fill = x)) +
+       aes(x = gender, y = predicted, fill = gender)) +
   geom_errorbar(aes(ymin = conf.low, ymax = conf.high), width = 0.2) +
   geom_point(shape = 21, size = 5) +
+  scale_fill_brewer(palette = "Set1") +
   labs(title = "Predicted Probability of Voting by Gender",
        x = "Gender",
        y = "Predicted Probability of Voting",
@@ -795,7 +798,7 @@ You can use this logistic function in the likelihood function:
 \end{equation}
 maximize it, and find the parameters $\beta_0$ and $\beta_1$ that best fit your data.
 
-This is the logic behind maximum likelihood estimation: you assume your probability follows a certain distribution (in this case, the logistic distribution), and then estimate the parameters that maximize the likelihood of the data. This is precisely what the `glm` function in R does when it fits a logistic regression model — it computes the parameters that maximize the likelihood function using numerical methods.
+This is the logic behind maximum likelihood estimation: you assume your probability follows a certain distribution (in this case, the logistic distribution), and then estimate the parameters that maximize the likelihood of obtaining your data. This is precisely what the `glm` function in R does when it fits a logistic regression model — it computes the parameters that maximize the likelihood function using numerical methods.
 
 ## Logit
 The logit is the inverse of the logistic function. It is defined as:
