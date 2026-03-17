@@ -15,6 +15,8 @@ website:
             href: sessions/session2/session2.qmd
           - text: "Session 3: Multinomial regressions"
             href: sessions/session3/session3.qmd
+          - text: "Session 4: Difference-in-differences"
+            href: sessions/session4/session4.qmd
           
       - text: Exercices
       - menu:
@@ -24,17 +26,19 @@ website:
             href: exercices/exercices2/exercices2.qmd
           - text: "Exercices 3: Multinomial regressions"
             href: exercices/exercices3/exercices3.qmd
+          - text: "Exercices 4 : Difference-in-differences"
+            href: exercices/exercices4/exercices4.qmd
             
       - text: Slides
       - menu:
           - text: "Slides - session 1"
             href: slides/session1/session1.qmd
-            
           - text: "Slides - session 2"
             href: slides/session2/session2.qmd
-            
           - text: "Slides - session 3"
             href: slides/session3/session3.qmd
+          - text: "Slides - session 4"
+            href: slides/session4/session4.qmd
             
       - text: Homeworks
       - menu:

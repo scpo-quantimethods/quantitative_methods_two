@@ -11,8 +11,7 @@ During this session, you will start using causal inference, specifically, the di
 
 # Panel data
 
-Panel data are a specific kind of dataset. It is a dataset where you collect information at different points in time t for the same
-individuals i. So, panel data are repeated observations of individuals throughout a certain period of time. Panel data is different from the data set where you have an observation for each individual at one point in time because in a panel data, observations are not independent from each other. The different observations of the same individual are not independent. In the regression, we need to take this into account (either by clustering the standard errors or including individual fixed effect).
+Panel data are a specific kind of dataset. It is a dataset where you collect information at different points in time t for the same individuals i. So, panel data are repeated observations of individuals throughout a certain period of time. Panel data is different from the data set where you have an observation for each individual at one point in time because in a panel data, observations are not independent from each other. The different observations of the same individual are not independent. In the regression, we need to take this into account (either by clustering the standard errors or including individual fixed effect).
 
 # Difference-in-Difference: reminders
 
@@ -87,7 +86,7 @@ You should start by importing the data and clean the data. In this case, the dat
 ```{r}
 library(haven)
 library(tidyverse)
-newspapers <- read_dta("Angelucci_Cage_AEJMicro_dataset.dta")
+newspapers <- read_dta("data/Angelucci_Cage_AEJMicro_dataset.dta")
 ```
 
 ```{r}
