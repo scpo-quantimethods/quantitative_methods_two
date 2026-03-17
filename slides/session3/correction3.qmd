@@ -9,102 +9,108 @@ editor: visual
 
 ## Last sessions
 
-- Descriptive statistics and linear regressions  
+-   Descriptive statistics and linear regressions
 
-- Logistic regression
+-   Logistic regression
 
-- Odds
+-   Odds
 
-- Homework
+-   Homework
 
 ------------------------------------------------------------------------
 
 ## Homework
-- Still have to grade some of your homeworks
-- Results were good so far
-- Comments?
-- Feedback?
+
+-   Still have to grade some of your homeworks
+-   Results were good so far
+-   Comments?
+-   Feedback?
 
 ------------------------------------------------------------------------
 
 ## This week
 
-1.  Multinomial Regression
-2.  How to write a research paper?
+1.  How to write a research paper?
+2.  Multinomial Regression
 3.  Exercises
 
 ------------------------------------------------------------------------
 
 ## How to write a research paper {.scrollable}
+
 Structure:
 
-- Introduction 
+-   Introduction
 
-- Theory 
+-   Theory
 
-  - Literature review
-  - Research question
-  - Hypotheses
-  
-- Methodology
-  - Data
-  - Methods
-  
-- Results
-- Diagnostics
-- Conclusion
+    -   Literature review
+    -   Research question
+    -   Hypotheses
+
+-   Methodology
+
+    -   Data
+    -   Methods
+
+-   Results
+
+-   Diagnostics
+
+-   Conclusion
 
 ------------------------------------------------------------------------
 
 ## Where to start ?
 
-- Fully deductive : 
-  - Think of a topic you are interested in 
-  - Think of a question
-  - Look into the literature
-  - Develop your research question/hypotheses
-
+-   Fully deductive :
+    -   Think of a topic you are interested in
+    -   Think of a question
+    -   Look into the literature
+    -   Develop your research question/hypotheses
 
 ------------------------------------------------------------------------
 
 ## Next steps
-- Check data availability on your research problem
-- Enough information ?
-- Select method that will be useful for your purposes 
-    - Dependent variable ?
-    - Indepedent variables ?
+
+-   Check data availability on your research problem
+-   Enough information ?
+-   Select method that will be useful for your purposes
+    -   Dependent variable ?
+    -   Indepedent variables ?
 
 ------------------------------------------------------------------------
 
 ## Methods you can apply
-- Multiple regressions OLS
-- Logistic regressions
-- Multinomial regressions
-- Difference-in-differences
-- Regression discontinuity design
-- Instrumental variable
-- Time series
+
+-   Multiple regressions OLS
+-   Logistic regressions
+-   Multinomial regressions
+-   Difference-in-differences
+-   Regression discontinuity design
+-   Instrumental variable
+-   Time series
 
 ------------------------------------------------------------------------
 
 ## Analysis
-- Cleaning the data set
-- Look at descriptive statistics
-- Create your model
-- Performance of your model 
-- **Interpret** and **comment** your results
+
+-   Cleaning the data set
+-   Look at descriptive statistics
+-   Create your model
+-   Performance of your model
+-   **Interpret** and **comment** your results
 
 ------------------------------------------------------------------------
 
 ## Your paper
-- Be clear 
-  - Theoretical mechanism
-  - DV & IV identification
-  - Hypothesis
-- Add only the main results/figures/graphs in the text
-- Repeat your results in the intro and conclusion
 
-
+-   Be clear
+    -   Theoretical mechanism
+    -   DV & IV identification
+    -   Hypothesis
+-   Add only the main results/figures/graphs in the text
+-   Repeat your results in the intro and conclusion
 
 ------------------------------------------------------------------------
 
@@ -276,7 +282,7 @@ summary(model1)
 
 ------------------------------------------------------------------------
 
-## Log-odds coefficients II
+## Log-odds coefficients II {.scrollable}
 
 ```{r}
 library(stargazer)
@@ -318,7 +324,7 @@ modelsummary(model1,
 
 ------------------------------------------------------------------------
 
-## Interpretation
+## Interpretation {.scrollable}
 
 Which party is used as the baseline/reference?
 
@@ -340,7 +346,7 @@ What is the effect of the variable gender (in odds) for the Vox party?
 
 ------------------------------------------------------------------------
 
-## Select your baseline
+## Select your baseline {.scrollable}
 
 If you want a specific category as the baseline, you need to relevel your variable.
 
@@ -350,7 +356,7 @@ model_data$party<-relevel(model_data$party,ref = "Vox")
 
 ------------------------------------------------------------------------
 
-## Analysis with new reference category
+## Analysis with new reference category {.scrollable}
 
 ```{r}
 model2<-multinom(party~agea+eduyrs+gndr,
@@ -506,7 +512,6 @@ We are interested in understanding why people vote Populist Radical-Right partie
 
 1.  Import the data into R. Hint: use `import()` function.
 
-
 ```{r}
 ess<-import("https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/exercices/exercices3/data/ESS11e04_1.csv")
 ```
@@ -642,7 +647,7 @@ ess$vote<-as.factor(ess$vote)
 
     ```
 
----
+------------------------------------------------------------------------
 
 ## Exercise 2
 
@@ -650,17 +655,15 @@ ess$vote<-as.factor(ess$vote)
 In this exercise, you will use a dataset on student educational choices (you can find it here <https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/exercices/exercices3/data/student.RData>). The data contains information on 200 students. The student had the possibility of selecting between three different programs to further their education. The choice was between general, vocational and academic. The goal of this example is to understand which predictors can tell us more about why students decided to choose a specific academic program.
 :::
 
----
+------------------------------------------------------------------------
 
 ## Exercise 2 {.scrollable}
 
 1.  Import the data
 
-
 ```{r}
 student<-import("https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/exercices/exercices3/data/student.RData")
 ```
-
 
 2.  Have a look at your dataset. Recode the prog variable so that instead of NA, you should have the name of the program students have selected (general, vocation or academic). Hint: use `glimpse()`, `mutate()` and `case_when()`.
 
@@ -736,4 +739,3 @@ modelsummary(model1,
     ```{r}
     pR2(model2)
     ```
-

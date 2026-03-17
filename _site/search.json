@@ -2006,7 +2006,7 @@
     "href": "slides/session3/correction3.html#this-week",
     "title": "Session 3: Multinomial Regression",
     "section": "This week",
-    "text": "This week\n\nMultinomial Regression\nHow to write a research paper?\nExercises"
+    "text": "This week\n\nHow to write a research paper?\nMultinomial Regression\nExercises"
   },
   {
     "objectID": "slides/session3/correction3.html#multinomial-regression",
@@ -2287,5 +2287,159 @@
     "title": "Session 3: Multinomial Regression",
     "section": "Multinomial Regression",
     "text": "Multinomial Regression\nSimilar to logistic regression\nThe dependent variable = categorical variable (K&gt;2)\nRun simultaneously different simple logistic regressions\nAlways the same baseline for the different regressions"
+  },
+  {
+    "objectID": "exercices/quarto.html",
+    "href": "exercices/quarto.html",
+    "title": "quarto",
+    "section": "",
+    "text": "Coucou"
+  },
+  {
+    "objectID": "slides/session3/correction3.html",
+    "href": "slides/session3/correction3.html",
+    "title": "Session 3: Multinomial Regression",
+    "section": "",
+    "text": "Descriptive statistics and linear regressions\nLogistic regression\nOdds\nHomework"
+  },
+  {
+    "objectID": "slides/session4/slides4.html#last-sessions",
+    "href": "slides/session4/slides4.html#last-sessions",
+    "title": "Session 4: difference-in-difference",
+    "section": "Last sessions",
+    "text": "Last sessions\nHow to write a research paper\nMultinomial regression"
+  },
+  {
+    "objectID": "slides/session4/slides4.html#this-week",
+    "href": "slides/session4/slides4.html#this-week",
+    "title": "Session 4: difference-in-difference",
+    "section": "This week",
+    "text": "This week\nRmarkdown\nDifference-in-Difference\nHomework"
+  },
+  {
+    "objectID": "slides/session4/slides4.html#panel-data",
+    "href": "slides/session4/slides4.html#panel-data",
+    "title": "Session 4: difference-in-difference",
+    "section": "Panel Data",
+    "text": "Panel Data\nWhat is panel data?\nIs there something specific you need to do when using panel data in regression?"
+  },
+  {
+    "objectID": "slides/session4/slides4.html#difference-in-difference-1",
+    "href": "slides/session4/slides4.html#difference-in-difference-1",
+    "title": "Session 4: difference-in-difference",
+    "section": "Difference-in-Difference",
+    "text": "Difference-in-Difference\nWhat is it?\nWhen do you use it?\nWhich type of data do you need?"
+  },
+  {
+    "objectID": "slides/session4/slides4.html#difference-in-difference-2",
+    "href": "slides/session4/slides4.html#difference-in-difference-2",
+    "title": "Session 4: difference-in-difference",
+    "section": "Difference-in-Difference",
+    "text": "Difference-in-Difference\n\nCausal inference\nRegression technique\nCompare two groups\nPre and Post treatment"
+  },
+  {
+    "objectID": "slides/session4/slides4.html#difference-in-difference-3",
+    "href": "slides/session4/slides4.html#difference-in-difference-3",
+    "title": "Session 4: difference-in-difference",
+    "section": "Difference-in-Difference",
+    "text": "Difference-in-Difference\n\\[\nY= \\beta_0+\\beta_1 Treatment+ \\beta_2 Time+ \\beta_3 Treatment*Time +\\epsilon\n\\]\n\nThe effect of the treatment is the interaction effect"
+  },
+  {
+    "objectID": "slides/session4/slides4.html#in-r",
+    "href": "slides/session4/slides4.html#in-r",
+    "title": "Session 4: difference-in-difference",
+    "section": "in R",
+    "text": "in R\n\nlm(formula, data) :\n\nfomula: Y ~ Time*Treatment (+controls)\ndata: name of the dataset\n\nfeols(formula|FE,cluster=~group,data):\n\nfomula: Y ~ Time*Treatment (+controls)\nFE: fixed effects\ncluster=~group: specify that you want clustered SE (if you do not add this argument, you will have IID SE like in lm)\ndata: name of the dataset\n\nWith feols function, the stargazer function does not work. You need to use etable()."
+  },
+  {
+    "objectID": "slides/session4/slides4.html#example",
+    "href": "slides/session4/slides4.html#example",
+    "title": "Session 4: difference-in-difference",
+    "section": "Example",
+    "text": "Example\nBased on the data from Angelucci and Cagé, 2019.\nWe are interested in understanding how the introduction of advertisements in TV programs in France has impacted the revenues of newspapers throughout France. The hypothesis being that it impacted only national newspapers and not local ones."
+  },
+  {
+    "objectID": "slides/session4/slides4.html#data",
+    "href": "slides/session4/slides4.html#data",
+    "title": "Session 4: difference-in-difference",
+    "section": "Data",
+    "text": "Data\nYou can find the data here. You will need to sign in to be able to download it.\n\nlibrary(haven)\nlibrary(tidyverse)\nnewspapers &lt;- read_dta(\"data/Angelucci_Cage_AEJMicro_dataset.dta\")\n\nnewspapers &lt;-\n  newspapers |&gt;\n  select(\n    year, id_news, after_national, local, national, ra_cst, ps_cst, qtotal\n    ) |&gt; \n  mutate(ra_cst_div_qtotal = ra_cst / qtotal, \n         after_national =  if_else(year &gt; 1967, 1, 0),\n         after_national_placebo = if_else(year &gt;= 1966, 1, 0),\n         across(c(id_news, local, national, after_national), as.factor),\n         year = as.factor(year))"
+  },
+  {
+    "objectID": "slides/session4/slides4.html#model-1",
+    "href": "slides/session4/slides4.html#model-1",
+    "title": "Session 4: difference-in-difference",
+    "section": "Model 1",
+    "text": "Model 1\nThe basic model\n\ndid &lt;-\n  lm(log(ra_cst) ~ national*after_national,\n     data = newspapers)\nsummary(did)\n\n\nCall:\nlm(formula = log(ra_cst) ~ national * after_national, data = newspapers)\n\nResiduals:\n    Min      1Q  Median      3Q     Max \n-4.2208 -0.8889 -0.0851  1.1601  2.5164 \n\nCoefficients:\n                          Estimate Std. Error t value Pr(&gt;|t|)    \n(Intercept)               17.08465    0.06495 263.044  &lt; 2e-16 ***\nnational1                  1.31283    0.15970   8.221 5.93e-16 ***\nafter_national1            0.35330    0.09170   3.853 0.000124 ***\nnational1:after_national1 -0.28740    0.23527  -1.222 0.222140    \n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 1.369 on 1048 degrees of freedom\n  (144 observations deleted due to missingness)\nMultiple R-squared:  0.09797,   Adjusted R-squared:  0.09539 \nF-statistic: 37.94 on 3 and 1048 DF,  p-value: &lt; 2.2e-16"
+  },
+  {
+    "objectID": "slides/session4/slides4.html#model-2",
+    "href": "slides/session4/slides4.html#model-2",
+    "title": "Session 4: difference-in-difference",
+    "section": "Model 2",
+    "text": "Model 2\n\nlibrary(fixest)\ndid2&lt;-feols(log(ra_cst) ~ national*after_national,\n            cluster=~id_news,\n     data = newspapers)\netable(did2)\n\n                                          did2\nDependent Var.:                    log(ra_cst)\n                                              \nConstant                     17.08*** (0.1666)\nnational1                     1.313** (0.4246)\nafter_national1             0.3533*** (0.0792)\nnational1 x after_national1   -0.2874 (0.2092)\n___________________________ __________________\nS.E.: Clustered                    by: id_news\nObservations                             1,052\nR2                                     0.09797\nAdj. R2                                0.09539\n---\nSignif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1"
+  },
+  {
+    "objectID": "slides/session4/slides4.html#model-3",
+    "href": "slides/session4/slides4.html#model-3",
+    "title": "Session 4: difference-in-difference",
+    "section": "Model 3",
+    "text": "Model 3\n\ndid3&lt;-feols(log(ra_cst) ~ national*after_national|year+id_news,\n            cluster=~id_news,\n     data = newspapers)\n\netable(did3)\n\n                                         did3\nDependent Var.:                   log(ra_cst)\n                                             \nnational1 x after_national1 -0.2175. (0.1164)\nFixed-Effects:              -----------------\nyear                                      Yes\nid_news                                   Yes\n___________________________ _________________\nS.E.: Clustered                   by: id_news\nObservations                            1,052\nR2                                    0.98576\nWithin R2                             0.04730\n---\nSignif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1"
+  },
+  {
+    "objectID": "slides/session4/slides4.html#comparing-models",
+    "href": "slides/session4/slides4.html#comparing-models",
+    "title": "Session 4: difference-in-difference",
+    "section": "Comparing models",
+    "text": "Comparing models\n\ndid1 &lt;-\n  feols(log(ra_cst) ~ national*after_national,\n     data = newspapers)\netable(did1,did2,did3)\n\n                                          did1               did2\nDependent Var.:                    log(ra_cst)        log(ra_cst)\n                                                                 \nConstant                     17.08*** (0.0649)  17.08*** (0.1666)\nnational1                    1.313*** (0.1597)   1.313** (0.4246)\nafter_national1             0.3533*** (0.0917) 0.3533*** (0.0792)\nnational1 x after_national1   -0.2874 (0.2353)   -0.2874 (0.2092)\nFixed-Effects:              ------------------ ------------------\nyear                                        No                 No\nid_news                                     No                 No\n___________________________ __________________ __________________\nS.E. type                                  IID        by: id_news\nObservations                             1,052              1,052\nR2                                     0.09797            0.09797\nWithin R2                                   --                 --\n\n                                         did3\nDependent Var.:                   log(ra_cst)\n                                             \nConstant                                     \nnational1                                    \nafter_national1                              \nnational1 x after_national1 -0.2175. (0.1164)\nFixed-Effects:              -----------------\nyear                                      Yes\nid_news                                   Yes\n___________________________ _________________\nS.E. type                         by: id_news\nObservations                            1,052\nR2                                    0.98576\nWithin R2                             0.04730\n---\nSignif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1"
+  },
+  {
+    "objectID": "slides/session4/slides4.html#parallel-assumptions",
+    "href": "slides/session4/slides4.html#parallel-assumptions",
+    "title": "Session 4: difference-in-difference",
+    "section": "Parallel assumptions",
+    "text": "Parallel assumptions\nThe difference-in-difference design is only valid if the parallel trend assumption is valid. The parallel trend assumption is the assumption that before treatment, both the control and treatment had a parallel trend for the outcome variable throughout time. If the parallel trend is wrong, the construction of the counter-factual is wrong, which would create a bias estimator."
+  },
+  {
+    "objectID": "slides/session4/slides4.html#graphical-check",
+    "href": "slides/session4/slides4.html#graphical-check",
+    "title": "Session 4: difference-in-difference",
+    "section": "Graphical check",
+    "text": "Graphical check\n\navg_trends &lt;- aggregate(ra_cst ~ national + year, newspapers, mean)\nlibrary(ggplot2)\nggplot(avg_trends,aes(x=year,y=ra_cst,color=national))+\n  geom_point()+\n  ylab(\"Revenues\")+\n  theme_bw()"
+  },
+  {
+    "objectID": "slides/session4/slides4.html#placebo-check",
+    "href": "slides/session4/slides4.html#placebo-check",
+    "title": "Session 4: difference-in-difference",
+    "section": "Placebo check",
+    "text": "Placebo check\n\ndid_placebo &lt;-\n  feols(log(ra_cst) ~ national * after_national_placebo | year + id_news,\n        cluster=~id_news,\n     data = newspapers)\netable(did_placebo)\n\n                                         did_placebo\nDependent Var.:                          log(ra_cst)\n                                                    \nnational1 x after_national_placebo -0.2289. (0.1187)\nFixed-Effects:                     -----------------\nyear                                             Yes\nid_news                                          Yes\n__________________________________ _________________\nS.E.: Clustered                          by: id_news\nObservations                                   1,052\nR2                                           0.98580\nWithin R2                                    0.05004\n---\nSignif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1"
+  },
+  {
+    "objectID": "slides/session4/slides4.html#exercise-1",
+    "href": "slides/session4/slides4.html#exercise-1",
+    "title": "Session 4: difference-in-difference",
+    "section": "Exercise 1",
+    "text": "Exercise 1\nIn the USA, in 2000 a law was passed with the Right To Carry (RTC) arms in certain states (simulated example). US lawmakers are interested in knowing if this increased or not crimes in cities."
+  },
+  {
+    "objectID": "slides/session4/slides4.html#exercise-2",
+    "href": "slides/session4/slides4.html#exercise-2",
+    "title": "Session 4: difference-in-difference",
+    "section": "Exercise 2",
+    "text": "Exercise 2\nIn 2021, a few local governments implemented policies with stricter emissions controls, other local governments have not (simulated example). The air quality data is available from 2018 to 2022."
+  },
+  {
+    "objectID": "slides/session4/slides4.html#exercise-3",
+    "href": "slides/session4/slides4.html#exercise-3",
+    "title": "Session 4: difference-in-difference",
+    "section": "Exercise 3",
+    "text": "Exercise 3\nIn 2019, some cities decided to introduce a smoking ban on the terraces of bars and restaurants (simulated example). We want to analyse the effect of the smoking ban on the number of hospitalisations linked to respiratory disease. Use the smoking dataset."
+  },
+  {
+    "objectID": "exercices/exercices4/exercises4.html",
+    "href": "exercices/exercices4/exercises4.html",
+    "title": "Exercices 4 - Difference in Difference",
+    "section": "",
+    "text": "Exercise 1\nIn the USA, in 2000 a law was passed with the Right To Carry (RTC) arms in certain states (simulated example). US lawmakers are interested in knowing if this increased or not crimes in cities. You can find the data here https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/exercices/exercices4/data/crime_simulated.csv.\n\n\n\nCode\nValue\n\n\n\n\nstate\nU.S. state\n\n\ncity\nCity identifier\n\n\nyear\nYear\n\n\ntreated_state\nState adopts RTC\n\n\ncrime_rate\nCrime rate\n\n\npopulation\nCity population\n\n\nunemployment_rate\nunemployment rate\n\n\nmedian_income\nmedian income\n\n\n\n\nImport the data\n\n\nCreate a time variable (1 if after 2000, 0 if before 2000)\n\n\nRun a diff-in-diff analysis with crime_rate as the outcome. Do not forget to cluster your SE as you have nested data. Look only at the year before (1999) and the year just after 2001.\n\n\nWhat is the effect of RCT policy?\nCheck graphically the parallel trends\n\n\nCheck with a placebo test the parallel trends (for example between 1997 and 1998)\n\n\nRun a diff-in-diff analysis with crime_rate as the outcome. Add population and median income as control variables. Look only at the year before (1999) and the year just after 2001.\n\n\nCompare the results from point 3 and 7.\n\n\nNow, use the complete dataset to run your diff-in-diff. However, add fixed effects for both year and states.\n\n\n\nExercise 2\nIn 2021, a few local governments implemented policies with stricter emissions controls, other local governments have not (simulated example). The air quality data is available from 2018 to 2022. You can find the data here https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/exercices/exercices4/data/emissions.RData\nCodebook for emissions dataset:\n\npm25: air pollution level\nyear: the year of the data\ntreated: part of the treatment or control group\npost: if after the policy was implemented by some local governments\n\n\nImport the emissions dataset\n\n\nCompare the means of pre-treatment (2020) and post-treatment (2022) in both the control and treatment groups.\n\n\nCheck out graphically the parallel assumption\n\n\nCheck out the parallel assumption by running a diff-in-diff between 2018 and 2020\n\n\nProduce the difference-in-difference analysis\n\n\n\nExercise 3\nIn 2019, some cities decided to introduce a smoking ban on the terraces of bars and restaurants (simulated example). We want to analyse the effect of the smoking ban on the number of hospitalisations linked to respiratory disease. Use the smoking dataset https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/exercices/exercices4/data/emissions.RData.\n\nCompare the means of the outcome variable (called hospital_admissions) between treated and non-treated cities (variable treated) for the years 2018 and 2020 (before and after treatment, variable years or post).\n\n\nProduce the difference-in-difference analysis"
   }
 ]
