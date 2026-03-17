@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.27">
+<meta name="generator" content="quarto-1.7.32">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>session5 – Quantitative methods II</title>
+<title>Exercices 4 - Difference in Difference – Quantitative methods II</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -32,16 +32,15 @@ ul.task-list li input[type="checkbox"] {
 <meta name="quarto:offset" content="../../">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabby.min.js"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-afa37c5c79185640b9c231024f4fe5ea.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-c1fac2584b48ed01fb6e278e36375074.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -117,10 +116,6 @@ ul.task-list li input[type="checkbox"] {
     <a class="dropdown-item" href="../../sessions/session3/session3.html">
  <span class="dropdown-text">Session 3: Multinomial regressions</span></a>
   </li>  
-        <li>
-    <a class="dropdown-item" href="../../sessions/session4/session4.html">
- <span class="dropdown-text">Session 4: Difference-in-differences</span></a>
-  </li>  
     </ul>
   </li>
   <li class="nav-item">
@@ -145,10 +140,6 @@ ul.task-list li input[type="checkbox"] {
     <a class="dropdown-item" href="../../exercices/exercices3/exercices3.html">
  <span class="dropdown-text">Exercices 3: Multinomial regressions</span></a>
   </li>  
-        <li>
-    <a class="dropdown-item" href="../../exercices/exercices4/exercices4.html">
- <span class="dropdown-text">Exercices 4 : Difference-in-differences</span></a>
-  </li>  
     </ul>
   </li>
   <li class="nav-item">
@@ -172,10 +163,6 @@ ul.task-list li input[type="checkbox"] {
         <li>
     <a class="dropdown-item" href="../../slides/session3/session3.html">
  <span class="dropdown-text">Slides - session 3</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../../slides/session4/session4.html">
- <span class="dropdown-text">Slides - session 4</span></a>
   </li>  
     </ul>
   </li>
@@ -214,17 +201,148 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#exercise-1" id="toc-exercise-1" class="nav-link active" data-scroll-target="#exercise-1">Exercise 1</a></li>
+  <li><a href="#exercise-2" id="toc-exercise-2" class="nav-link" data-scroll-target="#exercise-2">Exercise 2</a></li>
+  <li><a href="#exercise-3" id="toc-exercise-3" class="nav-link" data-scroll-target="#exercise-3">Exercise 3</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Exercices 4 - Difference in Difference</h1>
+</div>
 
 
 
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
 
 
+</header>
 
+
+<section id="exercise-1" class="level1">
+<h1>Exercise 1</h1>
+<p>In the USA, in 2000 a law was passed with the Right To Carry (RTC) arms in certain states (simulated example). US lawmakers are interested in knowing if this increased or not crimes in cities. You can find the data here <a href="https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/exercices/exercices4/data/crime_simulated.csv" class="uri">https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/exercices/exercices4/data/crime_simulated.csv</a>.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Code</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>state</td>
+<td>U.S. state</td>
+</tr>
+<tr class="even">
+<td>city</td>
+<td>City identifier</td>
+</tr>
+<tr class="odd">
+<td>year</td>
+<td>Year</td>
+</tr>
+<tr class="even">
+<td>treated_state</td>
+<td>State adopts RTC</td>
+</tr>
+<tr class="odd">
+<td>crime_rate</td>
+<td>Crime rate</td>
+</tr>
+<tr class="even">
+<td>population</td>
+<td>City population</td>
+</tr>
+<tr class="odd">
+<td>unemployment_rate</td>
+<td>unemployment rate</td>
+</tr>
+<tr class="even">
+<td>median_income</td>
+<td>median income</td>
+</tr>
+</tbody>
+</table>
+<ol type="1">
+<li>Import the data</li>
+</ol>
+<ol start="2" type="1">
+<li>Create a time variable (1 if after 2000, 0 if before 2000)</li>
+</ol>
+<ol start="3" type="1">
+<li>Run a diff-in-diff analysis with crime_rate as the outcome. Do not forget to cluster your SE as you have nested data. Look only at the year before (1999) and the year just after 2001.</li>
+</ol>
+<ol start="4" type="1">
+<li><p>What is the effect of RCT policy?</p></li>
+<li><p>Check graphically the parallel trends</p></li>
+</ol>
+<ol start="6" type="1">
+<li>Check with a placebo test the parallel trends (for example between 1997 and 1998)</li>
+</ol>
+<ol start="7" type="1">
+<li>Run a diff-in-diff analysis with crime_rate as the outcome. Add population and median income as control variables. Look only at the year before (1999) and the year just after 2001.</li>
+</ol>
+<ol start="8" type="1">
+<li>Compare the results from point 3 and 7.</li>
+</ol>
+<ol start="9" type="1">
+<li>Now, use the complete dataset to run your diff-in-diff. However, add fixed effects for both year and states.</li>
+</ol>
+</section>
+<section id="exercise-2" class="level1">
+<h1>Exercise 2</h1>
+<p>In 2021, a few local governments implemented policies with stricter emissions controls, other local governments have not (simulated example). The air quality data is available from 2018 to 2022. You can find the data here <a href="https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/exercices/exercices4/data/emissions.RData" class="uri">https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/exercices/exercices4/data/emissions.RData</a></p>
+<p>Codebook for emissions dataset:</p>
+<ul>
+<li><p>pm25: air pollution level</p></li>
+<li><p>year: the year of the data</p></li>
+<li><p>treated: part of the treatment or control group</p></li>
+<li><p>post: if after the policy was implemented by some local governments</p></li>
+</ul>
+<ol type="1">
+<li>Import the emissions dataset</li>
+</ol>
+<ol start="2" type="1">
+<li>Compare the means of pre-treatment (2020) and post-treatment (2022) in both the control and treatment groups.</li>
+</ol>
+<ol start="3" type="1">
+<li>Check out graphically the parallel assumption</li>
+</ol>
+<ol start="4" type="1">
+<li>Check out the parallel assumption by running a diff-in-diff between 2018 and 2020</li>
+</ol>
+<ol start="5" type="1">
+<li>Produce the difference-in-difference analysis</li>
+</ol>
+</section>
+<section id="exercise-3" class="level1">
+<h1>Exercise 3</h1>
+<p>In 2019, some cities decided to introduce a smoking ban on the terraces of bars and restaurants (simulated example). We want to analyse the effect of the smoking ban on the number of hospitalisations linked to respiratory disease. Use the smoking dataset <a href="https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/exercices/exercices4/data/emissions.RData" class="uri">https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/exercices/exercices4/data/emissions.RData</a>.</p>
+<ol type="1">
+<li>Compare the means of the outcome variable (called hospital_admissions) between treated and non-treated cities (variable treated) for the years 2018 and 2020 (before and after treatment, variable years or post).</li>
+</ol>
+<ol start="2" type="1">
+<li>Produce the difference-in-difference analysis</li>
+</ol>
+
+
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -282,14 +400,13 @@ ul.task-list li input[type="checkbox"] {
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-      const outerScaffold = trigger.parentElement.cloneNode(true);
-      const codeEl = outerScaffold.querySelector('code');
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
         }
-      }
-      return codeEl.innerText;
+        return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
@@ -304,7 +421,7 @@ ul.task-list li input[type="checkbox"] {
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/scpo-quantimethods\.github\.io\/quantitative_methods_two\/");
+        var filterRegex = new RegExp('/' + window.location.host + '/');
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }

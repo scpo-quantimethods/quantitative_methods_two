@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Jessica De Rongé">
 
-<title>session4 – Quantitative methods II</title>
+<title>Session 4 - Difference in Difference – Quantitative methods II</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -70,6 +106,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../../styles.css">
 </head>
@@ -117,6 +182,10 @@ ul.task-list li input[type="checkbox"] {
     <a class="dropdown-item" href="../../sessions/session3/session3.html">
  <span class="dropdown-text">Session 3: Multinomial regressions</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../../sessions/session4/session4.html">
+ <span class="dropdown-text">Session 4: Difference-in-differences</span></a>
+  </li>  
     </ul>
   </li>
   <li class="nav-item">
@@ -141,6 +210,10 @@ ul.task-list li input[type="checkbox"] {
     <a class="dropdown-item" href="../../exercices/exercices3/exercices3.html">
  <span class="dropdown-text">Exercices 3: Multinomial regressions</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../../exercices/exercices4/exercices4.html">
+ <span class="dropdown-text">Exercices 4 : Difference-in-differences</span></a>
+  </li>  
     </ul>
   </li>
   <li class="nav-item">
@@ -164,6 +237,10 @@ ul.task-list li input[type="checkbox"] {
         <li>
     <a class="dropdown-item" href="../../slides/session3/session3.html">
  <span class="dropdown-text">Slides - session 3</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../slides/session4/session4.html">
+ <span class="dropdown-text">Slides - session 4</span></a>
   </li>  
     </ul>
   </li>
@@ -202,17 +279,343 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#panel-data" id="toc-panel-data" class="nav-link" data-scroll-target="#panel-data">Panel data</a></li>
+  <li><a href="#difference-in-difference-reminders" id="toc-difference-in-difference-reminders" class="nav-link" data-scroll-target="#difference-in-difference-reminders">Difference-in-Difference: reminders</a></li>
+  <li><a href="#difference-in-difference-application" id="toc-difference-in-difference-application" class="nav-link" data-scroll-target="#difference-in-difference-application">Difference-in-Difference: application</a>
+  <ul class="collapse">
+  <li><a href="#in-r" id="toc-in-r" class="nav-link" data-scroll-target="#in-r">In R</a></li>
+  <li><a href="#example" id="toc-example" class="nav-link" data-scroll-target="#example">Example</a></li>
+  </ul></li>
+  <li><a href="#parallel-trends-assumption" id="toc-parallel-trends-assumption" class="nav-link" data-scroll-target="#parallel-trends-assumption">Parallel trends assumption</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Session 4 - Difference in Difference</h1>
+</div>
 
 
 
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Jessica De Rongé </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
 
 
+</header>
 
+
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>During this session, you will start using causal inference, specifically, the difference-in-difference method. The session is organised as follows, first a few words about panel data. Then, some theoretical reminders of difference in difference will be presented before learning to code the analysis and finally, we will discuss parallel trend assumptions.</p>
+</section>
+<section id="panel-data" class="level1">
+<h1>Panel data</h1>
+<p>Panel data are a specific kind of dataset. It is a dataset where you collect information at different points in time t for the same individuals i. So, panel data are repeated observations of individuals throughout a certain period of time. Panel data is different from the data set where you have an observation for each individual at one point in time because in a panel data, observations are not independent from each other. The different observations of the same individual are not independent. In the regression, we need to take this into account (either by clustering the standard errors or including individual fixed effect).</p>
+</section>
+<section id="difference-in-difference-reminders" class="level1">
+<h1>Difference-in-Difference: reminders</h1>
+<p>Difference-in-difference is an analysis that you should use when you want to compare two groups (treated versus control), but the assignment to each group was not random. The lack of randomization makes its hard to say that the difference between the group in terms of outcome is only due to the treatment. Indeed, as assignment is not random, the two groups may be different from the start. Difference-in-Difference is a regression technique that permits causal inference between two groups without a random assignment. This is possible because they look at the effect in terms of change and not levels. Difference-in-difference looks at the difference pre-post treatment in each group and then looks at the difference between treated and non-treated group. While we compare two groups that can be different, this only works if a parallel trend exists between the two groups (see below).</p>
+<p>In more mathematical terms, the difference-in-difference analysis is a regression using time and treatment as independent variables and using a interaction between the two to compute the influence of the treatment on the outcome:</p>
+<p><span class="math display">\[
+Y= \beta_0+\beta_1 Treatment+ \beta_2 Time+ \beta_3 Treatment*Time +\epsilon
+\]</span></p>
+<p>To compute a difference-in-difference analysis, you need to have panel data. You need to have data before the treatment and after the treatment for both groups. Difference-in-difference is also possible when you have more than one time period or more than two groups.</p>
+<p>As you are using panel data, you need to think about lack of independence of your observations. Depending of the number of groups and number of periods, you may need to cluster your standard errors. If you have individual-level treatment and only 2 periods (only two observations by individuals), you do not need to cluster your errors. If you have group-level treatment and more than two groups, you should cluster your standard errors at the group level. However, if you only have two groups, you should not cluster because in practice it is not possible to get valid inference with only two clusters.</p>
+</section>
+<section id="difference-in-difference-application" class="level1">
+<h1>Difference-in-Difference: application</h1>
+<section id="in-r" class="level2">
+<h2 class="anchored" data-anchor-id="in-r">In R</h2>
+<p>There are two possibilities, depending on the need to cluster the standard errors.</p>
+<p>If you do not need to cluster, you can use the <code>lm()</code> function, where you simply need to specify an interaction effect (by adding <span class="math inline">\(*\)</span> between your time and treatment variable):</p>
+<p><code>lm(formula, data)</code> :</p>
+<ul>
+<li><p>fomula: Y ~ Time*Treatment (+controls)</p></li>
+<li><p>data: name of the dataset</p></li>
+</ul>
+<p>If you do need to cluster, the easiest way is to use the <code>fixest</code> package because in <code>lm</code> you cannot directly command the cluster SE. You should use the <code>feols()</code> function, it works very similarly to <code>lm</code>` but it has more options.</p>
+<p><code>feols(formula|FE,cluster=~group,data)</code>:</p>
+<ul>
+<li><p>fomula: Y ~ Time*Treatment (+controls)</p></li>
+<li><p>FE: fixed effects</p></li>
+<li><p>cluster=~group: specify that you want clustered SE (if you do not add this argument, you will have IID SE like in lm)</p></li>
+<li><p>data: name of the dataset</p></li>
+</ul>
+<p>With <code>feols</code> function, the <code>stargazer</code> function does not work. You need to use <code>etable()</code>.</p>
+</section>
+<section id="example" class="level2">
+<h2 class="anchored" data-anchor-id="example">Example</h2>
+<p>In this example (based on <a href="https://luissattelmayer.github.io/quant-2025/session5/session5.html">Luis Sattelmayer</a>), we will use the replication data from the article “Newspapers in Times of Low Advertising Revenues” Angelucci and Cagé, 2019). You can find the data <a href="https://www.openicpsr.org/openicpsr/project/116438/version/V1/view?path=/openicpsr/116438/fcr:versions/V1/data/dta/Angelucci_Cage_AEJMicro_dataset.dta&amp;type=file">here</a>. You need to sign in (you can do it with your institution) to download the data.</p>
+<p>In France 1967, the government introduced advertisements on TV programs. This had a consequence for newspapers: their advertising revenues decreased. Angelucci &amp; Cagé believe that this introduction of advertisements impacted more national newspapers than local newspapers. Their treatment variable is the introduction of advertisements and grouping variable is based on the level of newspaper (national versus local).</p>
+<p>Codebook:</p>
+<ul>
+<li><p><code>year</code>: The year of the observation</p></li>
+<li><p><code>id_news</code>: A unique identifier for each newspaper</p></li>
+<li><p><code>local</code>: A binary indicator (0 or 1) representing whether a newspaper is local or national (1 = local, 0 = national)</p></li>
+<li><p><code>national</code>: A binary indicator (0 or 1) representing whether a newspaper is national or local (1 = national, 0 = local)</p></li>
+<li><p><code>ra_cst</code>: The advertising revenue of the newspaper (in constant (2014) euros)</p></li>
+<li><p><code>ps_cst</code>: The price of subscriptions for the newspaper. This variable measures how much the newspaper charges for its subscriptions, reflecting its pricing strategy and revenue from readers</p></li>
+<li><p><code>qtotal</code>: The circulation of the newspaper. This variable measures the number of copies sold, reflecting the newspaper’s readership and revenue from readers</p></li>
+<li><p><code>after_national</code>: A binary indicator (0 or 1) representing the interaction between a newspaper’s national status and the post-television advertising era. Specifically, it marks the period after a newspaper has started national circulation and also corresponds to times after the introduction or significant increase of television advertising. This variable is designed to capture the combined effects of a newspaper reaching a national audience and the competitive or complementary impacts of television advertising on newspaper revenues or strategies</p></li>
+<li><p><code>ra_cst_div_qtotal</code>: A derived variable representing the advertising revenue per unit of circulation (<code>ra_cst / qtotal</code>). This variable is calculated to assess the efficiency or effectiveness of advertising revenue in relation to the newspaper’s circulation size</p></li>
+</ul>
+<p>You should start by importing the data and clean the data. In this case, the dataset is already quite clean. We just need to create a few variables and transform some variable in factors.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(haven)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.4     ✔ readr     2.1.6
+✔ forcats   1.0.1     ✔ stringr   1.6.0
+✔ ggplot2   4.0.1     ✔ tibble    3.3.1
+✔ lubridate 1.9.4     ✔ tidyr     1.3.2
+✔ purrr     1.2.1     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>newspapers <span class="ot">&lt;-</span> <span class="fu">read_dta</span>(<span class="st">"data/Angelucci_Cage_AEJMicro_dataset.dta"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>newspapers <span class="ot">&lt;-</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  newspapers <span class="sc">|&gt;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    year, id_news, after_national, local, national, ra_cst, ps_cst, qtotal</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span> </span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">ra_cst_div_qtotal =</span> ra_cst <span class="sc">/</span> qtotal, </span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">after_national =</span>  <span class="fu">if_else</span>(year <span class="sc">&gt;</span> <span class="dv">1967</span>, <span class="dv">1</span>, <span class="dv">0</span>),</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">after_national_placebo =</span> <span class="fu">if_else</span>(year <span class="sc">&gt;=</span> <span class="dv">1966</span>, <span class="dv">1</span>, <span class="dv">0</span>),</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>         <span class="fu">across</span>(<span class="fu">c</span>(id_news, local, national, after_national), as.factor),</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>         <span class="at">year =</span> <span class="fu">as.factor</span>(year)) </span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(newspapers)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 1,196
+Columns: 10
+$ year                   &lt;fct&gt; 1960, 1961, 1962, 1963, 1964, 1965, 1966, 1967,…
+$ id_news                &lt;fct&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3,…
+$ after_national         &lt;fct&gt; 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0,…
+$ local                  &lt;fct&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
+$ national               &lt;fct&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,…
+$ ra_cst                 &lt;dbl&gt; 52890272, 56601060, 64840752, 70582944, 7497788…
+$ ps_cst                 &lt;dbl&gt; 2.287003, 2.204863, 2.131709, 2.427344, 2.34767…
+$ qtotal                 &lt;dbl&gt; 94478.09, 96288.54, 97313.22, 101068.50, 102103…
+$ ra_cst_div_qtotal      &lt;dbl&gt; 559.8152, 587.8276, 666.3098, 698.3674, 734.334…
+$ after_national_placebo &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0,…</code></pre>
+</div>
+</div>
+<p>Now, we can build the model. We use the logarithm of the advertising revenue (to help normalise the distribution of our variable). Next, we need to include the time and treatment variable so, national and after_national variable. Do not forget that you need the interaction effect.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>did <span class="ot">&lt;-</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lm</span>(<span class="fu">log</span>(ra_cst) <span class="sc">~</span> national<span class="sc">*</span>after_national,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">data =</span> newspapers)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(did)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = log(ra_cst) ~ national * after_national, data = newspapers)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-4.2208 -0.8889 -0.0851  1.1601  2.5164 
+
+Coefficients:
+                          Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)               17.08465    0.06495 263.044  &lt; 2e-16 ***
+national1                  1.31283    0.15970   8.221 5.93e-16 ***
+after_national1            0.35330    0.09170   3.853 0.000124 ***
+national1:after_national1 -0.28740    0.23527  -1.222 0.222140    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 1.369 on 1048 degrees of freedom
+  (144 observations deleted due to missingness)
+Multiple R-squared:  0.09797,   Adjusted R-squared:  0.09539 
+F-statistic: 37.94 on 3 and 1048 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
+<p>This is a very simple model. However, as we have panel data over more than two time periods for several newspapers, we should cluster at the newspaper level.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fixest)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>did2<span class="ot">&lt;-</span><span class="fu">feols</span>(<span class="fu">log</span>(ra_cst) <span class="sc">~</span> national<span class="sc">*</span>after_national,</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">cluster=</span><span class="sc">~</span>id_news,</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">data =</span> newspapers)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>NOTE: 144 observations removed because of NA values (LHS: 144, RHS: 1).</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">etable</span>(did2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                                          did2
+Dependent Var.:                    log(ra_cst)
+                                              
+Constant                     17.08*** (0.1666)
+national1                     1.313** (0.4246)
+after_national1             0.3533*** (0.0792)
+national1 x after_national1   -0.2874 (0.2092)
+___________________________ __________________
+S.E.: Clustered                    by: id_news
+Observations                             1,052
+R2                                     0.09797
+Adj. R2                                0.09539
+---
+Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<p>Finally, as we are using the whole dataset (observations from every year), we should introduce a fixed effect for year to control for linear time trends that would affect all newspapers. Furthermore, as we are comparing different newspapers over more than two years, we should also include a fixed effect for the newspaper. This would control for all unobserved and time-invariant differences between newspapers.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>did3<span class="ot">&lt;-</span><span class="fu">feols</span>(<span class="fu">log</span>(ra_cst) <span class="sc">~</span> national<span class="sc">*</span>after_national<span class="sc">|</span>year<span class="sc">+</span>id_news,</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">cluster=</span><span class="sc">~</span>id_news,</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">data =</span> newspapers)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>NOTE: 144 observations removed because of NA values (LHS: 144, RHS: 1).</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The variables 'national1' and 'after_national1' have been removed because of
+collinearity (see $collin.var).</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">etable</span>(did3)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                                         did3
+Dependent Var.:                   log(ra_cst)
+                                             
+national1 x after_national1 -0.2175. (0.1164)
+Fixed-Effects:              -----------------
+year                                      Yes
+id_news                                   Yes
+___________________________ _________________
+S.E.: Clustered                   by: id_news
+Observations                            1,052
+R2                                    0.98576
+Within R2                             0.04730
+---
+Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<p>Now, we can interpret our results. As you can see, the national and after_national variables were dropped, this is because of collinearity. In this case, we have collinearity because we add time and id fixed effect which capture both national and after_national information. So, the model only keeps the interaction. When you use <code>feols()</code> the function drops automatically variables that are collinear. This is not the case with <code>lm()</code>. Futhermore, we see that the coefficient is negative, meaning that the introduction of adds did decrease revenues amongst national newspapers. However, this coefficient is not statistically significant, meaning that we cannot infer our results to the whole French newspapers population.</p>
+<p>If we compare the three models, you can see that between model 1 and 2, the only differences are the standard errors (between parenthesis), the difference being that we clustered the standard errors. However, model 3 is different because we added two fixed effects.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>did1 <span class="ot">&lt;-</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">feols</span>(<span class="fu">log</span>(ra_cst) <span class="sc">~</span> national<span class="sc">*</span>after_national,</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">data =</span> newspapers)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>NOTE: 144 observations removed because of NA values (LHS: 144, RHS: 1).</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">etable</span>(did1,did2,did3)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                                          did1               did2
+Dependent Var.:                    log(ra_cst)        log(ra_cst)
+                                                                 
+Constant                     17.08*** (0.0649)  17.08*** (0.1666)
+national1                    1.313*** (0.1597)   1.313** (0.4246)
+after_national1             0.3533*** (0.0917) 0.3533*** (0.0792)
+national1 x after_national1   -0.2874 (0.2353)   -0.2874 (0.2092)
+Fixed-Effects:              ------------------ ------------------
+year                                        No                 No
+id_news                                     No                 No
+___________________________ __________________ __________________
+S.E. type                                  IID        by: id_news
+Observations                             1,052              1,052
+R2                                     0.09797            0.09797
+Within R2                                   --                 --
+
+                                         did3
+Dependent Var.:                   log(ra_cst)
+                                             
+Constant                                     
+national1                                    
+after_national1                              
+national1 x after_national1 -0.2175. (0.1164)
+Fixed-Effects:              -----------------
+year                                      Yes
+id_news                                   Yes
+___________________________ _________________
+S.E. type                         by: id_news
+Observations                            1,052
+R2                                    0.98576
+Within R2                             0.04730
+---
+Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="parallel-trends-assumption" class="level1">
+<h1>Parallel trends assumption</h1>
+<p>The difference-in-difference design is only valid if the parallel trend assumption is valid. The parallel trend assumption is the assumption that before treatment, both the control and treatment had a parallel trend for the outcome variable throughout time. If the parallel trend is wrong, the construction of the counter-factual is wrong, which would create a bias estimator.</p>
+<p>How to check parallel trends?</p>
+<ul>
+<li><p>Graphically</p></li>
+<li><p>Run the regression but test the interaction effect between the two groups before the treatment effect happened</p></li>
+</ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>avg_trends <span class="ot">&lt;-</span> <span class="fu">aggregate</span>(ra_cst <span class="sc">~</span> national <span class="sc">+</span> year, newspapers, mean)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(avg_trends,<span class="fu">aes</span>(<span class="at">x=</span>year,<span class="at">y=</span>ra_cst,<span class="at">color=</span>national))<span class="sc">+</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Revenues"</span>)<span class="sc">+</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="session4_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>did_placebo <span class="ot">&lt;-</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">feols</span>(<span class="fu">log</span>(ra_cst) <span class="sc">~</span> national <span class="sc">*</span> after_national_placebo <span class="sc">|</span> year <span class="sc">+</span> id_news,</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">cluster=</span><span class="sc">~</span>id_news,</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">data =</span> newspapers)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>NOTE: 144 observations removed because of NA values (LHS: 144, RHS: 1).</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The variables 'national1' and 'after_national_placebo' have been removed because
+of collinearity (see $collin.var).</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">etable</span>(did_placebo)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                                         did_placebo
+Dependent Var.:                          log(ra_cst)
+                                                    
+national1 x after_national_placebo -0.2289. (0.1187)
+Fixed-Effects:                     -----------------
+year                                             Yes
+id_news                                          Yes
+__________________________________ _________________
+S.E.: Clustered                          by: id_news
+Observations                                   1,052
+R2                                           0.98580
+Within R2                                    0.05004
+---
+Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+
+
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
