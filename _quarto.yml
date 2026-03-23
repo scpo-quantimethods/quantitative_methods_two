@@ -38,7 +38,7 @@ website:
           - text: "Slides - session 3"
             href: slides/session3/session3.qmd
           - text: "Slides - session 4"
-            href: slides/session4/session4.qmd
+            href: slides/session4/slides4.qmd
             
       - text: Homeworks
       - menu:
