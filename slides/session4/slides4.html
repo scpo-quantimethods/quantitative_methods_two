@@ -6,16 +6,20 @@
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="../../site_libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.7.32">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.9.36">
 
-  <title>Quantitative methods II – Session 4: difference-in-difference</title>
+  <meta name="author" content="Jessica De Rongé &amp; Paul Servais">
+  <title>Quantitative methods II – Session 4: difference-in-differences</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
   <link rel="stylesheet" href="../../site_libs/revealjs/dist/reset.css">
   <link rel="stylesheet" href="../../site_libs/revealjs/dist/reveal.css">
   <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
     div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -94,7 +98,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="../../site_libs/revealjs/dist/theme/quarto-f563837468303362081e247dddd440d0.css">
+  <link rel="stylesheet" href="../../site_libs/revealjs/dist/theme/quarto-2740581606dc327e82f18f789b69d8a0.css">
   <link href="../../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="../../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="../../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -192,22 +196,32 @@
     <div class="slides">
 
 <section id="title-slide" class="quarto-title-block center">
-  <h1 class="title">Session 4: difference-in-difference</h1>
+  <h1 class="title">Session 4: difference-in-differences</h1>
 
 <div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Jessica De Rongé &amp; Paul Servais 
+</div>
+</div>
 </div>
 
 </section>
 <section id="last-sessions" class="slide level2">
 <h2>Last sessions</h2>
-<p>How to write a research paper</p>
-<p>Multinomial regression</p>
+<ul>
+<li>Logistic regression</li>
+<li>How to write a research paper</li>
+<li>Multinomial regression</li>
+</ul>
 </section>
 <section id="this-week" class="slide level2">
 <h2>This week</h2>
-<p>Rmarkdown</p>
-<p>Difference-in-Difference</p>
-<p>Homework</p>
+<ul>
+<li><p>Rmarkdown/Quarto</p></li>
+<li><p>Difference-in-Differences</p></li>
+<li><p>Homework</p></li>
+</ul>
 </section>
 <section class="slide level2">
 
@@ -215,14 +229,159 @@
 <section>
 <section id="rmarkdown" class="title-slide slide level1 center">
 <h1>Rmarkdown</h1>
-<p>Demo</p>
+
 </section>
+<section id="rmarkdown-1" class="slide level2">
+<h2>Rmarkdown</h2>
+<ul>
+<li><p>Rmarkdown are a type of document with:</p></li>
+<li><p>executable code (like R)</p></li>
+<li><p>formatted text (like word) in one single document.</p></li>
+<li><p>Rmarkdown permits to create high quality report, where you can easily update your analysis.</p></li>
+<li><p>Rmardown uses the (Pandoc) Markdown language to create the output (PDF, HTML, workd, etc.).</p></li>
+<li><p>To use Rmarkdown, you need to have the <code>rmarkdown</code> package and the <code>knitr</code> package installed in RStudio</p></li>
+</ul>
+</section>
+<section id="start-a-document" class="slide level2">
+<h2>Start a document</h2>
+<p>To create an Rmarkdown document, you can do it from the RStudio menu <code>File &gt; New File &gt; R Markdown</code>.</p>
+
+<img data-src="image/rmarkdown_1.png" class="r-stretch"></section>
+<section id="start-a-document-ii" class="slide level2">
+<h2>Start a document II</h2>
+<p>Specify the title of your document and the output</p>
+
+<img data-src="image/rmarkdown_2.png" class="r-stretch"></section>
+<section id="document" class="slide level2">
+<h2>Document</h2>
+
+<img data-src="image/rmarkdown_3.png" class="r-stretch"></section>
+<section id="yaml" class="slide level2">
+<h2>YAML</h2>
+<p>The YAML is the metadata block that defines the output format and defines the options of the format selected.</p>
+<p>If you want to add a table of contents to your document, you need to specify <code>toc: true</code> in your YAML.</p>
+
+<img data-src="image/rmarkdown_4.png" class="r-stretch"></section>
+<section id="setup-chunck" class="slide level2">
+<h2>Setup chunck</h2>
+<p>This is a obligatory chunk to keep in your document. This is where you can specify how you want your code to appear in your document.</p>
+
+<img data-src="image/rmarkdown_5.png" class="r-stretch"></section>
+<section id="setup-options" class="slide level2">
+<h2>Setup options</h2>
+<div class="r-fit-text">
+<table class="caption-top">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Option</th>
+<th>Effect</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>prompt = FALSE</td>
+<td>Remove the prompt characters &gt; from the R code</td>
+</tr>
+<tr class="even">
+<td>comment = NA</td>
+<td>Remove ## from the start of each line of the results.</td>
+</tr>
+<tr class="odd">
+<td>echo = FALSE</td>
+<td>Don’t show the code.</td>
+</tr>
+<tr class="even">
+<td>results = “hide”</td>
+<td>Don’t show the results.</td>
+</tr>
+<tr class="odd">
+<td>include = FALSE</td>
+<td>Show nothing (run code).</td>
+</tr>
+<tr class="even">
+<td>eval = FALSE</td>
+<td>Don’t run the code.</td>
+</tr>
+<tr class="odd">
+<td>message = FALSE</td>
+<td>Preserve messages in the output (the same apply to warnings with warning = FALSE).</td>
+</tr>
+<tr class="even">
+<td>results = “hold”</td>
+<td>Hold all the output pieces and display them after the code chunk.</td>
+</tr>
+<tr class="odd">
+<td>tidy = “styler”</td>
+<td>Reformat the R code shown in the output.</td>
+</tr>
+<tr class="even">
+<td>cache = TRUE</td>
+<td>Skip the execution of the code if it has been executed before and nothing in the code has changed since then. This is useful for time-consuming R code.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="include-text" class="slide level2">
+<h2>Include text</h2>
+
+<img data-src="image/rmarkdown_6.png" class="r-stretch"></section>
+<section class="slide level2">
+
+<h3 id="title">Title</h3>
+<p>To specify a title in the text section of your document you need to use #</p>
+<p><code>#</code> = Title 1</p>
+<p><code>##</code> = Title 2 (subtitle)</p>
+<p><code>###</code> = Title 3 (subsubtitle)</p>
+<p>…</p>
+</section>
+<section id="include-code" class="slide level2">
+<h2>Include code</h2>
+<p>To include code, you need to add a chunk code.</p>
+
+<img data-src="image/rmarkdown_11.png" class="r-stretch"></section>
+<section class="slide level2">
+
+<h3 class="scrollable" id="r-chunk">R chunk</h3>
+
+<img data-src="image/rmarkdown_7.png" class="r-stretch"></section>
+<section class="slide level2">
+
+<h3 id="running-code">Running code</h3>
+<p>You can run the code before rendering your output.</p>
+
+<img data-src="image/rmarkdown_12.png" class="r-stretch"></section>
+<section id="output" class="slide level2">
+<h2>Output</h2>
+<p>To get your html or pdf document, you need to knitr the document.</p>
+
+<img data-src="image/rmarkdown_8.png" class="r-stretch"></section>
+<section class="slide level2">
+
+<h3 id="pdf-document">PDF document</h3>
+<p>You need to have Latex installed on your computer or the <code>tinytex</code> package in Rstudio.</p>
+<p>install.packages(“tinytex”) tinytex::install_tinytex() to install TinyTeX (TeX distribution)</p>
+</section>
+<section class="slide level2">
+
+<h3 id="change-output-format">change output format</h3>
+
+<img data-src="image/rmarkdown_9.png" class="r-stretch"></section>
+<section class="slide level2">
+
+<h3 id="render-output">Render output</h3>
+
+<img data-src="image/rmarkdown_10.png" class="r-stretch"></section>
 <section class="slide level2">
 
 </section></section>
 <section>
-<section id="difference-in-difference" class="title-slide slide level1 center">
-<h1>Difference-in-Difference</h1>
+<section id="difference-in-differences" class="title-slide slide level1 center">
+<h1>Difference-in-Differences</h1>
 
 </section>
 <section id="panel-data" class="slide level2">
@@ -230,28 +389,67 @@
 <p>What is panel data?</p>
 <p>Is there something specific you need to do when using panel data in regression?</p>
 </section>
-<section id="difference-in-difference-1" class="slide level2">
-<h2>Difference-in-Difference</h2>
+<section id="panel-data-1" class="slide level2">
+<h2>Panel Data</h2>
+<ul>
+<li><p>Repeated observations from the same individual</p></li>
+<li><p>Observations are not independent</p></li>
+<li><p>Use individual fixed effects and cluster SE</p></li>
+</ul>
+</section>
+<section id="difference-in-differences-1" class="slide level2">
+<h2>Difference-in-Differences</h2>
 <p>What is it?</p>
 <p>When do you use it?</p>
 <p>Which type of data do you need?</p>
 </section>
-<section id="difference-in-difference-2" class="slide level2">
-<h2>Difference-in-Difference</h2>
+<section id="difference-in-differences-2" class="slide level2">
+<h2>Difference-in-Differences</h2>
 <ul>
-<li><p>Causal inference</p></li>
+<li><p>Causal inference of observational data</p></li>
 <li><p>Regression technique</p></li>
-<li><p>Compare two groups</p></li>
-<li><p>Pre and Post treatment</p></li>
+<li><p>Compare two groups (control vs treatment)</p></li>
+<li><p>Compare Pre and Post treatment</p></li>
 </ul>
+<p>=&gt; Measure the causal effect of a treatment in terms of change and not levels</p>
 </section>
-<section id="difference-in-difference-3" class="slide level2">
-<h2>Difference-in-Difference</h2>
+<section id="difference-in-differences-3" class="slide level2">
+<h2>Difference-in-Differences</h2>
+
+<img data-src="slides4_files/figure-revealjs/unnamed-chunk-1-1.png" width="960" class="r-stretch"></section>
+<section id="in-applied-research" class="slide level2">
+<h2>In applied research</h2>
+<ul>
+<li>Assessing the impact of Medicare on mortality rates (Miller et al, 2021)</li>
+</ul>
+<div class="column" style="width:100%;">
+<p><img data-src="image/medicare.png"></p>
+</div></section>
+<section id="in-applied-research-1" class="slide level2">
+<h2>In applied research</h2>
+<ul>
+<li>Assessing the impact of wind turbine installations on the vote for the far-right</li>
+</ul>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><img data-src="image/controls.png"></p>
+</div><div class="column" style="width:50%;">
+<p><img data-src="image/parallel_trend.png"></p>
+</div></div>
+</section>
+<section id="event-study" class="slide level2">
+<h2>Event-study</h2>
+
+<img data-src="image/event_study.png" class="quarto-figure quarto-figure-center r-stretch"></section>
+<section id="difference-in-differences-4" class="slide level2">
+<h2>Difference-in-Differences</h2>
 <p><span class="math display">\[
-Y= \beta_0+\beta_1 Treatment+ \beta_2 Time+ \beta_3 Treatment*Time +\epsilon
+Y_{it}= \beta_0+\beta_1 Treatment_i+ \beta_2 Time_t+ \beta_3 Treatment_i*Time_t +\epsilon
 \]</span></p>
 <ul>
-<li>The effect of the treatment is the interaction effect</li>
+<li>The causal effect is the interaction effect <span class="math inline">\(\beta_3\)</span></li>
+<li>This model is called two-way fixed effects: TWFE</li>
+<li>More robust and recent estimators exist in the literature (de Chaisemartin &amp; D’Haultfœuille, 2020; Callaway &amp; Sant’Anna, 2021)</li>
 </ul>
 </section>
 <section id="in-r" class="slide level2">
@@ -272,100 +470,206 @@ Y= \beta_0+\beta_1 Treatment+ \beta_2 Time+ \beta_3 Treatment*Time +\epsilon
 <p>With feols function, the stargazer function does not work. You need to use etable().</p>
 </div>
 </section>
-<section id="example" class="slide level2">
+<section id="example" class="slide level2 scrollable">
+<h2>Example:</h2>
+<p>Imagine you want to study the effect of a new electoral reform throughout a country. Before introducing the electoral reform, the government decided to test the reform in only some regions of the country. The government wants to know if it introduces mail-in voting, will increase voter turnout.</p>
+<p>The dataset contains voter turnout for 2010, 2014 and 2018. The reform was applied to 10 regions for the 2018 elections.</p>
+</section>
+<section class="slide level2">
+
+<h3 class="scrollable" id="data-simulation">Data simulation</h3>
+<p>The data has been simulated with this code:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb1-2"><a></a></span>
+<span id="cb1-3"><a></a><span class="co"># Parameters</span></span>
+<span id="cb1-4"><a></a>regions <span class="ot">&lt;-</span> LETTERS[<span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>]   <span class="co"># 20 regions</span></span>
+<span id="cb1-5"><a></a>years <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2010</span>, <span class="dv">2014</span>, <span class="dv">2018</span>)</span>
+<span id="cb1-6"><a></a></span>
+<span id="cb1-7"><a></a><span class="co"># Create panel structure</span></span>
+<span id="cb1-8"><a></a>data <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">Region =</span> regions, <span class="at">Year =</span> years)</span>
+<span id="cb1-9"><a></a></span>
+<span id="cb1-10"><a></a><span class="co"># Treatment assignment (half treated)</span></span>
+<span id="cb1-11"><a></a>treated_regions <span class="ot">&lt;-</span> regions[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]</span>
+<span id="cb1-12"><a></a>data<span class="sc">$</span>Treated <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(data<span class="sc">$</span>Region <span class="sc">%in%</span> treated_regions, <span class="dv">1</span>, <span class="dv">0</span>)</span>
+<span id="cb1-13"><a></a></span>
+<span id="cb1-14"><a></a><span class="co"># Post indicator</span></span>
+<span id="cb1-15"><a></a>data<span class="sc">$</span>Post <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(data<span class="sc">$</span>Year <span class="sc">==</span> <span class="dv">2018</span>, <span class="dv">1</span>, <span class="dv">0</span>)</span>
+<span id="cb1-16"><a></a></span>
+<span id="cb1-17"><a></a><span class="co"># Time trend (common to all regions → ensures parallel trends pre-treatment)</span></span>
+<span id="cb1-18"><a></a>data<span class="sc">$</span>TimeTrend <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(data<span class="sc">$</span>Year <span class="sc">==</span> <span class="dv">2010</span>, <span class="dv">0</span>,</span>
+<span id="cb1-19"><a></a>                  <span class="fu">ifelse</span>(data<span class="sc">$</span>Year <span class="sc">==</span> <span class="dv">2014</span>, <span class="dv">2</span>, <span class="dv">5</span>))</span>
+<span id="cb1-20"><a></a></span>
+<span id="cb1-21"><a></a><span class="co"># Region fixed effects (baseline differences)</span></span>
+<span id="cb1-22"><a></a>region_fe <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="fu">length</span>(regions), <span class="at">mean =</span> <span class="dv">60</span>, <span class="at">sd =</span> <span class="dv">5</span>)</span>
+<span id="cb1-23"><a></a><span class="fu">names</span>(region_fe) <span class="ot">&lt;-</span> regions</span>
+<span id="cb1-24"><a></a>data<span class="sc">$</span>RegionFE <span class="ot">&lt;-</span> region_fe[data<span class="sc">$</span>Region]</span>
+<span id="cb1-25"><a></a></span>
+<span id="cb1-26"><a></a><span class="co"># Treatment effect (only applies in post period for treated units)</span></span>
+<span id="cb1-27"><a></a>treatment_effect <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb1-28"><a></a>data<span class="sc">$</span>TreatmentEffect <span class="ot">&lt;-</span> data<span class="sc">$</span>Treated <span class="sc">*</span> data<span class="sc">$</span>Post <span class="sc">*</span> treatment_effect</span>
+<span id="cb1-29"><a></a></span>
+<span id="cb1-30"><a></a><span class="co"># Random noise</span></span>
+<span id="cb1-31"><a></a>data<span class="sc">$</span>epsilon <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="fu">nrow</span>(data), <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">2</span>)</span>
+<span id="cb1-32"><a></a></span>
+<span id="cb1-33"><a></a><span class="co"># Outcome variable: turnout</span></span>
+<span id="cb1-34"><a></a>data<span class="sc">$</span>Turnout <span class="ot">&lt;-</span> data<span class="sc">$</span>RegionFE <span class="sc">+</span></span>
+<span id="cb1-35"><a></a>                data<span class="sc">$</span>TimeTrend <span class="sc">+</span></span>
+<span id="cb1-36"><a></a>                data<span class="sc">$</span>TreatmentEffect <span class="sc">+</span></span>
+<span id="cb1-37"><a></a>                data<span class="sc">$</span>epsilon</span>
+<span id="cb1-38"><a></a></span>
+<span id="cb1-39"><a></a><span class="co"># Keep relevant columns</span></span>
+<span id="cb1-40"><a></a>data <span class="ot">&lt;-</span> data[, <span class="fu">c</span>(<span class="st">"Region"</span>, <span class="st">"Year"</span>, <span class="st">"Treated"</span>, <span class="st">"Post"</span>, <span class="st">"Turnout"</span>)]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section class="slide level2">
+
+<h3 id="model">Model</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a></a><span class="fu">library</span>(stargazer)</span>
+<span id="cb2-2"><a></a>reg1<span class="ot">&lt;-</span><span class="fu">lm</span>(Turnout<span class="sc">~</span>Post<span class="sc">*</span>Treated,<span class="at">data=</span>data[data<span class="sc">$</span>Year<span class="sc">==</span><span class="dv">2014</span><span class="sc">|</span>data<span class="sc">$</span>Year<span class="sc">==</span><span class="dv">2018</span>,])</span>
+<span id="cb2-3"><a></a><span class="fu">stargazer</span>(reg1,<span class="at">type=</span><span class="st">"text"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+===============================================
+                        Dependent variable:    
+                    ---------------------------
+                              Turnout          
+-----------------------------------------------
+Post                           1.831           
+                              (2.396)          
+                                               
+Treated                       -1.131           
+                              (2.396)          
+                                               
+Post:Treated                 11.433***         
+                              (3.388)          
+                                               
+Constant                     63.486***         
+                              (1.694)          
+                                               
+-----------------------------------------------
+Observations                    40             
+R2                             0.517           
+Adjusted R2                    0.477           
+Residual Std. Error       5.357 (df = 36)      
+F Statistic           12.856*** (df = 3; 36)   
+===============================================
+Note:               *p&lt;0.1; **p&lt;0.05; ***p&lt;0.01</code></pre>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+<h3 id="interpretation">Interpretation</h3>
+<ul>
+<li>What is the effect of the new reform on voter turnout?</li>
+</ul>
+</section>
+<section class="slide level2">
+
+</section>
+<section id="parallel-trend-assumption" class="slide level2">
+<h2>Parallel trend assumption</h2>
+<p>The difference-in-differences design is only valid if the parallel trend assumption is valid. The parallel trend assumption is the assumption that before treatment, both the control and treatment had a parallel trend for the outcome variable throughout time. If the parallel trend is wrong, the construction of the counter-factual is wrong, which would create a bias estimator.</p>
+</section>
+<section class="slide level2">
+
+<h3 id="parallel-trend-check">Parallel trend check</h3>
+<p>How can you check?</p>
+<ul>
+<li><p>Graphically</p></li>
+<li><p>Placebo test</p></li>
+<li><p>Event-study</p></li>
+</ul>
+</section>
+<section class="slide level2">
+
+<h3 id="visualisation-of-parallel-trends">Visualisation of parallel trends</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb4-2"><a></a>avg_trends <span class="ot">&lt;-</span> <span class="fu">aggregate</span>(Turnout <span class="sc">~</span> Treated <span class="sc">+</span> Year, data, mean)</span>
+<span id="cb4-3"><a></a><span class="fu">ggplot</span>(avg_trends,<span class="fu">aes</span>(<span class="at">x=</span>Year,<span class="at">y=</span>Turnout,<span class="at">color=</span><span class="fu">as.factor</span>(Treated)))<span class="sc">+</span></span>
+<span id="cb4-4"><a></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
+<span id="cb4-5"><a></a>  <span class="fu">geom_line</span>()<span class="sc">+</span></span>
+<span id="cb4-6"><a></a>  <span class="fu">labs</span>(<span class="at">color=</span><span class="st">"Treated"</span>)<span class="sc">+</span></span>
+<span id="cb4-7"><a></a>  <span class="fu">theme_bw</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+
+</div>
+<img data-src="slides4_files/figure-revealjs/unnamed-chunk-4-1.png" width="960" class="r-stretch"></section>
+<section class="slide level2">
+
+<h3 id="placebo-test">Placebo test</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a></a>reg2<span class="ot">&lt;-</span><span class="fu">lm</span>(Turnout<span class="sc">~</span>Year<span class="sc">*</span>Treated,<span class="at">data=</span>data[data<span class="sc">$</span>Year<span class="sc">==</span><span class="dv">2010</span><span class="sc">|</span>data<span class="sc">$</span>Year<span class="sc">==</span><span class="dv">2014</span>,])</span>
+<span id="cb5-2"><a></a><span class="fu">stargazer</span>(reg2,<span class="at">type=</span><span class="st">"text"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+===============================================
+                        Dependent variable:    
+                    ---------------------------
+                              Turnout          
+-----------------------------------------------
+Year                           0.450           
+                              (0.565)          
+                                               
+Treated                      -520.946          
+                            (1,606.946)        
+                                               
+Year:Treated                   0.258           
+                              (0.799)          
+                                               
+Constant                     -842.452          
+                            (1,136.282)        
+                                               
+-----------------------------------------------
+Observations                    40             
+R2                             0.083           
+Adjusted R2                    0.007           
+Residual Std. Error       5.051 (df = 36)      
+F Statistic             1.090 (df = 3; 36)     
+===============================================
+Note:               *p&lt;0.1; **p&lt;0.05; ***p&lt;0.01</code></pre>
+</div>
+</div>
+</section>
+<section id="example-1" class="slide level2">
 <h2>Example</h2>
 <p>Based on the data from Angelucci and Cagé, 2019.</p>
 <p>We are interested in understanding how the introduction of advertisements in TV programs in France has impacted the revenues of newspapers throughout France. The hypothesis being that it impacted only national newspapers and not local ones.</p>
 </section>
-<section id="data" class="slide level2">
-<h2>Data</h2>
+<section class="slide level2">
+
+<h3 id="data">Data</h3>
 <p>You can find the data <a href="https://www.openicpsr.org/openicpsr/project/116438/version/V1/view?path=/openicpsr/116438/fcr:versions/V1/data/dta/Angelucci_Cage_AEJMicro_dataset.dta&amp;type=file">here</a>. You will need to sign in to be able to download it.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a></a><span class="fu">library</span>(haven)</span>
-<span id="cb1-2"><a></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb1-3"><a></a>newspapers <span class="ot">&lt;-</span> <span class="fu">read_dta</span>(<span class="st">"data/Angelucci_Cage_AEJMicro_dataset.dta"</span>)</span>
-<span id="cb1-4"><a></a></span>
-<span id="cb1-5"><a></a>newspapers <span class="ot">&lt;-</span></span>
-<span id="cb1-6"><a></a>  newspapers <span class="sc">|&gt;</span></span>
-<span id="cb1-7"><a></a>  <span class="fu">select</span>(</span>
-<span id="cb1-8"><a></a>    year, id_news, after_national, local, national, ra_cst, ps_cst, qtotal</span>
-<span id="cb1-9"><a></a>    ) <span class="sc">|&gt;</span> </span>
-<span id="cb1-10"><a></a>  <span class="fu">mutate</span>(<span class="at">ra_cst_div_qtotal =</span> ra_cst <span class="sc">/</span> qtotal, </span>
-<span id="cb1-11"><a></a>         <span class="at">after_national =</span>  <span class="fu">if_else</span>(year <span class="sc">&gt;</span> <span class="dv">1967</span>, <span class="dv">1</span>, <span class="dv">0</span>),</span>
-<span id="cb1-12"><a></a>         <span class="at">after_national_placebo =</span> <span class="fu">if_else</span>(year <span class="sc">&gt;=</span> <span class="dv">1966</span>, <span class="dv">1</span>, <span class="dv">0</span>),</span>
-<span id="cb1-13"><a></a>         <span class="fu">across</span>(<span class="fu">c</span>(id_news, local, national, after_national), as.factor),</span>
-<span id="cb1-14"><a></a>         <span class="at">year =</span> <span class="fu">as.factor</span>(year)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a></a><span class="fu">library</span>(haven)</span>
+<span id="cb7-2"><a></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb7-3"><a></a>newspapers <span class="ot">&lt;-</span> <span class="fu">read_dta</span>(<span class="st">"data/Angelucci_Cage_AEJMicro_dataset.dta"</span>)</span>
+<span id="cb7-4"><a></a></span>
+<span id="cb7-5"><a></a>newspapers <span class="ot">&lt;-</span></span>
+<span id="cb7-6"><a></a>  newspapers <span class="sc">|&gt;</span></span>
+<span id="cb7-7"><a></a>  <span class="fu">select</span>(</span>
+<span id="cb7-8"><a></a>    year, id_news, after_national, local, national, ra_cst, ps_cst, qtotal</span>
+<span id="cb7-9"><a></a>    ) <span class="sc">|&gt;</span> </span>
+<span id="cb7-10"><a></a>  <span class="fu">mutate</span>(<span class="at">ra_cst_div_qtotal =</span> ra_cst <span class="sc">/</span> qtotal, </span>
+<span id="cb7-11"><a></a>         <span class="at">after_national =</span>  <span class="fu">if_else</span>(year <span class="sc">&gt;</span> <span class="dv">1967</span>, <span class="dv">1</span>, <span class="dv">0</span>),</span>
+<span id="cb7-12"><a></a>         <span class="at">after_national_placebo =</span> <span class="fu">if_else</span>(year <span class="sc">&gt;=</span> <span class="dv">1963</span>, <span class="dv">1</span>, <span class="dv">0</span>),</span>
+<span id="cb7-13"><a></a>         <span class="fu">across</span>(<span class="fu">c</span>(id_news, local, national, after_national), as.factor),</span>
+<span id="cb7-14"><a></a>         <span class="at">year =</span> <span class="fu">as.factor</span>(year)) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="model-1" class="slide level2">
-<h2>Model 1</h2>
-<p>The basic model</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a></a>did <span class="ot">&lt;-</span></span>
-<span id="cb2-2"><a></a>  <span class="fu">lm</span>(<span class="fu">log</span>(ra_cst) <span class="sc">~</span> national<span class="sc">*</span>after_national,</span>
-<span id="cb2-3"><a></a>     <span class="at">data =</span> newspapers)</span>
-<span id="cb2-4"><a></a><span class="fu">summary</span>(did)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-Call:
-lm(formula = log(ra_cst) ~ national * after_national, data = newspapers)
+<section class="slide level2">
 
-Residuals:
-    Min      1Q  Median      3Q     Max 
--4.2208 -0.8889 -0.0851  1.1601  2.5164 
-
-Coefficients:
-                          Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept)               17.08465    0.06495 263.044  &lt; 2e-16 ***
-national1                  1.31283    0.15970   8.221 5.93e-16 ***
-after_national1            0.35330    0.09170   3.853 0.000124 ***
-national1:after_national1 -0.28740    0.23527  -1.222 0.222140    
----
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-
-Residual standard error: 1.369 on 1048 degrees of freedom
-  (144 observations deleted due to missingness)
-Multiple R-squared:  0.09797,   Adjusted R-squared:  0.09539 
-F-statistic: 37.94 on 3 and 1048 DF,  p-value: &lt; 2.2e-16</code></pre>
-</div>
-</div>
-</section>
-<section id="model-2" class="slide level2">
-<h2>Model 2</h2>
+<h3 id="model-1">Model</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a></a><span class="fu">library</span>(fixest)</span>
-<span id="cb4-2"><a></a>did2<span class="ot">&lt;-</span><span class="fu">feols</span>(<span class="fu">log</span>(ra_cst) <span class="sc">~</span> national<span class="sc">*</span>after_national,</span>
-<span id="cb4-3"><a></a>            <span class="at">cluster=</span><span class="sc">~</span>id_news,</span>
-<span id="cb4-4"><a></a>     <span class="at">data =</span> newspapers)</span>
-<span id="cb4-5"><a></a><span class="fu">etable</span>(did2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a></a><span class="fu">library</span>(fixest)</span>
+<span id="cb8-2"><a></a>did<span class="ot">&lt;-</span><span class="fu">feols</span>(<span class="fu">log</span>(ra_cst) <span class="sc">~</span> national<span class="sc">*</span>after_national<span class="sc">|</span>year<span class="sc">+</span>id_news,</span>
+<span id="cb8-3"><a></a>            <span class="at">cluster=</span><span class="sc">~</span>id_news,</span>
+<span id="cb8-4"><a></a>     <span class="at">data =</span> newspapers)</span>
+<span id="cb8-5"><a></a><span class="fu">etable</span>(did)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>                                          did2
-Dependent Var.:                    log(ra_cst)
-                                              
-Constant                     17.08*** (0.1666)
-national1                     1.313** (0.4246)
-after_national1             0.3533*** (0.0792)
-national1 x after_national1   -0.2874 (0.2092)
-___________________________ __________________
-S.E.: Clustered                    by: id_news
-Observations                             1,052
-R2                                     0.09797
-Adj. R2                                0.09539
----
-Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
-</div>
-</div>
-</section>
-<section id="model-3" class="slide level2">
-<h2>Model 3</h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a></a>did3<span class="ot">&lt;-</span><span class="fu">feols</span>(<span class="fu">log</span>(ra_cst) <span class="sc">~</span> national<span class="sc">*</span>after_national<span class="sc">|</span>year<span class="sc">+</span>id_news,</span>
-<span id="cb6-2"><a></a>            <span class="at">cluster=</span><span class="sc">~</span>id_news,</span>
-<span id="cb6-3"><a></a>     <span class="at">data =</span> newspapers)</span>
-<span id="cb6-4"><a></a></span>
-<span id="cb6-5"><a></a><span class="fu">etable</span>(did3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>                                         did3
+<pre><code>                                          did
 Dependent Var.:                   log(ra_cst)
                                              
 national1 x after_national1 -0.2175. (0.1164)
@@ -382,92 +686,103 @@ Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 </div>
 </section>
-<section id="comparing-models" class="slide level2">
-<h2>Comparing models</h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a></a>did1 <span class="ot">&lt;-</span></span>
-<span id="cb8-2"><a></a>  <span class="fu">feols</span>(<span class="fu">log</span>(ra_cst) <span class="sc">~</span> national<span class="sc">*</span>after_national,</span>
-<span id="cb8-3"><a></a>     <span class="at">data =</span> newspapers)</span>
-<span id="cb8-4"><a></a><span class="fu">etable</span>(did1,did2,did3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>                                          did1               did2
-Dependent Var.:                    log(ra_cst)        log(ra_cst)
-                                                                 
-Constant                     17.08*** (0.0649)  17.08*** (0.1666)
-national1                    1.313*** (0.1597)   1.313** (0.4246)
-after_national1             0.3533*** (0.0917) 0.3533*** (0.0792)
-national1 x after_national1   -0.2874 (0.2353)   -0.2874 (0.2092)
-Fixed-Effects:              ------------------ ------------------
-year                                        No                 No
-id_news                                     No                 No
-___________________________ __________________ __________________
-S.E. type                                  IID        by: id_news
-Observations                             1,052              1,052
-R2                                     0.09797            0.09797
-Within R2                                   --                 --
-
-                                         did3
-Dependent Var.:                   log(ra_cst)
-                                             
-Constant                                     
-national1                                    
-after_national1                              
-national1 x after_national1 -0.2175. (0.1164)
-Fixed-Effects:              -----------------
-year                                      Yes
-id_news                                   Yes
-___________________________ _________________
-S.E. type                         by: id_news
-Observations                            1,052
-R2                                    0.98576
-Within R2                             0.04730
----
-Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
-</div>
-</div>
-</section>
-<section id="parallel-assumptions" class="slide level2">
-<h2>Parallel assumptions</h2>
-<p>The difference-in-difference design is only valid if the parallel trend assumption is valid. The parallel trend assumption is the assumption that before treatment, both the control and treatment had a parallel trend for the outcome variable throughout time. If the parallel trend is wrong, the construction of the counter-factual is wrong, which would create a bias estimator.</p>
-</section>
-<section id="graphical-check" class="slide level2">
-<h2>Graphical check</h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a></a>avg_trends <span class="ot">&lt;-</span> <span class="fu">aggregate</span>(ra_cst <span class="sc">~</span> national <span class="sc">+</span> year, newspapers, mean)</span>
-<span id="cb10-2"><a></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb10-3"><a></a><span class="fu">ggplot</span>(avg_trends,<span class="fu">aes</span>(<span class="at">x=</span>year,<span class="at">y=</span>ra_cst,<span class="at">color=</span>national))<span class="sc">+</span></span>
-<span id="cb10-4"><a></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
-<span id="cb10-5"><a></a>  <span class="fu">ylab</span>(<span class="st">"Revenues"</span>)<span class="sc">+</span></span>
-<span id="cb10-6"><a></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-
-</div>
-<img data-src="slides4_files/figure-revealjs/unnamed-chunk-6-1.png" width="960" class="r-stretch"></section>
-<section id="placebo-check" class="slide level2">
+<section id="placebo-check" class="slide level2 scrollable">
 <h2>Placebo check</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a></a>did_placebo <span class="ot">&lt;-</span></span>
-<span id="cb11-2"><a></a>  <span class="fu">feols</span>(<span class="fu">log</span>(ra_cst) <span class="sc">~</span> national <span class="sc">*</span> after_national_placebo <span class="sc">|</span> year <span class="sc">+</span> id_news,</span>
-<span id="cb11-3"><a></a>        <span class="at">cluster=</span><span class="sc">~</span>id_news,</span>
-<span id="cb11-4"><a></a>     <span class="at">data =</span> newspapers)</span>
-<span id="cb11-5"><a></a><span class="fu">etable</span>(did_placebo)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a></a>did_placebo <span class="ot">&lt;-</span></span>
+<span id="cb10-2"><a></a>  <span class="fu">feols</span>(<span class="fu">log</span>(ra_cst) <span class="sc">~</span> national <span class="sc">*</span> after_national_placebo <span class="sc">|</span> year <span class="sc">+</span> id_news,</span>
+<span id="cb10-3"><a></a>        <span class="at">cluster=</span><span class="sc">~</span>id_news,</span>
+<span id="cb10-4"><a></a>     <span class="at">data =</span> newspapers)</span>
+<span id="cb10-5"><a></a>newspapers</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1,196 × 10
+   year  id_news after_national local national    ra_cst ps_cst  qtotal
+   &lt;fct&gt; &lt;fct&gt;   &lt;fct&gt;          &lt;fct&gt; &lt;fct&gt;        &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;
+ 1 1960  1       0              1     0         52890272   2.29  94478.
+ 2 1961  1       0              1     0         56601060   2.20  96289.
+ 3 1962  1       0              1     0         64840752   2.13  97313.
+ 4 1963  1       0              1     0         70582944   2.43 101068.
+ 5 1964  1       0              1     0         74977888   2.35 102103.
+ 6 1965  1       0              1     0         74438248   2.29 105169.
+ 7 1966  1       0              1     0         81383000   2.31 126235.
+ 8 1967  1       0              1     0         80263152   2.88 128667.
+ 9 1968  1       1              1     0         87165704   3.45 131824.
+10 1969  1       1              1     0        102596384   3.28 132417.
+# ℹ 1,186 more rows
+# ℹ 2 more variables: ra_cst_div_qtotal &lt;dbl&gt;, after_national_placebo &lt;dbl&gt;</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a></a><span class="fu">etable</span>(did_placebo)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                                         did_placebo
 Dependent Var.:                          log(ra_cst)
                                                     
-national1 x after_national_placebo -0.2289. (0.1187)
+national1 x after_national_placebo -0.2007. (0.1189)
 Fixed-Effects:                     -----------------
 year                                             Yes
 id_news                                          Yes
 __________________________________ _________________
 S.E.: Clustered                          by: id_news
 Observations                                   1,052
-R2                                           0.98580
-Within R2                                    0.05004
+R2                                           0.98542
+Within R2                                    0.02427
 ---
 Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 </div>
 </section>
+<section id="event-study-1" class="slide level2">
+<h2>Event-study</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a></a><span class="fu">library</span>(fixest)</span>
+<span id="cb14-2"><a></a></span>
+<span id="cb14-3"><a></a>newspapers <span class="ot">&lt;-</span> newspapers <span class="sc">|&gt;</span></span>
+<span id="cb14-4"><a></a>  <span class="fu">mutate</span>(<span class="at">year =</span> <span class="fu">as.numeric</span>(<span class="fu">as.character</span>(year)),</span>
+<span id="cb14-5"><a></a>         <span class="at">national =</span> <span class="fu">as.numeric</span>(<span class="fu">as.character</span>(national)))</span>
+<span id="cb14-6"><a></a></span>
+<span id="cb14-7"><a></a>event_study <span class="ot">&lt;-</span> <span class="fu">feols</span>(</span>
+<span id="cb14-8"><a></a>  <span class="fu">log</span>(ra_cst) <span class="sc">~</span> <span class="fu">i</span>(year, national, <span class="at">ref =</span> <span class="st">"1966"</span>) <span class="sc">|</span> id_news <span class="sc">+</span> year,</span>
+<span id="cb14-9"><a></a>  <span class="at">cluster =</span> <span class="sc">~</span>id_news,</span>
+<span id="cb14-10"><a></a>  <span class="at">data =</span> newspapers</span>
+<span id="cb14-11"><a></a>)</span>
+<span id="cb14-12"><a></a><span class="fu">summary</span>(event_study)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>OLS estimation, Dep. Var.: log(ra_cst)
+Observations: 1,052
+Fixed-effects: id_news: 79,  year: 15
+Standard-errors: Clustered (id_news) 
+                     Estimate Std. Error   t value Pr(&gt;|t|)    
+year::1960:national  0.079660   0.119697  0.665512 0.507686    
+year::1961:national  0.167357   0.107821  1.552170 0.124670    
+year::1962:national  0.125606   0.100040  1.255561 0.213024    
+year::1963:national  0.097365   0.069836  1.394198 0.167217    
+year::1964:national  0.100472   0.070298  1.429236 0.156929    
+year::1965:national  0.029466   0.044489  0.662320 0.509719    
+year::1967:national -0.086302   0.042967 -2.008586 0.048042 *  
+year::1968:national -0.100177   0.060909 -1.644705 0.104055    
+year::1969:national -0.110884   0.113942 -0.973156 0.333484    
+year::1970:national -0.076772   0.096420 -0.796229 0.428316    
+year::1971:national -0.120644   0.114609 -1.052657 0.295748    
+year::1972:national -0.203793   0.111488 -1.827926 0.071384 .  
+year::1973:national -0.249303   0.140461 -1.774891 0.079817 .  
+year::1974:national -0.311909   0.149087 -2.092133 0.039680 *  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+RMSE: 0.169336     Adj. R2: 0.984583
+                 Within R2: 0.072478</code></pre>
+</div>
+</div>
+</section>
+<section id="event-study-2" class="slide level2">
+<h2>Event-study</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a></a><span class="fu">iplot</span>(event_study,</span>
+<span id="cb16-2"><a></a>      <span class="at">xlab =</span> <span class="st">"Year"</span>,</span>
+<span id="cb16-3"><a></a>      <span class="at">ylab =</span> <span class="st">"Effect on log(ra_cst)"</span>,</span>
+<span id="cb16-4"><a></a>      <span class="at">main =</span> <span class="st">"Event Study: Effect of National Newspapers"</span>,</span>
+<span id="cb16-5"><a></a>      <span class="at">ref.line =</span> <span class="dv">0</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+
+</div>
+<img data-src="slides4_files/figure-revealjs/unnamed-chunk-10-1.png" width="960" class="r-stretch"></section>
 <section class="slide level2">
 
 </section></section>
@@ -679,7 +994,7 @@ Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
         margin: 0.1,
 
         math: {
-          mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js',
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
           config: 'TeX-AMS_HTML-full',
           tex2jax: {
             inlineMath: [['\\(','\\)']],
@@ -791,13 +1106,14 @@ Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
           e.clearSelection();
         }
         const getTextToCopy = function(trigger) {
-            const codeEl = trigger.previousElementSibling.cloneNode(true);
-            for (const childEl of codeEl.children) {
-              if (isCodeAnnotation(childEl)) {
-                childEl.remove();
-              }
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
             }
-            return codeEl.innerText;
+          }
+          return codeEl.innerText;
         }
         const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
           text: getTextToCopy
@@ -812,7 +1128,7 @@ Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
         }
           var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
           var mailtoRegex = new RegExp(/^mailto:/);
-            var filterRegex = new RegExp('/' + window.location.host + '/');
+            var filterRegex = new RegExp("https:\/\/scpo-quantimethods\.github\.io\/quantitative_methods_two\/");
           var isInternal = (href) => {
               return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
           }

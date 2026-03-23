@@ -2,14 +2,17 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.27">
+<meta name="generator" content="quarto-1.9.36">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Jessica De Rongé">
 
-<title>Session 4 - Difference in Difference – Quantitative methods II</title>
+<title>Session 4 - Difference in Differences – Quantitative methods II</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -68,16 +71,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <meta name="quarto:offset" content="../../">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabby.min.js"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-afa37c5c79185640b9c231024f4fe5ea.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dea667461a5c81afc9ba75ce94cd63f3.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -107,7 +109,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }</script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 const typesetMath = (el) => {
@@ -211,7 +213,7 @@ window.Quarto = {
  <span class="dropdown-text">Exercices 3: Multinomial regressions</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../exercices/exercices4/exercices4.html">
+    <a class="dropdown-item" href="../../exercices/exercices4/exercices4.qmd">
  <span class="dropdown-text">Exercices 4 : Difference-in-differences</span></a>
   </li>  
     </ul>
@@ -239,7 +241,7 @@ window.Quarto = {
  <span class="dropdown-text">Slides - session 3</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../slides/session4/session4.html">
+    <a class="dropdown-item" href="../../slides/session4/session4.qmd">
  <span class="dropdown-text">Slides - session 4</span></a>
   </li>  
     </ul>
@@ -286,13 +288,18 @@ window.Quarto = {
   <ul>
   <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
   <li><a href="#panel-data" id="toc-panel-data" class="nav-link" data-scroll-target="#panel-data">Panel data</a></li>
-  <li><a href="#difference-in-difference-reminders" id="toc-difference-in-difference-reminders" class="nav-link" data-scroll-target="#difference-in-difference-reminders">Difference-in-Difference: reminders</a></li>
-  <li><a href="#difference-in-difference-application" id="toc-difference-in-difference-application" class="nav-link" data-scroll-target="#difference-in-difference-application">Difference-in-Difference: application</a>
+  <li><a href="#difference-in-differences-reminders" id="toc-difference-in-differences-reminders" class="nav-link" data-scroll-target="#difference-in-differences-reminders">Difference-in-Differences: reminders</a></li>
+  <li><a href="#difference-in-differences-application" id="toc-difference-in-differences-application" class="nav-link" data-scroll-target="#difference-in-differences-application">Difference-in-Differences: application</a>
   <ul class="collapse">
   <li><a href="#in-r" id="toc-in-r" class="nav-link" data-scroll-target="#in-r">In R</a></li>
-  <li><a href="#example" id="toc-example" class="nav-link" data-scroll-target="#example">Example</a></li>
+  <li><a href="#example-with-simulated-data" id="toc-example-with-simulated-data" class="nav-link" data-scroll-target="#example-with-simulated-data">Example with simulated data</a></li>
   </ul></li>
-  <li><a href="#parallel-trends-assumption" id="toc-parallel-trends-assumption" class="nav-link" data-scroll-target="#parallel-trends-assumption">Parallel trends assumption</a></li>
+  <li><a href="#parallel-trends-assumption" id="toc-parallel-trends-assumption" class="nav-link" data-scroll-target="#parallel-trends-assumption">Parallel trends assumption</a>
+  <ul class="collapse">
+  <li><a href="#graphically" id="toc-graphically" class="nav-link" data-scroll-target="#graphically">Graphically</a></li>
+  <li><a href="#placebo-test" id="toc-placebo-test" class="nav-link" data-scroll-target="#placebo-test">Placebo test</a></li>
+  </ul></li>
+  <li><a href="#application" id="toc-application" class="nav-link" data-scroll-target="#application">Application</a></li>
   </ul>
 </nav>
     </div>
@@ -301,7 +308,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Session 4 - Difference in Difference</h1>
+<h1 class="title">Session 4 - Difference in Differences</h1>
 </div>
 
 
@@ -326,24 +333,53 @@ window.Quarto = {
 
 <section id="introduction" class="level1">
 <h1>Introduction</h1>
-<p>During this session, you will start using causal inference, specifically, the difference-in-difference method. The session is organised as follows, first a few words about panel data. Then, some theoretical reminders of difference in difference will be presented before learning to code the analysis and finally, we will discuss parallel trend assumptions.</p>
+<p>During this session, you will start using causal inference, specifically, the difference-in-differences method. The session is organised as follows, first a few words about panel data. Then, some theoretical reminders of difference-in-differences will be presented before learning to code the analysis and finally, we will discuss parallel trend assumptions.</p>
 </section>
 <section id="panel-data" class="level1">
 <h1>Panel data</h1>
-<p>Panel data are a specific kind of dataset. It is a dataset where you collect information at different points in time t for the same individuals i. So, panel data are repeated observations of individuals throughout a certain period of time. Panel data is different from the data set where you have an observation for each individual at one point in time because in a panel data, observations are not independent from each other. The different observations of the same individual are not independent. In the regression, we need to take this into account (either by clustering the standard errors or including individual fixed effect).</p>
+<p>Panel data are a specific kind of dataset. It is a dataset where you collect information at different points in time t for the same individuals i. So, panel data are repeated observations of individual throughout a certain period of time. What is particular about panel data compared to other datasets is that the observations are not all independent from each other. Indeed, observations at different times of a same individual are probably correlated due to time-invariant characteristics of the individual. This lack of independence of observations does violate one of the OLS regression assumptions, meaning that your estimated coefficients could be biased. There is a way to take into account this dependence into your model to have a valid estimation of your predictors. You can introduce individual fixed effects in your model. This means that you add into your control variable the variable that tells you to which individual comes the observation. This will control for unobserved and time-invariant characteristics of the individuals that could explain variation in your outcome variable. If you do not want to add individual fixed effects because it controls for too much of your variation, you could also cluster your standard errors at the individual level.</p>
 </section>
-<section id="difference-in-difference-reminders" class="level1">
-<h1>Difference-in-Difference: reminders</h1>
-<p>Difference-in-difference is an analysis that you should use when you want to compare two groups (treated versus control), but the assignment to each group was not random. The lack of randomization makes its hard to say that the difference between the group in terms of outcome is only due to the treatment. Indeed, as assignment is not random, the two groups may be different from the start. Difference-in-Difference is a regression technique that permits causal inference between two groups without a random assignment. This is possible because they look at the effect in terms of change and not levels. Difference-in-difference looks at the difference pre-post treatment in each group and then looks at the difference between treated and non-treated group. While we compare two groups that can be different, this only works if a parallel trend exists between the two groups (see below).</p>
-<p>In more mathematical terms, the difference-in-difference analysis is a regression using time and treatment as independent variables and using a interaction between the two to compute the influence of the treatment on the outcome:</p>
+<section id="difference-in-differences-reminders" class="level1">
+<h1>Difference-in-Differences: reminders</h1>
+<p>In the previous sessions, different regression analyses were seen (OLS, logistic, multinomial). Difference-in-Differences is based on OLS regression. The main difference is that the design of diff-in-diff is made to be able to study causal relationships between variables. While previously, with OLS regression, we studied how an independent variable can influence a dependent variable in diff-in-diff, we are going further by saying an independent variable (usually called treatment) causes the change in the dependent variable.</p>
+<p>How can difference-in-differences infer causality? It is done by comparing two groups: one treatment group and one control group. You are probably wondering, if we have treatment and control groups, why can’t we directly look at the difference in means? The reason is that when you use difference-in-differences, you have observational data and not experimental data. This means that the treatment is not randomly given across your sample. There could be other factors explaining why an individual receives the treatment and not another, meaning that there is no guarantee that the treatment and control groups are similar before the treatment, making it wrong to directly compare the difference in means between the two groups.</p>
+<p>The difference-in-differences technique is able to compare the two groups even if they are not perfectly similar before administering the treatment. The diff-in-diff technique does not look at the effect of the treatment in terms of levels but in terms of change. The idea is to find a control group that has a similar trend to the treatment group before the treatment in terms of the outcome (this is the parallel trend assumption discussed below). Once you have control and treatment groups that behave similarly before the treatment (even if they do not have the same values on the outcome), you can estimate the effect of the treatment by looking at within change of each group across time and then at the difference between the within change of each group. In other words, difference-in-differences looks at the difference pre-post treatment in each group and then looks at the difference between treated and non-treated groups.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th></th>
+<th>Treatment</th>
+<th>Control</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Pre-treatment</td>
+<td>A</td>
+<td>C</td>
+</tr>
+<tr class="even">
+<td>Post-treatment</td>
+<td>B</td>
+<td>D</td>
+</tr>
+</tbody>
+</table>
+<p>So, the within difference is:</p>
+<ul>
+<li><p>for treatment group: B-A</p></li>
+<li><p>for control group: D-C</p></li>
+</ul>
+<p>And the difference between treatment and control is: (B-A)-(D-C).</p>
+<p>In more mathematical terms, the difference-in-differences analysis is a regression using time and treatment as independent variables and using a interaction between the two to compute the influence of the treatment on the outcome:</p>
 <p><span class="math display">\[
 Y= \beta_0+\beta_1 Treatment+ \beta_2 Time+ \beta_3 Treatment*Time +\epsilon
 \]</span></p>
-<p>To compute a difference-in-difference analysis, you need to have panel data. You need to have data before the treatment and after the treatment for both groups. Difference-in-difference is also possible when you have more than one time period or more than two groups.</p>
-<p>As you are using panel data, you need to think about lack of independence of your observations. Depending of the number of groups and number of periods, you may need to cluster your standard errors. If you have individual-level treatment and only 2 periods (only two observations by individuals), you do not need to cluster your errors. If you have group-level treatment and more than two groups, you should cluster your standard errors at the group level. However, if you only have two groups, you should not cluster because in practice it is not possible to get valid inference with only two clusters.</p>
+<p>To compute a difference-in-differences analysis, you need to have panel data. You need to have data before the treatment and after the treatment for both groups. Difference-in-differences is also possible when you have more than one time period or more than two groups.</p>
+<p>As you are using panel data, you need to think about the lack of independence of your observations. Depending on the number of groups and number of periods, you may need to cluster your standard errors. If you have individual-level treatment and only 2 periods (only two observations by individuals), you do not need to cluster your errors. If you have group-level treatment and more than two groups, you should cluster your standard errors at the group level. However, if you only have two groups, you should not cluster because in practice it is not possible to get valid inference with only two clusters. Furthermore, if you use observations from more than two time periods and more than two groups, it may be useful to add fixed effects to your model to control both a time trend and unobserved time-invariant characteristics of your groups.</p>
 </section>
-<section id="difference-in-difference-application" class="level1">
-<h1>Difference-in-Difference: application</h1>
+<section id="difference-in-differences-application" class="level1">
+<h1>Difference-in-Differences: application</h1>
 <section id="in-r" class="level2">
 <h2 class="anchored" data-anchor-id="in-r">In R</h2>
 <p>There are two possibilities, depending on the need to cluster the standard errors.</p>
@@ -353,20 +389,164 @@ Y= \beta_0+\beta_1 Treatment+ \beta_2 Time+ \beta_3 Treatment*Time +\epsilon
 <li><p>fomula: Y ~ Time*Treatment (+controls)</p></li>
 <li><p>data: name of the dataset</p></li>
 </ul>
+<p>In <code>lm()</code> if you want to add time and group fixed effects, you simply need to add them to your formula. The only thing is that when you will compute your regression table, you will get the estimated fixed effect for each time period and group.</p>
 <p>If you do need to cluster, the easiest way is to use the <code>fixest</code> package because in <code>lm</code> you cannot directly command the cluster SE. You should use the <code>feols()</code> function, it works very similarly to <code>lm</code>` but it has more options.</p>
 <p><code>feols(formula|FE,cluster=~group,data)</code>:</p>
 <ul>
 <li><p>fomula: Y ~ Time*Treatment (+controls)</p></li>
-<li><p>FE: fixed effects</p></li>
+<li><p>FE: fixed effects (will not appear in your regression table)</p></li>
 <li><p>cluster=~group: specify that you want clustered SE (if you do not add this argument, you will have IID SE like in lm)</p></li>
 <li><p>data: name of the dataset</p></li>
 </ul>
 <p>With <code>feols</code> function, the <code>stargazer</code> function does not work. You need to use <code>etable()</code>.</p>
 </section>
-<section id="example" class="level2">
-<h2 class="anchored" data-anchor-id="example">Example</h2>
+<section id="example-with-simulated-data" class="level2">
+<h2 class="anchored" data-anchor-id="example-with-simulated-data">Example with simulated data</h2>
+<p>To illustrate the theory, we will use a simulated dataset that can be created with the code below. Imagine you want to study the effect of a new electoral reform throughout a country. Before introducing the electoral reform, the government decided to test the reform in only some regions of the country. The government wants to know if it introduces mail-in voting, will increase voter turnout.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Parameters</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>regions <span class="ot">&lt;-</span> LETTERS[<span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>]   <span class="co"># 20 regions</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>years <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2010</span>, <span class="dv">2014</span>, <span class="dv">2018</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Create panel structure</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">Region =</span> regions, <span class="at">Year =</span> years)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Treatment assignment (half treated)</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>treated_regions <span class="ot">&lt;-</span> regions[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>Treated <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(data<span class="sc">$</span>Region <span class="sc">%in%</span> treated_regions, <span class="dv">1</span>, <span class="dv">0</span>)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Post indicator</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>Post <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(data<span class="sc">$</span>Year <span class="sc">==</span> <span class="dv">2018</span>, <span class="dv">1</span>, <span class="dv">0</span>)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Time trend (common to all regions → ensures parallel trends pre-treatment)</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>TimeTrend <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(data<span class="sc">$</span>Year <span class="sc">==</span> <span class="dv">2010</span>, <span class="dv">0</span>,</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">ifelse</span>(data<span class="sc">$</span>Year <span class="sc">==</span> <span class="dv">2014</span>, <span class="dv">2</span>, <span class="dv">5</span>))</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Region fixed effects (baseline differences)</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>region_fe <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="fu">length</span>(regions), <span class="at">mean =</span> <span class="dv">60</span>, <span class="at">sd =</span> <span class="dv">5</span>)</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(region_fe) <span class="ot">&lt;-</span> regions</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>RegionFE <span class="ot">&lt;-</span> region_fe[data<span class="sc">$</span>Region]</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Treatment effect (only applies in post period for treated units)</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>treatment_effect <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>TreatmentEffect <span class="ot">&lt;-</span> data<span class="sc">$</span>Treated <span class="sc">*</span> data<span class="sc">$</span>Post <span class="sc">*</span> treatment_effect</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Random noise</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>epsilon <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="fu">nrow</span>(data), <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">2</span>)</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="co"># Outcome variable: turnout</span></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>Turnout <span class="ot">&lt;-</span> data<span class="sc">$</span>RegionFE <span class="sc">+</span></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>                data<span class="sc">$</span>TimeTrend <span class="sc">+</span></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>                data<span class="sc">$</span>TreatmentEffect <span class="sc">+</span></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>                data<span class="sc">$</span>epsilon</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a><span class="co"># Keep relevant columns</span></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> data[, <span class="fu">c</span>(<span class="st">"Region"</span>, <span class="st">"Year"</span>, <span class="st">"Treated"</span>, <span class="st">"Post"</span>, <span class="st">"Turnout"</span>)]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Now, we can compute the model. We only use observations from 2014 and 2018.</p>
+<p><span class="math display">\[
+Turnout = \beta_0 + \beta_1 Treated +\beta_2 Post + \beta_3 Treated*Post +\epsilon
+\]</span></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>reg1<span class="ot">&lt;-</span><span class="fu">lm</span>(Turnout<span class="sc">~</span>Post<span class="sc">*</span>Treated,<span class="at">data=</span>data[data<span class="sc">$</span>Year<span class="sc">==</span><span class="dv">2014</span><span class="sc">|</span>data<span class="sc">$</span>Year<span class="sc">==</span><span class="dv">2018</span>,])</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(reg1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = Turnout ~ Post * Treated, data = data[data$Year == 
+    2014 | data$Year == 2018, ])
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-12.5918  -2.8209  -0.4634   3.5886  10.6684 
+
+Coefficients:
+             Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)    63.486      1.694  37.479  &lt; 2e-16 ***
+Post            1.831      2.396   0.764  0.44970    
+Treated        -1.131      2.396  -0.472  0.63975    
+Post:Treated   11.433      3.388   3.375  0.00178 ** 
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 5.357 on 36 degrees of freedom
+Multiple R-squared:  0.5172,    Adjusted R-squared:  0.477 
+F-statistic: 12.86 on 3 and 36 DF,  p-value: 7.305e-06</code></pre>
+</div>
+</div>
+<p>In this case, as we only are comparing only two time periods and only have two observations by region, we do not need to cluster the standard errors.</p>
+<p>How to interpret the model ?</p>
+<ul>
+<li><p><strong>Post</strong>: this estimates the time trend (holding the other factors constant). In this case, the coefficient is not significant, meaning that we do not see a statistically significance difference in turnout due to time (between 2014 and 2018).</p></li>
+<li><p><strong>Treated</strong>: this estimates the difference in turnout between control and treatment groups (holding the other factors constant). In this case, there is no statistically significant difference in voter turnout between the regions where mail-in voting was introduced compared to the other regions.</p></li>
+<li><p><strong>Post x Treated</strong>: this estimates the differential effect of treatment between control and treated groups across time. It shows that there is a significant increase of voter turnout in region with mail-in voting in 2018 compared to the other regions. This shows that introducing mail-in voting does positively increase voter turnout.</p></li>
+</ul>
+</section>
+</section>
+<section id="parallel-trends-assumption" class="level1">
+<h1>Parallel trends assumption</h1>
+<p>The difference-in-differences design is only valid if the parallel trend assumption is valid. The parallel trend assumption is the assumption that before treatment, both the control and treatment had a parallel trend for the outcome variable throughout time. If the parallel trend is wrong, the construction of the counter-factual is wrong, which would create a bias estimator.</p>
+<p>How to check parallel trends?</p>
+<ul>
+<li><p>Graphically</p></li>
+<li><p>Placebo test (run the regression but use another year as treatment year)</p></li>
+</ul>
+<section id="graphically" class="level2">
+<h2 class="anchored" data-anchor-id="graphically">Graphically</h2>
+<p>We can check the parallel trends of our voter turnout example graphically because we also have data about turnout in 2010.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>avg_trends <span class="ot">&lt;-</span> <span class="fu">aggregate</span>(Turnout <span class="sc">~</span> Treated <span class="sc">+</span> Year, data, mean)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(avg_trends,<span class="fu">aes</span>(<span class="at">x=</span>Year,<span class="at">y=</span>Turnout,<span class="at">color=</span><span class="fu">as.factor</span>(Treated)))<span class="sc">+</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>()<span class="sc">+</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">color=</span><span class="st">"Treated"</span>)<span class="sc">+</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="session4_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="placebo-test" class="level2">
+<h2 class="anchored" data-anchor-id="placebo-test">Placebo test</h2>
+<p>A more statistical way to test parallel trends is to do a placebo test. The idea is that there should be no significant interaction effect between the two groups using a different time reference, as no groups would have yet received the treatment. In this case, we can do the placebo test between 2010 and 2014. As you can see, this time, the interaction is not significant, meaning that we cannot reject the parallel trend assumption.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>reg2<span class="ot">&lt;-</span><span class="fu">lm</span>(Turnout<span class="sc">~</span>Year<span class="sc">*</span>Treated,<span class="at">data=</span>data[data<span class="sc">$</span>Year<span class="sc">==</span><span class="dv">2010</span><span class="sc">|</span>data<span class="sc">$</span>Year<span class="sc">==</span><span class="dv">2014</span>,])</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(reg2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = Turnout ~ Year * Treated, data = data[data$Year == 
+    2010 | data$Year == 2014, ])
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-11.6441  -2.9721   0.3436   3.1137  10.4810 
+
+Coefficients:
+              Estimate Std. Error t value Pr(&gt;|t|)
+(Intercept)  -842.4525  1136.2824  -0.741    0.463
+Year            0.4498     0.5648   0.796    0.431
+Treated      -520.9461  1606.9459  -0.324    0.748
+Year:Treated    0.2581     0.7987   0.323    0.748
+
+Residual standard error: 5.051 on 36 degrees of freedom
+Multiple R-squared:  0.08324,   Adjusted R-squared:  0.006845 
+F-statistic:  1.09 on 3 and 36 DF,  p-value: 0.3659</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="application" class="level1">
+<h1>Application</h1>
 <p>In this example (based on <a href="https://luissattelmayer.github.io/quant-2025/session5/session5.html">Luis Sattelmayer</a>), we will use the replication data from the article “Newspapers in Times of Low Advertising Revenues” Angelucci and Cagé, 2019). You can find the data <a href="https://www.openicpsr.org/openicpsr/project/116438/version/V1/view?path=/openicpsr/116438/fcr:versions/V1/data/dta/Angelucci_Cage_AEJMicro_dataset.dta&amp;type=file">here</a>. You need to sign in (you can do it with your institution) to download the data.</p>
-<p>In France 1967, the government introduced advertisements on TV programs. This had a consequence for newspapers: their advertising revenues decreased. Angelucci &amp; Cagé believe that this introduction of advertisements impacted more national newspapers than local newspapers. Their treatment variable is the introduction of advertisements and grouping variable is based on the level of newspaper (national versus local).</p>
+<p>In France 1967, the government introduced advertisements on TV programs. Angelucci &amp; Cagé wonder if this will impact newspaper revenues. They believe that this introduction of advertisements impacted more national newspapers than local newspapers. Their treatment variable is the introduction of advertisements and the grouping variable is based on the level of newspapers (national versus local).</p>
 <p>Codebook:</p>
 <ul>
 <li><p><code>year</code>: The year of the observation</p></li>
@@ -379,37 +559,36 @@ Y= \beta_0+\beta_1 Treatment+ \beta_2 Time+ \beta_3 Treatment*Time +\epsilon
 <li><p><code>after_national</code>: A binary indicator (0 or 1) representing the interaction between a newspaper’s national status and the post-television advertising era. Specifically, it marks the period after a newspaper has started national circulation and also corresponds to times after the introduction or significant increase of television advertising. This variable is designed to capture the combined effects of a newspaper reaching a national audience and the competitive or complementary impacts of television advertising on newspaper revenues or strategies</p></li>
 <li><p><code>ra_cst_div_qtotal</code>: A derived variable representing the advertising revenue per unit of circulation (<code>ra_cst / qtotal</code>). This variable is calculated to assess the efficiency or effectiveness of advertising revenue in relation to the newspaper’s circulation size</p></li>
 </ul>
-<p>You should start by importing the data and clean the data. In this case, the dataset is already quite clean. We just need to create a few variables and transform some variable in factors.</p>
+<p>You should start by importing the data and clean the data. In this case, the dataset is already quite clean. We just need to create a few variables and transform some variables in factors.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(haven)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(haven)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
 ✔ dplyr     1.1.4     ✔ readr     2.1.6
 ✔ forcats   1.0.1     ✔ stringr   1.6.0
-✔ ggplot2   4.0.1     ✔ tibble    3.3.1
-✔ lubridate 1.9.4     ✔ tidyr     1.3.2
-✔ purrr     1.2.1     
+✔ lubridate 1.9.4     ✔ tibble    3.3.1
+✔ purrr     1.2.1     ✔ tidyr     1.3.2
 ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ✖ dplyr::filter() masks stats::filter()
 ✖ dplyr::lag()    masks stats::lag()
 ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>newspapers <span class="ot">&lt;-</span> <span class="fu">read_dta</span>(<span class="st">"data/Angelucci_Cage_AEJMicro_dataset.dta"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>newspapers <span class="ot">&lt;-</span> <span class="fu">read_dta</span>(<span class="st">"data/Angelucci_Cage_AEJMicro_dataset.dta"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>newspapers <span class="ot">&lt;-</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  newspapers <span class="sc">|&gt;</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    year, id_news, after_national, local, national, ra_cst, ps_cst, qtotal</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span> </span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">ra_cst_div_qtotal =</span> ra_cst <span class="sc">/</span> qtotal, </span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">after_national =</span>  <span class="fu">if_else</span>(year <span class="sc">&gt;</span> <span class="dv">1967</span>, <span class="dv">1</span>, <span class="dv">0</span>),</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">after_national_placebo =</span> <span class="fu">if_else</span>(year <span class="sc">&gt;=</span> <span class="dv">1966</span>, <span class="dv">1</span>, <span class="dv">0</span>),</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>         <span class="fu">across</span>(<span class="fu">c</span>(id_news, local, national, after_national), as.factor),</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>         <span class="at">year =</span> <span class="fu">as.factor</span>(year)) </span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(newspapers)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>newspapers <span class="ot">&lt;-</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  newspapers <span class="sc">|&gt;</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    year, id_news, after_national, local, national, ra_cst, ps_cst, qtotal</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span> </span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">ra_cst_div_qtotal =</span> ra_cst <span class="sc">/</span> qtotal, </span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">after_national =</span>  <span class="fu">if_else</span>(year <span class="sc">&gt;</span> <span class="dv">1967</span>, <span class="dv">1</span>, <span class="dv">0</span>),</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">after_national_placebo =</span> <span class="fu">if_else</span>(year <span class="sc">&gt;=</span> <span class="dv">1966</span>, <span class="dv">1</span>, <span class="dv">0</span>),</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>         <span class="fu">across</span>(<span class="fu">c</span>(id_news, local, national, after_national), as.factor),</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>         <span class="at">year =</span> <span class="fu">as.factor</span>(year)) </span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(newspapers)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 1,196
 Columns: 10
@@ -425,68 +604,12 @@ $ ra_cst_div_qtotal      &lt;dbl&gt; 559.8152, 587.8276, 666.3098, 698.3674, 734
 $ after_national_placebo &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0,…</code></pre>
 </div>
 </div>
-<p>Now, we can build the model. We use the logarithm of the advertising revenue (to help normalise the distribution of our variable). Next, we need to include the time and treatment variable so, national and after_national variable. Do not forget that you need the interaction effect.</p>
+<p>Now, we can build the model. We use the logarithm of the advertising revenue (to help normalise the distribution of our variable). Next, we need to include the time and treatment variables so, national and after_national variable. Do not forget that you need the interaction effect. Furthermore, as we are using the whole dataset (observations from every year), we should introduce a fixed effect for year to control for linear time trends that would affect all newspapers. Finally, as we are comparing different newspapers over more than two years, we should also include a fixed effect for the newspaper. This would control for all unobserved and time-invariant differences between newspapers.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>did <span class="ot">&lt;-</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lm</span>(<span class="fu">log</span>(ra_cst) <span class="sc">~</span> national<span class="sc">*</span>after_national,</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">data =</span> newspapers)</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(did)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-Call:
-lm(formula = log(ra_cst) ~ national * after_national, data = newspapers)
-
-Residuals:
-    Min      1Q  Median      3Q     Max 
--4.2208 -0.8889 -0.0851  1.1601  2.5164 
-
-Coefficients:
-                          Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept)               17.08465    0.06495 263.044  &lt; 2e-16 ***
-national1                  1.31283    0.15970   8.221 5.93e-16 ***
-after_national1            0.35330    0.09170   3.853 0.000124 ***
-national1:after_national1 -0.28740    0.23527  -1.222 0.222140    
----
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-
-Residual standard error: 1.369 on 1048 degrees of freedom
-  (144 observations deleted due to missingness)
-Multiple R-squared:  0.09797,   Adjusted R-squared:  0.09539 
-F-statistic: 37.94 on 3 and 1048 DF,  p-value: &lt; 2.2e-16</code></pre>
-</div>
-</div>
-<p>This is a very simple model. However, as we have panel data over more than two time periods for several newspapers, we should cluster at the newspaper level.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fixest)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>did2<span class="ot">&lt;-</span><span class="fu">feols</span>(<span class="fu">log</span>(ra_cst) <span class="sc">~</span> national<span class="sc">*</span>after_national,</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">cluster=</span><span class="sc">~</span>id_news,</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">data =</span> newspapers)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>NOTE: 144 observations removed because of NA values (LHS: 144, RHS: 1).</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">etable</span>(did2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>                                          did2
-Dependent Var.:                    log(ra_cst)
-                                              
-Constant                     17.08*** (0.1666)
-national1                     1.313** (0.4246)
-after_national1             0.3533*** (0.0792)
-national1 x after_national1   -0.2874 (0.2092)
-___________________________ __________________
-S.E.: Clustered                    by: id_news
-Observations                             1,052
-R2                                     0.09797
-Adj. R2                                0.09539
----
-Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
-</div>
-</div>
-<p>Finally, as we are using the whole dataset (observations from every year), we should introduce a fixed effect for year to control for linear time trends that would affect all newspapers. Furthermore, as we are comparing different newspapers over more than two years, we should also include a fixed effect for the newspaper. This would control for all unobserved and time-invariant differences between newspapers.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>did3<span class="ot">&lt;-</span><span class="fu">feols</span>(<span class="fu">log</span>(ra_cst) <span class="sc">~</span> national<span class="sc">*</span>after_national<span class="sc">|</span>year<span class="sc">+</span>id_news,</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">cluster=</span><span class="sc">~</span>id_news,</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">data =</span> newspapers)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fixest)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>did<span class="ot">&lt;-</span><span class="fu">feols</span>(<span class="fu">log</span>(ra_cst) <span class="sc">~</span> national<span class="sc">*</span>after_national<span class="sc">|</span>year<span class="sc">+</span>id_news,</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">cluster=</span><span class="sc">~</span>id_news,</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">data =</span> newspapers)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>NOTE: 144 observations removed because of NA values (LHS: 144, RHS: 1).</code></pre>
 </div>
@@ -494,9 +617,9 @@ Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <pre><code>The variables 'national1' and 'after_national1' have been removed because of
 collinearity (see $collin.var).</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">etable</span>(did3)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">etable</span>(did)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>                                         did3
+<pre><code>                                          did
 Dependent Var.:                   log(ra_cst)
                                              
 national1 x after_national1 -0.2175. (0.1164)
@@ -512,82 +635,13 @@ Within R2                             0.04730
 Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 </div>
-<p>Now, we can interpret our results. As you can see, the national and after_national variables were dropped, this is because of collinearity. In this case, we have collinearity because we add time and id fixed effect which capture both national and after_national information. So, the model only keeps the interaction. When you use <code>feols()</code> the function drops automatically variables that are collinear. This is not the case with <code>lm()</code>. Futhermore, we see that the coefficient is negative, meaning that the introduction of adds did decrease revenues amongst national newspapers. However, this coefficient is not statistically significant, meaning that we cannot infer our results to the whole French newspapers population.</p>
-<p>If we compare the three models, you can see that between model 1 and 2, the only differences are the standard errors (between parenthesis), the difference being that we clustered the standard errors. However, model 3 is different because we added two fixed effects.</p>
+<p>Now, we can interpret our results. As you can see, the national and after_national variables were dropped, this is because of collinearity. In this case, we have collinearity because we add time and newspaper fixed effects which capture both national and after_national information. So, the model only keeps the interaction. When you use <code>feols()</code> the function automatically drops variables that are collinear. This is not the case with <code>lm()</code>. Furthermore, we see that the coefficient is negative, meaning that the introduction of ads did decrease revenues among national newspapers. However, this coefficient is not statistically significant, meaning that we cannot infer our results to the whole French newspaper population.</p>
+<p>We can do a placebo test. Here, the interaction coefficient is not significant, meaning that we cannot reject the parallel trend assumption. As we have more than one year before the treatment, you should do more than one placebo test.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>did1 <span class="ot">&lt;-</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">feols</span>(<span class="fu">log</span>(ra_cst) <span class="sc">~</span> national<span class="sc">*</span>after_national,</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">data =</span> newspapers)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>NOTE: 144 observations removed because of NA values (LHS: 144, RHS: 1).</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">etable</span>(did1,did2,did3)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>                                          did1               did2
-Dependent Var.:                    log(ra_cst)        log(ra_cst)
-                                                                 
-Constant                     17.08*** (0.0649)  17.08*** (0.1666)
-national1                    1.313*** (0.1597)   1.313** (0.4246)
-after_national1             0.3533*** (0.0917) 0.3533*** (0.0792)
-national1 x after_national1   -0.2874 (0.2353)   -0.2874 (0.2092)
-Fixed-Effects:              ------------------ ------------------
-year                                        No                 No
-id_news                                     No                 No
-___________________________ __________________ __________________
-S.E. type                                  IID        by: id_news
-Observations                             1,052              1,052
-R2                                     0.09797            0.09797
-Within R2                                   --                 --
-
-                                         did3
-Dependent Var.:                   log(ra_cst)
-                                             
-Constant                                     
-national1                                    
-after_national1                              
-national1 x after_national1 -0.2175. (0.1164)
-Fixed-Effects:              -----------------
-year                                      Yes
-id_news                                   Yes
-___________________________ _________________
-S.E. type                         by: id_news
-Observations                            1,052
-R2                                    0.98576
-Within R2                             0.04730
----
-Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
-</div>
-</div>
-</section>
-</section>
-<section id="parallel-trends-assumption" class="level1">
-<h1>Parallel trends assumption</h1>
-<p>The difference-in-difference design is only valid if the parallel trend assumption is valid. The parallel trend assumption is the assumption that before treatment, both the control and treatment had a parallel trend for the outcome variable throughout time. If the parallel trend is wrong, the construction of the counter-factual is wrong, which would create a bias estimator.</p>
-<p>How to check parallel trends?</p>
-<ul>
-<li><p>Graphically</p></li>
-<li><p>Run the regression but test the interaction effect between the two groups before the treatment effect happened</p></li>
-</ul>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>avg_trends <span class="ot">&lt;-</span> <span class="fu">aggregate</span>(ra_cst <span class="sc">~</span> national <span class="sc">+</span> year, newspapers, mean)</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(avg_trends,<span class="fu">aes</span>(<span class="at">x=</span>year,<span class="at">y=</span>ra_cst,<span class="at">color=</span>national))<span class="sc">+</span></span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Revenues"</span>)<span class="sc">+</span></span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="session4_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>did_placebo <span class="ot">&lt;-</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">feols</span>(<span class="fu">log</span>(ra_cst) <span class="sc">~</span> national <span class="sc">*</span> after_national_placebo <span class="sc">|</span> year <span class="sc">+</span> id_news,</span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">cluster=</span><span class="sc">~</span>id_news,</span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">data =</span> newspapers)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>did_placebo <span class="ot">&lt;-</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">feols</span>(<span class="fu">log</span>(ra_cst) <span class="sc">~</span> national <span class="sc">*</span> after_national_placebo <span class="sc">|</span> year <span class="sc">+</span> id_news,</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">cluster=</span><span class="sc">~</span>id_news,</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">data =</span> newspapers)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>NOTE: 144 observations removed because of NA values (LHS: 144, RHS: 1).</code></pre>
 </div>
@@ -595,7 +649,7 @@ Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <pre><code>The variables 'national1' and 'after_national_placebo' have been removed because
 of collinearity (see $collin.var).</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">etable</span>(did_placebo)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">etable</span>(did_placebo)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                                         did_placebo
 Dependent Var.:                          log(ra_cst)

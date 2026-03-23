@@ -6,8 +6,8 @@
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="../../site_libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.8.27">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.9.36">
 
   <meta name="author" content="Jessica De Rongé &amp; Paul Servais">
   <title>Quantitative methods II – Session 3: Multinomial Regression</title>
@@ -17,6 +17,9 @@
   <link rel="stylesheet" href="../../site_libs/revealjs/dist/reset.css">
   <link rel="stylesheet" href="../../site_libs/revealjs/dist/reveal.css">
   <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
     div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -95,7 +98,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="../../site_libs/revealjs/dist/theme/quarto-534cd8e3a96973385dffff3f4709048d.css">
+  <link rel="stylesheet" href="../../site_libs/revealjs/dist/theme/quarto-2740581606dc327e82f18f789b69d8a0.css">
   <link href="../../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="../../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="../../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -595,23 +598,23 @@ Vox     4.8434070 0.9459258 0.9434965 2.9316757</code></pre>
 
     <script>
       // Create table-specific functions using external factory
-      const tableFns_j2na8mo79z8fk6hdze8u = TinyTable.createTableFunctions("tinytable_j2na8mo79z8fk6hdze8u");
+      const tableFns_ok7dx1li81vfstmkinsh = TinyTable.createTableFunctions("tinytable_ok7dx1li81vfstmkinsh");
       // tinytable span after
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: '6', j: 3 }, { i: '6', j: 4 }, { i: '6', j: 5 } ], css_id: 'tinytable_css_cdt2wbp4olvnhkfygppq',}, 
-          { positions: [ { i: '1', j: 3 }, { i: '2', j: 3 }, { i: '3', j: 3 }, { i: '4', j: 3 }, { i: '5', j: 3 }, { i: '1', j: 4 }, { i: '2', j: 4 }, { i: '3', j: 4 }, { i: '4', j: 4 }, { i: '5', j: 4 }, { i: '1', j: 5 }, { i: '2', j: 5 }, { i: '3', j: 5 }, { i: '4', j: 5 }, { i: '5', j: 5 } ], css_id: 'tinytable_css_d1e0xmw1toag902fjnn0',}, 
-          { positions: [ { i: '0', j: 3 }, { i: '0', j: 4 }, { i: '0', j: 5 } ], css_id: 'tinytable_css_5l5og6njfkfuimv8792u',}, 
-          { positions: [ { i: '6', j: 1 }, { i: '6', j: 2 } ], css_id: 'tinytable_css_y5ct8ereolkyvpxrvfrk',}, 
-          { positions: [ { i: '1', j: 1 }, { i: '2', j: 1 }, { i: '3', j: 1 }, { i: '4', j: 1 }, { i: '5', j: 1 }, { i: '1', j: 2 }, { i: '2', j: 2 }, { i: '3', j: 2 }, { i: '4', j: 2 }, { i: '5', j: 2 } ], css_id: 'tinytable_css_g4in46hg0jxv0zij5o34',}, 
-          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 } ], css_id: 'tinytable_css_me7kx606io4og7jee2u0',}, 
+          { positions: [ { i: '6', j: 3 }, { i: '6', j: 4 }, { i: '6', j: 5 } ], css_id: 'tinytable_css_yxpy3uwvkd0mbvoisc0o',}, 
+          { positions: [ { i: '1', j: 3 }, { i: '2', j: 3 }, { i: '3', j: 3 }, { i: '4', j: 3 }, { i: '5', j: 3 }, { i: '1', j: 4 }, { i: '2', j: 4 }, { i: '3', j: 4 }, { i: '4', j: 4 }, { i: '5', j: 4 }, { i: '1', j: 5 }, { i: '2', j: 5 }, { i: '3', j: 5 }, { i: '4', j: 5 }, { i: '5', j: 5 } ], css_id: 'tinytable_css_lceg35klmkr7uzsqz60b',}, 
+          { positions: [ { i: '0', j: 3 }, { i: '0', j: 4 }, { i: '0', j: 5 } ], css_id: 'tinytable_css_kiybew4e43hv4zfik2bc',}, 
+          { positions: [ { i: '6', j: 1 }, { i: '6', j: 2 } ], css_id: 'tinytable_css_glf4zchd8l7r4w47qui6',}, 
+          { positions: [ { i: '1', j: 1 }, { i: '2', j: 1 }, { i: '3', j: 1 }, { i: '4', j: 1 }, { i: '5', j: 1 }, { i: '1', j: 2 }, { i: '2', j: 2 }, { i: '3', j: 2 }, { i: '4', j: 2 }, { i: '5', j: 2 } ], css_id: 'tinytable_css_uv3wd4x87kzv72d9ce7n',}, 
+          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 } ], css_id: 'tinytable_css_mujjdpirff7n7ebqiwz9',}, 
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  tableFns_j2na8mo79z8fk6hdze8u.styleCell(cell.i, cell.j, group.css_id);
+                  tableFns_ok7dx1li81vfstmkinsh.styleCell(cell.i, cell.j, group.css_id);
               });
           });
       });
@@ -620,15 +623,15 @@ Vox     4.8434070 0.9459258 0.9434965 2.9316757</code></pre>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.css">
     <style>
     /* tinytable css entries after */
-    #tinytable_j2na8mo79z8fk6hdze8u td.tinytable_css_cdt2wbp4olvnhkfygppq, #tinytable_j2na8mo79z8fk6hdze8u th.tinytable_css_cdt2wbp4olvnhkfygppq {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
-    #tinytable_j2na8mo79z8fk6hdze8u td.tinytable_css_d1e0xmw1toag902fjnn0, #tinytable_j2na8mo79z8fk6hdze8u th.tinytable_css_d1e0xmw1toag902fjnn0 { text-align: center }
-    #tinytable_j2na8mo79z8fk6hdze8u td.tinytable_css_5l5og6njfkfuimv8792u, #tinytable_j2na8mo79z8fk6hdze8u th.tinytable_css_5l5og6njfkfuimv8792u {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
-    #tinytable_j2na8mo79z8fk6hdze8u td.tinytable_css_y5ct8ereolkyvpxrvfrk, #tinytable_j2na8mo79z8fk6hdze8u th.tinytable_css_y5ct8ereolkyvpxrvfrk {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
-    #tinytable_j2na8mo79z8fk6hdze8u td.tinytable_css_g4in46hg0jxv0zij5o34, #tinytable_j2na8mo79z8fk6hdze8u th.tinytable_css_g4in46hg0jxv0zij5o34 { text-align: left }
-    #tinytable_j2na8mo79z8fk6hdze8u td.tinytable_css_me7kx606io4og7jee2u0, #tinytable_j2na8mo79z8fk6hdze8u th.tinytable_css_me7kx606io4og7jee2u0 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
+    #tinytable_ok7dx1li81vfstmkinsh td.tinytable_css_yxpy3uwvkd0mbvoisc0o, #tinytable_ok7dx1li81vfstmkinsh th.tinytable_css_yxpy3uwvkd0mbvoisc0o {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
+    #tinytable_ok7dx1li81vfstmkinsh td.tinytable_css_lceg35klmkr7uzsqz60b, #tinytable_ok7dx1li81vfstmkinsh th.tinytable_css_lceg35klmkr7uzsqz60b { text-align: center }
+    #tinytable_ok7dx1li81vfstmkinsh td.tinytable_css_kiybew4e43hv4zfik2bc, #tinytable_ok7dx1li81vfstmkinsh th.tinytable_css_kiybew4e43hv4zfik2bc {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
+    #tinytable_ok7dx1li81vfstmkinsh td.tinytable_css_glf4zchd8l7r4w47qui6, #tinytable_ok7dx1li81vfstmkinsh th.tinytable_css_glf4zchd8l7r4w47qui6 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
+    #tinytable_ok7dx1li81vfstmkinsh td.tinytable_css_uv3wd4x87kzv72d9ce7n, #tinytable_ok7dx1li81vfstmkinsh th.tinytable_css_uv3wd4x87kzv72d9ce7n { text-align: left }
+    #tinytable_ok7dx1li81vfstmkinsh td.tinytable_css_mujjdpirff7n7ebqiwz9, #tinytable_ok7dx1li81vfstmkinsh th.tinytable_css_mujjdpirff7n7ebqiwz9 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
     </style>
     <div class="container">
-      <table class="tinytable" id="tinytable_j2na8mo79z8fk6hdze8u" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="tinytable" id="tinytable_ok7dx1li81vfstmkinsh" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
         <caption>Multinomial Regression Results</caption>
         <thead>
               <tr>
@@ -782,23 +785,23 @@ Note:               *p&lt;0.1; **p&lt;0.05; ***p&lt;0.01</code></pre>
 
     <script>
       // Create table-specific functions using external factory
-      const tableFns_rsnef8vfbusb3r2m856m = TinyTable.createTableFunctions("tinytable_rsnef8vfbusb3r2m856m");
+      const tableFns_b4eo00rsq550l3ut44se = TinyTable.createTableFunctions("tinytable_b4eo00rsq550l3ut44se");
       // tinytable span after
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: '6', j: 3 }, { i: '6', j: 4 }, { i: '6', j: 5 } ], css_id: 'tinytable_css_oieums3vtspl6bdkgm5p',}, 
-          { positions: [ { i: '1', j: 3 }, { i: '2', j: 3 }, { i: '3', j: 3 }, { i: '4', j: 3 }, { i: '5', j: 3 }, { i: '1', j: 4 }, { i: '2', j: 4 }, { i: '3', j: 4 }, { i: '4', j: 4 }, { i: '5', j: 4 }, { i: '1', j: 5 }, { i: '2', j: 5 }, { i: '3', j: 5 }, { i: '4', j: 5 }, { i: '5', j: 5 } ], css_id: 'tinytable_css_io6zgikresis6xf9hr3e',}, 
-          { positions: [ { i: '0', j: 3 }, { i: '0', j: 4 }, { i: '0', j: 5 } ], css_id: 'tinytable_css_fcge8yfs49i981aw3ouy',}, 
-          { positions: [ { i: '6', j: 1 }, { i: '6', j: 2 } ], css_id: 'tinytable_css_rs5ca9k0b6zl6txih47j',}, 
-          { positions: [ { i: '1', j: 1 }, { i: '2', j: 1 }, { i: '3', j: 1 }, { i: '4', j: 1 }, { i: '5', j: 1 }, { i: '1', j: 2 }, { i: '2', j: 2 }, { i: '3', j: 2 }, { i: '4', j: 2 }, { i: '5', j: 2 } ], css_id: 'tinytable_css_r1pwe5htv9ar4fow7j2r',}, 
-          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 } ], css_id: 'tinytable_css_5zt6k5x57295cb0ttc6y',}, 
+          { positions: [ { i: '6', j: 3 }, { i: '6', j: 4 }, { i: '6', j: 5 } ], css_id: 'tinytable_css_xaoonyovn61435bcuulo',}, 
+          { positions: [ { i: '1', j: 3 }, { i: '2', j: 3 }, { i: '3', j: 3 }, { i: '4', j: 3 }, { i: '5', j: 3 }, { i: '1', j: 4 }, { i: '2', j: 4 }, { i: '3', j: 4 }, { i: '4', j: 4 }, { i: '5', j: 4 }, { i: '1', j: 5 }, { i: '2', j: 5 }, { i: '3', j: 5 }, { i: '4', j: 5 }, { i: '5', j: 5 } ], css_id: 'tinytable_css_rc4ikimv2c6766iz66ww',}, 
+          { positions: [ { i: '0', j: 3 }, { i: '0', j: 4 }, { i: '0', j: 5 } ], css_id: 'tinytable_css_p0pi3ib7jib2jpmpqt5v',}, 
+          { positions: [ { i: '6', j: 1 }, { i: '6', j: 2 } ], css_id: 'tinytable_css_kfdlcbry32qir92abn6i',}, 
+          { positions: [ { i: '1', j: 1 }, { i: '2', j: 1 }, { i: '3', j: 1 }, { i: '4', j: 1 }, { i: '5', j: 1 }, { i: '1', j: 2 }, { i: '2', j: 2 }, { i: '3', j: 2 }, { i: '4', j: 2 }, { i: '5', j: 2 } ], css_id: 'tinytable_css_nbugpp9kdvgdqzuqcw93',}, 
+          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 } ], css_id: 'tinytable_css_dhak4xdb0p9k6h82at6w',}, 
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  tableFns_rsnef8vfbusb3r2m856m.styleCell(cell.i, cell.j, group.css_id);
+                  tableFns_b4eo00rsq550l3ut44se.styleCell(cell.i, cell.j, group.css_id);
               });
           });
       });
@@ -807,15 +810,15 @@ Note:               *p&lt;0.1; **p&lt;0.05; ***p&lt;0.01</code></pre>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.css">
     <style>
     /* tinytable css entries after */
-    #tinytable_rsnef8vfbusb3r2m856m td.tinytable_css_oieums3vtspl6bdkgm5p, #tinytable_rsnef8vfbusb3r2m856m th.tinytable_css_oieums3vtspl6bdkgm5p {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
-    #tinytable_rsnef8vfbusb3r2m856m td.tinytable_css_io6zgikresis6xf9hr3e, #tinytable_rsnef8vfbusb3r2m856m th.tinytable_css_io6zgikresis6xf9hr3e { text-align: center }
-    #tinytable_rsnef8vfbusb3r2m856m td.tinytable_css_fcge8yfs49i981aw3ouy, #tinytable_rsnef8vfbusb3r2m856m th.tinytable_css_fcge8yfs49i981aw3ouy {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
-    #tinytable_rsnef8vfbusb3r2m856m td.tinytable_css_rs5ca9k0b6zl6txih47j, #tinytable_rsnef8vfbusb3r2m856m th.tinytable_css_rs5ca9k0b6zl6txih47j {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
-    #tinytable_rsnef8vfbusb3r2m856m td.tinytable_css_r1pwe5htv9ar4fow7j2r, #tinytable_rsnef8vfbusb3r2m856m th.tinytable_css_r1pwe5htv9ar4fow7j2r { text-align: left }
-    #tinytable_rsnef8vfbusb3r2m856m td.tinytable_css_5zt6k5x57295cb0ttc6y, #tinytable_rsnef8vfbusb3r2m856m th.tinytable_css_5zt6k5x57295cb0ttc6y {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
+    #tinytable_b4eo00rsq550l3ut44se td.tinytable_css_xaoonyovn61435bcuulo, #tinytable_b4eo00rsq550l3ut44se th.tinytable_css_xaoonyovn61435bcuulo {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
+    #tinytable_b4eo00rsq550l3ut44se td.tinytable_css_rc4ikimv2c6766iz66ww, #tinytable_b4eo00rsq550l3ut44se th.tinytable_css_rc4ikimv2c6766iz66ww { text-align: center }
+    #tinytable_b4eo00rsq550l3ut44se td.tinytable_css_p0pi3ib7jib2jpmpqt5v, #tinytable_b4eo00rsq550l3ut44se th.tinytable_css_p0pi3ib7jib2jpmpqt5v {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
+    #tinytable_b4eo00rsq550l3ut44se td.tinytable_css_kfdlcbry32qir92abn6i, #tinytable_b4eo00rsq550l3ut44se th.tinytable_css_kfdlcbry32qir92abn6i {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
+    #tinytable_b4eo00rsq550l3ut44se td.tinytable_css_nbugpp9kdvgdqzuqcw93, #tinytable_b4eo00rsq550l3ut44se th.tinytable_css_nbugpp9kdvgdqzuqcw93 { text-align: left }
+    #tinytable_b4eo00rsq550l3ut44se td.tinytable_css_dhak4xdb0p9k6h82at6w, #tinytable_b4eo00rsq550l3ut44se th.tinytable_css_dhak4xdb0p9k6h82at6w {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
     </style>
     <div class="container">
-      <table class="tinytable" id="tinytable_rsnef8vfbusb3r2m856m" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="tinytable" id="tinytable_b4eo00rsq550l3ut44se" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
         <caption>Multinomial Regression Results</caption>
         <thead>
               <tr>

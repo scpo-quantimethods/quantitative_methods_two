@@ -2,13 +2,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.32">
+<meta name="generator" content="quarto-1.9.36">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Exercices 4 - Difference in Difference – Quantitative methods II</title>
+<title>Exercises 4 - Difference in Differences – Quantitative methods II</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -37,10 +40,10 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-c1fac2584b48ed01fb6e278e36375074.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dea667461a5c81afc9ba75ce94cd63f3.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -116,6 +119,10 @@ ul.task-list li input[type="checkbox"] {
     <a class="dropdown-item" href="../../sessions/session3/session3.html">
  <span class="dropdown-text">Session 3: Multinomial regressions</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../../sessions/session4/session4.html">
+ <span class="dropdown-text">Session 4: Difference-in-differences</span></a>
+  </li>  
     </ul>
   </li>
   <li class="nav-item">
@@ -140,6 +147,10 @@ ul.task-list li input[type="checkbox"] {
     <a class="dropdown-item" href="../../exercices/exercices3/exercices3.html">
  <span class="dropdown-text">Exercices 3: Multinomial regressions</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../../exercices/exercices4/exercices4.qmd">
+ <span class="dropdown-text">Exercices 4 : Difference-in-differences</span></a>
+  </li>  
     </ul>
   </li>
   <li class="nav-item">
@@ -163,6 +174,10 @@ ul.task-list li input[type="checkbox"] {
         <li>
     <a class="dropdown-item" href="../../slides/session3/session3.html">
  <span class="dropdown-text">Slides - session 3</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../slides/session4/session4.qmd">
+ <span class="dropdown-text">Slides - session 4</span></a>
   </li>  
     </ul>
   </li>
@@ -217,7 +232,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Exercices 4 - Difference in Difference</h1>
+<h1 class="title">Exercises 4 - Difference in Differences</h1>
 </div>
 
 
@@ -328,17 +343,17 @@ ul.task-list li input[type="checkbox"] {
 <li>Check out the parallel assumption by running a diff-in-diff between 2018 and 2020</li>
 </ol>
 <ol start="5" type="1">
-<li>Produce the difference-in-difference analysis</li>
+<li>Produce the difference-in-differences analysis</li>
 </ol>
 </section>
 <section id="exercise-3" class="level1">
 <h1>Exercise 3</h1>
-<p>In 2019, some cities decided to introduce a smoking ban on the terraces of bars and restaurants (simulated example). We want to analyse the effect of the smoking ban on the number of hospitalisations linked to respiratory disease. Use the smoking dataset <a href="https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/exercices/exercices4/data/emissions.RData" class="uri">https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/exercices/exercices4/data/emissions.RData</a>.</p>
+<p>In 2019, some cities decided to introduce a smoking ban on the terraces of bars and restaurants (simulated example). We want to analyse the effect of the smoking ban on the number of hospitalisations linked to respiratory disease. Use the smoking dataset <a href="https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/exercices/exercices4/data/smoking.RData" class="uri">https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/exercices/exercices4/data/smoking.RData</a>.</p>
 <ol type="1">
 <li>Compare the means of the outcome variable (called hospital_admissions) between treated and non-treated cities (variable treated) for the years 2018 and 2020 (before and after treatment, variable years or post).</li>
 </ol>
 <ol start="2" type="1">
-<li>Produce the difference-in-difference analysis</li>
+<li>Produce the difference-in-differences analysis</li>
 </ol>
 
 
@@ -400,13 +415,14 @@ ul.task-list li input[type="checkbox"] {
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
@@ -421,7 +437,7 @@ ul.task-list li input[type="checkbox"] {
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp('/' + window.location.host + '/');
+        var filterRegex = new RegExp("https:\/\/scpo-quantimethods\.github\.io\/quantitative_methods_two\/");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
