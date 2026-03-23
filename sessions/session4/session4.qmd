@@ -207,7 +207,7 @@ You should start by importing the data and clean the data. In this case, the dat
 ```{r}
 library(haven)
 library(tidyverse)
-newspapers <- read_dta("Angelucci_Cage_AEJMicro_dataset.dta")
+newspapers <- read_dta("data/Angelucci_Cage_AEJMicro_dataset.dta")
 ```
 
 ```{r}
