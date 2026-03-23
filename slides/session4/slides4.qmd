@@ -7,21 +7,21 @@ execute:
 editor: visual
 ---
 
-## Last session
+## Last sessions
 
-How to write a research paper
-
-Multinomial regression
+- Logistic regression
+- How to write a research paper
+- Multinomial regression
 
 ------------------------------------------------------------------------
 
 ## This week
 
-Rmarkdown
+- Rmarkdown/Quarto
 
-Difference-in-Differences
+- Difference-in-Differences
 
-Homework
+- Homework
 
 ------------------------------------------------------------------------
 
@@ -31,11 +31,16 @@ Homework
 
 ## Rmarkdown
 
-Rmarkdown are a type of document that can contains both executable code (like R) and formatted text (like word) in one single document. Rmarkdown permits to create high quality report, where you can easily update your analysis.
+- Rmarkdown are a type of document with:
 
-Rmardown uses the (Pandoc) Markdown language to create the output (PDF, HTML, workd, etc.).
+- executable code (like R)
+- formatted text (like word) in one single document. 
 
-To use Rmarkdown, you need to have the `rmardown` package and the `knitr` package installed in Rstudio (normally, it is automatically installed when you installed Rstudio).
+- Rmarkdown permits to create high quality report, where you can easily update your analysis.
+
+- Rmardown uses the (Pandoc) Markdown language to create the output (PDF, HTML, workd, etc.).
+
+- To use Rmarkdown, you need to have the `rmarkdown` package and the `knitr` package installed in RStudio
 
 ------------------------------------------------------------------------
 
@@ -186,7 +191,7 @@ Is there something specific you need to do when using panel data in regression?
 
 -   Observations are not independent
 
--   Use individual fixed effects or cluster SE
+-   Use individual fixed effects and cluster SE
 
 ------------------------------------------------------------------------
 
@@ -212,17 +217,95 @@ Which type of data do you need?
 
 =\> Measure the causal effect of a treatment in terms of change and not levels
 
+
+## Difference-in-Differences
+
+```{r}
+#| echo: false
+# Load library
+library(ggplot2)
+
+# Time periods
+time <- -5:5
+
+# Control group trend
+control <- 2 + 0.5 * time
+
+# Treatment group: parallel pre-treatment trend with baseline shift, add treatment effect after Year 0
+treatment <- 3 + 0.5 * time            # starts higher than control but same slope
+treatment[time >= 0] <- treatment[time >= 0] + 2  # add treatment effect after Year 0
+
+# Counterfactual for treatment group (if no treatment)
+counterfactual <- 3 + 0.5 * time       # continues pre-treatment slope
+
+# Create data frame for ggplot
+df <- data.frame(
+  Time = rep(time, 3),
+  Outcome = c(control, treatment, counterfactual),
+  Group = factor(rep(c("Control Group", "Treatment Group", "Counterfactual"), each = length(time)),
+                 levels = c("Control Group", "Treatment Group", "Counterfactual"))
+)
+
+# Plot
+ggplot(df, aes(x = Time, y = Outcome, color = Group, linetype = Group)) +
+  geom_line(size = 1.2) +
+  scale_color_manual(values = c("blue", "red", "red")) +
+  scale_linetype_manual(values = c("solid", "solid", "dashed")) +
+  geom_vline(xintercept = 0, linetype = "dotted", color = "gray", size = 1) +
+  annotate("text", x = 0.5, y = max(treatment) - 1, label = "Treatment starts", angle = 90, color = "gray") +
+  labs(title = "Difference-in-Differences Illustration (Parallel Pre-Treatment Trends)",
+       x = "Time (Years)",
+       y = "Outcome") +
+  theme_minimal() +
+  theme(text = element_text(size = 14))
+```
+
+------------------------------------------------------------------------
+
+## In applied research
+- Assessing the impact of Medicare on mortality rates (Miller et al, 2021)
+
+::: {.column width="100%"}
+![](image/medicare.png)
+:::
+
+------------------------------------------------------------------------
+
+## In applied research
+- Assessing the impact of wind turbine installations on the vote for the far-right
+
+:::: {.columns}
+
+::: {.column width="50%"}
+![](image/controls.png)
+:::
+
+::: {.column width="50%"}
+![](image/parallel_trend.png)
+:::
+
+::::
+------------------------------------------------------------------------
+
+## Event-study
+
+![](image/event_study.png){fig-align="center"}
+
+
 ------------------------------------------------------------------------
 
 ## Difference-in-Differences
 
 $$
-Y= \beta_0+\beta_1 Treatment+ \beta_2 Time+ \beta_3 Treatment*Time +\epsilon
+Y_{it}= \beta_0+\beta_1 Treatment_i+ \beta_2 Time_t+ \beta_3 Treatment_i*Time_t +\epsilon
 $$
 
--   The causal effect is the interaction effect
+-   The causal effect is the interaction effect $\beta_3$
+-  This model is called two-way fixed effects: TWFE
+- More robust and recent estimators exist in the literature (de Chaisemartin &  D'Haultfœuille, 2020; Callaway & Sant'Anna, 2021)
 
 ------------------------------------------------------------------------
+
 
 ## in R
 
@@ -337,6 +420,8 @@ How can you check?
 
 -   Placebo test
 
+- Event-study
+
 ------------------------------------------------------------------------
 
 ### Visualisation of parallel trends
@@ -377,7 +462,7 @@ You can find the data [here](https://www.openicpsr.org/openicpsr/project/116438/
 ```{r}
 library(haven)
 library(tidyverse)
-newspapers <- read_dta("Angelucci_Cage_AEJMicro_dataset.dta")
+newspapers <- read_dta("data/Angelucci_Cage_AEJMicro_dataset.dta")
 
 newspapers <-
   newspapers |>
@@ -386,7 +471,7 @@ newspapers <-
     ) |> 
   mutate(ra_cst_div_qtotal = ra_cst / qtotal, 
          after_national =  if_else(year > 1967, 1, 0),
-         after_national_placebo = if_else(year >= 1966, 1, 0),
+         after_national_placebo = if_else(year >= 1963, 1, 0),
          across(c(id_news, local, national, after_national), as.factor),
          year = as.factor(year)) 
 ```
@@ -400,20 +485,49 @@ library(fixest)
 did<-feols(log(ra_cst) ~ national*after_national|year+id_news,
             cluster=~id_news,
      data = newspapers)
-
 etable(did)
 ```
 
 ------------------------------------------------------------------------
 
-## Placebo check
+## Placebo check {.scrollable}
 
 ```{r}
 did_placebo <-
   feols(log(ra_cst) ~ national * after_national_placebo | year + id_news,
         cluster=~id_news,
      data = newspapers)
+newspapers
 etable(did_placebo)
+```
+------------------------------------------------------------------------
+
+## Event-study
+```{r}
+library(fixest)
+
+newspapers <- newspapers |>
+  mutate(year = as.numeric(as.character(year)),
+         national = as.numeric(as.character(national)))
+
+event_study <- feols(
+  log(ra_cst) ~ i(year, national, ref = "1966") | id_news + year,
+  cluster = ~id_news,
+  data = newspapers
+)
+summary(event_study)
+
+
+```
+------------------------------------------------------------------------
+
+## Event-study
+```{r}
+iplot(event_study,
+      xlab = "Year",
+      ylab = "Effect on log(ra_cst)",
+      main = "Event Study: Effect of National Newspapers",
+      ref.line = 0)
 ```
 
 ------------------------------------------------------------------------
