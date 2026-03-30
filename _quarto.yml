@@ -17,6 +17,8 @@ website:
             href: sessions/session3/session3.qmd
           - text: "Session 4: Difference-in-differences"
             href: sessions/session4/session4.qmd
+          - text: "Session 5: RDD and Instrumental Variables"
+            href: sessions/session5/session5.qmd
           
       - text: Exercices
       - menu:
@@ -28,6 +30,8 @@ website:
             href: exercices/exercices3/exercices3.qmd
           - text: "Exercices 4 : Difference-in-differences"
             href: exercices/exercices4/exercices4.qmd
+          - text: "Exercices 5 : RDD and Instrumental Variables"
+            href: exercices/exercices5/exercices5.qmd
             
       - text: Slides
       - menu:
@@ -39,6 +43,8 @@ website:
             href: slides/session3/session3.qmd
           - text: "Slides - session 4"
             href: slides/session4/slides4.qmd
+          - text: "Slides - session 5"
+            href: slides/session5/session5.qmd
             
       - text: Homeworks
       - menu:
