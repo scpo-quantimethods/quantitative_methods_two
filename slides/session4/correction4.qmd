@@ -224,6 +224,7 @@ In the USA, in 2000 a law was passed with the Right To Carry (RTC) arms in certa
 1.  Import the data
 
 ```{r}
+library(rio)
 crime<-import("https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/exercices/exercices4/data/crime_simulated.csv")
 ```
 

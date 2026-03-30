@@ -1,5 +1,178 @@
 ---
-title: "exercices5"
+title: "Regression discontinuity and instrumental variables (IV)"
 format: html
 ---
+
+## Load the relevant packages
+Start by loading the following packages:
+```{r}
+#| eval: false
+#| echo: true
+
+library(rio)
+library(tidyverse)
+library(rdrobust)
+library(estimatr)
+library(AER)
+```
+
+## Exercice 1: regression discontinuity design (RDD)
+
+This exercise is inspired by Carpenter and Dobkin (2015). You are provided with a data set about crime rates in the US, which you can find at <https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/exercices/exercices5/data/carpenter_dobkin_data.dta>. You want to analyse the effect of alcohol on crime rates.
+
+1. Import the data. The codebook is the following :
+- `age` stands for the age
+- `arrested_for` qualifies the reasons for which people have been arrested. `DUI` stands for driving under the influence.
+- `number` is the number of people of that age arrested for that reason.
+
+2. Run the following code : 
+
+```{r}
+#| eval: false
+p <- data_set %>%  ggplot(aes(x = age, y = number)) +
+  geom_point(alpha = 0.05) +
+  facet_wrap(facets = vars(arrested_for), scales = "free_y") +
+  theme_minimal()
+
+p
+```
+
+3. Do you observe any “jump” or discontinuity in your graphs? If so, where?
+
+4. Restrict your dataset to DUIs (driving under the influence).
+
+5. Run your regression discontinuity using rdrobust, with age as the independent variable and number as the dependent variable, using a cutoff at 21 and a bandwidth of 2.
+
+6. Is this a sharp or fuzzy RDD?
+
+7. Does being allowed to drink alcohol affect the number of DUIs?
+
+8. Repeat the analysis using the number of assaults and the legal majority at 18 to examine whether turning 18 has an impact on the number of assaults.
+
+```{r}
+#| eval: false
+#| echo: false
+
+library(rio)
+library(tidyverse)
+library(rdrobust)
+library(estimatr)
+library(AER)
+
+carpenter_dobkin_prepared <- import("data/carpenter_dobkin_data.dta")
+glimpse(carpenter_dobkin_prepared)
+p <- carpenter_dobkin_prepared %>%  ggplot(aes(x = age, y = number)) +
+  geom_point(alpha = 0.05) +
+  facet_wrap(facets = vars(arrested_for), scales = "free_y") +
+  theme_minimal()
+
+p
+
+carpenter_dobkin_dui_only <-
+  carpenter_dobkin_prepared |>
+  filter(
+    arrested_for == "DUI",
+    abs(age - 21) < 2
+  )
+
+carpenter_dobkin_assault_only <-
+  carpenter_dobkin_prepared |>
+  filter(
+    arrested_for == "Assault",
+    abs(age - 18) < 2
+  )
+
+rdd_dui <- rdrobust(
+  # specifies the DV
+  y = carpenter_dobkin_dui_only$number,
+  # specifies the running variable of the RDD
+  x = carpenter_dobkin_dui_only$age,
+  # specifies the cutoff
+  c = 21,
+  # specifies the bandwidth, here the unit of analysis is years
+  h = 2,
+  all = TRUE
+) 
+
+rdd_assault <- rdrobust(
+  # specifies the DV
+  y = carpenter_dobkin_assault_only$number,
+  # specifies the running variable of the RDD
+  x = carpenter_dobkin_assault_only$age,
+  # specifies the cutoff
+  c = 18,
+  # specifies the bandwidth, here the unit of analysis is years
+  h = 2,
+  all = TRUE
+) 
+
+rdd_dui |> summary()
+rdd_assault %>% summary()
+```
+
+
+## Exercice 2 : Instrumental variables (IV)
+
+You are interested in analysing the effects of education on future earnings (do more educated people earn more money). To address the potential endogeneity, they need an instrument that affects years of education without being influenced by other factors like ability or family background. They use the **compulsory schooling law**, which creates differences in school timing based on birth date. Children born early in the year start school older than those born later, and because of the minimum school-leaving age, early-born children (in the year) can legally leave school sooner than late-born children. This generates variation in education that is largely independent of individual characteristics. You can import the data from <https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/exercices/exercices5/data/angrist_krueger.dta>.
+
+1. Import the data set. 
+
+2. The code book is the following. The data set contains data about men’s earnings in 1980 (census extract):
+
+- `log_wage` : log weekly wage
+- `education` : years of schooling
+- `yob`: year of birth
+- `qob`: quarter of birth
+- `sob`: state of birth
+
+```{r}
+#| eval: false
+#| echo: false
+
+data_set <- import("data/angrist_krueger.dta")
+summary(data_set)
+```
+
+3. Run the first-stage regression, regressing education on the quarter of birth. Is the instrument working ?
+Is it strong ? How much is the F-statistic ?
+
+```{r}
+#| eval: false
+#| echo: false
+
+first_stage <- lm(education ~ qob+yob, data = data_set)
+summary(first_stage)
+```
+4. Run the two-stage regression, regressing the wage using the fitted values of education. How can you interpet that result ? 
+
+```{r}
+#| eval: false
+#| echo: false
+
+data_set$fitted_education <- first_stage$fitted.values
+two_stage <- lm(log_wage~fitted_education+yob, data = data_set)
+summary(two_stage)
+## A one year increase in education caused by the exogeneous instrument leads to a +9.9% increase in wages
+```
+5. Run the 2SLS using the `ivreg` estimator. Have a look at the diagnostic using `summary(two_sls, diagnostics = TRUE)` and interpret those. Are the estimates different ?
+
+```{r}
+#| eval: false
+#| echo: false
+
+two_sls <- ivreg(log_wage ~ education |qob, data = data_set)
+summary(two_sls, diagnostics= TRUE)
+```
+
+6. Run the 2SLS using the `ivrobust()` estimator. Do you notice something different in the estimates or their standard deviations ?
+
+```{r}
+#| eval: false
+#| echo: false
+
+two_sls <- iv_robust(log_wage ~ education |qob, data = data_set)
+summary(two_sls, diagnostics= TRUE)
+```
+7. Re-run the IVs using the year of birth as additional control. Is the result changed ?
+
 

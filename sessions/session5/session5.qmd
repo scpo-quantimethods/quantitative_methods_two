@@ -1,0 +1,531 @@
+---
+title: "Session 5 - Regression discontinuity and instrumental variables"
+format: html
+toc: true
+editor: visual
+---
+
+
+## Motivation
+The first identification strategy we have considered so far is the difference-in-differences approach. This method of causal inference uses panel data and, by comparing treated and untreated units over time, estimates the causal effects of a treatment on a given dependent variable. However, there are many situations in which tracking such groups over time is not feasible—for example, due to data limitations or because the treatment affects all individuals within a group.
+
+For this reason, alternative strategies have been developed to analyze causal effects, such as regression discontinuity designs (RDD) and instrumental variables (IV).
+
+These approaches rely on identifying variables that predict treatment assignment but are exogenous to other determinants of the outcome. In the case of RDD, exogeneity arises from the discrete nature of treatment assignment: in many contexts, treatment is determined by a cutoff rule, as is often the case in public policy. This discontinuity creates a sharp jump that allows us to compare very similar individuals on either side of the threshold—some receiving the treatment, others not—in order to estimate its causal impact. For example, legal drinking age or driving eligibility is determined by age thresholds: once an individual turns eighteen, they become eligible, regardless of other characteristics such as parental behavior, income, or education.
+
+Instrumental variables rely on a different source of variation. An instrument is a variable that strongly predicts treatment assignment but does not directly affect the outcome, except through the treatment itself. In other words, the instrument is exogenous to the dependent variable and influences it only indirectly via the treatment. This approach is typically implemented using a two-stage regression procedure. In the first stage, the treatment variable is regressed on the instrument to isolate the variation in treatment that is driven by the instrument. In the second stage, the outcome variable is regressed on this predicted component of the treatment. This procedure allows us to recover a causal estimate even when the treatment is endogenous.
+
+This session will first present regression discontinuity, then instrumental variables.
+
+
+# Regression discontinuity design 
+
+## Regression Discontinuity Design (RDD)
+
+Regression discontinuity design (RDD) is an identification strategy that exploits discontinuities in treatment assignment rules to estimate causal effects. It applies in settings where treatment is determined by whether an observed running variable $X$ crosses a known cutoff $c$. The key idea is that units located very close to the cutoff are comparable in all respects except for their treatment status.
+
+Under appropriate assumptions, any discontinuity in the outcome variable at the cutoff can therefore be attributed to the causal effect of the treatment.
+
+### Sharp and fuzzy RDD
+
+The difference between sharp and fuzzy RDD lies in how treatment is assigned at the cutoff. In a sharp RDD, the probability of receiving the treatment jumps deterministically at the cutoff: all units on one side of the threshold receive the treatment, and none on the other side do. In contrast, in a fuzzy RDD, the probability of treatment also jumps at the cutoff, but not all units comply perfectly. Some units above the cutoff may not receive the treatment, and some below the cutoff may receive it. In other words, the jump in treatment probability is partial, reflecting imperfect compliance or other factors, rather than a deterministic assignment.
+
+This is illustrated in the following figure, which shows the probability of receiving the treatment as a function of the running variable, $P(D = 1 \mid X)$. The figure compares the two cases: in a sharp RDD, treatment assignment is perfectly deterministic at the cutoff, resulting in a full jump from 0 to 1; in a fuzzy RDD, the probability of treatment also jumps at the cutoff, but not all units comply, so the jump is partial rather than complete.
+
+::: panel-tabset
+
+## Sharp RDD
+```{r}
+#| echo: false
+
+# Load library
+library(ggplot2)
+
+# Set seed
+set.seed(123)
+
+# Parameters
+n <- 500
+c <- 0  # cutoff
+
+# Simulate running variable
+X <- runif(n, -2, 2)
+
+# Sharp treatment assignment (Heaviside)
+D <- ifelse(X >= c, 1, 0)
+
+# Add slight vertical jitter for visualization (so points don't overlap perfectly)
+D_jitter <- D + rnorm(n, mean = 0, sd = 0.03)
+
+# Dataframe
+df <- data.frame(X, D, D_jitter)
+
+# Create smooth grid for step function
+X_grid <- seq(-2, 2, length.out = 1000)
+P <- ifelse(X_grid >= c, 1, 0)
+df_step <- data.frame(X_grid, P)
+
+# Plot
+ggplot() +
+  # Cloud of points
+  geom_point(data = df, aes(x = X, y = D_jitter), alpha = 0.4) +
+  
+  # Heaviside step function
+  geom_step(data = df_step, aes(x = X_grid, y = P), size = 1) +
+  
+  # Cutoff line
+  geom_vline(xintercept = c, linetype = "dashed") +
+  
+  labs(
+    title = "Sharp RDD: Treatment Probability with Discontinuity",
+    x = "Running Variable (X)",
+    y = "Treatment (D)"
+  ) +
+  
+  theme_minimal()
+```
+## Fuzzy RDD
+```{r}
+#| echo: false
+
+# Load library
+library(ggplot2)
+
+# Set seed
+set.seed(123)
+
+# Parameters
+n <- 500
+c <- 0  # cutoff
+slope <- 5  # steepness of logistic curve
+jump <- 0.3 # size of discontinuity at cutoff
+
+# Simulate running variable
+X <- runif(n, -2, 2)
+
+# Logistic probability function
+P <- 1 / (1 + exp(-slope * X))
+
+# Add a discontinuity at cutoff
+P[X >= c] <- P[X >= c] + jump
+P <- pmin(P, 1)  # cap at 1
+
+# Simulate treatment assignment
+D <- rbinom(n, 1, P)
+
+# Add vertical jitter for visualization
+D_jitter <- D + rnorm(n, mean = 0, sd = 0.03)
+
+# Dataframe for points
+df <- data.frame(X, D_jitter)
+
+# Smooth curve for theoretical probability
+X_grid <- seq(-2, 2, length.out = 1000)
+P_grid <- 1 / (1 + exp(-slope * X_grid))
+P_grid[X_grid >= c] <- P_grid[X_grid >= c] + jump
+P_grid <- pmin(P_grid, 1)
+df_curve <- data.frame(X_grid, P_grid)
+
+# Plot
+ggplot() +
+  # Cloud of points
+  geom_point(data = df, aes(x = X, y = D_jitter), alpha = 0.4) +
+  
+  # Smooth fuzzy probability curve
+  geom_line(data = df_curve, aes(x = X_grid, y = P_grid), color = "blue", size = 1.2) +
+  
+  # Cutoff line
+  geom_vline(xintercept = c, linetype = "dashed") +
+  
+  labs(
+    title = "Fuzzy RDD: Probability of Treatment with Discontinuity",
+    x = "Running Variable (X)",
+    y = "Pr(D = 1 | X)"
+  ) +
+  
+  theme_minimal()
+```
+:::
+
+
+
+## Examples of sharp and fuzzy RDD
+
+The difference between sharp and fuzzy RDD lies in how treatment is assigned at the cutoff. In a sharp RDD, treatment assignment is perfectly deterministic: all units above the threshold receive the treatment, and all units below it do not. Examples include the legal drinking age—once a person turns 18, they are legally allowed to drink—and driving eligibility, where turning 16 or 18 (depending on the country) makes someone automatically eligible for a license. Other examples include scholarship programs with strict score thresholds, where all students above a cutoff receive the award.
+
+In contrast, a fuzzy RDD occurs when the probability of receiving treatment jumps at the cutoff but is not deterministic. Some units do not comply, or other factors affect actual treatment. For instance, in college admissions, a student above a test score threshold may choose not to enroll or be prevented by financial constraints, while some students below the cutoff may still enroll via exceptions. Similarly, in subsidy programs, eligibility is determined by income or age thresholds, but not all eligible individuals take up the subsidy. Draft lotteries also illustrate a fuzzy design: a randomly assigned lottery number increases the probability of being drafted, but not everyone with a “drafted” number serves, and some with an “undrafted” number may still serve.
+
+### Graphical Intuition
+
+
+Once we understand the difference between sharp and fuzzy RDD, the intuition behind RDD is most clearly illustrated using a graph. On the horizontal axis, we plot the running variable $X$, and on the vertical axis, the outcome variable $Y$. The cutoff $c$ is represented by a vertical line.
+
+A sharp RDD arises when treatment assignment is a deterministic function of the running variable. Formally, treatment is defined as:
+
+\begin{equation}
+D_i = 1\{X_i \geq c\}
+\end{equation}
+
+so that all units with $X_i \geq c$ receive the treatment, and none of those with $X_i < c$ do.
+
+The causal effect is identified by comparing the conditional expectation of the outcome variable on either side of the cutoff:
+
+\begin{equation}
+\tau = \lim_{x \to c^+} \mathbb{E}[Y_i \mid X_i = x] - \lim_{x \to c^-} \mathbb{E}[Y_i \mid X_i = x]
+\end{equation}
+
+This parameter captures the average treatment effect at the cutoff. Identification relies on the assumption that, in the absence of treatment, the conditional expectation of the outcome would be continuous at $c$. In other words, units just above and just below the threshold would have had similar outcomes if neither group had been treated.
+
+In practice, estimation is typically performed using local linear regressions on either side of the cutoff, restricting attention to observations within a bandwidth around $c$. That is, estimating :
+
+\begin{equation}
+Y_i = \alpha + \beta X_i + \delta D_i + \epsilon_i,
+\end{equation}
+where $X_i$ is the running variable, and $D_i$ is the treatment dummy.
+
+The choice of bandwidth involves a bias-variance trade-off: narrower bandwidths improve comparability but reduce precision, while wider bandwidths increase precision at the cost of potentially introducing bias.
+
+Each point on the graph corresponds to an observation. We then fit separate regression lines (or smooth curves) on either side of the cutoff. If the **treatment has a causal effect** on the running variable, we expect to observe a discontinuity—a jump—in the outcome at $X = c$.
+
+- To the **left of the cutoff** ($X < c$), units are untreated.
+- To the **right of the cutoff** ($X \geq c$), units are treated.
+- The **size of the vertical jump at the cutoff** corresponds to the estimated treatment effect $\tau$.
+
+```{r}
+#| echo: false
+# Load library
+library(ggplot2)
+
+# Set seed for reproducibility
+set.seed(123)
+
+# Parameters
+n <- 500
+c <- 0             # cutoff
+slope <- 2         # slope of the outcome
+jump <- 1          # size of discontinuity at cutoff
+
+# Simulate running variable
+X <- runif(n, -2, 2)
+
+# Outcome: linear trend + discontinuity at cutoff + noise
+Y <- slope * X + ifelse(X >= c, jump, 0) + rnorm(n, mean = 0, sd = 0.5)
+
+# Add vertical jitter for visualization (optional)
+Y_jitter <- Y
+
+# Dataframe
+df <- data.frame(X, Y_jitter)
+
+# Plot
+ggplot(df, aes(x = X, y = Y_jitter)) +
+  geom_point(alpha = 0.5) +
+  # Add separate regression lines on either side of cutoff
+  geom_smooth(data = subset(df, X < c), aes(x = X, y = Y_jitter), method = "lm", color = "blue", se = FALSE) +
+  geom_smooth(data = subset(df, X >= c), aes(x = X, y = Y_jitter), method = "lm", color = "red", se = FALSE) +
+  
+  # Vertical line at cutoff
+  geom_vline(xintercept = c, linetype = "dashed") +
+  
+  labs(
+    title = "RDD: Outcome with Discontinuity at Cutoff",
+    x = "Running Variable (X)",
+    y = "Outcome (Y)"
+  ) +
+  
+  theme_minimal()
+```
+
+Crucially, the identification assumption implies that, absent treatment, the outcome would evolve smoothly through the cutoff.This assumption is called continuity at the cutoff assumption. Therefore, any observed jump at $c$ can be attributed to the treatment rather than to underlying differences between units.
+
+In practice, researchers often visualize this by plotting binned averages of $Y$ against $X$, along with fitted lines on each side of the cutoff. A clear discontinuity at the threshold provides visual evidence supporting the validity of the RDD design.
+
+## Example: Scholarship Effect on GPA
+
+We want to study whether receiving a scholarship (hence, being funded for your studies) influences your results. We consider a scenario where a scholarship is awarded to students who score 80 or more on an entrance exam. The running variable is the exam score X, and the outcome is the GPA after one year. The scholarship is expected to increase GPA (because students work in better conditions), creating a discontinuity at the cutoff. We generate the data to obtain a smooth cutoff.
+
+```{r}
+#| echo: false
+# Set seed for reproducibility
+set.seed(123)
+
+# Parameters
+n <- 300           # number of students
+cutoff <- 80       # scholarship cutoff
+slope <- 0.05      # linear trend of GPA with score
+jump <- 0.5        # effect of scholarship on GPA
+
+# Simulate exam scores
+X <- runif(n, 60, 100)
+
+# Simulate GPA: linear trend + jump at cutoff + noise
+Y <- 2 + slope * X + ifelse(X >= cutoff, jump, 0) + rnorm(n, 0, 0.2)
+
+# Create dataframe
+df <- data.frame(X, Y)
+```
+```{r}
+ggplot(df, aes(x = X, y = Y)) +
+  geom_point(alpha = 0.6) +
+  # Separate regression lines on each side of cutoff
+  geom_smooth(data = subset(df, X < cutoff), aes(x = X, y = Y), method = "lm", color = "blue", se = FALSE) +
+  geom_smooth(data = subset(df, X >= cutoff), aes(x = X, y = Y), method = "lm", color = "red", se = FALSE) +
+  # Vertical line at cutoff
+  geom_vline(xintercept = cutoff, linetype = "dashed") +
+  labs(
+    title = "RDD: Effect of Scholarship on GPA",
+    x = "Entrance Exam Score",
+    y = "GPA after 1 Year"
+  ) +
+  theme_minimal()
+```
+
+### Interpretation
+Students just above and just below the cutoff (a score of 80 on the entrance exam) are comparable, except for scholarship receipt. The jump in GPA at the cutoff can therefore be interpreted as the causal effect of the scholarship, assuming that no other factors change discontinuously at that score.
+
+A first way to estimate the LATE (local average treatment effect) is to define a bandwidth, $bd$, around the cutoff of the running variable within which the estimation is performed. For instance, one might consider only observations within 10 points of the cutoff. A larger bandwidth increases the sample size and thus the statistical precision of the estimates, but it also raises the risk of bias, as students farther from the cutoff may no longer be truly comparable.
+
+Two examples of LATE estimation are provided below: one using a very small bandwidthand the other a much larger one, illustrating the trade-off between bias and precision.
+
+\begin{equation}
+Y_i (h) = \alpha + \beta X_i (h) + \delta D_i + \epsilon_i
+\end{equation}
+
+```{r}
+library(tidyverse)
+library(MASS)
+library(stargazer)
+# Define the bandwidth
+h <- 10  
+
+# Subset data within ±0.2 of the threshold
+rd_data1<- df |> 
+  filter(abs(X - 80) <= h)
+
+rd_data2<- df |> 
+  filter(abs(X - 80) <= 0.1*h)
+
+
+# Create running variable centered at the threshold
+rd_data1 <- rd_data1 |> 
+  mutate(
+    centered_X = X - 80,  # Centering at the threshold
+    treatment = if_else(X >= 80, 1, 0) # Treatment indicator
+  )
+
+rd_data2 <- rd_data2 |> 
+  mutate(
+    centered_X = X - 80,  # Centering at the threshold
+    treatment = if_else(X >= 80, 1, 0) # Treatment indicator
+  )
+
+# Estimate local linear regression with interaction
+rd_model1 <- lm(Y~ treatment + centered_X, data = rd_data1)
+rd_model2 <- lm(Y~ treatment + centered_X, data = rd_data2)
+rd_model3 <- rlm(Y~ treatment + centered_X, data = rd_data2)
+
+#Compare the models
+
+stargazer(rd_model1, rd_model2, rd_model3, type = "text")
+```
+
+The results indeed give you values around 0.5, as expected : the causal estimate through RDD is therefore of 0.5 (the increase in GPA after one year, for those who received the scholarship). 
+
+## Using built-in functions
+
+If you don't wath to bother with the data preparation, you can compute the RDD estimate of the causal effect of the scholarship by calling `rdrobust()` from the library `rdrobust`, which only requires you to specify the following variables :
+
+1. Your dependent variable $Y$
+2. Your running variable $X$
+3. Your cutoff
+4. Your bandwidth $h$
+
+It will then compute robust estimates of your causal effect.
+
+```{r}
+library(rdrobust)
+library(rddtools)
+# Parameters
+
+# Run robust RDD
+rdd_result <- rdrobust(y = df$Y, x = df$X, c = cutoff, h = 10) # h = points allows to specify the number of points
+
+# Print summary
+summary(rdd_result)
+```
+If you do not specify the value of$h$, the function automatically selects an optimal bandwidth based on statistical criteria that optimally balance bias and variance.
+```{r}
+library(rdrobust)
+library(rddtools)
+# Parameters
+
+# Run robust RDD
+rdd_result <- rdrobust(y = df$Y, x = df$X, c = cutoff) # h = points allows to specify the number of points
+
+# Print summary
+summary(rdd_result)
+```
+
+## Continuity at the cutoff
+The main identifying assumption of RDD is the continuity at the cutoff assumption - that is, in the absence of treatment, the dependent variable $Y$ would have followed a continuous trend at the cutoff. Hence, the effect is only due to the treatment. To prove this, different robustness checks can be performed. 
+
+1. **Covariate continuity tests**: check that observable characteristics (e.g., age, gender, prior grades) evolve smoothly at the cutoff. This can be done by using the same functions as before, with other dependent variables.
+
+2. **McCrary density test**: test whether the density of the running variable is continuous at the cutoff, which helps detect manipulation or sorting around the threshold. It could be the case for instance if some students who scored just below 80 (say 78–79 points) bribed the teacher or found ways to retake part of the exam, or strategically delayed grading to barely cross 80. Then the density around 80 would be discontinuous.
+
+```{r}
+#install.packages("rddensity")
+# Load packages
+library(rddensity)
+library(ggplot2)
+
+set.seed(123)
+
+# Parameters
+n <- 500
+cutoff <- 80
+
+# Simulate running variable X (exam score)
+# Normal distribution around 75–85
+X <- rnorm(n, mean = 78, sd = 5)
+
+# Introduce manipulation: add "bunching" just above the cutoff
+# Students who scored 78–79 get bumped to 80
+manipulated <- X > 77 & X < cutoff
+X[manipulated] <- cutoff
+
+# Simulate outcome variable Y (GPA), continuous around 3.0
+Y <- 2.5 + 0.03 * X + rnorm(n, 0, 0.2)
+
+df <- data.frame(X, Y)
+
+# Run McCrary density test
+dens_test <- rddensity(X = df$X, c = cutoff)
+
+# Summary
+summary(dens_test)
+
+# Plot the density
+rdplotdensity(dens_test, X = df$X)
+
+```
+
+3. **Placebo cutoffs**: estimate the RDD at fake cutoffs where no treatment occurs; no discontinuity should be found.
+
+4. **Varying bandwidths**: verify that results are robust to different choices of bandwidth.
+
+5. **Varying polynomial orders**: check that results are not driven by a specific functional form, by changing the order of the estimation in the argument of the function `p = `.
+
+# Instrumental variables
+
+In instrumental variables (IV) estimation, the logic is slightly different. Imagine you want to measure the causal effect of a treatment or policy on an outcome. A typical problem is endogeneity: the treatment is correlated with unobserved factors that also affect the outcome.
+
+For example, suppose you want to estimate the effect of scholarship receipt on GPA. Students who apply or are selected for the scholarship may differ in unobserved ways (motivation, prior effort) from those who do not, creating bias in a simple regression.
+
+An instrumental variable is a variable that:
+
+1. Affects the treatment (relevance),
+2. Does not directly affect the outcome except through the treatment (exclusion restriction), and
+Is independent of unobserved confounders (validity).
+3. By using an instrument, we can isolate the exogenous variation in the treatment and estimate its causal effect.
+
+In this context, the IV estimate corresponds to a local average treatment effect (LATE) — the effect for the subpopulation whose treatment status is influenced by the instrument. This is summarised on the figure below. 
+
+```{mermaid}
+flowchart LR
+    U[Unobserved Confounders] --> X[Endogenous Variable]
+    U --> Y[Outcome]
+    Z[Instrument] --> X
+    X --> Y
+```
+
+To compute the local average treatment effect (LATE), we generally use two-stage least squares (2SLS) regressions.  
+
+1.First stage: regress the treatment variable $D_i$ on the instrument $Z_i$:  
+
+\begin{equation}
+D_i = \alpha + \beta Z_i + \epsilon_i
+\end{equation}
+
+This captures how the instrument affects the treatment.  
+
+2. Second stage: regress the outcome variable $Y_i$ on the **fitted values** from the first stage, $\hat{D}_i$:  
+
+\begin{equation}
+Y_i = \alpha + \beta X_i+ \delta \hat{D}_i + \epsilon_i
+\end{equation}
+
+By using $\hat{D}_i$ instead of $D_i$, you isolate the variation in $D$ that is **due only to the exogenous instrument**, removing endogeneity bias. The coefficient $\delta$ then estimates the causal effect of the treatment on the outcome — the LATE.
+
+
+## An example
+
+A typical example of an instrumental variable (IV) approach is analyzing the effect of education on earnings. Since more educated individuals tend to have higher earnings, there are many factors that could influence both education and earnings—these are omitted variables, such as individual ability, family background, and motivation, which are difficult or impossible to measure.
+
+Measuring the causal effect of education therefore often requires the use of instrumental variables to isolate exogenous variation in education. For example, some authors have argued that a good IV for educational attainment is the distance to the nearest college.
+
+The logic is the following. Students living closer to a college are more likely to obtain additional schooling, but the distance itself is unlikely to directly affect future earnings, satisfying the IV assumptions of relevance and exclusion. Of course, one could argue that distance to college is perhaps correlated with variables influencing both the outcome and the treatment : that is, education of parents, or income of the parents, etc. These variables can be controlled for, to keep only the instrument in the regression.
+
+The IV can be computed in three different ways :
+- Using two successive linear regressions;
+- Using the `ivreg` function from the `AER` package
+- Using the `iv_robust` function from the `estimatr` package
+
+I simulate data here to analyse the impact of education on earnings, using distance to college as my instrument.
+
+```{r}
+# Load required package
+library(AER)  # For ivreg (2SLS)
+library(estimatr)
+set.seed(123)
+
+# Sample size
+n <- 500
+
+# Instrument: distance to nearest college (in km, exogenous)
+distance_to_college <- runif(n, 0, 50)  # 0 = very close, 50 = far
+
+# Unobserved confounder: ability or motivation
+ability <- rnorm(n, 0, 1)
+
+# Treatment: years of education (depends on distance and ability)
+# Students closer to college tend to get more education
+education <- 12 + 0.05 * (50 - distance_to_college) + 0.8 * ability + rnorm(n, 0, 1)
+# education is continuous: years of schooling
+
+# Outcome: earnings (depends on education and ability)
+earnings <- 20000 + 1500 * education + 5000 * ability + rnorm(n, 0, 5000)
+
+# Combine into a data frame
+df <- data.frame(earnings, education, distance_to_college, ability)
+
+# Quick look
+head(df)
+
+# Naive OLS (biased because of ability confounding)
+lm_first <- lm(education ~ distance_to_college, data = df)
+
+df$fitted_educ <- lm_first$fitted.values
+ivcom <- lm(earnings ~ fitted_educ, data = df)
+summary(ivcom)
+
+
+# 2SLS using distance as instrument
+iv_model <- ivreg(earnings ~ education | distance_to_college, data = df)
+iv_model2 <- iv_robust(earnings ~ education | distance_to_college, data = df)
+summary(iv_model, diagnostics = TRUE)
+summary(iv_model2)
+```
+
+## Robustness checks 
+There a few statistical tests you can run to verify the design of your IV. It is mostly theoretically driven : hence a good instrument should be 'weird' and seem indeed unrelated to your dependent variable. There are three conditions an instrument should verify, that are described here.
+
+### Relevance of the instrument
+A key requirement for a valid instrument is relevance: the instrument must be strongly correlated with the treatment, in this case, educational attainment. In our example, distance to the nearest college directly influences the likelihood that an individual pursues additional schooling. Individuals who live closer to a college tend to have more years of education. This relationship can be formally assessed by regressing education on the instrument: if the coefficient on distance is significant and the first-stage F-statistic exceeds the commonly used threshold of 10, the instrument can be considered sufficiently relevant for a reliable IV estimate. Without a strong correlation, the exogenous variation in education induced by the instrument would be too weak, making the IV estimate unstable and uninformative.
+
+You can easily check the strength and relevance of your estimates using diagnostics. 
+
+### Exclusion restriction
+The second key condition is the exclusion restriction, which requires that the instrument affects the outcome only through its effect on the treatment. In this context, the distance to college should not directly influence future earnings except through its impact on educational attainment. Theoretically, this assumption is plausible: simply living closer to a college does not directly alter labor market opportunities or wages, except by affecting the number of years of schooling. However, it is important to note that the exclusion restriction cannot be directly tested statistically with a single instrument. Its plausibility must rely on a strong theoretical argument, and it can be indirectly supported by controlling for other variables that might correlate with distance to college, such as the parent's level of education, earnings, local socioeconomic conditions or the quality of nearby schools.
+
+

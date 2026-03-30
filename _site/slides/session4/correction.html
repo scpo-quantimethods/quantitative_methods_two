@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Session 3 exercises – Quantitative methods II</title>
+<title>Correction – Quantitative methods II</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -151,6 +151,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="dropdown-item" href="../../sessions/session3/session3.html">
  <span class="dropdown-text">Session 3: Multinomial regressions</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../../sessions/session4/session4.html">
+ <span class="dropdown-text">Session 4: Difference-in-differences</span></a>
+  </li>  
     </ul>
   </li>
   <li class="nav-item">
@@ -175,6 +179,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="dropdown-item" href="../../exercices/exercices3/exercices3.html">
  <span class="dropdown-text">Exercices 3: Multinomial regressions</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../../exercices/exercices4/exercices4.html">
+ <span class="dropdown-text">Exercices 4 : Difference-in-differences</span></a>
+  </li>  
     </ul>
   </li>
   <li class="nav-item">
@@ -198,6 +206,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li>
     <a class="dropdown-item" href="../../slides/session3/session3.html">
  <span class="dropdown-text">Slides - session 3</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../slides/session4/slides4.html">
+ <span class="dropdown-text">Slides - session 4</span></a>
   </li>  
     </ul>
   </li>
@@ -242,7 +254,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#exercise-1" id="toc-exercise-1" class="nav-link active" data-scroll-target="#exercise-1">Exercise 1</a></li>
+  <li><a href="#exercise-1-1" id="toc-exercise-1-1" class="nav-link" data-scroll-target="#exercise-1-1">Exercise 1</a></li>
   <li><a href="#exercise-2" id="toc-exercise-2" class="nav-link" data-scroll-target="#exercise-2">Exercise 2</a></li>
+  <li><a href="#exercise-2-1" id="toc-exercise-2-1" class="nav-link" data-scroll-target="#exercise-2-1">Exercise 2</a></li>
+  <li><a href="#exercise-3" id="toc-exercise-3" class="nav-link" data-scroll-target="#exercise-3">Exercise 3</a></li>
+  <li><a href="#exercise-3-1" id="toc-exercise-3-1" class="nav-link" data-scroll-target="#exercise-3-1">Exercise 3</a></li>
   </ul>
 </nav>
     </div>
@@ -251,7 +267,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Session 3 exercises</h1>
+<h1 class="title">Correction</h1>
 </div>
 
 
@@ -268,9 +284,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>Start by loading the different packages.</p>
+<section id="exercise-1" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-1">Exercise 1</h2>
+<p>In the USA, in 2000 a law was passed with the Right To Carry (RTC) arms in certain states (simulated example). US lawmakers are interested in knowing if this increased or not crimes in cities.</p>
+<hr>
+</section>
+<section id="exercise-1-1" class="level2 scrollable">
+<h2 class="scrollable anchored" data-anchor-id="exercise-1-1">Exercise 1</h2>
+<ol type="1">
+<li>Import the data</li>
+</ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rio)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
 ✔ dplyr     1.1.4     ✔ readr     2.1.6
@@ -283,138 +309,345 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 ✖ dplyr::lag()    masks stats::lag()
 ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rio)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nnet)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(marginaleffects)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stargazer)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>
-Please cite as: 
-
- Hlavac, Marek (2022). stargazer: Well-Formatted Regression and Summary Statistics Tables.
- R package version 5.2.3. https://CRAN.R-project.org/package=stargazer </code></pre>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>crime<span class="ot">&lt;-</span><span class="fu">import</span>(<span class="st">"https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/exercices/exercices4/data/crime_simulated.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pscl)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Classes and Methods for R originally developed in the
-Political Science Computational Laboratory
-Department of Political Science
-Stanford University (2002-2015),
-by and under the direction of Simon Jackman.
-hurdle and zeroinfl functions by Achim Zeileis.</code></pre>
+<ol start="2" type="1">
+<li>Create a time variable (1 if after 2000, 0 if before 2000)</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>crime<span class="sc">$</span>time<span class="ot">&lt;-</span><span class="fu">ifelse</span>(crime<span class="sc">$</span>year<span class="sc">&gt;</span><span class="dv">2000</span>,<span class="dv">1</span>,<span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</div>
-<section id="exercise-1" class="level1">
-<h1>Exercise 1</h1>
-<p>We are interested in understanding why people vote Populist Radical-Right parties (this example is inspired by <a href="https://luissattelmayer.github.io/quant-2025/session5/session5.html">Luis Sattelmayer</a>). We will focus on Germany. We will use the 11th round of the ESS. You can download the data here <a href="https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/exercices/exercices3/data/ESS11e04_1.csv" class="uri">https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/exercices/exercices3/data/ESS11e04_1.csv</a> and the codebook <a href="https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/exercices/exercices3/data/ESS11e04_1%20codebook.html">here</a>.</p>
-<ol type="1">
-<li><p>Import the data into R. Hint: use <code>import()</code> function.</p></li>
-</ol>
-<ol start="2" type="1">
-<li><p>Select only the variable <code>cntry, prtvgde1, imueclt, eduyrs, hinctnta, stflife, trstplt, gndr</code>and filter the observation to keep only German respondents. Hint: <code>select</code> and <code>filter</code> function.</p></li>
-<li><p>Have a look at your data. Hint: <code>glimpse</code> or <code>head</code> function.</p></li>
-<li><p>Clean your data.</p>
-<ul>
-<li><p>Transform observations that have are equal to 55, 66, 77, 88, 99, 7777, 8888, 9999 for the prtvgde1, imueclt, eduyrs, hinctnta, stflife, trstplt variable as NAs.</p></li>
-<li><p>Recode the gndr variable as Man (gnder=1) and Woman (gnder=2).</p></li>
-<li><p>Create a variable vote based on the prtvgde1 variable (use the name of the party)</p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 50%">
-<col style="width: 50%">
-</colgroup>
-<tbody>
-<tr class="odd">
-<td>1</td>
-<td>Christian Democratic Union/Christian Social Union (CDU/CSU)</td>
-</tr>
-<tr class="even">
-<td>2</td>
-<td>Social Democratic Party (SPD)</td>
-</tr>
-<tr class="odd">
-<td>3</td>
-<td>The Left (Die Linke)</td>
-</tr>
-<tr class="even">
-<td>4</td>
-<td>Alliance 90/The Greens (Bündnis 90/Die Grünen)</td>
-</tr>
-<tr class="odd">
-<td>5</td>
-<td>Free Democratic Party (FDP)</td>
-</tr>
-<tr class="even">
-<td>6</td>
-<td>Alternative for Germany (AFD)</td>
-</tr>
-<tr class="odd">
-<td>7</td>
-<td>Free Voters (Freie Wähler)</td>
-</tr>
-<tr class="even">
-<td>8</td>
-<td>Grassroots Democratic Party of Germany (dieBasis)</td>
-</tr>
-<tr class="odd">
-<td>9</td>
-<td>Party for Labour, Rule of Law, Animal Protection, Promotion of Elites and Grassroots Democratic Initiative (Die PARTEI)</td>
-</tr>
-</tbody>
-</table></li>
-</ul></li>
-</ol>
-<ol start="5" type="1">
-<li><p>Relevel your party variable so that the AFD party is the baseline.</p></li>
-<li><p>We want to understand if thinking that immigrants enrich a country’s culture decreases the likelihood of voting for the AFD. Run a multinomial regression with the `<code>imueclt</code>` variable as the predictor. Have a look at the coefficients. Hint: use the `multinom()` function.</p></li>
-<li><p>Add control variables (gender and education) to your regression. Does the `<code>imueclt</code>` coefficient changes?</p></li>
-<li><p>Compare the AIC and BIC of models from points 6 and 7. Hint: use the <code>BIC()</code> and <code>AIC()</code> functions.</p></li>
-<li><p>Now, we are interested in seeing the influence of trust in politicians (<code>trstplt</code> variable) on voting.</p></li>
-<li><p>Add controls variable (gender and education) to your regression.</p></li>
-<li><p>Compute the pseudo- $R^2$.</p></li>
-<li><p>Show the predicted probabilities of the trust variable.</p></li>
-</ol>
-</section>
-<section id="exercise-2" class="level1">
-<h1>Exercise 2</h1>
-<p>In this exercise, you will use a dataset on student educational choices (you can find it here <a href="https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/exercices/exercices3/data/student.RData" class="uri">https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/exercices/exercices3/data/student.RData</a>, data from the glsm package). The data contains information on 200 students. The student had the possibility of selecting between three different programs to further their education. The choice was between general, vocational and academic. The goal of this example is to understand which predictors can tell us more about why students decided to choose a specific academic program.</p>
-<p>Here is the codebook of the dataset:</p>
-<ul>
-<li><p><strong>Student</strong>: Categorical. Student identification code.</p></li>
-<li><p><strong>id</strong>: Categorical. Unique identifier for each student.</p></li>
-<li><p><strong>gender</strong>: Categorical. Student gender: “female” or “male”.</p></li>
-<li><p><strong>ses</strong>: Categorical. Socioeconomic status: “low”, “middle”, “high”.</p></li>
-<li><p><strong>schtyp</strong>: Categorical. Type of school: “private” or “public”.</p></li>
-<li><p><strong>prog</strong>: Categorical. Program of study chosen</p></li>
-<li><p><strong>read</strong>: Continuous. Reading test score.</p></li>
-<li><p><strong>write</strong>: Continuous. Writing test score.</p></li>
-<li><p><strong>math</strong>: Continuous. Math test score.</p></li>
-<li><p><strong>science</strong>: Continuous. Science test score.</p></li>
-<li><p><strong>socst</strong>: Continuous. Social studies test score.</p></li>
-<li><p><strong>honors</strong>: Categorical. Honors enrollment status: “enrolled” or “not enrolled”.</p></li>
-<li><p><strong>awards</strong>: Integer. Number of awards received, ranging from 0 to 9.</p></li>
-<li><p><strong>cid</strong>: Categorical. Unspecified score, ranging from 0 to 20.</p></li>
-<li><p><strong>prog0</strong>: Binary. 1 if prog = General, 0 otherwise.</p></li>
-<li><p><strong>prog1</strong>: Binary. 1 if prog = Vocational, 0 otherwise.</p></li>
-<li><p><strong>prog2</strong>: Binary. 1 if prog = Academic, 0 otherwise.</p></li>
-</ul>
-<ol type="1">
-<li>Import the data</li>
-</ol>
-<ol start="2" type="1">
-<li>Have a look at your dataset. Recode the prog variable so that instead of NA, you should have the name of the programm students have selected (general, vocation or academic). Hint: use <code>glimpse</code>, <code>mutate()</code> and <code>case_when()</code>.</li>
-</ol>
-<ol start="2" type="1">
-<li>Now, run a multinomial regression to explain the influence of socio-economic status on the educational program choice.</li>
-</ol>
 <ol start="3" type="1">
-<li>Look at the ODDS ratio</li>
+<li>Run a diff-in-diff analysis with crime_rate as the outcome. Do not forget to cluster your SE as you have nested data. Look only at the year before (1999) and the year just after 2001.</li>
 </ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fixest)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>did<span class="ot">&lt;-</span><span class="fu">feols</span>(crime_rate<span class="sc">~</span>time<span class="sc">*</span>treated_state,<span class="at">cluster=</span><span class="sc">~</span>state,<span class="at">data=</span>crime[crime<span class="sc">$</span>year<span class="sc">==</span><span class="dv">1999</span><span class="sc">|</span>crime<span class="sc">$</span>year<span class="sc">==</span><span class="dv">2001</span>,])</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">etable</span>(did)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                                   did
+Dependent Var.:             crime_rate
+                                      
+Constant             22.40*** (0.0798)
+time                  -0.1098 (0.0714)
+treated_state         -0.1004 (0.1652)
+time x treated_state 4.204*** (0.1114)
+____________________ _________________
+S.E.: Clustered              by: state
+Observations                     5,000
+R2                             0.19950
+Adj. R2                        0.19901
+---
+Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
 <ol start="4" type="1">
-<li><p>Add math, read, write, science and socst as control variables to your regression.</p></li>
-<li><p>Look at the predicted probabilities of the socio-economic status</p></li>
-<li><p>What is the goodness of fit of your model?</p></li>
+<li><p>What is the effect of RCT policy?</p></li>
+<li><p>Check graphically the parallel trends</p></li>
 </ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>avg_trends <span class="ot">&lt;-</span> <span class="fu">aggregate</span>(crime_rate <span class="sc">~</span> year <span class="sc">+</span> treated_state, crime, mean)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(avg_trends,<span class="fu">aes</span>(<span class="at">x=</span>year,<span class="at">y=</span>crime_rate,<span class="at">color=</span><span class="fu">factor</span>(treated_state)))<span class="sc">+</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>()<span class="sc">+</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="correction_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<ol start="6" type="1">
+<li>Check with a placebo test the parallel trends (for example between 1997 and 1998)</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>crime<span class="sc">$</span>time2<span class="ot">&lt;-</span><span class="fu">ifelse</span>(crime<span class="sc">$</span>year<span class="sc">&gt;</span><span class="dv">1997</span>,<span class="dv">1</span>,<span class="dv">0</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>did2<span class="ot">&lt;-</span><span class="fu">feols</span>(crime_rate<span class="sc">~</span>time2<span class="sc">*</span>treated_state,<span class="at">cluster=</span><span class="sc">~</span>state,<span class="at">data=</span>crime[crime<span class="sc">$</span>year<span class="sc">==</span><span class="dv">1996</span><span class="sc">|</span>crime<span class="sc">$</span>year<span class="sc">==</span><span class="dv">1998</span>,])</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">etable</span>(did2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                                   did2
+Dependent Var.:              crime_rate
+                                       
+Constant              20.03*** (0.0757)
+time2                 1.368*** (0.0609)
+treated_state          0.2667. (0.1435)
+time2 x treated_state -0.2555. (0.1280)
+_____________________ _________________
+S.E.: Clustered               by: state
+Observations                      5,000
+R2                              0.04734
+Adj. R2                         0.04677
+---
+Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<ol start="7" type="1">
+<li>Run a diff-in-diff analysis with crime_rate as the outcome. Add population and median income as control variables. Look only at the year before (1999) and the year just after 2001.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>did3<span class="ot">&lt;-</span><span class="fu">feols</span>(crime_rate<span class="sc">~</span>time<span class="sc">*</span>treated_state<span class="sc">+</span>population<span class="sc">+</span>median_income,<span class="at">cluster=</span><span class="sc">~</span>state,<span class="at">data=</span>crime[crime<span class="sc">$</span>year<span class="sc">==</span><span class="dv">1999</span><span class="sc">|</span>crime<span class="sc">$</span>year<span class="sc">==</span><span class="dv">2001</span>,])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: The VCOV matrix is not positive semi-definite and was 'fixed' (see
+?vcov).</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">etable</span>(did3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                                     did3
+Dependent Var.:                crime_rate
+                                         
+Constant                20.52*** (0.3038)
+time                    -0.1292. (0.0693)
+treated_state            -0.1090 (0.1645)
+population           1.03e-5*** (1.14e-6)
+median_income           7.56e-6 (5.86e-6)
+time x treated_state    4.232*** (0.1163)
+____________________ ____________________
+S.E.: Clustered                 by: state
+Observations                        5,000
+R2                                0.22524
+Adj. R2                           0.22446
+---
+Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<ol start="8" type="1">
+<li>Compare the results from point 3 and 7.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">etable</span>(did,did3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                                   did                 did3
+Dependent Var.:             crime_rate           crime_rate
+                                                           
+Constant             22.40*** (0.0798)    20.52*** (0.3038)
+time                  -0.1098 (0.0714)    -0.1292. (0.0693)
+treated_state         -0.1004 (0.1652)     -0.1090 (0.1645)
+time x treated_state 4.204*** (0.1114)    4.232*** (0.1163)
+population                             1.03e-5*** (1.14e-6)
+median_income                             7.56e-6 (5.86e-6)
+____________________ _________________ ____________________
+S.E.: Clustered              by: state            by: state
+Observations                     5,000                5,000
+R2                             0.19950              0.22524
+Adj. R2                        0.19901              0.22446
+---
+Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<ol start="9" type="1">
+<li>Now, use the complete dataset to run your diff-in-diff. However, add fixed effects for both year and states.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>did4<span class="ot">&lt;-</span><span class="fu">feols</span>(crime_rate<span class="sc">~</span>time<span class="sc">*</span>treated_state<span class="sc">|</span>year<span class="sc">+</span>state,<span class="at">cluster=</span><span class="sc">~</span>state,<span class="at">data=</span>crime)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The variables 'time' and 'treated_state' have been removed because of
+collinearity (see $collin.var).</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">etable</span>(did4)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                                  did4
+Dependent Var.:             crime_rate
+                                      
+time x treated_state 3.632*** (0.0384)
+Fixed-Effects:       -----------------
+year                               Yes
+state                              Yes
+____________________ _________________
+S.E.: Clustered              by: state
+Observations                    52,500
+R2                             0.28333
+Within R2                      0.07634
+---
+Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<hr>
+</section>
+<section id="exercise-2" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-2">Exercise 2</h2>
+<p>In 2021, a few local governments implemented policies with stricter emissions controls, other local governments have not (simulated example). The air quality data is available from 2018 to 2022.</p>
+<hr>
+</section>
+<section id="exercise-2-1" class="level2 scrollable">
+<h2 class="scrollable anchored" data-anchor-id="exercise-2-1">Exercise 2</h2>
+<ol type="1">
+<li>Import the emissions dataset</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>emissions<span class="ot">&lt;-</span><span class="fu">import</span>(<span class="st">"https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/exercices/exercices4/data/emissions.RData"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Missing `trust` will be set to FALSE by default for RData in 2.0.0.</code></pre>
+</div>
+</div>
+<ol start="2" type="1">
+<li>Compare the means of pre-treatment (2020) and post-treatment (2022) in both the control and treatment groups.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>emissions<span class="sc">%&gt;%</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year<span class="sc">==</span><span class="st">"2020"</span><span class="sc">|</span>year<span class="sc">==</span><span class="st">"2022"</span>)<span class="sc">%&gt;%</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(treated,year)<span class="sc">%&gt;%</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean=</span><span class="fu">mean</span>(pm25))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has grouped output by 'treated'. You can override using the
+`.groups` argument.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 3
+# Groups:   treated [2]
+  treated  year  mean
+    &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt;
+1       0  2020  44.5
+2       0  2022  65.1
+3       1  2020  45.0
+4       1  2022  55.1</code></pre>
+</div>
+</div>
+<ol start="3" type="1">
+<li>Check out graphically the parallel assumption</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>avg_trends <span class="ot">&lt;-</span> <span class="fu">aggregate</span>(pm25 <span class="sc">~</span> year <span class="sc">+</span> treated, emissions, mean)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(avg_trends,<span class="fu">aes</span>(<span class="at">x=</span>year,<span class="at">y=</span>pm25,<span class="at">color=</span><span class="fu">factor</span>(treated)))<span class="sc">+</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>()<span class="sc">+</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="correction_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<ol start="4" type="1">
+<li>Check out the parallel assumption by running a diff-in-diff between 2018 and 2020</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>did2<span class="ot">&lt;-</span><span class="fu">lm</span>(pm25<span class="sc">~</span>treated<span class="sc">*</span><span class="fu">as.factor</span>(year),<span class="at">data=</span>emissions[emissions<span class="sc">$</span>year<span class="sc">%in%</span><span class="fu">c</span>(<span class="st">"2018"</span>,<span class="st">"2020"</span>),])</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(did2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = pm25 ~ treated * as.factor(year), data = emissions[emissions$year %in% 
+    c("2018", "2020"), ])
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-11.5123  -3.0751  -0.2226   3.0461  11.0298 
+
+Coefficients:
+                            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)                  39.9664     0.7434  53.762  &lt; 2e-16 ***
+treated                       0.2595     1.0513   0.247    0.805    
+as.factor(year)2020           4.5044     1.0513   4.284 3.19e-05 ***
+treated:as.factor(year)2020   0.3090     1.4868   0.208    0.836    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 4.702 on 156 degrees of freedom
+Multiple R-squared:  0.2026,    Adjusted R-squared:  0.1872 
+F-statistic: 13.21 on 3 and 156 DF,  p-value: 9.916e-08</code></pre>
+</div>
+</div>
+<ol start="5" type="1">
+<li>Produce the difference-in-difference analysis</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>did3<span class="ot">&lt;-</span><span class="fu">lm</span>(pm25<span class="sc">~</span>treated<span class="sc">*</span>post,<span class="at">data=</span>emissions[emissions<span class="sc">$</span>year<span class="sc">%in%</span><span class="fu">c</span>(<span class="st">"2020"</span>,<span class="st">"2022"</span>),])</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(did3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = pm25 ~ treated * post, data = emissions[emissions$year %in% 
+    c("2020", "2022"), ])
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-9.7370 -3.3261 -0.6279  2.8201 16.1219 
+
+Coefficients:
+             Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)   44.4708     0.7556  58.851  &lt; 2e-16 ***
+treated        0.5685     1.0686   0.532    0.595    
+post          20.5821     1.0686  19.260  &lt; 2e-16 ***
+treated:post -10.5380     1.5113  -6.973 8.28e-11 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 4.779 on 156 degrees of freedom
+Multiple R-squared:  0.7615,    Adjusted R-squared:  0.7569 
+F-statistic:   166 on 3 and 156 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
+<hr>
+</section>
+<section id="exercise-3" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-3">Exercise 3</h2>
+<p>In 2019, some cities decided to introduce a smoking ban on the terraces of bars and restaurants (simulated example). We want to analyse the effect of the smoking ban on the number of hospitalisations linked to respiratory disease. Use the smoking dataset.</p>
+<hr>
+</section>
+<section id="exercise-3-1" class="level2 scrollable">
+<h2 class="scrollable anchored" data-anchor-id="exercise-3-1">Exercise 3</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>smoking<span class="ot">&lt;-</span><span class="fu">import</span>(<span class="st">"https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/exercices/exercices4/data/smoking.RData"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Missing `trust` will be set to FALSE by default for RData in 2.0.0.</code></pre>
+</div>
+</div>
+<ol type="1">
+<li>Compare the means of the outcome variable (called hospital_admissions) between treated and non-treated cities (variable treated) for the years 2018 and 2020 (before and after treatment, variable years or post).</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>smoking<span class="sc">%&gt;%</span>   <span class="fu">group_by</span>(treated,years)<span class="sc">%&gt;%</span>   </span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean=</span><span class="fu">mean</span>(hospital_admissions))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has grouped output by 'treated'. You can override using the
+`.groups` argument.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 3
+# Groups:   treated [2]
+  treated years  mean
+    &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt;
+1       0 2018   99.5
+2       0 2020   97.3
+3       1 2018  101. 
+4       1 2020   90.5</code></pre>
+</div>
+</div>
+<ol start="2" type="1">
+<li>Produce the difference-in-difference analysis</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>did1<span class="ot">&lt;-</span><span class="fu">lm</span>(hospital_admissions<span class="sc">~</span>treated<span class="sc">*</span>post,<span class="at">data=</span>smoking) </span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(did1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = hospital_admissions ~ treated * post, data = smoking)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-12.0093  -3.2409  -0.4373   2.9408  16.8755 
+
+Coefficients:
+             Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)   99.4922     0.6606 150.606  &lt; 2e-16 ***
+treated        1.0956     0.9437   1.161   0.2471    
+post          -2.1625     0.9342  -2.315   0.0217 *  
+treated:post  -7.9619     1.3346  -5.966 1.12e-08 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 4.718 on 196 degrees of freedom
+Multiple R-squared:  0.4112,    Adjusted R-squared:  0.4022 
+F-statistic: 45.63 on 3 and 196 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
 
 
 </section>
