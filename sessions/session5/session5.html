@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>session5 – Quantitative methods II</title>
+<title>Session 5 - Regression discontinuity and instrumental variables – Quantitative methods II</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -22,6 +22,41 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -43,7 +78,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-dea667461a5c81afc9ba75ce94cd63f3.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-be3771519f21acc1c5b6733774c6dcd8.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -71,7 +106,39 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<script src="../../site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="../../site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="../../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../../styles.css">
 </head>
@@ -216,17 +283,738 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#motivation" id="toc-motivation" class="nav-link active" data-scroll-target="#motivation">Motivation</a></li>
+  <li><a href="#regression-discontinuity-design" id="toc-regression-discontinuity-design" class="nav-link" data-scroll-target="#regression-discontinuity-design">Regression discontinuity design</a>
+  <ul class="collapse">
+  <li><a href="#regression-discontinuity-design-rdd" id="toc-regression-discontinuity-design-rdd" class="nav-link" data-scroll-target="#regression-discontinuity-design-rdd">Regression Discontinuity Design (RDD)</a>
+  <ul class="collapse">
+  <li><a href="#sharp-and-fuzzy-rdd" id="toc-sharp-and-fuzzy-rdd" class="nav-link" data-scroll-target="#sharp-and-fuzzy-rdd">Sharp and fuzzy RDD</a></li>
+  </ul></li>
+  <li><a href="#examples-of-sharp-and-fuzzy-rdd" id="toc-examples-of-sharp-and-fuzzy-rdd" class="nav-link" data-scroll-target="#examples-of-sharp-and-fuzzy-rdd">Examples of sharp and fuzzy RDD</a>
+  <ul class="collapse">
+  <li><a href="#graphical-intuition" id="toc-graphical-intuition" class="nav-link" data-scroll-target="#graphical-intuition">Graphical Intuition</a></li>
+  </ul></li>
+  <li><a href="#example-scholarship-effect-on-gpa" id="toc-example-scholarship-effect-on-gpa" class="nav-link" data-scroll-target="#example-scholarship-effect-on-gpa">Example: Scholarship Effect on GPA</a>
+  <ul class="collapse">
+  <li><a href="#interpretation" id="toc-interpretation" class="nav-link" data-scroll-target="#interpretation">Interpretation</a></li>
+  </ul></li>
+  <li><a href="#using-built-in-functions" id="toc-using-built-in-functions" class="nav-link" data-scroll-target="#using-built-in-functions">Using built-in functions</a></li>
+  <li><a href="#continuity-at-the-cutoff" id="toc-continuity-at-the-cutoff" class="nav-link" data-scroll-target="#continuity-at-the-cutoff">Continuity at the cutoff</a></li>
+  </ul></li>
+  <li><a href="#instrumental-variables" id="toc-instrumental-variables" class="nav-link" data-scroll-target="#instrumental-variables">Instrumental variables</a>
+  <ul class="collapse">
+  <li><a href="#an-example" id="toc-an-example" class="nav-link" data-scroll-target="#an-example">An example</a></li>
+  <li><a href="#robustness-checks" id="toc-robustness-checks" class="nav-link" data-scroll-target="#robustness-checks">Robustness checks</a>
+  <ul class="collapse">
+  <li><a href="#relevance-of-the-instrument" id="toc-relevance-of-the-instrument" class="nav-link" data-scroll-target="#relevance-of-the-instrument">Relevance of the instrument</a></li>
+  <li><a href="#exclusion-restriction" id="toc-exclusion-restriction" class="nav-link" data-scroll-target="#exclusion-restriction">Exclusion restriction</a></li>
+  </ul></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Session 5 - Regression discontinuity and instrumental variables</h1>
+</div>
 
 
 
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
 
 
+</header>
 
+
+<section id="motivation" class="level2">
+<h2 class="anchored" data-anchor-id="motivation">Motivation</h2>
+<p>The first identification strategy we have considered so far is the difference-in-differences approach. This method of causal inference uses panel data and, by comparing treated and untreated units over time, estimates the causal effects of a treatment on a given dependent variable. However, there are many situations in which tracking such groups over time is not feasible—for example, due to data limitations or because the treatment affects all individuals within a group.</p>
+<p>For this reason, alternative strategies have been developed to analyze causal effects, such as regression discontinuity designs (RDD) and instrumental variables (IV).</p>
+<p>These approaches rely on identifying variables that predict treatment assignment but are exogenous to other determinants of the outcome. In the case of RDD, exogeneity arises from the discrete nature of treatment assignment: in many contexts, treatment is determined by a cutoff rule, as is often the case in public policy. This discontinuity creates a sharp jump that allows us to compare very similar individuals on either side of the threshold—some receiving the treatment, others not—in order to estimate its causal impact. For example, legal drinking age or driving eligibility is determined by age thresholds: once an individual turns eighteen, they become eligible, regardless of other characteristics such as parental behavior, income, or education.</p>
+<p>Instrumental variables rely on a different source of variation. An instrument is a variable that strongly predicts treatment assignment but does not directly affect the outcome, except through the treatment itself. In other words, the instrument is exogenous to the dependent variable and influences it only indirectly via the treatment. This approach is typically implemented using a two-stage regression procedure. In the first stage, the treatment variable is regressed on the instrument to isolate the variation in treatment that is driven by the instrument. In the second stage, the outcome variable is regressed on this predicted component of the treatment. This procedure allows us to recover a causal estimate even when the treatment is endogenous.</p>
+<p>This session will first present regression discontinuity, then instrumental variables.</p>
+</section>
+<section id="regression-discontinuity-design" class="level1">
+<h1>Regression discontinuity design</h1>
+<section id="regression-discontinuity-design-rdd" class="level2">
+<h2 class="anchored" data-anchor-id="regression-discontinuity-design-rdd">Regression Discontinuity Design (RDD)</h2>
+<p>Regression discontinuity design (RDD) is an identification strategy that exploits discontinuities in treatment assignment rules to estimate causal effects. It applies in settings where treatment is determined by whether an observed running variable <span class="math inline">\(X\)</span> crosses a known cutoff <span class="math inline">\(c\)</span>. The key idea is that units located very close to the cutoff are comparable in all respects except for their treatment status.</p>
+<p>Under appropriate assumptions, any discontinuity in the outcome variable at the cutoff can therefore be attributed to the causal effect of the treatment.</p>
+<section id="sharp-and-fuzzy-rdd" class="level3">
+<h3 class="anchored" data-anchor-id="sharp-and-fuzzy-rdd">Sharp and fuzzy RDD</h3>
+<p>The difference between sharp and fuzzy RDD lies in how treatment is assigned at the cutoff. In a sharp RDD, the probability of receiving the treatment jumps deterministically at the cutoff: all units on one side of the threshold receive the treatment, and none on the other side do. In contrast, in a fuzzy RDD, the probability of treatment also jumps at the cutoff, but not all units comply perfectly. Some units above the cutoff may not receive the treatment, and some below the cutoff may receive it. In other words, the jump in treatment probability is partial, reflecting imperfect compliance or other factors, rather than a deterministic assignment.</p>
+<p>This is illustrated in the following figure, which shows the probability of receiving the treatment as a function of the running variable, <span class="math inline">\(P(D = 1 \mid X)\)</span>. The figure compares the two cases: in a sharp RDD, treatment assignment is perfectly deterministic at the cutoff, resulting in a full jump from 0 to 1; in a fuzzy RDD, the probability of treatment also jumps at the cutoff, but not all units comply, so the jump is partial rather than complete.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Sharp RDD</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">Fuzzy RDD</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+ℹ Please use `linewidth` instead.</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="session5_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="session5_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="examples-of-sharp-and-fuzzy-rdd" class="level2">
+<h2 class="anchored" data-anchor-id="examples-of-sharp-and-fuzzy-rdd">Examples of sharp and fuzzy RDD</h2>
+<p>The difference between sharp and fuzzy RDD lies in how treatment is assigned at the cutoff. In a sharp RDD, treatment assignment is perfectly deterministic: all units above the threshold receive the treatment, and all units below it do not. Examples include the legal drinking age—once a person turns 18, they are legally allowed to drink—and driving eligibility, where turning 16 or 18 (depending on the country) makes someone automatically eligible for a license. Other examples include scholarship programs with strict score thresholds, where all students above a cutoff receive the award.</p>
+<p>In contrast, a fuzzy RDD occurs when the probability of receiving treatment jumps at the cutoff but is not deterministic. Some units do not comply, or other factors affect actual treatment. For instance, in college admissions, a student above a test score threshold may choose not to enroll or be prevented by financial constraints, while some students below the cutoff may still enroll via exceptions. Similarly, in subsidy programs, eligibility is determined by income or age thresholds, but not all eligible individuals take up the subsidy. Draft lotteries also illustrate a fuzzy design: a randomly assigned lottery number increases the probability of being drafted, but not everyone with a “drafted” number serves, and some with an “undrafted” number may still serve.</p>
+<section id="graphical-intuition" class="level3">
+<h3 class="anchored" data-anchor-id="graphical-intuition">Graphical Intuition</h3>
+<p>Once we understand the difference between sharp and fuzzy RDD, the intuition behind RDD is most clearly illustrated using a graph. On the horizontal axis, we plot the running variable <span class="math inline">\(X\)</span>, and on the vertical axis, the outcome variable <span class="math inline">\(Y\)</span>. The cutoff <span class="math inline">\(c\)</span> is represented by a vertical line.</p>
+<p>A sharp RDD arises when treatment assignment is a deterministic function of the running variable. Formally, treatment is defined as:</p>
+<p><span class="math display">\[\begin{equation}
+D_i = 1\{X_i \geq c\}
+\end{equation}\]</span></p>
+<p>so that all units with <span class="math inline">\(X_i \geq c\)</span> receive the treatment, and none of those with <span class="math inline">\(X_i &lt; c\)</span> do.</p>
+<p>The causal effect is identified by comparing the conditional expectation of the outcome variable on either side of the cutoff:</p>
+<p><span class="math display">\[\begin{equation}
+\tau = \lim_{x \to c^+} \mathbb{E}[Y_i \mid X_i = x] - \lim_{x \to c^-} \mathbb{E}[Y_i \mid X_i = x]
+\end{equation}\]</span></p>
+<p>This parameter captures the average treatment effect at the cutoff. Identification relies on the assumption that, in the absence of treatment, the conditional expectation of the outcome would be continuous at <span class="math inline">\(c\)</span>. In other words, units just above and just below the threshold would have had similar outcomes if neither group had been treated.</p>
+<p>In practice, estimation is typically performed using local linear regressions on either side of the cutoff, restricting attention to observations within a bandwidth around <span class="math inline">\(c\)</span>. That is, estimating :</p>
+<p><span class="math display">\[\begin{equation}
+Y_i = \alpha + \beta X_i + \delta D_i + \epsilon_i,
+\end{equation}\]</span> where <span class="math inline">\(X_i\)</span> is the running variable, and <span class="math inline">\(D_i\)</span> is the treatment dummy.</p>
+<p>The choice of bandwidth involves a bias-variance trade-off: narrower bandwidths improve comparability but reduce precision, while wider bandwidths increase precision at the cost of potentially introducing bias.</p>
+<p>Each point on the graph corresponds to an observation. We then fit separate regression lines (or smooth curves) on either side of the cutoff. If the <strong>treatment has a causal effect</strong> on the running variable, we expect to observe a discontinuity—a jump—in the outcome at <span class="math inline">\(X = c\)</span>.</p>
+<ul>
+<li>To the <strong>left of the cutoff</strong> (<span class="math inline">\(X &lt; c\)</span>), units are untreated.</li>
+<li>To the <strong>right of the cutoff</strong> (<span class="math inline">\(X \geq c\)</span>), units are treated.</li>
+<li>The <strong>size of the vertical jump at the cutoff</strong> corresponds to the estimated treatment effect <span class="math inline">\(\tau\)</span>.</li>
+</ul>
+<div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'
+`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="session5_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Crucially, the identification assumption implies that, absent treatment, the outcome would evolve smoothly through the cutoff.This assumption is called continuity at the cutoff assumption. Therefore, any observed jump at <span class="math inline">\(c\)</span> can be attributed to the treatment rather than to underlying differences between units.</p>
+<p>In practice, researchers often visualize this by plotting binned averages of <span class="math inline">\(Y\)</span> against <span class="math inline">\(X\)</span>, along with fitted lines on each side of the cutoff. A clear discontinuity at the threshold provides visual evidence supporting the validity of the RDD design.</p>
+</section>
+</section>
+<section id="example-scholarship-effect-on-gpa" class="level2">
+<h2 class="anchored" data-anchor-id="example-scholarship-effect-on-gpa">Example: Scholarship Effect on GPA</h2>
+<p>We want to study whether receiving a scholarship (hence, being funded for your studies) influences your results. We consider a scenario where a scholarship is awarded to students who score 80 or more on an entrance exam. The running variable is the exam score X, and the outcome is the GPA after one year. The scholarship is expected to increase GPA (because students work in better conditions), creating a discontinuity at the cutoff. We generate the data to obtain a smooth cutoff.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> X, <span class="at">y =</span> Y)) <span class="sc">+</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Separate regression lines on each side of cutoff</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">data =</span> <span class="fu">subset</span>(df, X <span class="sc">&lt;</span> cutoff), <span class="fu">aes</span>(<span class="at">x =</span> X, <span class="at">y =</span> Y), <span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">color =</span> <span class="st">"blue"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">data =</span> <span class="fu">subset</span>(df, X <span class="sc">&gt;=</span> cutoff), <span class="fu">aes</span>(<span class="at">x =</span> X, <span class="at">y =</span> Y), <span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">color =</span> <span class="st">"red"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Vertical line at cutoff</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> cutoff, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"RDD: Effect of Scholarship on GPA"</span>,</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Entrance Exam Score"</span>,</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"GPA after 1 Year"</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'
+`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="session5_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="interpretation" class="level3">
+<h3 class="anchored" data-anchor-id="interpretation">Interpretation</h3>
+<p>Students just above and just below the cutoff (a score of 80 on the entrance exam) are comparable, except for scholarship receipt. The jump in GPA at the cutoff can therefore be interpreted as the causal effect of the scholarship, assuming that no other factors change discontinuously at that score.</p>
+<p>A first way to estimate the LATE (local average treatment effect) is to define a bandwidth, <span class="math inline">\(bd\)</span>, around the cutoff of the running variable within which the estimation is performed. For instance, one might consider only observations within 10 points of the cutoff. A larger bandwidth increases the sample size and thus the statistical precision of the estimates, but it also raises the risk of bias, as students farther from the cutoff may no longer be truly comparable.</p>
+<p>Two examples of LATE estimation are provided below: one using a very small bandwidthand the other a much larger one, illustrating the trade-off between bias and precision.</p>
+<p><span class="math display">\[\begin{equation}
+Y_i (h) = \alpha + \beta X_i (h) + \delta D_i + \epsilon_i
+\end{equation}\]</span></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.4     ✔ readr     2.1.6
+✔ forcats   1.0.1     ✔ stringr   1.6.0
+✔ lubridate 1.9.4     ✔ tibble    3.3.1
+✔ purrr     1.2.1     ✔ tidyr     1.3.2
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MASS)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'MASS'
+
+The following object is masked from 'package:dplyr':
+
+    select</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stargazer)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Please cite as: 
+
+ Hlavac, Marek (2022). stargazer: Well-Formatted Regression and Summary Statistics Tables.
+ R package version 5.2.3. https://CRAN.R-project.org/package=stargazer </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the bandwidth</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>h <span class="ot">&lt;-</span> <span class="dv">10</span>  </span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Subset data within ±0.2 of the threshold</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>rd_data1<span class="ot">&lt;-</span> df <span class="sc">|&gt;</span> </span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">abs</span>(X <span class="sc">-</span> <span class="dv">80</span>) <span class="sc">&lt;=</span> h)</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>rd_data2<span class="ot">&lt;-</span> df <span class="sc">|&gt;</span> </span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">abs</span>(X <span class="sc">-</span> <span class="dv">80</span>) <span class="sc">&lt;=</span> <span class="fl">0.1</span><span class="sc">*</span>h)</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Create running variable centered at the threshold</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>rd_data1 <span class="ot">&lt;-</span> rd_data1 <span class="sc">|&gt;</span> </span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">centered_X =</span> X <span class="sc">-</span> <span class="dv">80</span>,  <span class="co"># Centering at the threshold</span></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">treatment =</span> <span class="fu">if_else</span>(X <span class="sc">&gt;=</span> <span class="dv">80</span>, <span class="dv">1</span>, <span class="dv">0</span>) <span class="co"># Treatment indicator</span></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>rd_data2 <span class="ot">&lt;-</span> rd_data2 <span class="sc">|&gt;</span> </span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">centered_X =</span> X <span class="sc">-</span> <span class="dv">80</span>,  <span class="co"># Centering at the threshold</span></span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">treatment =</span> <span class="fu">if_else</span>(X <span class="sc">&gt;=</span> <span class="dv">80</span>, <span class="dv">1</span>, <span class="dv">0</span>) <span class="co"># Treatment indicator</span></span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimate local linear regression with interaction</span></span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>rd_model1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(Y<span class="sc">~</span> treatment <span class="sc">+</span> centered_X, <span class="at">data =</span> rd_data1)</span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a>rd_model2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(Y<span class="sc">~</span> treatment <span class="sc">+</span> centered_X, <span class="at">data =</span> rd_data2)</span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>rd_model3 <span class="ot">&lt;-</span> <span class="fu">rlm</span>(Y<span class="sc">~</span> treatment <span class="sc">+</span> centered_X, <span class="at">data =</span> rd_data2)</span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a><span class="co">#Compare the models</span></span>
+<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a><span class="fu">stargazer</span>(rd_model1, rd_model2, rd_model3, <span class="at">type =</span> <span class="st">"text"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+===================================================================================
+                                          Dependent variable:                      
+                    ---------------------------------------------------------------
+                                                   Y                               
+                                          OLS                           robust     
+                                                                        linear     
+                              (1)                     (2)                 (3)      
+-----------------------------------------------------------------------------------
+treatment                   0.573***                0.691**            0.682***    
+                            (0.061)                 (0.231)             (0.178)    
+                                                                                   
+centered_X                  0.041***                 -0.014             -0.004     
+                            (0.005)                 (0.182)             (0.140)    
+                                                                                   
+Constant                    5.965***                5.873***           5.868***    
+                            (0.033)                 (0.140)             (0.108)    
+                                                                                   
+-----------------------------------------------------------------------------------
+Observations                  156                      14                 14       
+R2                           0.885                   0.806                         
+Adjusted R2                  0.884                   0.770                         
+Residual Std. Error     0.184 (df = 153)        0.185 (df = 11)     0.092 (df = 11)
+F Statistic         591.223*** (df = 2; 153) 22.789*** (df = 2; 11)                
+===================================================================================
+Note:                                                   *p&lt;0.1; **p&lt;0.05; ***p&lt;0.01</code></pre>
+</div>
+</div>
+<p>The results indeed give you values around 0.5, as expected : the causal estimate through RDD is therefore of 0.5 (the increase in GPA after one year, for those who received the scholarship).</p>
+</section>
+</section>
+<section id="using-built-in-functions" class="level2">
+<h2 class="anchored" data-anchor-id="using-built-in-functions">Using built-in functions</h2>
+<p>If you don’t wath to bother with the data preparation, you can compute the RDD estimate of the causal effect of the scholarship by calling <code>rdrobust()</code> from the library <code>rdrobust</code>, which only requires you to specify the following variables :</p>
+<ol type="1">
+<li>Your dependent variable <span class="math inline">\(Y\)</span></li>
+<li>Your running variable <span class="math inline">\(X\)</span></li>
+<li>Your cutoff</li>
+<li>Your bandwidth <span class="math inline">\(h\)</span></li>
+</ol>
+<p>It will then compute robust estimates of your causal effect.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rdrobust)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rddtools)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: AER</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: car</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: carData</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'car'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:dplyr':
+
+    recode</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:purrr':
+
+    some</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: lmtest</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: zoo</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'zoo'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    as.Date, as.Date.numeric</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: sandwich</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: survival</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: np</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Nonparametric Kernel Methods for Mixed Datatypes (version 0.60-20)
+[vignette("np_faq",package="np") provides answers to frequently asked questions]
+[vignette("np",package="np") an overview]
+[vignette("entropy_np",package="np") an overview of entropy-based methods]</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Please consider citing R and rddtools,
+citation()
+citation('rddtools')</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Parameters</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Run robust RDD</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>rdd_result <span class="ot">&lt;-</span> <span class="fu">rdrobust</span>(<span class="at">y =</span> df<span class="sc">$</span>Y, <span class="at">x =</span> df<span class="sc">$</span>X, <span class="at">c =</span> cutoff, <span class="at">h =</span> <span class="dv">10</span>) <span class="co"># h = points allows to specify the number of points</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Print summary</span></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(rdd_result)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Sharp RD estimates using local polynomial regression.
+
+Number of Obs.                  300
+BW type                      Manual
+Kernel                   Triangular
+VCE method                       NN
+
+Number of Obs.                  155          145
+Eff. Number of Obs.              82           74
+Order est. (p)                    1            1
+Order bias  (q)                   2            2
+BW est. (h)                  10.000       10.000
+BW bias (b)                  10.000       10.000
+rho (h/b)                     1.000        1.000
+Unique Obs.                     155          145
+
+=====================================================================
+                   Point    Robust Inference
+                Estimate         z     P&gt;|z|      [ 95% C.I. ]       
+---------------------------------------------------------------------
+     RD Effect     0.631     7.375     0.000     [0.540 , 0.931]     
+=====================================================================</code></pre>
+</div>
+</div>
+<p>If you do not specify the value of<span class="math inline">\(h\)</span>, the function automatically selects an optimal bandwidth based on statistical criteria that optimally balance bias and variance.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rdrobust)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rddtools)</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Parameters</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Run robust RDD</span></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>rdd_result <span class="ot">&lt;-</span> <span class="fu">rdrobust</span>(<span class="at">y =</span> df<span class="sc">$</span>Y, <span class="at">x =</span> df<span class="sc">$</span>X, <span class="at">c =</span> cutoff) <span class="co"># h = points allows to specify the number of points</span></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Print summary</span></span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(rdd_result)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Sharp RD estimates using local polynomial regression.
+
+Number of Obs.                  300
+BW type                       mserd
+Kernel                   Triangular
+VCE method                       NN
+
+Number of Obs.                  155          145
+Eff. Number of Obs.              49           38
+Order est. (p)                    1            1
+Order bias  (q)                   2            2
+BW est. (h)                   5.606        5.606
+BW bias (b)                  10.283       10.283
+rho (h/b)                     0.545        0.545
+Unique Obs.                     155          145
+
+=====================================================================
+                   Point    Robust Inference
+                Estimate         z     P&gt;|z|      [ 95% C.I. ]       
+---------------------------------------------------------------------
+     RD Effect     0.695     7.033     0.000     [0.525 , 0.931]     
+=====================================================================</code></pre>
+</div>
+</div>
+</section>
+<section id="continuity-at-the-cutoff" class="level2">
+<h2 class="anchored" data-anchor-id="continuity-at-the-cutoff">Continuity at the cutoff</h2>
+<p>The main identifying assumption of RDD is the continuity at the cutoff assumption - that is, in the absence of treatment, the dependent variable <span class="math inline">\(Y\)</span> would have followed a continuous trend at the cutoff. Hence, the effect is only due to the treatment. To prove this, different robustness checks can be performed.</p>
+<ol type="1">
+<li><p><strong>Covariate continuity tests</strong>: check that observable characteristics (e.g., age, gender, prior grades) evolve smoothly at the cutoff. This can be done by using the same functions as before, with other dependent variables.</p></li>
+<li><p><strong>McCrary density test</strong>: test whether the density of the running variable is continuous at the cutoff, which helps detect manipulation or sorting around the threshold. It could be the case for instance if some students who scored just below 80 (say 78–79 points) bribed the teacher or found ways to retake part of the exam, or strategically delayed grading to barely cross 80. Then the density around 80 would be discontinuous.</p></li>
+</ol>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("rddensity")</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Load packages</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rddensity)</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Parameters</span></span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">500</span></span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>cutoff <span class="ot">&lt;-</span> <span class="dv">80</span></span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulate running variable X (exam score)</span></span>
+<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Normal distribution around 75–85</span></span>
+<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="at">mean =</span> <span class="dv">78</span>, <span class="at">sd =</span> <span class="dv">5</span>)</span>
+<span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-16"><a href="#cb33-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Introduce manipulation: add "bunching" just above the cutoff</span></span>
+<span id="cb33-17"><a href="#cb33-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Students who scored 78–79 get bumped to 80</span></span>
+<span id="cb33-18"><a href="#cb33-18" aria-hidden="true" tabindex="-1"></a>manipulated <span class="ot">&lt;-</span> X <span class="sc">&gt;</span> <span class="dv">77</span> <span class="sc">&amp;</span> X <span class="sc">&lt;</span> cutoff</span>
+<span id="cb33-19"><a href="#cb33-19" aria-hidden="true" tabindex="-1"></a>X[manipulated] <span class="ot">&lt;-</span> cutoff</span>
+<span id="cb33-20"><a href="#cb33-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-21"><a href="#cb33-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulate outcome variable Y (GPA), continuous around 3.0</span></span>
+<span id="cb33-22"><a href="#cb33-22" aria-hidden="true" tabindex="-1"></a>Y <span class="ot">&lt;-</span> <span class="fl">2.5</span> <span class="sc">+</span> <span class="fl">0.03</span> <span class="sc">*</span> X <span class="sc">+</span> <span class="fu">rnorm</span>(n, <span class="dv">0</span>, <span class="fl">0.2</span>)</span>
+<span id="cb33-23"><a href="#cb33-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-24"><a href="#cb33-24" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(X, Y)</span>
+<span id="cb33-25"><a href="#cb33-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-26"><a href="#cb33-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Run McCrary density test</span></span>
+<span id="cb33-27"><a href="#cb33-27" aria-hidden="true" tabindex="-1"></a>dens_test <span class="ot">&lt;-</span> <span class="fu">rddensity</span>(<span class="at">X =</span> df<span class="sc">$</span>X, <span class="at">c =</span> cutoff)</span>
+<span id="cb33-28"><a href="#cb33-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-29"><a href="#cb33-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Summary</span></span>
+<span id="cb33-30"><a href="#cb33-30" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(dens_test)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Manipulation testing using local polynomial density estimation.
+
+Number of obs =       500
+Model =               unrestricted
+Kernel =              triangular
+BW method =           estimated
+VCE method =          jackknife
+
+c = 80                Left of c           Right of c          
+Number of obs         212                 288                 
+Eff. Number of obs    203                 286                 
+Order est. (p)        2                   2                   
+Order bias (q)        3                   3                   
+BW est. (h)           12.117              10.839              
+
+Method                T                   P &gt; |T|             
+Robust                -2.3671             0.0179              </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in summary.CJMrddensity(dens_test): There are repeated observations.
+Point estimates and standard errors have been adjusted. Use option
+massPoints=FALSE to suppress this feature.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+P-values of binomial tests (H0: p=0.5).
+
+Window Length              &lt;c     &gt;=c    P&gt;|T|
+3.328     + 3.328          20     214    0.0000
+4.305     + 4.163          60     230    0.0000
+5.281     + 4.997         101     245    0.0000
+6.258     + 5.832         124     255    0.0000
+7.234     + 6.666         143     266    0.0000
+8.211     + 7.501         163     270    0.0000
+9.187     + 8.335         180     278    0.0000
+10.164    + 9.170         190     283    0.0000
+11.140    + 10.004        200     285    0.0001
+12.117    + 10.839        203     286    0.0002</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the density</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rdplotdensity</span>(dens_test, <span class="at">X =</span> df<span class="sc">$</span>X)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="session5_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$Estl
+Call: lpdensity
+
+Sample size                                      212
+Polynomial order for point estimation    (p=)    2
+Order of derivative estimated            (v=)    1
+Polynomial order for confidence interval (q=)    3
+Kernel function                                  triangular
+Scaling factor                                   0.424849699398798
+Bandwidth method                                 user provided
+
+Use summary(...) to show estimates.
+
+$Estr
+Call: lpdensity
+
+Sample size                                      288
+Polynomial order for point estimation    (p=)    2
+Order of derivative estimated            (v=)    1
+Polynomial order for confidence interval (q=)    3
+Kernel function                                  triangular
+Scaling factor                                   0.577154308617234
+Bandwidth method                                 user provided
+
+Use summary(...) to show estimates.
+
+$Estplot</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="session5_files/figure-html/unnamed-chunk-9-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<ol start="3" type="1">
+<li><p><strong>Placebo cutoffs</strong>: estimate the RDD at fake cutoffs where no treatment occurs; no discontinuity should be found.</p></li>
+<li><p><strong>Varying bandwidths</strong>: verify that results are robust to different choices of bandwidth.</p></li>
+<li><p><strong>Varying polynomial orders</strong>: check that results are not driven by a specific functional form, by changing the order of the estimation in the argument of the function <code>p =</code>.</p></li>
+</ol>
+</section>
+</section>
+<section id="instrumental-variables" class="level1">
+<h1>Instrumental variables</h1>
+<p>In instrumental variables (IV) estimation, the logic is slightly different. Imagine you want to measure the causal effect of a treatment or policy on an outcome. A typical problem is endogeneity: the treatment is correlated with unobserved factors that also affect the outcome.</p>
+<p>For example, suppose you want to estimate the effect of scholarship receipt on GPA. Students who apply or are selected for the scholarship may differ in unobserved ways (motivation, prior effort) from those who do not, creating bias in a simple regression.</p>
+<p>An instrumental variable is a variable that:</p>
+<ol type="1">
+<li>Affects the treatment (relevance),</li>
+<li>Does not directly affect the outcome except through the treatment (exclusion restriction), and Is independent of unobserved confounders (validity).</li>
+<li>By using an instrument, we can isolate the exogenous variation in the treatment and estimate its causal effect.</li>
+</ol>
+<p>In this context, the IV estimate corresponds to a local average treatment effect (LATE) — the effect for the subpopulation whose treatment status is influenced by the instrument. This is summarised on the figure below.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+    U[Unobserved Confounders] --&gt; X[Endogenous Variable]
+    U --&gt; Y[Outcome]
+    Z[Instrument] --&gt; X
+    X --&gt; Y
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p>To compute the local average treatment effect (LATE), we generally use two-stage least squares (2SLS) regressions.</p>
+<p>1.First stage: regress the treatment variable <span class="math inline">\(D_i\)</span> on the instrument <span class="math inline">\(Z_i\)</span>:</p>
+<p><span class="math display">\[\begin{equation}
+D_i = \alpha + \beta Z_i + \epsilon_i
+\end{equation}\]</span></p>
+<p>This captures how the instrument affects the treatment.</p>
+<ol start="2" type="1">
+<li>Second stage: regress the outcome variable <span class="math inline">\(Y_i\)</span> on the <strong>fitted values</strong> from the first stage, <span class="math inline">\(\hat{D}_i\)</span>:</li>
+</ol>
+<p><span class="math display">\[\begin{equation}
+Y_i = \alpha + \beta X_i+ \delta \hat{D}_i + \epsilon_i
+\end{equation}\]</span></p>
+<p>By using <span class="math inline">\(\hat{D}_i\)</span> instead of <span class="math inline">\(D_i\)</span>, you isolate the variation in <span class="math inline">\(D\)</span> that is <strong>due only to the exogenous instrument</strong>, removing endogeneity bias. The coefficient <span class="math inline">\(\delta\)</span> then estimates the causal effect of the treatment on the outcome — the LATE.</p>
+<section id="an-example" class="level2">
+<h2 class="anchored" data-anchor-id="an-example">An example</h2>
+<p>A typical example of an instrumental variable (IV) approach is analyzing the effect of education on earnings. Since more educated individuals tend to have higher earnings, there are many factors that could influence both education and earnings—these are omitted variables, such as individual ability, family background, and motivation, which are difficult or impossible to measure.</p>
+<p>Measuring the causal effect of education therefore often requires the use of instrumental variables to isolate exogenous variation in education. For example, some authors have argued that a good IV for educational attainment is the distance to the nearest college.</p>
+<p>The logic is the following. Students living closer to a college are more likely to obtain additional schooling, but the distance itself is unlikely to directly affect future earnings, satisfying the IV assumptions of relevance and exclusion. Of course, one could argue that distance to college is perhaps correlated with variables influencing both the outcome and the treatment : that is, education of parents, or income of the parents, etc. These variables can be controlled for, to keep only the instrument in the regression.</p>
+<p>The IV can be computed in three different ways : - Using two successive linear regressions; - Using the <code>ivreg</code> function from the <code>AER</code> package - Using the <code>iv_robust</code> function from the <code>estimatr</code> package</p>
+<p>I simulate data here to analyse the impact of education on earnings, using distance to college as my instrument.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load required package</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(AER)  <span class="co"># For ivreg (2SLS)</span></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(estimatr)</span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Sample size</span></span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">500</span></span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Instrument: distance to nearest college (in km, exogenous)</span></span>
+<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a>distance_to_college <span class="ot">&lt;-</span> <span class="fu">runif</span>(n, <span class="dv">0</span>, <span class="dv">50</span>)  <span class="co"># 0 = very close, 50 = far</span></span>
+<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Unobserved confounder: ability or motivation</span></span>
+<span id="cb39-13"><a href="#cb39-13" aria-hidden="true" tabindex="-1"></a>ability <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb39-14"><a href="#cb39-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-15"><a href="#cb39-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Treatment: years of education (depends on distance and ability)</span></span>
+<span id="cb39-16"><a href="#cb39-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Students closer to college tend to get more education</span></span>
+<span id="cb39-17"><a href="#cb39-17" aria-hidden="true" tabindex="-1"></a>education <span class="ot">&lt;-</span> <span class="dv">12</span> <span class="sc">+</span> <span class="fl">0.05</span> <span class="sc">*</span> (<span class="dv">50</span> <span class="sc">-</span> distance_to_college) <span class="sc">+</span> <span class="fl">0.8</span> <span class="sc">*</span> ability <span class="sc">+</span> <span class="fu">rnorm</span>(n, <span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb39-18"><a href="#cb39-18" aria-hidden="true" tabindex="-1"></a><span class="co"># education is continuous: years of schooling</span></span>
+<span id="cb39-19"><a href="#cb39-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-20"><a href="#cb39-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Outcome: earnings (depends on education and ability)</span></span>
+<span id="cb39-21"><a href="#cb39-21" aria-hidden="true" tabindex="-1"></a>earnings <span class="ot">&lt;-</span> <span class="dv">20000</span> <span class="sc">+</span> <span class="dv">1500</span> <span class="sc">*</span> education <span class="sc">+</span> <span class="dv">5000</span> <span class="sc">*</span> ability <span class="sc">+</span> <span class="fu">rnorm</span>(n, <span class="dv">0</span>, <span class="dv">5000</span>)</span>
+<span id="cb39-22"><a href="#cb39-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-23"><a href="#cb39-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine into a data frame</span></span>
+<span id="cb39-24"><a href="#cb39-24" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(earnings, education, distance_to_college, ability)</span>
+<span id="cb39-25"><a href="#cb39-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-26"><a href="#cb39-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Quick look</span></span>
+<span id="cb39-27"><a href="#cb39-27" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(df)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  earnings education distance_to_college     ability
+1 45909.00  15.01900           14.378876 -0.37560287
+2 38260.18  11.97003           39.415257 -0.56187636
+3 41019.36  13.71389           20.448846 -0.34391723
+4 41251.12  12.57881           44.150870  0.09049665
+5 54311.44  13.24152           47.023364  1.59850877
+6 35838.17  14.19486            2.277825 -0.08856511</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Naive OLS (biased because of ability confounding)</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>lm_first <span class="ot">&lt;-</span> <span class="fu">lm</span>(education <span class="sc">~</span> distance_to_college, <span class="at">data =</span> df)</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>fitted_educ <span class="ot">&lt;-</span> lm_first<span class="sc">$</span>fitted.values</span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>ivcom <span class="ot">&lt;-</span> <span class="fu">lm</span>(earnings <span class="sc">~</span> fitted_educ, <span class="at">data =</span> df)</span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(ivcom)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = earnings ~ fitted_educ, data = df)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-25795.3  -5499.6    518.1   5419.4  22921.3 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  25102.2     7044.6   3.563 0.000401 ***
+fitted_educ   1140.4      528.9   2.156 0.031537 *  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 8360 on 498 degrees of freedom
+Multiple R-squared:  0.00925,   Adjusted R-squared:  0.007261 
+F-statistic:  4.65 on 1 and 498 DF,  p-value: 0.03154</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 2SLS using distance as instrument</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>iv_model <span class="ot">&lt;-</span> <span class="fu">ivreg</span>(earnings <span class="sc">~</span> education <span class="sc">|</span> distance_to_college, <span class="at">data =</span> df)</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>iv_model2 <span class="ot">&lt;-</span> <span class="fu">iv_robust</span>(earnings <span class="sc">~</span> education <span class="sc">|</span> distance_to_college, <span class="at">data =</span> df)</span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(iv_model, <span class="at">diagnostics =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+ivreg(formula = earnings ~ education | distance_to_college, data = df)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-25205.8  -5259.7    446.7   5096.0  20841.8 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  25102.2     6382.8   3.933 9.59e-05 ***
+education     1140.4      479.2   2.380   0.0177 *  
+
+Diagnostic tests:
+                 df1 df2 statistic  p-value    
+Weak instruments   1 498    150.08  &lt; 2e-16 ***
+Wu-Hausman         1 497     31.63 3.12e-08 ***
+Sargan             0  NA        NA       NA    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 7574 on 498 degrees of freedom
+Multiple R-Squared: 0.1867, Adjusted R-squared: 0.185 
+Wald test: 5.664 on 1 and 498 DF,  p-value: 0.01769 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(iv_model2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+iv_robust(formula = earnings ~ education | distance_to_college, 
+    data = df)
+
+Standard error type:  HC2 
+
+Coefficients:
+            Estimate Std. Error t value  Pr(&gt;|t|) CI Lower CI Upper  DF
+(Intercept)    25102     6414.4   3.913 0.0001036  12499.6    37705 498
+education       1140      481.6   2.368 0.0182798    194.1     2087 498
+
+Multiple R-squared:  0.1867 ,   Adjusted R-squared:  0.185 
+F-statistic: 5.606 on 1 and 498 DF,  p-value: 0.01828</code></pre>
+</div>
+</div>
+</section>
+<section id="robustness-checks" class="level2">
+<h2 class="anchored" data-anchor-id="robustness-checks">Robustness checks</h2>
+<p>There a few statistical tests you can run to verify the design of your IV. It is mostly theoretically driven : hence a good instrument should be ‘weird’ and seem indeed unrelated to your dependent variable. There are three conditions an instrument should verify, that are described here.</p>
+<section id="relevance-of-the-instrument" class="level3">
+<h3 class="anchored" data-anchor-id="relevance-of-the-instrument">Relevance of the instrument</h3>
+<p>A key requirement for a valid instrument is relevance: the instrument must be strongly correlated with the treatment, in this case, educational attainment. In our example, distance to the nearest college directly influences the likelihood that an individual pursues additional schooling. Individuals who live closer to a college tend to have more years of education. This relationship can be formally assessed by regressing education on the instrument: if the coefficient on distance is significant and the first-stage F-statistic exceeds the commonly used threshold of 10, the instrument can be considered sufficiently relevant for a reliable IV estimate. Without a strong correlation, the exogenous variation in education induced by the instrument would be too weak, making the IV estimate unstable and uninformative.</p>
+<p>You can easily check the strength and relevance of your estimates using diagnostics.</p>
+</section>
+<section id="exclusion-restriction" class="level3">
+<h3 class="anchored" data-anchor-id="exclusion-restriction">Exclusion restriction</h3>
+<p>The second key condition is the exclusion restriction, which requires that the instrument affects the outcome only through its effect on the treatment. In this context, the distance to college should not directly influence future earnings except through its impact on educational attainment. Theoretically, this assumption is plausible: simply living closer to a college does not directly alter labor market opportunities or wages, except by affecting the number of years of schooling. However, it is important to note that the exclusion restriction cannot be directly tested statistically with a single instrument. Its plausibility must rely on a strong theoretical argument, and it can be indirectly supported by controlling for other variables that might correlate with distance to college, such as the parent’s level of education, earnings, local socioeconomic conditions or the quality of nearby schools.</p>
+
+
+</section>
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
