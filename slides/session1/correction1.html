@@ -6,8 +6,8 @@
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="../../site_libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.9.36">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.9.37">
 
   <meta name="author" content="Paul Servais">
   <title>Quantitative methods II – Quantitative methods 2</title>
@@ -3450,7 +3450,7 @@ Y_i = \beta_0+\beta_1 X_{1i} + \beta_2 X_{2i} + \beta_3 X_{1i} X_{2i}  + \epsilo
 </ul>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 1.209841e-13</code></pre>
+<pre><code>[1] 1.74738e-14</code></pre>
 </div>
 
 <div class="cell-output cell-output-stdout">
@@ -3474,18 +3474,18 @@ Y_i = \beta_0+\beta_1 X_{1i} + \beta_2 X_{2i} + \beta_3 X_{1i} X_{2i}  + \epsilo
                                                         linear  
                                    (1)         (2)        (3)   
 ----------------------------------------------------------------
-x                                9.955***    9.512***  9.842*** 
-                                 (0.110)     (0.637)    (0.514) 
+x                                9.997***    9.771***  9.485*** 
+                                 (0.106)     (0.656)    (0.523) 
                                                                 
-Constant                          53.178     339.540    184.685 
-                                 (64.154)   (366.390)  (296.119)
+Constant                          -3.660      4.614     70.663  
+                                 (62.272)   (370.958)  (295.654)
                                                                 
 ----------------------------------------------------------------
 Observations                      1,000       1,000      1,000  
-R2                                0.891       0.183             
-Adjusted R2                       0.891       0.182             
-Residual Std. Error (df = 998)  1,018.042   5,736.390  3,919.445
-F Statistic (df = 1; 998)      8,161.363*** 223.325***          
+R2                                0.900       0.182             
+Adjusted R2                       0.900       0.181             
+Residual Std. Error (df = 998)   981.156    5,950.283  3,775.852
+F Statistic (df = 1; 998)      8,948.620*** 221.813***          
 ================================================================
 Note:                                *p&lt;0.1; **p&lt;0.05; ***p&lt;0.01</code></pre>
 </div>
@@ -3509,18 +3509,18 @@ lm(formula = y ~ x)
 
 Residuals:
      Min       1Q   Median       3Q      Max 
--23816.7  -2606.3    -24.5   3024.4  26438.6 
+-20535.9  -2481.0     10.4   2388.7  25924.1 
 
 Coefficients:
             Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept)  90.0528   373.2059   0.241    0.809    
-x            10.2151     0.6483  15.756   &lt;2e-16 ***
+(Intercept)  72.6609   331.5055   0.219    0.827    
+x            10.0492     0.5863  17.140   &lt;2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Residual standard error: 5843 on 998 degrees of freedom
-Multiple R-squared:  0.1992,    Adjusted R-squared:  0.1984 
-F-statistic: 248.2 on 1 and 998 DF,  p-value: &lt; 2.2e-16</code></pre>
+Residual standard error: 5317 on 998 degrees of freedom
+Multiple R-squared:  0.2274,    Adjusted R-squared:  0.2267 
+F-statistic: 293.8 on 1 and 998 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a></a><span class="fu">summary</span>(model2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -3530,19 +3530,17 @@ lm(formula = y ~ x + w)
 
 Residuals:
      Min       1Q   Median       3Q      Max 
--24055.3  -2567.9    -53.5   2897.1  26341.6 
+-20869.7  -2506.0     31.1   2308.0  26137.6 
 
 Coefficients:
-            Estimate Std. Error t value Pr(&gt;|t|)  
-(Intercept)    117.1      372.8   0.314   0.7536  
-x             -773.6      368.2  -2.101   0.0359 *
-w              783.8      368.2   2.129   0.0335 *
----
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+            Estimate Std. Error t value Pr(&gt;|t|)
+(Intercept)    97.16     331.75   0.293    0.770
+x             503.32     338.67   1.486    0.138
+w            -493.32     338.71  -1.456    0.146
 
-Residual standard error: 5833 on 997 degrees of freedom
-Multiple R-squared:  0.2028,    Adjusted R-squared:  0.2012 
-F-statistic: 126.8 on 2 and 997 DF,  p-value: &lt; 2.2e-16</code></pre>
+Residual standard error: 5314 on 997 degrees of freedom
+Multiple R-squared:  0.2291,    Adjusted R-squared:  0.2275 
+F-statistic: 148.1 on 2 and 997 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a></a><span class="fu">check_collinearity</span>(model2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -3551,8 +3549,8 @@ F-statistic: 126.8 on 2 and 997 DF,  p-value: &lt; 2.2e-16</code></pre>
 High Correlation
 
  Term      VIF           VIF 95% CI adj. VIF Tolerance Tolerance 95% CI
-    x 3.24e+05 [2.86e+05, 3.66e+05]   568.91  3.09e-06     [0.00, 0.00]
-    w 3.24e+05 [2.86e+05, 3.66e+05]   568.91  3.09e-06     [0.00, 0.00]</code></pre>
+    x 3.34e+05 [2.95e+05, 3.78e+05]   577.98  2.99e-06     [0.00, 0.00]
+    w 3.34e+05 [2.95e+05, 3.78e+05]   577.98  2.99e-06     [0.00, 0.00]</code></pre>
 </div>
 </div>
 </section></section>
