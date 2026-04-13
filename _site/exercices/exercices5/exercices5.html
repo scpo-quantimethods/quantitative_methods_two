@@ -155,6 +155,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="dropdown-item" href="../../sessions/session4/session4.html">
  <span class="dropdown-text">Session 4: Difference-in-differences</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../../sessions/session5/session5.html">
+ <span class="dropdown-text">Session 5: RDD and Instrumental Variables</span></a>
+  </li>  
     </ul>
   </li>
   <li class="nav-item">
@@ -183,6 +187,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="dropdown-item" href="../../exercices/exercices4/exercices4.html">
  <span class="dropdown-text">Exercices 4 : Difference-in-differences</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../../exercices/exercices5/exercices5.html">
+ <span class="dropdown-text">Exercices 5 : RDD and Instrumental Variables</span></a>
+  </li>  
     </ul>
   </li>
   <li class="nav-item">
@@ -210,6 +218,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li>
     <a class="dropdown-item" href="../../slides/session4/slides4.html">
  <span class="dropdown-text">Slides - session 4</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../slides/session5/session5.html">
+ <span class="dropdown-text">Slides - session 5</span></a>
   </li>  
     </ul>
   </li>
@@ -322,6 +334,163 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p>Does being allowed to drink alcohol affect the number of DUIs?</p></li>
 <li><p>Repeat the analysis using the number of assaults and the legal majority at 18 to examine whether turning 18 has an impact on the number of assaults.</p></li>
 </ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rio)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.2.1     ✔ readr     2.1.6
+✔ forcats   1.0.1     ✔ stringr   1.6.0
+✔ ggplot2   4.0.2     ✔ tibble    3.3.1
+✔ lubridate 1.9.4     ✔ tidyr     1.3.2
+✔ purrr     1.2.2     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rdrobust)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(estimatr)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(AER)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: car
+Loading required package: carData
+
+Attaching package: 'car'
+
+The following object is masked from 'package:dplyr':
+
+    recode
+
+The following object is masked from 'package:purrr':
+
+    some
+
+Loading required package: lmtest
+Loading required package: zoo
+
+Attaching package: 'zoo'
+
+The following objects are masked from 'package:base':
+
+    as.Date, as.Date.numeric
+
+Loading required package: sandwich
+Loading required package: survival</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>carpenter_dobkin_prepared <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="st">"data/carpenter_dobkin_data.dta"</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(carpenter_dobkin_prepared)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 11,688
+Columns: 3
+$ age          &lt;dbl&gt; 16.99726, 16.99726, 16.99726, 16.99726, 17.00000, 17.0000…
+$ arrested_for &lt;chr&gt; "Assault", "Aggravated assault", "DUI", "Traffic violatio…
+$ number       &lt;dbl&gt; 523, 205, 120, 100, 451, 183, 139, 103, 442, 160, 94, 104…</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> carpenter_dobkin_prepared <span class="sc">%&gt;%</span>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> age, <span class="at">y =</span> number)) <span class="sc">+</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.05</span>) <span class="sc">+</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="at">facets =</span> <span class="fu">vars</span>(arrested_for), <span class="at">scales =</span> <span class="st">"free_y"</span>) <span class="sc">+</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>p</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="exercices5_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>carpenter_dobkin_dui_only <span class="ot">&lt;-</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  carpenter_dobkin_prepared <span class="sc">|&gt;</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    arrested_for <span class="sc">==</span> <span class="st">"DUI"</span>,</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">abs</span>(age <span class="sc">-</span> <span class="dv">21</span>) <span class="sc">&lt;</span> <span class="dv">2</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>carpenter_dobkin_assault_only <span class="ot">&lt;-</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  carpenter_dobkin_prepared <span class="sc">|&gt;</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>    arrested_for <span class="sc">==</span> <span class="st">"Assault"</span>,</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">abs</span>(age <span class="sc">-</span> <span class="dv">18</span>) <span class="sc">&lt;</span> <span class="dv">2</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>rdd_dui <span class="ot">&lt;-</span> <span class="fu">rdrobust</span>(</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>  <span class="co"># specifies the DV</span></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> carpenter_dobkin_dui_only<span class="sc">$</span>number,</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>  <span class="co"># specifies the running variable of the RDD</span></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> carpenter_dobkin_dui_only<span class="sc">$</span>age,</span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>  <span class="co"># specifies the cutoff</span></span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">c =</span> <span class="dv">21</span>,</span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>  <span class="co"># specifies the bandwidth, here the unit of analysis is years</span></span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>  <span class="at">h =</span> <span class="dv">2</span>,</span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">all =</span> <span class="cn">TRUE</span></span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>) </span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>rdd_assault <span class="ot">&lt;-</span> <span class="fu">rdrobust</span>(</span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>  <span class="co"># specifies the DV</span></span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> carpenter_dobkin_assault_only<span class="sc">$</span>number,</span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>  <span class="co"># specifies the running variable of the RDD</span></span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> carpenter_dobkin_assault_only<span class="sc">$</span>age,</span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>  <span class="co"># specifies the cutoff</span></span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a>  <span class="at">c =</span> <span class="dv">18</span>,</span>
+<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a>  <span class="co"># specifies the bandwidth, here the unit of analysis is years</span></span>
+<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a>  <span class="at">h =</span> <span class="dv">2</span>,</span>
+<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a>  <span class="at">all =</span> <span class="cn">TRUE</span></span>
+<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a>) </span>
+<span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-39"><a href="#cb10-39" aria-hidden="true" tabindex="-1"></a>rdd_dui <span class="sc">|&gt;</span> <span class="fu">summary</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Sharp RD estimates using local polynomial regression.
+
+Number of Obs.                 1459
+BW type                      Manual
+Kernel                   Triangular
+VCE method                       NN
+
+Number of Obs.                  729          730
+Eff. Number of Obs.             729          730
+Order est. (p)                    1            1
+Order bias  (q)                   2            2
+BW est. (h)                   2.000        2.000
+BW bias (b)                   2.000        2.000
+rho (h/b)                     1.000        1.000
+Unique Obs.                     729          730
+
+=======================================================================================
+        Method     Coef. Std. Err.         z     P&gt;|z|      [ 95% C.I. ]       
+=======================================================================================
+  Conventional   192.790     6.221    30.989     0.000   [180.597 , 204.984]   
+Bias-Corrected   207.423     6.221    33.341     0.000   [195.230 , 219.617]   
+        Robust   207.423    11.524    17.999     0.000   [184.837 , 230.010]   
+=======================================================================================</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>rdd_assault <span class="sc">%&gt;%</span> <span class="fu">summary</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Sharp RD estimates using local polynomial regression.
+
+Number of Obs.                 1096
+BW type                      Manual
+Kernel                   Triangular
+VCE method                       NN
+
+Number of Obs.                  366          730
+Eff. Number of Obs.             366          730
+Order est. (p)                    1            1
+Order bias  (q)                   2            2
+BW est. (h)                   2.000        2.000
+BW bias (b)                   2.000        2.000
+rho (h/b)                     1.000        1.000
+Unique Obs.                     366          730
+
+=======================================================================================
+        Method     Coef. Std. Err.         z     P&gt;|z|      [ 95% C.I. ]       
+=======================================================================================
+  Conventional   -58.614     2.668   -21.969     0.000   [-63.843 , -53.385]   
+Bias-Corrected   -66.997     2.668   -25.111     0.000   [-72.226 , -61.768]   
+        Robust   -66.997     4.033   -16.612     0.000   [-74.901 , -59.092]   
+=======================================================================================</code></pre>
+</div>
+</div>
 </section>
 <section id="exercice-2-instrumental-variables-iv" class="level2">
 <h2 class="anchored" data-anchor-id="exercice-2-instrumental-variables-iv">Exercice 2 : Instrumental variables (IV)</h2>
@@ -337,18 +506,139 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><code>qob</code>: quarter of birth</li>
 <li><code>sob</code>: state of birth</li>
 </ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>data_set <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="st">"data/angrist_krueger.dta"</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(data_set)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    log_wage        education          yob            qob       
+ Min.   :-2.342   Min.   : 0.00   Min.   :30.0   Min.   :1.000  
+ 1st Qu.: 5.637   1st Qu.:12.00   1st Qu.:32.0   1st Qu.:2.000  
+ Median : 5.952   Median :12.00   Median :35.0   Median :3.000  
+ Mean   : 5.900   Mean   :12.77   Mean   :34.6   Mean   :2.506  
+ 3rd Qu.: 6.257   3rd Qu.:15.00   3rd Qu.:37.0   3rd Qu.:3.000  
+ Max.   :10.532   Max.   :20.00   Max.   :39.0   Max.   :4.000  
+      sob       
+ Min.   : 1.00  
+ 1st Qu.:19.00  
+ Median :34.00  
+ Mean   :30.69  
+ 3rd Qu.:42.00  
+ Max.   :56.00  </code></pre>
+</div>
+</div>
 <ol start="3" type="1">
 <li>Run the first-stage regression, regressing education on the quarter of birth. Is the instrument working ? Is it strong ? How much is the F-statistic ?</li>
 </ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>first_stage <span class="ot">&lt;-</span> <span class="fu">lm</span>(education <span class="sc">~</span> qob<span class="sc">+</span>yob, <span class="at">data =</span> data_set)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(first_stage)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = education ~ qob + yob, data = data_set)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-13.1072  -1.0571  -0.6394   2.2223   7.5803 
+
+Coefficients:
+             Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) 10.579454   0.069315 152.628   &lt;2e-16 ***
+qob          0.050174   0.005133   9.775   &lt;2e-16 ***
+yob          0.059669   0.001965  30.369   &lt;2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 3.276 on 329506 degrees of freedom
+Multiple R-squared:  0.003096,  Adjusted R-squared:  0.00309 
+F-statistic: 511.6 on 2 and 329506 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
 <ol start="4" type="1">
 <li>Run the two-stage regression, regressing the wage using the fitted values of education. How can you interpet that result ?</li>
 </ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>data_set<span class="sc">$</span>fitted_education <span class="ot">&lt;-</span> first_stage<span class="sc">$</span>fitted.values</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>two_stage <span class="ot">&lt;-</span> <span class="fu">lm</span>(log_wage<span class="sc">~</span>fitted_education<span class="sc">+</span>yob, <span class="at">data =</span> data_set)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(two_stage)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = log_wage ~ fitted_education + yob, data = data_set)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-8.2518 -0.2609  0.0612  0.3612  4.6408 
+
+Coefficients:
+                  Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)       4.828198   0.227233  21.248  &lt; 2e-16 ***
+fitted_education  0.102287   0.021197   4.826 1.40e-06 ***
+yob              -0.006775   0.001332  -5.086 3.66e-07 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.6788 on 329506 degrees of freedom
+Multiple R-squared:  7.851e-05, Adjusted R-squared:  7.244e-05 
+F-statistic: 12.94 on 2 and 329506 DF,  p-value: 2.411e-06</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="do">## A one year increase in education caused by the exogeneous instrument leads to a +9.9% increase in wages</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <ol start="5" type="1">
 <li>Run the 2SLS using the <code>ivreg</code> estimator. Have a look at the diagnostic using <code>summary(two_sls, diagnostics = TRUE)</code> and interpret those. Are the estimates different ?</li>
 </ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>two_sls <span class="ot">&lt;-</span> <span class="fu">ivreg</span>(log_wage <span class="sc">~</span> education <span class="sc">|</span>qob, <span class="at">data =</span> data_set)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(two_sls, <span class="at">diagnostics=</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+ivreg(formula = log_wage ~ education | qob, data = data_set)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-8.95910 -0.25117  0.07023  0.35203  4.79936 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  4.63295    0.25006  18.527  &lt; 2e-16 ***
+education    0.09922    0.01958   5.067 4.05e-07 ***
+
+Diagnostic tests:
+                    df1    df2 statistic p-value    
+Weak instruments      1 329507   100.653  &lt;2e-16 ***
+Wu-Hausman            1 329506     2.144   0.143    
+Sargan                0     NA        NA      NA    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.6445 on 329507 degrees of freedom
+Multiple R-Squared: 0.09849,    Adjusted R-squared: 0.09849 
+Wald test: 25.67 on 1 and 329507 DF,  p-value: 4.049e-07 </code></pre>
+</div>
+</div>
 <ol start="6" type="1">
 <li>Run the 2SLS using the <code>ivrobust()</code> estimator. Do you notice something different in the estimates or their standard deviations ?</li>
 </ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>two_sls <span class="ot">&lt;-</span> <span class="fu">iv_robust</span>(log_wage <span class="sc">~</span> education <span class="sc">|</span>qob, <span class="at">data =</span> data_set)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(two_sls, <span class="at">diagnostics=</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+iv_robust(formula = log_wage ~ education | qob, data = data_set)
+
+Standard error type:  HC2 
+
+Coefficients:
+            Estimate Std. Error t value  Pr(&gt;|t|) CI Lower CI Upper     DF
+(Intercept)  4.63295    0.25048  18.497 2.404e-76  4.14202   5.1239 329507
+education    0.09922    0.01961   5.059 4.226e-07  0.06078   0.1377 329507
+
+Multiple R-squared:  0.09849 ,  Adjusted R-squared:  0.09849 
+F-statistic: 25.59 on 1 and 329507 DF,  p-value: 4.226e-07</code></pre>
+</div>
+</div>
 <ol start="7" type="1">
 <li>Re-run the IVs using the year of birth as additional control. Is the result changed ?</li>
 </ol>

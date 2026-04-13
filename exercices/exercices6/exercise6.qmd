@@ -1,0 +1,247 @@
+---
+title: "Exercises 6 - Time Series"
+format: html
+editor: visual
+execute:
+  echo: false
+  eval: false
+---
+
+
+# Exercise 1
+
+In this exercise, we are interested in the relationship between GDP and unemployment (simulated dataset). You can find the dataset here <https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/exercices/exercices6/data/panel.Rdata>
+
+1. Download the data.
+
+```{r}
+library(rio)
+#panel<-import("https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/exercices/exercices6/data/panel.Rdata")
+load("panel.Rdata")
+```
+
+
+2. Create a new dataset where you only keep the observations from Japan.
+
+```{r}
+library(tidyverse)
+japan<-subset(panel,country=="Japan" )
+```
+
+3. Plot the time series of unemployment and GDP
+
+```{r}
+unemp<-ts(japan$unemp,start=first(1990), frequency=1)
+plot.ts(unemp)
+
+gdp<-ts(japan$gdp,start=first(1990), frequency=1)
+plot.ts(gdp)
+```
+
+4. Are the two times series stationary?
+
+```{r}
+library(tseries)
+adf.test(gdp)
+
+
+adf.test(unemp)
+unemp_diff<-diff(unemp)
+adf.test(unemp_diff)
+```
+
+
+4. Identify, estimate and diagnose the GDP time series.
+
+```{r}
+
+acf(gdp)
+pacf(gdp)
+forecast::auto.arima(gdp)
+
+mod1<-arima(gdp,order=c(1,0,0))
+mod1
+
+```
+
+
+5. Identify, estimate and diagnose the democratization time series.
+
+```{r}
+
+acf(unemp)
+pacf(unemp)
+forecast::auto.arima(unemp)
+
+mod2<-arima(unemp,order=c(0,0,1))
+mod2
+
+```
+
+6. Does unemployment decrease GDP ? Check with the prewhitening technique.
+
+```{r}
+unemp.res<-mod2$residuals
+adf.test(unemp.res)
+gdp.res<-mod1$residuals
+adf.test(gdp.res)
+ccf(gdp.res,unemp.res,lag.max=10)
+
+```
+
+
+7. Does unemployment decreases GDP? Check with the Granger causality technique.
+
+```{r}
+library(lmtest)
+grangertest(gdp~unemp,order=5,data=japan)
+grangertest(unemp~gdp,order=5,data=japan)
+```
+
+
+8. Now, we are interested in doing a TSCS analysis, so we will use the whole data set again. Run a TSCS analysis with fixed effects. Use the fixed effects estimator
+
+```{r}
+library(plm)
+fe<-plm(
+    gdp ~ unemp ,
+    data = panel,
+    index = c("country", "year"),
+    model = "within"
+  )
+```
+
+
+9. Run a TSCS analysis with random effects.
+
+```{r}
+re<-plm(
+    gdp ~ unemp ,
+    data = panel,
+    index = c("country", "year"),
+    model = "random"
+  )
+```
+
+
+10. Run a Hausman test. Is it better to use fixed or random effects in this case?
+
+```{r}
+phtest(fe, re)
+```
+
+
+11. Run a PCSE with lagged dependent variable model.
+
+```{r}
+library(tidyverse)
+
+library(pcse)
+panel <- panel %>%
+  group_by(country) %>%
+  mutate(l.gdp = dplyr::lag(gdp))
+
+panel2<-na.omit(panel)
+
+panel2$country <- as.factor(panel2$country)
+panel2$year <- as.numeric(as.character(panel2$year))
+
+ols<-lm(gdp~l.gdp+unemp,data=panel2)
+pcse<-pcse(ols, groupN=panel2$country, groupT=panel2$year)
+summary(pcse)
+```
+
+
+
+# Exercise 2
+
+In this exercise, we are using the data from Abou-Chadi ([2016](https://www.cambridge.org/core/journals/british-journal-of-political-science/article/niche-party-success-and-mainstream-party-policy-shifts-how-green-and-radical-right-parties-differ-in-their-impact/AEF265EED2CAA81C35A3808F47F5908A#article)) article. You can download the data on the supplementary materials page of the paper. The example is inspired by [Luis Sattelmayer](https://luissattelmayer.github.io/quant-2025/session6/session6.html#hierarchical-models). We are interested in understanding the effect of increasing radical right votes on mainstream parties' shift to anti-immigrant positions.
+
+1. Download the data and import it into R. Select the variable countryname, cultposition, sumright, rileright, limmig, govparty pervote, partyname, date
+
+```{r}
+library(tidyverse)
+dt <- haven::read_dta("abouchadi_data.dta") 
+
+
+data<-dt %>%  select(
+    countryname,
+    cultposition,
+    sumright,
+    rileright,
+    limmig,
+    govparty,
+    pervote,
+    partyname,
+    date
+  )
+
+```
+
+
+2. Run a TSCS analysis with fixed effects. Use the fixed effects estimator
+
+```{r}
+library(plm)
+fixed_effects <-
+  plm(
+    cultposition ~ sumright ,
+    data = data,
+    index = c("partyname", "date"),
+    model = "within"
+  )
+summary(fixed_effects)
+```
+
+
+3. Run a TSCS analysis with fixed effects. Use the dummy variable estimator
+
+```{r}
+fixed_effects2<-lm(cultposition~sumright+factor(partyname)-1,data)
+summary(fixed_effects2)
+```
+
+
+4. Run a TSCS analysis with random effects.
+
+```{r}
+random_effects <-
+  plm(
+    cultposition ~ sumright ,
+    data = data,
+    index = c("partyname", "date"),
+    model = "random"
+  )
+
+summary(random_effects)
+```
+
+5. Run a Hausman test. Is it better to use fixed or random effects in this case?
+
+```{r}
+phtest(fixed_effects, random_effects)
+```
+
+6. Redo points 3 and 4 but a lagged dependent variable into the regressions.
+
+```{r}
+data <- data %>%
+  group_by("partyname") %>%
+  mutate(lag_cultposition= dplyr::lag(cultposition))
+
+data2<-na.omit(data)
+
+fixed_effects3<-lm(cultposition~sumright+lag_cultposition+factor(partyname)-1,data2)
+summary(fixed_effects3)
+
+random_effects2 <-
+  plm(
+    cultposition ~ sumright + lag_cultposition ,
+    data = data2,
+    index = c("partyname", "date"),
+    model = "random"
+  )
+
+summary(random_effects2)
+```
+

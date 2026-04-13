@@ -50,8 +50,8 @@ p
 8. Repeat the analysis using the number of assaults and the legal majority at 18 to examine whether turning 18 has an impact on the number of assaults.
 
 ```{r}
-#| eval: false
-#| echo: false
+#| eval: true
+#| echo: true
 
 library(rio)
 library(tidyverse)
@@ -126,8 +126,8 @@ You are interested in analysing the effects of education on future earnings (do 
 - `sob`: state of birth
 
 ```{r}
-#| eval: false
-#| echo: false
+#| eval: true
+#| echo: true
 
 data_set <- import("data/angrist_krueger.dta")
 summary(data_set)
@@ -137,8 +137,8 @@ summary(data_set)
 Is it strong ? How much is the F-statistic ?
 
 ```{r}
-#| eval: false
-#| echo: false
+#| eval: true
+#| echo: true
 
 first_stage <- lm(education ~ qob+yob, data = data_set)
 summary(first_stage)
@@ -146,8 +146,8 @@ summary(first_stage)
 4. Run the two-stage regression, regressing the wage using the fitted values of education. How can you interpet that result ? 
 
 ```{r}
-#| eval: false
-#| echo: false
+#| eval: true
+#| echo: true
 
 data_set$fitted_education <- first_stage$fitted.values
 two_stage <- lm(log_wage~fitted_education+yob, data = data_set)
@@ -157,8 +157,8 @@ summary(two_stage)
 5. Run the 2SLS using the `ivreg` estimator. Have a look at the diagnostic using `summary(two_sls, diagnostics = TRUE)` and interpret those. Are the estimates different ?
 
 ```{r}
-#| eval: false
-#| echo: false
+#| eval: true
+#| echo: true
 
 two_sls <- ivreg(log_wage ~ education |qob, data = data_set)
 summary(two_sls, diagnostics= TRUE)
@@ -167,8 +167,8 @@ summary(two_sls, diagnostics= TRUE)
 6. Run the 2SLS using the `ivrobust()` estimator. Do you notice something different in the estimates or their standard deviations ?
 
 ```{r}
-#| eval: false
-#| echo: false
+#| eval: true
+#| echo: true
 
 two_sls <- iv_robust(log_wage ~ education |qob, data = data_set)
 summary(two_sls, diagnostics= TRUE)

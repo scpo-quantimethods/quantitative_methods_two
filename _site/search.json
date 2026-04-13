@@ -3007,14 +3007,14 @@
     "href": "exercices/exercices5/exercices5.html#exercice-1-regression-discontinuity-design-rdd",
     "title": "Regression discontinuity and instrumental variables (IV)",
     "section": "Exercice 1: regression discontinuity design (RDD)",
-    "text": "Exercice 1: regression discontinuity design (RDD)\nThis exercise is inspired by Carpenter and Dobkin (2015). You are provided with a data set about crime rates in the US, which you can find at https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/exercices/exercices5/data/carpenter_dobkin_data.dta. You want to analyse the effect of alcohol on crime rates.\n\nImport the data. The codebook is the following :\n\n\nage stands for the age\narrested_for qualifies the reasons for which people have been arrested. DUI stands for driving under the influence.\nnumber is the number of people of that age arrested for that reason.\n\n\nRun the following code :\n\n\np &lt;- data_set %&gt;%  ggplot(aes(x = age, y = number)) +\n  geom_point(alpha = 0.05) +\n  facet_wrap(facets = vars(arrested_for), scales = \"free_y\") +\n  theme_minimal()\n\np\n\n\nDo you observe any “jump” or discontinuity in your graphs? If so, where?\nRestrict your dataset to DUIs (driving under the influence).\nRun your regression discontinuity using rdrobust, with age as the independent variable and number as the dependent variable, using a cutoff at 21 and a bandwidth of 2.\nIs this a sharp or fuzzy RDD?\nDoes being allowed to drink alcohol affect the number of DUIs?\nRepeat the analysis using the number of assaults and the legal majority at 18 to examine whether turning 18 has an impact on the number of assaults."
+    "text": "Exercice 1: regression discontinuity design (RDD)\nThis exercise is inspired by Carpenter and Dobkin (2015). You are provided with a data set about crime rates in the US, which you can find at https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/exercices/exercices5/data/carpenter_dobkin_data.dta. You want to analyse the effect of alcohol on crime rates.\n\nImport the data. The codebook is the following :\n\n\nage stands for the age\narrested_for qualifies the reasons for which people have been arrested. DUI stands for driving under the influence.\nnumber is the number of people of that age arrested for that reason.\n\n\nRun the following code :\n\n\np &lt;- data_set %&gt;%  ggplot(aes(x = age, y = number)) +\n  geom_point(alpha = 0.05) +\n  facet_wrap(facets = vars(arrested_for), scales = \"free_y\") +\n  theme_minimal()\n\np\n\n\nDo you observe any “jump” or discontinuity in your graphs? If so, where?\nRestrict your dataset to DUIs (driving under the influence).\nRun your regression discontinuity using rdrobust, with age as the independent variable and number as the dependent variable, using a cutoff at 21 and a bandwidth of 2.\nIs this a sharp or fuzzy RDD?\nDoes being allowed to drink alcohol affect the number of DUIs?\nRepeat the analysis using the number of assaults and the legal majority at 18 to examine whether turning 18 has an impact on the number of assaults.\n\n\nlibrary(rio)\nlibrary(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.2.1     ✔ readr     2.1.6\n✔ forcats   1.0.1     ✔ stringr   1.6.0\n✔ ggplot2   4.0.2     ✔ tibble    3.3.1\n✔ lubridate 1.9.4     ✔ tidyr     1.3.2\n✔ purrr     1.2.2     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\nlibrary(rdrobust)\nlibrary(estimatr)\nlibrary(AER)\n\nLoading required package: car\nLoading required package: carData\n\nAttaching package: 'car'\n\nThe following object is masked from 'package:dplyr':\n\n    recode\n\nThe following object is masked from 'package:purrr':\n\n    some\n\nLoading required package: lmtest\nLoading required package: zoo\n\nAttaching package: 'zoo'\n\nThe following objects are masked from 'package:base':\n\n    as.Date, as.Date.numeric\n\nLoading required package: sandwich\nLoading required package: survival\n\ncarpenter_dobkin_prepared &lt;- import(\"data/carpenter_dobkin_data.dta\")\nglimpse(carpenter_dobkin_prepared)\n\nRows: 11,688\nColumns: 3\n$ age          &lt;dbl&gt; 16.99726, 16.99726, 16.99726, 16.99726, 17.00000, 17.0000…\n$ arrested_for &lt;chr&gt; \"Assault\", \"Aggravated assault\", \"DUI\", \"Traffic violatio…\n$ number       &lt;dbl&gt; 523, 205, 120, 100, 451, 183, 139, 103, 442, 160, 94, 104…\n\np &lt;- carpenter_dobkin_prepared %&gt;%  ggplot(aes(x = age, y = number)) +\n  geom_point(alpha = 0.05) +\n  facet_wrap(facets = vars(arrested_for), scales = \"free_y\") +\n  theme_minimal()\n\np\n\n\n\n\n\n\n\ncarpenter_dobkin_dui_only &lt;-\n  carpenter_dobkin_prepared |&gt;\n  filter(\n    arrested_for == \"DUI\",\n    abs(age - 21) &lt; 2\n  )\n\ncarpenter_dobkin_assault_only &lt;-\n  carpenter_dobkin_prepared |&gt;\n  filter(\n    arrested_for == \"Assault\",\n    abs(age - 18) &lt; 2\n  )\n\nrdd_dui &lt;- rdrobust(\n  # specifies the DV\n  y = carpenter_dobkin_dui_only$number,\n  # specifies the running variable of the RDD\n  x = carpenter_dobkin_dui_only$age,\n  # specifies the cutoff\n  c = 21,\n  # specifies the bandwidth, here the unit of analysis is years\n  h = 2,\n  all = TRUE\n) \n\nrdd_assault &lt;- rdrobust(\n  # specifies the DV\n  y = carpenter_dobkin_assault_only$number,\n  # specifies the running variable of the RDD\n  x = carpenter_dobkin_assault_only$age,\n  # specifies the cutoff\n  c = 18,\n  # specifies the bandwidth, here the unit of analysis is years\n  h = 2,\n  all = TRUE\n) \n\nrdd_dui |&gt; summary()\n\nSharp RD estimates using local polynomial regression.\n\nNumber of Obs.                 1459\nBW type                      Manual\nKernel                   Triangular\nVCE method                       NN\n\nNumber of Obs.                  729          730\nEff. Number of Obs.             729          730\nOrder est. (p)                    1            1\nOrder bias  (q)                   2            2\nBW est. (h)                   2.000        2.000\nBW bias (b)                   2.000        2.000\nrho (h/b)                     1.000        1.000\nUnique Obs.                     729          730\n\n=======================================================================================\n        Method     Coef. Std. Err.         z     P&gt;|z|      [ 95% C.I. ]       \n=======================================================================================\n  Conventional   192.790     6.221    30.989     0.000   [180.597 , 204.984]   \nBias-Corrected   207.423     6.221    33.341     0.000   [195.230 , 219.617]   \n        Robust   207.423    11.524    17.999     0.000   [184.837 , 230.010]   \n=======================================================================================\n\nrdd_assault %&gt;% summary()\n\nSharp RD estimates using local polynomial regression.\n\nNumber of Obs.                 1096\nBW type                      Manual\nKernel                   Triangular\nVCE method                       NN\n\nNumber of Obs.                  366          730\nEff. Number of Obs.             366          730\nOrder est. (p)                    1            1\nOrder bias  (q)                   2            2\nBW est. (h)                   2.000        2.000\nBW bias (b)                   2.000        2.000\nrho (h/b)                     1.000        1.000\nUnique Obs.                     366          730\n\n=======================================================================================\n        Method     Coef. Std. Err.         z     P&gt;|z|      [ 95% C.I. ]       \n=======================================================================================\n  Conventional   -58.614     2.668   -21.969     0.000   [-63.843 , -53.385]   \nBias-Corrected   -66.997     2.668   -25.111     0.000   [-72.226 , -61.768]   \n        Robust   -66.997     4.033   -16.612     0.000   [-74.901 , -59.092]   \n======================================================================================="
   },
   {
     "objectID": "exercices/exercices5/exercices5.html#exercice-2-instrumental-variables-iv",
     "href": "exercices/exercices5/exercices5.html#exercice-2-instrumental-variables-iv",
     "title": "Regression discontinuity and instrumental variables (IV)",
     "section": "Exercice 2 : Instrumental variables (IV)",
-    "text": "Exercice 2 : Instrumental variables (IV)\nYou are interested in analysing the effects of education on future earnings (do more educated people earn more money). To address the potential endogeneity, they need an instrument that affects years of education without being influenced by other factors like ability or family background. They use the compulsory schooling law, which creates differences in school timing based on birth date. Children born early in the year start school older than those born later, and because of the minimum school-leaving age, early-born children (in the year) can legally leave school sooner than late-born children. This generates variation in education that is largely independent of individual characteristics. You can import the data from https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/exercices/exercices5/data/angrist_krueger.dta.\n\nImport the data set.\nThe code book is the following. The data set contains data about men’s earnings in 1980 (census extract):\n\n\nlog_wage : log weekly wage\neducation : years of schooling\nyob: year of birth\nqob: quarter of birth\nsob: state of birth\n\n\nRun the first-stage regression, regressing education on the quarter of birth. Is the instrument working ? Is it strong ? How much is the F-statistic ?\n\n\nRun the two-stage regression, regressing the wage using the fitted values of education. How can you interpet that result ?\n\n\nRun the 2SLS using the ivreg estimator. Have a look at the diagnostic using summary(two_sls, diagnostics = TRUE) and interpret those. Are the estimates different ?\n\n\nRun the 2SLS using the ivrobust() estimator. Do you notice something different in the estimates or their standard deviations ?\n\n\nRe-run the IVs using the year of birth as additional control. Is the result changed ?"
+    "text": "Exercice 2 : Instrumental variables (IV)\nYou are interested in analysing the effects of education on future earnings (do more educated people earn more money). To address the potential endogeneity, they need an instrument that affects years of education without being influenced by other factors like ability or family background. They use the compulsory schooling law, which creates differences in school timing based on birth date. Children born early in the year start school older than those born later, and because of the minimum school-leaving age, early-born children (in the year) can legally leave school sooner than late-born children. This generates variation in education that is largely independent of individual characteristics. You can import the data from https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/exercices/exercices5/data/angrist_krueger.dta.\n\nImport the data set.\nThe code book is the following. The data set contains data about men’s earnings in 1980 (census extract):\n\n\nlog_wage : log weekly wage\neducation : years of schooling\nyob: year of birth\nqob: quarter of birth\nsob: state of birth\n\n\ndata_set &lt;- import(\"data/angrist_krueger.dta\")\nsummary(data_set)\n\n    log_wage        education          yob            qob       \n Min.   :-2.342   Min.   : 0.00   Min.   :30.0   Min.   :1.000  \n 1st Qu.: 5.637   1st Qu.:12.00   1st Qu.:32.0   1st Qu.:2.000  \n Median : 5.952   Median :12.00   Median :35.0   Median :3.000  \n Mean   : 5.900   Mean   :12.77   Mean   :34.6   Mean   :2.506  \n 3rd Qu.: 6.257   3rd Qu.:15.00   3rd Qu.:37.0   3rd Qu.:3.000  \n Max.   :10.532   Max.   :20.00   Max.   :39.0   Max.   :4.000  \n      sob       \n Min.   : 1.00  \n 1st Qu.:19.00  \n Median :34.00  \n Mean   :30.69  \n 3rd Qu.:42.00  \n Max.   :56.00  \n\n\n\nRun the first-stage regression, regressing education on the quarter of birth. Is the instrument working ? Is it strong ? How much is the F-statistic ?\n\n\nfirst_stage &lt;- lm(education ~ qob+yob, data = data_set)\nsummary(first_stage)\n\n\nCall:\nlm(formula = education ~ qob + yob, data = data_set)\n\nResiduals:\n     Min       1Q   Median       3Q      Max \n-13.1072  -1.0571  -0.6394   2.2223   7.5803 \n\nCoefficients:\n             Estimate Std. Error t value Pr(&gt;|t|)    \n(Intercept) 10.579454   0.069315 152.628   &lt;2e-16 ***\nqob          0.050174   0.005133   9.775   &lt;2e-16 ***\nyob          0.059669   0.001965  30.369   &lt;2e-16 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 3.276 on 329506 degrees of freedom\nMultiple R-squared:  0.003096,  Adjusted R-squared:  0.00309 \nF-statistic: 511.6 on 2 and 329506 DF,  p-value: &lt; 2.2e-16\n\n\n\nRun the two-stage regression, regressing the wage using the fitted values of education. How can you interpet that result ?\n\n\ndata_set$fitted_education &lt;- first_stage$fitted.values\ntwo_stage &lt;- lm(log_wage~fitted_education+yob, data = data_set)\nsummary(two_stage)\n\n\nCall:\nlm(formula = log_wage ~ fitted_education + yob, data = data_set)\n\nResiduals:\n    Min      1Q  Median      3Q     Max \n-8.2518 -0.2609  0.0612  0.3612  4.6408 \n\nCoefficients:\n                  Estimate Std. Error t value Pr(&gt;|t|)    \n(Intercept)       4.828198   0.227233  21.248  &lt; 2e-16 ***\nfitted_education  0.102287   0.021197   4.826 1.40e-06 ***\nyob              -0.006775   0.001332  -5.086 3.66e-07 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 0.6788 on 329506 degrees of freedom\nMultiple R-squared:  7.851e-05, Adjusted R-squared:  7.244e-05 \nF-statistic: 12.94 on 2 and 329506 DF,  p-value: 2.411e-06\n\n## A one year increase in education caused by the exogeneous instrument leads to a +9.9% increase in wages\n\n\nRun the 2SLS using the ivreg estimator. Have a look at the diagnostic using summary(two_sls, diagnostics = TRUE) and interpret those. Are the estimates different ?\n\n\ntwo_sls &lt;- ivreg(log_wage ~ education |qob, data = data_set)\nsummary(two_sls, diagnostics= TRUE)\n\n\nCall:\nivreg(formula = log_wage ~ education | qob, data = data_set)\n\nResiduals:\n     Min       1Q   Median       3Q      Max \n-8.95910 -0.25117  0.07023  0.35203  4.79936 \n\nCoefficients:\n            Estimate Std. Error t value Pr(&gt;|t|)    \n(Intercept)  4.63295    0.25006  18.527  &lt; 2e-16 ***\neducation    0.09922    0.01958   5.067 4.05e-07 ***\n\nDiagnostic tests:\n                    df1    df2 statistic p-value    \nWeak instruments      1 329507   100.653  &lt;2e-16 ***\nWu-Hausman            1 329506     2.144   0.143    \nSargan                0     NA        NA      NA    \n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 0.6445 on 329507 degrees of freedom\nMultiple R-Squared: 0.09849,    Adjusted R-squared: 0.09849 \nWald test: 25.67 on 1 and 329507 DF,  p-value: 4.049e-07 \n\n\n\nRun the 2SLS using the ivrobust() estimator. Do you notice something different in the estimates or their standard deviations ?\n\n\ntwo_sls &lt;- iv_robust(log_wage ~ education |qob, data = data_set)\nsummary(two_sls, diagnostics= TRUE)\n\n\nCall:\niv_robust(formula = log_wage ~ education | qob, data = data_set)\n\nStandard error type:  HC2 \n\nCoefficients:\n            Estimate Std. Error t value  Pr(&gt;|t|) CI Lower CI Upper     DF\n(Intercept)  4.63295    0.25048  18.497 2.404e-76  4.14202   5.1239 329507\neducation    0.09922    0.01961   5.059 4.226e-07  0.06078   0.1377 329507\n\nMultiple R-squared:  0.09849 ,  Adjusted R-squared:  0.09849 \nF-statistic: 25.59 on 1 and 329507 DF,  p-value: 4.226e-07\n\n\n\nRe-run the IVs using the year of birth as additional control. Is the result changed ?"
   },
   {
     "objectID": "exercices/exercices5/exercices5.html#load-the-relevant-packages",
@@ -3281,5 +3281,558 @@
     "title": "Session 5: regression discontinuity and instrumental variables",
     "section": "Using built-in functions",
     "text": "Using built-in functions\n\npackages\n\n\nlibrary(AER)  # For ivreg (2SLS)\nlibrary(estimatr)\n\n\nFunction\n\n\niv &lt;- ivreg(Y ~ X | D+X, data)\n\n\n# 2SLS using distance as instrument\niv_model &lt;- ivreg(earnings ~ education | distance_to_college, data = df)\niv_model2 &lt;- iv_robust(earnings ~ education | distance_to_college, data = df)\nsummary(iv_model, diagnostics = TRUE)\n\n\nCall:\nivreg(formula = earnings ~ education | distance_to_college, data = df)\n\nResiduals:\n     Min       1Q   Median       3Q      Max \n-25205.8  -5259.7    446.7   5096.0  20841.8 \n\nCoefficients:\n            Estimate Std. Error t value Pr(&gt;|t|)    \n(Intercept)  25102.2     6382.8   3.933 9.59e-05 ***\neducation     1140.4      479.2   2.380   0.0177 *  \n\nDiagnostic tests:\n                 df1 df2 statistic  p-value    \nWeak instruments   1 498    150.08  &lt; 2e-16 ***\nWu-Hausman         1 497     31.63 3.12e-08 ***\nSargan             0  NA        NA       NA    \n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 7574 on 498 degrees of freedom\nMultiple R-Squared: 0.1867, Adjusted R-squared: 0.185 \nWald test: 5.664 on 1 and 498 DF,  p-value: 0.01769 \n\nsummary(iv_model2)\n\n\nCall:\niv_robust(formula = earnings ~ education | distance_to_college, \n    data = df)\n\nStandard error type:  HC2 \n\nCoefficients:\n            Estimate Std. Error t value  Pr(&gt;|t|) CI Lower CI Upper  DF\n(Intercept)    25102     6414.4   3.913 0.0001036  12499.6    37705 498\neducation       1140      481.6   2.368 0.0182798    194.1     2087 498\n\nMultiple R-squared:  0.1867 ,   Adjusted R-squared:  0.185 \nF-statistic: 5.606 on 1 and 498 DF,  p-value: 0.01828"
+  },
+  {
+    "objectID": "slides/session5/correction5.html#last-sessions",
+    "href": "slides/session5/correction5.html#last-sessions",
+    "title": "Session 5: regression discontinuity and instrumental variables",
+    "section": "Last sessions",
+    "text": "Last sessions\n\nMultinomial regressions\nDifference-in-differences"
+  },
+  {
+    "objectID": "slides/session5/correction5.html#identification-and-exogeneity",
+    "href": "slides/session5/correction5.html#identification-and-exogeneity",
+    "title": "Session 5: regression discontinuity and instrumental variables",
+    "section": "Identification and exogeneity",
+    "text": "Identification and exogeneity\n\nAn OLS is a correlational analysis \\[\\begin{equation}\nY_i = \\alpha + \\beta X_i + \\delta D_i + \\epsilon_i\n\\end{equation}\\]\nIdentifying a causal effect (directional) requires exogeneity and directionality\n\\(D \\rightarrow Y\\)\notherwise bias can arise"
+  },
+  {
+    "objectID": "slides/session5/correction5.html#identification-strategies",
+    "href": "slides/session5/correction5.html#identification-strategies",
+    "title": "Session 5: regression discontinuity and instrumental variables",
+    "section": "Identification strategies",
+    "text": "Identification strategies\n\nRDD uses arbitrary decision rule as source of exogeneity\n\napplies in settings where treatment is determined by whether an observed running variable \\(X\\) crosses a known cutoff \\(c\\).\n\nIV uses so-called instrument\n\napplies when treatment assignment is influenced by an exogeneous variable"
+  },
+  {
+    "objectID": "slides/session5/correction5.html#sharp-and-fuzzy-rdd",
+    "href": "slides/session5/correction5.html#sharp-and-fuzzy-rdd",
+    "title": "Session 5: regression discontinuity and instrumental variables",
+    "section": "Sharp and fuzzy RDD",
+    "text": "Sharp and fuzzy RDD\n\nBased on a running variable \\(X\\)\nWhich influences probability \\(P_T(X\\geq c)\\) discontinuously\nMany exist out there because of legal thresholds\nCan be fuzzy or sharp"
+  },
+  {
+    "objectID": "slides/session5/correction5.html#intuition-sharp-rdd",
+    "href": "slides/session5/correction5.html#intuition-sharp-rdd",
+    "title": "Session 5: regression discontinuity and instrumental variables",
+    "section": "Intuition sharp RDD",
+    "text": "Intuition sharp RDD\n\nAge and drinking : deterministic"
+  },
+  {
+    "objectID": "slides/session5/correction5.html#intuition-fuzzy-rdd",
+    "href": "slides/session5/correction5.html#intuition-fuzzy-rdd",
+    "title": "Session 5: regression discontinuity and instrumental variables",
+    "section": "Intuition fuzzy RDD",
+    "text": "Intuition fuzzy RDD\n\nResult at an entrance exam and admission rule (informal - yet not decisive threshold at 16/20)."
+  },
+  {
+    "objectID": "slides/session5/correction5.html#measuring-the-jump-at-discontinuity",
+    "href": "slides/session5/correction5.html#measuring-the-jump-at-discontinuity",
+    "title": "Session 5: regression discontinuity and instrumental variables",
+    "section": "Measuring the jump at discontinuity",
+    "text": "Measuring the jump at discontinuity"
+  },
+  {
+    "objectID": "slides/session5/correction5.html#impact-on-the-outcome",
+    "href": "slides/session5/correction5.html#impact-on-the-outcome",
+    "title": "Session 5: regression discontinuity and instrumental variables",
+    "section": "Impact on the outcome",
+    "text": "Impact on the outcome\n\nThis jump helps assess the impacts of the treatment on the outcome \\[\\begin{equation}\n\\tau = \\lim_{x \\to c^+} \\mathbb{E}[Y_i \\mid X_i = x] - \\lim_{x \\to c^-} \\mathbb{E}[Y_i \\mid X_i = x]\n\\end{equation}\\]\n\\(c^+ = c+h\\) and \\(c^- = c-h\\) with \\(h \\rightarrow 0\\)\nTrade-off between\n\nbias ($h $)\nstatistical power (\\(h \\text{ small} \\rightarrow n \\text{ small}\\))"
+  },
+  {
+    "objectID": "slides/session5/correction5.html#example",
+    "href": "slides/session5/correction5.html#example",
+    "title": "Session 5: regression discontinuity and instrumental variables",
+    "section": "Example",
+    "text": "Example\n\nScholarship and GPA"
+  },
+  {
+    "objectID": "slides/session5/correction5.html#example-1",
+    "href": "slides/session5/correction5.html#example-1",
+    "title": "Session 5: regression discontinuity and instrumental variables",
+    "section": "Example",
+    "text": "Example\n\\[\\begin{equation}\nY_{i\\{h\\}} = \\alpha + \\beta X_{i\\{h\\}} + \\delta D_{i\\{h\\}} + \\epsilon_i\n\\end{equation}\\]\n\nlibrary(tidyverse)\nlibrary(MASS)\nlibrary(stargazer)\n# Define the bandwidth\nh &lt;- 10  \n\n# Subset data within ± the threshold\nrd_data1&lt;- df |&gt; \n  filter(abs(X - 80) &lt;= h)\n\nrd_data2&lt;- df |&gt; \n  filter(abs(X - 80) &lt;= 0.1*h)\n\n\n# Create running variable centered at the threshold\nrd_data1 &lt;- rd_data1 |&gt; \n  mutate(\n    centered_X = X - 80,  # Centering at the threshold\n    treatment = if_else(X &gt;= 80, 1, 0) # Treatment indicator\n  )\n\nrd_data2 &lt;- rd_data2 |&gt; \n  mutate(\n    centered_X = X - 80,  # Centering at the threshold\n    treatment = if_else(X &gt;= 80, 1, 0) # Treatment indicator\n  )\n\n# Estimate local linear regression with interaction\nrd_model1 &lt;- lm(Y~ treatment + centered_X, data = rd_data1)\nrd_model2 &lt;- lm(Y~ treatment + centered_X, data = rd_data2)\n\n#Compare the models\n\nstargazer(rd_model1, rd_model2, type = \"text\")\n\n\n===================================================================\n                                  Dependent variable:              \n                    -----------------------------------------------\n                                           Y                       \n                              (1)                     (2)          \n-------------------------------------------------------------------\ntreatment                   0.573***                0.691**        \n                            (0.061)                 (0.231)        \n                                                                   \ncentered_X                  0.041***                 -0.014        \n                            (0.005)                 (0.182)        \n                                                                   \nConstant                    5.965***                5.873***       \n                            (0.033)                 (0.140)        \n                                                                   \n-------------------------------------------------------------------\nObservations                  156                      14          \nR2                           0.885                   0.806         \nAdjusted R2                  0.884                   0.770         \nResidual Std. Error     0.184 (df = 153)        0.185 (df = 11)    \nF Statistic         591.223*** (df = 2; 153) 22.789*** (df = 2; 11)\n===================================================================\nNote:                                   *p&lt;0.1; **p&lt;0.05; ***p&lt;0.01"
+  },
+  {
+    "objectID": "slides/session5/correction5.html#using-built-in-functions",
+    "href": "slides/session5/correction5.html#using-built-in-functions",
+    "title": "Session 5: regression discontinuity and instrumental variables",
+    "section": "Using built-in functions",
+    "text": "Using built-in functions\n\nlibrary(rdrobust)\n# Parameters\n\n# Run robust RDD\nrdd_result &lt;- rdrobust(y = df$Y, x = df$X, c = cutoff, h = 10) # h = points allows to specify the number of points\n\n# Print summary\nsummary(rdd_result)\n\nSharp RD estimates using local polynomial regression.\n\nNumber of Obs.                  300\nBW type                      Manual\nKernel                   Triangular\nVCE method                       NN\n\nNumber of Obs.                  155          145\nEff. Number of Obs.              82           74\nOrder est. (p)                    1            1\nOrder bias  (q)                   2            2\nBW est. (h)                  10.000       10.000\nBW bias (b)                  10.000       10.000\nrho (h/b)                     1.000        1.000\nUnique Obs.                     155          145\n\n=====================================================================\n                   Point    Robust Inference\n                Estimate         z     P&gt;|z|      [ 95% C.I. ]       \n---------------------------------------------------------------------\n     RD Effect     0.631     7.375     0.000     [0.540 , 0.931]     \n====================================================================="
+  },
+  {
+    "objectID": "slides/session5/correction5.html#continuity-at-the-cutoff",
+    "href": "slides/session5/correction5.html#continuity-at-the-cutoff",
+    "title": "Session 5: regression discontinuity and instrumental variables",
+    "section": "Continuity at the cutoff",
+    "text": "Continuity at the cutoff\n\nAbsent of treatment, \\(Y\\) would have followed a continuous trend at the cutoff.\nTypical tests\n\nCovariate continuity tests : placebos with other covariates\nMcCrary density test: test whether the density of the running variable is continuous at the cutoff, which helps detect manipulation or sorting around the threshold.\nPlacebos with other cutoffs\nVarying bandwidths: verify that results are robust to different choices of bandwidth.\nVarying polynomial orders: check that results are not driven by a specific functional form, by changing the order of the estimation in the argument of the function p =."
+  },
+  {
+    "objectID": "slides/session5/correction5.html#intuition",
+    "href": "slides/session5/correction5.html#intuition",
+    "title": "Session 5: regression discontinuity and instrumental variables",
+    "section": "Intuition",
+    "text": "Intuition"
+  },
+  {
+    "objectID": "slides/session5/correction5.html#conditions-of-good-instrument",
+    "href": "slides/session5/correction5.html#conditions-of-good-instrument",
+    "title": "Session 5: regression discontinuity and instrumental variables",
+    "section": "Conditions of good instrument",
+    "text": "Conditions of good instrument\n\nAffects the treatment (relevance),\nDoes not directly affect the outcome except through the treatment (exclusion restriction),\nIs independent of unobserved confounders (validity)."
+  },
+  {
+    "objectID": "slides/session5/correction5.html#two-stage-least-squares",
+    "href": "slides/session5/correction5.html#two-stage-least-squares",
+    "title": "Session 5: regression discontinuity and instrumental variables",
+    "section": "Two-stage least squares",
+    "text": "Two-stage least squares\n\n\n1st stage : \\[\\begin{equation}\nD_i = \\alpha + \\beta Z_i + \\epsilon_i\n\\end{equation}\\]\n2nd stage : \\[\\begin{equation}\nY_i = \\alpha + \\beta X_i+ \\delta \\hat{D}_i + \\epsilon_i\n\\end{equation}\\]"
+  },
+  {
+    "objectID": "slides/session5/correction5.html#how-to-run-your-iv",
+    "href": "slides/session5/correction5.html#how-to-run-your-iv",
+    "title": "Session 5: regression discontinuity and instrumental variables",
+    "section": "How to run your IV",
+    "text": "How to run your IV\n\nSuccessive lm\n\n1st stage Treatment ~ Instrument\n2nd stage Outcome ~ fitted_treatment\n\nYou want to estimate earnings depending on education\n\ninstead of OLS, use of an instrument\ndistance to school\n\n\n# Load required package\nlibrary(AER)  # For ivreg (2SLS)\nlibrary(estimatr)\nset.seed(123)\n\n# Sample size\nn &lt;- 500\n\n# Instrument: distance to nearest college (in km, exogenous)\ndistance_to_college &lt;- runif(n, 0, 50)  # 0 = very close, 50 = far\n\n# Unobserved confounder: ability or motivation\nability &lt;- rnorm(n, 0, 1)\n\n# Treatment: years of education (depends on distance and ability)\n# Students closer to college tend to get more education\neducation &lt;- 12 + 0.05 * (50 - distance_to_college) + 0.8 * ability + rnorm(n, 0, 1)\n# education is continuous: years of schooling\n\n# Outcome: earnings (depends on education and ability)\nearnings &lt;- 20000 + 1500 * education + 5000 * ability + rnorm(n, 0, 5000)\n\n# Combine into a data frame\ndf &lt;- data.frame(earnings, education, distance_to_college, ability)\n\n# Quick look\nhead(df)\n\n  earnings education distance_to_college     ability\n1 45909.00  15.01900           14.378876 -0.37560287\n2 38260.18  11.97003           39.415257 -0.56187636\n3 41019.36  13.71389           20.448846 -0.34391723\n4 41251.12  12.57881           44.150870  0.09049665\n5 54311.44  13.24152           47.023364  1.59850877\n6 35838.17  14.19486            2.277825 -0.08856511\n\n# Naive OLS (biased because of ability confounding)\nlm_first &lt;- lm(education ~ distance_to_college, data = df)\n\ndf$fitted_educ &lt;- lm_first$fitted.values\nivcom &lt;- lm(earnings ~ fitted_educ, data = df)\nsummary(ivcom)\n\n\nCall:\nlm(formula = earnings ~ fitted_educ, data = df)\n\nResiduals:\n     Min       1Q   Median       3Q      Max \n-25795.3  -5499.6    518.1   5419.4  22921.3 \n\nCoefficients:\n            Estimate Std. Error t value Pr(&gt;|t|)    \n(Intercept)  25102.2     7044.6   3.563 0.000401 ***\nfitted_educ   1140.4      528.9   2.156 0.031537 *  \n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 8360 on 498 degrees of freedom\nMultiple R-squared:  0.00925,   Adjusted R-squared:  0.007261 \nF-statistic:  4.65 on 1 and 498 DF,  p-value: 0.03154\n\nnaive_lm &lt;- lm(earnings ~ education, data = df)\nsummary(naive_lm)\n\n\nCall:\nlm(formula = earnings ~ education, data = df)\n\nResiduals:\n     Min       1Q   Median       3Q      Max \n-24543.1  -4998.4      0.4   5009.7  19184.5 \n\nCoefficients:\n            Estimate Std. Error t value Pr(&gt;|t|)    \n(Intercept)  -2756.3     2818.7  -0.978    0.329    \neducation     3234.7      210.6  15.358   &lt;2e-16 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 6918 on 498 degrees of freedom\nMultiple R-squared:  0.3214,    Adjusted R-squared:   0.32 \nF-statistic: 235.9 on 1 and 498 DF,  p-value: &lt; 2.2e-16"
+  },
+  {
+    "objectID": "slides/session5/correction5.html#using-built-in-functions-1",
+    "href": "slides/session5/correction5.html#using-built-in-functions-1",
+    "title": "Session 5: regression discontinuity and instrumental variables",
+    "section": "Using built-in functions",
+    "text": "Using built-in functions\n\npackages\n\n\nlibrary(AER)  # For ivreg (2SLS)\nlibrary(estimatr)\n\n\nFunction\n\n\niv &lt;- ivreg(Y ~ X | D+X, data)\n\n\n# 2SLS using distance as instrument\niv_model &lt;- ivreg(earnings ~ education | distance_to_college, data = df)\niv_model2 &lt;- iv_robust(earnings ~ education | distance_to_college, data = df)\nsummary(iv_model, diagnostics = TRUE)\n\n\nCall:\nivreg(formula = earnings ~ education | distance_to_college, data = df)\n\nResiduals:\n     Min       1Q   Median       3Q      Max \n-25205.8  -5259.7    446.7   5096.0  20841.8 \n\nCoefficients:\n            Estimate Std. Error t value Pr(&gt;|t|)    \n(Intercept)  25102.2     6382.8   3.933 9.59e-05 ***\neducation     1140.4      479.2   2.380   0.0177 *  \n\nDiagnostic tests:\n                 df1 df2 statistic  p-value    \nWeak instruments   1 498    150.08  &lt; 2e-16 ***\nWu-Hausman         1 497     31.63 3.12e-08 ***\nSargan             0  NA        NA       NA    \n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 7574 on 498 degrees of freedom\nMultiple R-Squared: 0.1867, Adjusted R-squared: 0.185 \nWald test: 5.664 on 1 and 498 DF,  p-value: 0.01769 \n\nsummary(iv_model2)\n\n\nCall:\niv_robust(formula = earnings ~ education | distance_to_college, \n    data = df)\n\nStandard error type:  HC2 \n\nCoefficients:\n            Estimate Std. Error t value  Pr(&gt;|t|) CI Lower CI Upper  DF\n(Intercept)    25102     6414.4   3.913 0.0001036  12499.6    37705 498\neducation       1140      481.6   2.368 0.0182798    194.1     2087 498\n\nMultiple R-squared:  0.1867 ,   Adjusted R-squared:  0.185 \nF-statistic: 5.606 on 1 and 498 DF,  p-value: 0.01828"
+  },
+  {
+    "objectID": "slides/session5/correction5.html#diagnostics",
+    "href": "slides/session5/correction5.html#diagnostics",
+    "title": "Session 5: regression discontinuity and instrumental variables",
+    "section": "Diagnostics",
+    "text": "Diagnostics\n\nWeak instruments : rejected (F statistic ~ 150 &gt;&gt; 10)\nWu-Hausman test : is education exogeneous ? If yes, OLS would be fine.\nSargan test : in case you have multiple instruments"
+  },
+  {
+    "objectID": "slides/session5/correction5.html#exercice-1",
+    "href": "slides/session5/correction5.html#exercice-1",
+    "title": "Session 5: regression discontinuity and instrumental variables",
+    "section": "Exercice 1",
+    "text": "Exercice 1"
+  },
+  {
+    "objectID": "slides/session5/correction5.html#load-the-relevant-packages",
+    "href": "slides/session5/correction5.html#load-the-relevant-packages",
+    "title": "Session 5: regression discontinuity and instrumental variables",
+    "section": "Load the relevant packages",
+    "text": "Load the relevant packages\nStart by loading the following packages:\n\nlibrary(rio)\nlibrary(tidyverse)\nlibrary(rdrobust)\nlibrary(estimatr)\nlibrary(AER)"
+  },
+  {
+    "objectID": "slides/session5/correction5.html#exercice-1-regression-discontinuity-design-rdd",
+    "href": "slides/session5/correction5.html#exercice-1-regression-discontinuity-design-rdd",
+    "title": "Session 5: regression discontinuity and instrumental variables",
+    "section": "Exercice 1: regression discontinuity design (RDD)",
+    "text": "Exercice 1: regression discontinuity design (RDD)\nThis exercise is inspired by Carpenter and Dobkin (2015). You are provided with a data set about crime rates in the US, which you can find at https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/exercices/exercices5/data/carpenter_dobkin_data.dta. You want to analyse the effect of alcohol on crime rates.\n\nImport the data. The codebook is the following :\n\n\nage stands for the age\narrested_for qualifies the reasons for which people have been arrested. DUI stands for driving under the influence.\nnumber is the number of people of that age arrested for that reason.\n\n\nRun the following code :\n\n\np &lt;- data_set %&gt;%  ggplot(aes(x = age, y = number)) +\n  geom_point(alpha = 0.05) +\n  facet_wrap(facets = vars(arrested_for), scales = \"free_y\") +\n  theme_minimal()\n\np\n\n\nDo you observe any “jump” or discontinuity in your graphs? If so, where?\nRestrict your dataset to DUIs (driving under the influence).\nRun your regression discontinuity using rdrobust, with age as the independent variable and number as the dependent variable, using a cutoff at 21 and a bandwidth of 2.\nIs this a sharp or fuzzy RDD?\nDoes being allowed to drink alcohol affect the number of DUIs?\nRepeat the analysis using the number of assaults and the legal majority at 18 to examine whether turning 18 has an impact on the number of assaults.\n\n\nlibrary(rio)\nlibrary(tidyverse)\nlibrary(rdrobust)\nlibrary(estimatr)\nlibrary(AER)\n\ncarpenter_dobkin_prepared &lt;- import(\"https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/exercices/exercices5/data/carpenter_dobkin_data.dta\")\n\nglimpse(carpenter_dobkin_prepared)\n\nRows: 11,688\nColumns: 3\n$ age          &lt;dbl&gt; 16.99726, 16.99726, 16.99726, 16.99726, 17.00000, 17.0000…\n$ arrested_for &lt;chr&gt; \"Assault\", \"Aggravated assault\", \"DUI\", \"Traffic violatio…\n$ number       &lt;dbl&gt; 523, 205, 120, 100, 451, 183, 139, 103, 442, 160, 94, 104…\n\np &lt;- carpenter_dobkin_prepared %&gt;%  ggplot(aes(x = age, y = number)) +\n  geom_point(alpha = 0.05) +\n  facet_wrap(facets = vars(arrested_for), scales = \"free_y\") +\n  theme_minimal()\n\np\n\ncarpenter_dobkin_dui_only &lt;-\n  carpenter_dobkin_prepared |&gt;\n  filter(\n    arrested_for == \"DUI\"\n  )\n\ncarpenter_dobkin_assault_only &lt;-\n  carpenter_dobkin_prepared |&gt;\n  filter(\n    arrested_for == \"Assault\"\n  )\n\nrdd_dui &lt;- rdrobust(\n  # specifies the DV\n  y = carpenter_dobkin_dui_only$number,\n  # specifies the running variable of the RDD\n  x = carpenter_dobkin_dui_only$age,\n  # specifies the cutoff\n  c = 21,\n  # specifies the bandwidth, here the unit of analysis is years\n  h = 2\n) \n\nrdd_assault &lt;- rdrobust(\n  # specifies the DV\n  y = carpenter_dobkin_assault_only$number,\n  # specifies the running variable of the RDD\n  x = carpenter_dobkin_assault_only$age,\n  # specifies the cutoff\n  c = 18,\n  # specifies the bandwidth, here the unit of analysis is years\n  h = 2\n) \n\nrdd_dui |&gt; summary()\n\nSharp RD estimates using local polynomial regression.\n\nNumber of Obs.                 2922\nBW type                      Manual\nKernel                   Triangular\nVCE method                       NN\n\nNumber of Obs.                 1461         1461\nEff. Number of Obs.             729          730\nOrder est. (p)                    1            1\nOrder bias  (q)                   2            2\nBW est. (h)                   2.000        2.000\nBW bias (b)                   2.000        2.000\nrho (h/b)                     1.000        1.000\nUnique Obs.                    1461         1461\n\n=====================================================================\n                   Point    Robust Inference\n                Estimate         z     P&gt;|z|      [ 95% C.I. ]       \n---------------------------------------------------------------------\n     RD Effect   192.790    17.999     0.000   [184.837 , 230.010]   \n=====================================================================\n\nrdd_assault %&gt;% summary()\n\nSharp RD estimates using local polynomial regression.\n\nNumber of Obs.                 2922\nBW type                      Manual\nKernel                   Triangular\nVCE method                       NN\n\nNumber of Obs.                  366         2556\nEff. Number of Obs.             366          730\nOrder est. (p)                    1            1\nOrder bias  (q)                   2            2\nBW est. (h)                   2.000        2.000\nBW bias (b)                   2.000        2.000\nrho (h/b)                     1.000        1.000\nUnique Obs.                     366         2556\n\n=====================================================================\n                   Point    Robust Inference\n                Estimate         z     P&gt;|z|      [ 95% C.I. ]       \n---------------------------------------------------------------------\n     RD Effect   -58.614   -16.612     0.000   [-74.901 , -59.092]   \n=====================================================================\n\nrdd_dui &lt;- rdrobust(\n  # specifies the DV\n  y = carpenter_dobkin_dui_only$number,\n  # specifies the running variable of the RDD\n  x = carpenter_dobkin_dui_only$age,\n  # specifies the cutoff\n  c = 21,\n  # specifies the bandwidth, here the unit of analysis is years\n) \n\nrdd_assault &lt;- rdrobust(\n  # specifies the DV\n  y = carpenter_dobkin_assault_only$number,\n  # specifies the running variable of the RDD\n  x = carpenter_dobkin_assault_only$age,\n  # specifies the cutoff\n  c = 18,\n  # specifies the bandwidth, here the unit of analysis is years\n) \n\nrdd_dui |&gt; summary()\n\nSharp RD estimates using local polynomial regression.\n\nNumber of Obs.                 2922\nBW type                       mserd\nKernel                   Triangular\nVCE method                       NN\n\nNumber of Obs.                 1461         1461\nEff. Number of Obs.             201          202\nOrder est. (p)                    1            1\nOrder bias  (q)                   2            2\nBW est. (h)                   0.552        0.552\nBW bias (b)                   1.155        1.155\nrho (h/b)                     0.478        0.478\nUnique Obs.                    1461         1461\n\n=====================================================================\n                   Point    Robust Inference\n                Estimate         z     P&gt;|z|      [ 95% C.I. ]       \n---------------------------------------------------------------------\n     RD Effect   233.333    11.052     0.000   [196.910 , 281.803]   \n=====================================================================\n\nrdd_assault %&gt;% summary()\n\nSharp RD estimates using local polynomial regression.\n\nNumber of Obs.                 2922\nBW type                       mserd\nKernel                   Triangular\nVCE method                       NN\n\nNumber of Obs.                  366         2556\nEff. Number of Obs.             182          183\nOrder est. (p)                    1            1\nOrder bias  (q)                   2            2\nBW est. (h)                   0.499        0.499\nBW bias (b)                   0.769        0.769\nrho (h/b)                     0.649        0.649\nUnique Obs.                     366         2556\n\n=====================================================================\n                   Point    Robust Inference\n                Estimate         z     P&gt;|z|      [ 95% C.I. ]       \n---------------------------------------------------------------------\n     RD Effect   -68.142   -10.602     0.000   [-79.862 , -54.942]   \n====================================================================="
+  },
+  {
+    "objectID": "slides/session5/correction5 (# Edit conflict 2026-03-31 SlTGNov #).html",
+    "href": "slides/session5/correction5 (# Edit conflict 2026-03-31 SlTGNov #).html",
+    "title": "Session 5: regression discontinuity and instrumental variables",
+    "section": "",
+    "text": "Multinomial regressions\nDifference-in-differences"
+  },
+  {
+    "objectID": "slides/session5/correction5 (# Edit conflict 2026-03-31 SlTGNov #).html#last-sessions",
+    "href": "slides/session5/correction5 (# Edit conflict 2026-03-31 SlTGNov #).html#last-sessions",
+    "title": "Session 5: regression discontinuity and instrumental variables",
+    "section": "",
+    "text": "Multinomial regressions\nDifference-in-differences"
+  },
+  {
+    "objectID": "slides/session5/correction5 (# Edit conflict 2026-03-31 SlTGNov #).html#identification-and-exogeneity",
+    "href": "slides/session5/correction5 (# Edit conflict 2026-03-31 SlTGNov #).html#identification-and-exogeneity",
+    "title": "Session 5: regression discontinuity and instrumental variables",
+    "section": "Identification and exogeneity",
+    "text": "Identification and exogeneity\n\nAn OLS is a correlational analysis \\[\\begin{equation}\nY_i = \\alpha + \\beta X_i + \\delta D_i + \\epsilon_i\n\\end{equation}\\]\nIdentifying a causal effect (directional) requires exogeneity and directionality\n\\(D \\rightarrow Y\\)\notherwise bias can arise"
+  },
+  {
+    "objectID": "slides/session5/correction5 (# Edit conflict 2026-03-31 SlTGNov #).html#identification-strategies",
+    "href": "slides/session5/correction5 (# Edit conflict 2026-03-31 SlTGNov #).html#identification-strategies",
+    "title": "Session 5: regression discontinuity and instrumental variables",
+    "section": "Identification strategies",
+    "text": "Identification strategies\n\nRDD uses arbitrary decision rule as source of exogeneity\n\napplies in settings where treatment is determined by whether an observed running variable \\(X\\) crosses a known cutoff \\(c\\).\n\nIV uses so-called instrument\n\napplies when treatment assignment is influenced by an exogeneous variable"
+  },
+  {
+    "objectID": "slides/session5/correction5 (# Edit conflict 2026-03-31 SlTGNov #).html#sharp-and-fuzzy-rdd",
+    "href": "slides/session5/correction5 (# Edit conflict 2026-03-31 SlTGNov #).html#sharp-and-fuzzy-rdd",
+    "title": "Session 5: regression discontinuity and instrumental variables",
+    "section": "Sharp and fuzzy RDD",
+    "text": "Sharp and fuzzy RDD\n\nBased on a running variable \\(X\\)\nWhich influences probability \\(P_T(X\\geq c)\\) discontinuously\nMany exist out there because of legal thresholds\nCan be fuzzy or sharp"
+  },
+  {
+    "objectID": "slides/session5/correction5 (# Edit conflict 2026-03-31 SlTGNov #).html#intuition-sharp-rdd",
+    "href": "slides/session5/correction5 (# Edit conflict 2026-03-31 SlTGNov #).html#intuition-sharp-rdd",
+    "title": "Session 5: regression discontinuity and instrumental variables",
+    "section": "Intuition sharp RDD",
+    "text": "Intuition sharp RDD\n\nAge and drinking : deterministic\n\n\n\nWarning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.\nℹ Please use `linewidth` instead."
+  },
+  {
+    "objectID": "slides/session5/correction5 (# Edit conflict 2026-03-31 SlTGNov #).html#intuition-fuzzy-rdd",
+    "href": "slides/session5/correction5 (# Edit conflict 2026-03-31 SlTGNov #).html#intuition-fuzzy-rdd",
+    "title": "Session 5: regression discontinuity and instrumental variables",
+    "section": "Intuition fuzzy RDD",
+    "text": "Intuition fuzzy RDD\n\nResult at an entrance exam and admission rule (informal - yet not decisive threshold at 16/20)."
+  },
+  {
+    "objectID": "slides/session5/correction5 (# Edit conflict 2026-03-31 SlTGNov #).html#measuring-the-jump-at-discontinuity",
+    "href": "slides/session5/correction5 (# Edit conflict 2026-03-31 SlTGNov #).html#measuring-the-jump-at-discontinuity",
+    "title": "Session 5: regression discontinuity and instrumental variables",
+    "section": "Measuring the jump at discontinuity",
+    "text": "Measuring the jump at discontinuity\n\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.6\n✔ forcats   1.0.1     ✔ stringr   1.6.0\n✔ lubridate 1.9.4     ✔ tibble    3.3.1\n✔ purrr     1.2.1     ✔ tidyr     1.3.2\n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors"
+  },
+  {
+    "objectID": "slides/session5/correction5 (# Edit conflict 2026-03-31 SlTGNov #).html#impact-on-the-outcome",
+    "href": "slides/session5/correction5 (# Edit conflict 2026-03-31 SlTGNov #).html#impact-on-the-outcome",
+    "title": "Session 5: regression discontinuity and instrumental variables",
+    "section": "Impact on the outcome",
+    "text": "Impact on the outcome\n\nThis jump helps assess the impacts of the treatment on the outcome \\[\\begin{equation}\n\\tau = \\lim_{x \\to c^+} \\mathbb{E}[Y_i \\mid X_i = x] - \\lim_{x \\to c^-} \\mathbb{E}[Y_i \\mid X_i = x]\n\\end{equation}\\]\n\\(c^+ = c+h\\) and \\(c^- = c-h\\) with \\(h \\rightarrow 0\\)\nTrade-off between\n\nbias ($h $)\nstatistical power (\\(h \\text{ small} \\rightarrow n \\text{ small}\\))"
+  },
+  {
+    "objectID": "slides/session5/correction5 (# Edit conflict 2026-03-31 SlTGNov #).html#example",
+    "href": "slides/session5/correction5 (# Edit conflict 2026-03-31 SlTGNov #).html#example",
+    "title": "Session 5: regression discontinuity and instrumental variables",
+    "section": "Example",
+    "text": "Example\n\nScholarship and GPA\n\n\n\n`geom_smooth()` using formula = 'y ~ x'\n`geom_smooth()` using formula = 'y ~ x'"
+  },
+  {
+    "objectID": "slides/session5/correction5 (# Edit conflict 2026-03-31 SlTGNov #).html#example-1",
+    "href": "slides/session5/correction5 (# Edit conflict 2026-03-31 SlTGNov #).html#example-1",
+    "title": "Session 5: regression discontinuity and instrumental variables",
+    "section": "Example",
+    "text": "Example\n\\[\\begin{equation}\nY_{i\\{h\\}} = \\alpha + \\beta X_{i\\{h\\}} + \\delta D_{i\\{h\\}} + \\epsilon_i\n\\end{equation}\\]\n\nlibrary(tidyverse)\nlibrary(MASS)\n\n\nAttaching package: 'MASS'\n\n\nThe following object is masked from 'package:dplyr':\n\n    select\n\nlibrary(stargazer)\n\n\nPlease cite as: \n\n\n Hlavac, Marek (2022). stargazer: Well-Formatted Regression and Summary Statistics Tables.\n\n\n R package version 5.2.3. https://CRAN.R-project.org/package=stargazer \n\n# Define the bandwidth\nh &lt;- 10  \n\n# Subset data within ± the threshold\nrd_data1&lt;- df |&gt; \n  filter(abs(X - 80) &lt;= h)\n\nrd_data2&lt;- df |&gt; \n  filter(abs(X - 80) &lt;= 0.1*h)\n\n\n# Create running variable centered at the threshold\nrd_data1 &lt;- rd_data1 |&gt; \n  mutate(\n    centered_X = X - 80,  # Centering at the threshold\n    treatment = if_else(X &gt;= 80, 1, 0) # Treatment indicator\n  )\n\nrd_data2 &lt;- rd_data2 |&gt; \n  mutate(\n    centered_X = X - 80,  # Centering at the threshold\n    treatment = if_else(X &gt;= 80, 1, 0) # Treatment indicator\n  )\n\n# Estimate local linear regression with interaction\nrd_model1 &lt;- lm(Y~ treatment + centered_X, data = rd_data1)\nrd_model2 &lt;- lm(Y~ treatment + centered_X, data = rd_data2)\n\n#Compare the models\n\nstargazer(rd_model1, rd_model2, type = \"text\")\n\n\n===================================================================\n                                  Dependent variable:              \n                    -----------------------------------------------\n                                           Y                       \n                              (1)                     (2)          \n-------------------------------------------------------------------\ntreatment                   0.573***                0.691**        \n                            (0.061)                 (0.231)        \n                                                                   \ncentered_X                  0.041***                 -0.014        \n                            (0.005)                 (0.182)        \n                                                                   \nConstant                    5.965***                5.873***       \n                            (0.033)                 (0.140)        \n                                                                   \n-------------------------------------------------------------------\nObservations                  156                      14          \nR2                           0.885                   0.806         \nAdjusted R2                  0.884                   0.770         \nResidual Std. Error     0.184 (df = 153)        0.185 (df = 11)    \nF Statistic         591.223*** (df = 2; 153) 22.789*** (df = 2; 11)\n===================================================================\nNote:                                   *p&lt;0.1; **p&lt;0.05; ***p&lt;0.01"
+  },
+  {
+    "objectID": "slides/session5/correction5 (# Edit conflict 2026-03-31 SlTGNov #).html#using-built-in-functions",
+    "href": "slides/session5/correction5 (# Edit conflict 2026-03-31 SlTGNov #).html#using-built-in-functions",
+    "title": "Session 5: regression discontinuity and instrumental variables",
+    "section": "Using built-in functions",
+    "text": "Using built-in functions\n\nlibrary(rdrobust)\n# Parameters\n\n# Run robust RDD\nrdd_result &lt;- rdrobust(y = df$Y, x = df$X, c = cutoff, h = 10) # h = points allows to specify the number of points\n\n# Print summary\nsummary(rdd_result)\n\nSharp RD estimates using local polynomial regression.\n\nNumber of Obs.                  300\nBW type                      Manual\nKernel                   Triangular\nVCE method                       NN\n\nNumber of Obs.                  155          145\nEff. Number of Obs.              82           74\nOrder est. (p)                    1            1\nOrder bias  (q)                   2            2\nBW est. (h)                  10.000       10.000\nBW bias (b)                  10.000       10.000\nrho (h/b)                     1.000        1.000\nUnique Obs.                     155          145\n\n=====================================================================\n                   Point    Robust Inference\n                Estimate         z     P&gt;|z|      [ 95% C.I. ]       \n---------------------------------------------------------------------\n     RD Effect     0.631     7.375     0.000     [0.540 , 0.931]     \n====================================================================="
+  },
+  {
+    "objectID": "slides/session5/correction5 (# Edit conflict 2026-03-31 SlTGNov #).html#continuity-at-the-cutoff",
+    "href": "slides/session5/correction5 (# Edit conflict 2026-03-31 SlTGNov #).html#continuity-at-the-cutoff",
+    "title": "Session 5: regression discontinuity and instrumental variables",
+    "section": "Continuity at the cutoff",
+    "text": "Continuity at the cutoff\n\nAbsent of treatment, \\(Y\\) would have followed a continuous trend at the cutoff.\nTypical tests\n\nCovariate continuity tests : placebos with other covariates\nMcCrary density test: test whether the density of the running variable is continuous at the cutoff, which helps detect manipulation or sorting around the threshold.\nPlacebos with other cutoffs\nVarying bandwidths: verify that results are robust to different choices of bandwidth.\nVarying polynomial orders: check that results are not driven by a specific functional form, by changing the order of the estimation in the argument of the function p =."
+  },
+  {
+    "objectID": "slides/session5/correction5 (# Edit conflict 2026-03-31 SlTGNov #).html#intuition",
+    "href": "slides/session5/correction5 (# Edit conflict 2026-03-31 SlTGNov #).html#intuition",
+    "title": "Session 5: regression discontinuity and instrumental variables",
+    "section": "Intuition",
+    "text": "Intuition"
+  },
+  {
+    "objectID": "slides/session5/correction5 (# Edit conflict 2026-03-31 SlTGNov #).html#conditions-of-good-instrument",
+    "href": "slides/session5/correction5 (# Edit conflict 2026-03-31 SlTGNov #).html#conditions-of-good-instrument",
+    "title": "Session 5: regression discontinuity and instrumental variables",
+    "section": "Conditions of good instrument",
+    "text": "Conditions of good instrument\n\nAffects the treatment (relevance),\nDoes not directly affect the outcome except through the treatment (exclusion restriction),\nIs independent of unobserved confounders (validity)."
+  },
+  {
+    "objectID": "slides/session5/correction5 (# Edit conflict 2026-03-31 SlTGNov #).html#two-stage-least-squares",
+    "href": "slides/session5/correction5 (# Edit conflict 2026-03-31 SlTGNov #).html#two-stage-least-squares",
+    "title": "Session 5: regression discontinuity and instrumental variables",
+    "section": "Two-stage least squares",
+    "text": "Two-stage least squares\n\n\n1st stage : \\[\\begin{equation}\nD_i = \\alpha + \\beta Z_i + \\epsilon_i\n\\end{equation}\\]\n2nd stage : \\[\\begin{equation}\nY_i = \\alpha + \\beta X_i+ \\delta \\hat{D}_i + \\epsilon_i\n\\end{equation}\\]"
+  },
+  {
+    "objectID": "slides/session5/correction5 (# Edit conflict 2026-03-31 SlTGNov #).html#how-to-run-your-iv",
+    "href": "slides/session5/correction5 (# Edit conflict 2026-03-31 SlTGNov #).html#how-to-run-your-iv",
+    "title": "Session 5: regression discontinuity and instrumental variables",
+    "section": "How to run your IV",
+    "text": "How to run your IV\n\nSuccessive lm\n\n1st stage Treatment ~ Instrument\n2nd stage Outcome ~ fitted_treatment\n\nYou want to estimate earnings depending on education\n\ninstead of OLS, use of an instrument\ndistance to school\n\n\n\n# Load required package\nlibrary(AER)  # For ivreg (2SLS)\n\nLoading required package: car\n\n\nLoading required package: carData\n\n\n\nAttaching package: 'car'\n\n\nThe following object is masked from 'package:dplyr':\n\n    recode\n\n\nThe following object is masked from 'package:purrr':\n\n    some\n\n\nLoading required package: lmtest\n\n\nLoading required package: zoo\n\n\n\nAttaching package: 'zoo'\n\n\nThe following objects are masked from 'package:base':\n\n    as.Date, as.Date.numeric\n\n\nLoading required package: sandwich\n\n\nLoading required package: survival\n\nlibrary(estimatr)\nset.seed(123)\n\n# Sample size\nn &lt;- 500\n\n# Instrument: distance to nearest college (in km, exogenous)\ndistance_to_college &lt;- runif(n, 0, 50)  # 0 = very close, 50 = far\n\n# Unobserved confounder: ability or motivation\nability &lt;- rnorm(n, 0, 1)\n\n# Treatment: years of education (depends on distance and ability)\n# Students closer to college tend to get more education\neducation &lt;- 12 + 0.05 * (50 - distance_to_college) + 0.8 * ability + rnorm(n, 0, 1)\n# education is continuous: years of schooling\n\n# Outcome: earnings (depends on education and ability)\nearnings &lt;- 20000 + 1500 * education + 5000 * ability + rnorm(n, 0, 5000)\n\n# Combine into a data frame\ndf &lt;- data.frame(earnings, education, distance_to_college, ability)\n\n# Quick look\nhead(df)\n\n  earnings education distance_to_college     ability\n1 45909.00  15.01900           14.378876 -0.37560287\n2 38260.18  11.97003           39.415257 -0.56187636\n3 41019.36  13.71389           20.448846 -0.34391723\n4 41251.12  12.57881           44.150870  0.09049665\n5 54311.44  13.24152           47.023364  1.59850877\n6 35838.17  14.19486            2.277825 -0.08856511\n\n# Naive OLS (biased because of ability confounding)\nlm_first &lt;- lm(education ~ distance_to_college, data = df)\n\ndf$fitted_educ &lt;- lm_first$fitted.values\nivcom &lt;- lm(earnings ~ fitted_educ, data = df)\nsummary(ivcom)\n\n\nCall:\nlm(formula = earnings ~ fitted_educ, data = df)\n\nResiduals:\n     Min       1Q   Median       3Q      Max \n-25795.3  -5499.6    518.1   5419.4  22921.3 \n\nCoefficients:\n            Estimate Std. Error t value Pr(&gt;|t|)    \n(Intercept)  25102.2     7044.6   3.563 0.000401 ***\nfitted_educ   1140.4      528.9   2.156 0.031537 *  \n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 8360 on 498 degrees of freedom\nMultiple R-squared:  0.00925,   Adjusted R-squared:  0.007261 \nF-statistic:  4.65 on 1 and 498 DF,  p-value: 0.03154\n\nnaive_lm &lt;- lm(earnings ~ education, data = df)\nsummary(naive_lm)\n\n\nCall:\nlm(formula = earnings ~ education, data = df)\n\nResiduals:\n     Min       1Q   Median       3Q      Max \n-24543.1  -4998.4      0.4   5009.7  19184.5 \n\nCoefficients:\n            Estimate Std. Error t value Pr(&gt;|t|)    \n(Intercept)  -2756.3     2818.7  -0.978    0.329    \neducation     3234.7      210.6  15.358   &lt;2e-16 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 6918 on 498 degrees of freedom\nMultiple R-squared:  0.3214,    Adjusted R-squared:   0.32 \nF-statistic: 235.9 on 1 and 498 DF,  p-value: &lt; 2.2e-16"
+  },
+  {
+    "objectID": "slides/session5/correction5 (# Edit conflict 2026-03-31 SlTGNov #).html#using-built-in-functions-1",
+    "href": "slides/session5/correction5 (# Edit conflict 2026-03-31 SlTGNov #).html#using-built-in-functions-1",
+    "title": "Session 5: regression discontinuity and instrumental variables",
+    "section": "Using built-in functions",
+    "text": "Using built-in functions\n\npackages\n\n\nlibrary(AER)  # For ivreg (2SLS)\nlibrary(estimatr)\n\n\nFunction\n\n\niv &lt;- ivreg(Y ~ X | D+X, data)\n\n\n# 2SLS using distance as instrument\niv_model &lt;- ivreg(earnings ~ education | distance_to_college, data = df)\niv_model2 &lt;- iv_robust(earnings ~ education | distance_to_college, data = df)\nsummary(iv_model, diagnostics = TRUE)\n\n\nCall:\nivreg(formula = earnings ~ education | distance_to_college, data = df)\n\nResiduals:\n     Min       1Q   Median       3Q      Max \n-25205.8  -5259.7    446.7   5096.0  20841.8 \n\nCoefficients:\n            Estimate Std. Error t value Pr(&gt;|t|)    \n(Intercept)  25102.2     6382.8   3.933 9.59e-05 ***\neducation     1140.4      479.2   2.380   0.0177 *  \n\nDiagnostic tests:\n                 df1 df2 statistic  p-value    \nWeak instruments   1 498    150.08  &lt; 2e-16 ***\nWu-Hausman         1 497     31.63 3.12e-08 ***\nSargan             0  NA        NA       NA    \n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 7574 on 498 degrees of freedom\nMultiple R-Squared: 0.1867, Adjusted R-squared: 0.185 \nWald test: 5.664 on 1 and 498 DF,  p-value: 0.01769 \n\nsummary(iv_model2)\n\n\nCall:\niv_robust(formula = earnings ~ education | distance_to_college, \n    data = df)\n\nStandard error type:  HC2 \n\nCoefficients:\n            Estimate Std. Error t value  Pr(&gt;|t|) CI Lower CI Upper  DF\n(Intercept)    25102     6414.4   3.913 0.0001036  12499.6    37705 498\neducation       1140      481.6   2.368 0.0182798    194.1     2087 498\n\nMultiple R-squared:  0.1867 ,   Adjusted R-squared:  0.185 \nF-statistic: 5.606 on 1 and 498 DF,  p-value: 0.01828"
+  },
+  {
+    "objectID": "slides/session5/correction5 (# Edit conflict 2026-03-31 SlTGNov #).html#diagnostics",
+    "href": "slides/session5/correction5 (# Edit conflict 2026-03-31 SlTGNov #).html#diagnostics",
+    "title": "Session 5: regression discontinuity and instrumental variables",
+    "section": "Diagnostics",
+    "text": "Diagnostics\n\nWeak instruments : rejected (F statistic ~ 150 &gt;&gt; 10)\nWu-Hausman test : is education exogeneous ? If yes, OLS would be fine.\nSargan test : in case you have multiple instruments"
+  },
+  {
+    "objectID": "slides/session5/correction5 (# Edit conflict 2026-03-31 SlTGNov #).html#exercice-1",
+    "href": "slides/session5/correction5 (# Edit conflict 2026-03-31 SlTGNov #).html#exercice-1",
+    "title": "Session 5: regression discontinuity and instrumental variables",
+    "section": "Exercice 1",
+    "text": "Exercice 1"
+  },
+  {
+    "objectID": "slides/session5/correction5 (# Edit conflict 2026-03-31 SlTGNov #).html#load-the-relevant-packages",
+    "href": "slides/session5/correction5 (# Edit conflict 2026-03-31 SlTGNov #).html#load-the-relevant-packages",
+    "title": "Session 5: regression discontinuity and instrumental variables",
+    "section": "Load the relevant packages",
+    "text": "Load the relevant packages\nStart by loading the following packages:\n\nlibrary(rio)\nlibrary(tidyverse)\nlibrary(rdrobust)\nlibrary(estimatr)\nlibrary(AER)"
+  },
+  {
+    "objectID": "slides/session5/correction5 (# Edit conflict 2026-03-31 SlTGNov #).html#exercice-1-regression-discontinuity-design-rdd",
+    "href": "slides/session5/correction5 (# Edit conflict 2026-03-31 SlTGNov #).html#exercice-1-regression-discontinuity-design-rdd",
+    "title": "Session 5: regression discontinuity and instrumental variables",
+    "section": "Exercice 1: regression discontinuity design (RDD)",
+    "text": "Exercice 1: regression discontinuity design (RDD)\nThis exercise is inspired by Carpenter and Dobkin (2015). You are provided with a data set about crime rates in the US, which you can find at https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/exercices/exercices5/data/carpenter_dobkin_data.dta. You want to analyse the effect of alcohol on crime rates.\n\nImport the data. The codebook is the following :\n\n\nage stands for the age\narrested_for qualifies the reasons for which people have been arrested. DUI stands for driving under the influence.\nnumber is the number of people of that age arrested for that reason.\n\n\nRun the following code :\n\n\np &lt;- data_set %&gt;%  ggplot(aes(x = age, y = number)) +\n  geom_point(alpha = 0.05) +\n  facet_wrap(facets = vars(arrested_for), scales = \"free_y\") +\n  theme_minimal()\n\np\n\n\nDo you observe any “jump” or discontinuity in your graphs? If so, where?\nRestrict your dataset to DUIs (driving under the influence).\nRun your regression discontinuity using rdrobust, with age as the independent variable and number as the dependent variable, using a cutoff at 21 and a bandwidth of 2.\nIs this a sharp or fuzzy RDD?\nDoes being allowed to drink alcohol affect the number of DUIs?\nRepeat the analysis using the number of assaults and the legal majority at 18 to examine whether turning 18 has an impact on the number of assaults.\n\n\nlibrary(rio)\nlibrary(tidyverse)\nlibrary(rdrobust)\nlibrary(estimatr)\nlibrary(AER)\n\ncarpenter_dobkin_prepared &lt;- import(\"https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/exercices/exercices5/data/carpenter_dobkin_data.dta\")\nglimpse(carpenter_dobkin_prepared)\n\nRows: 11,688\nColumns: 3\n$ age          &lt;dbl&gt; 16.99726, 16.99726, 16.99726, 16.99726, 17.00000, 17.0000…\n$ arrested_for &lt;chr&gt; \"Assault\", \"Aggravated assault\", \"DUI\", \"Traffic violatio…\n$ number       &lt;dbl&gt; 523, 205, 120, 100, 451, 183, 139, 103, 442, 160, 94, 104…\n\np &lt;- carpenter_dobkin_prepared %&gt;%  ggplot(aes(x = age, y = number)) +\n  geom_point(alpha = 0.05) +\n  facet_wrap(facets = vars(arrested_for), scales = \"free_y\") +\n  theme_minimal()\n\np\n\n\n\n\n\n\n\ncarpenter_dobkin_dui_only &lt;-\n  carpenter_dobkin_prepared |&gt;\n  filter(\n    arrested_for == \"DUI\",\n    abs(age - 21) &lt; 2\n  )\n\ncarpenter_dobkin_assault_only &lt;-\n  carpenter_dobkin_prepared |&gt;\n  filter(\n    arrested_for == \"Assault\",\n    abs(age - 18) &lt; 2\n  )\n\nrdd_dui &lt;- rdrobust(\n  # specifies the DV\n  y = carpenter_dobkin_dui_only$number,\n  # specifies the running variable of the RDD\n  x = carpenter_dobkin_dui_only$age,\n  # specifies the cutoff\n  c = 21,\n  # specifies the bandwidth, here the unit of analysis is years\n  h = 2,\n  all = TRUE\n) \n\nrdd_assault &lt;- rdrobust(\n  # specifies the DV\n  y = carpenter_dobkin_assault_only$number,\n  # specifies the running variable of the RDD\n  x = carpenter_dobkin_assault_only$age,\n  # specifies the cutoff\n  c = 18,\n  # specifies the bandwidth, here the unit of analysis is years\n  h = 2,\n  all = TRUE\n) \n\nrdd_dui |&gt; summary()\n\nSharp RD estimates using local polynomial regression.\n\nNumber of Obs.                 1459\nBW type                      Manual\nKernel                   Triangular\nVCE method                       NN\n\nNumber of Obs.                  729          730\nEff. Number of Obs.             729          730\nOrder est. (p)                    1            1\nOrder bias  (q)                   2            2\nBW est. (h)                   2.000        2.000\nBW bias (b)                   2.000        2.000\nrho (h/b)                     1.000        1.000\nUnique Obs.                     729          730\n\n=======================================================================================\n        Method     Coef. Std. Err.         z     P&gt;|z|      [ 95% C.I. ]       \n=======================================================================================\n  Conventional   192.790     6.221    30.989     0.000   [180.597 , 204.984]   \nBias-Corrected   207.423     6.221    33.341     0.000   [195.230 , 219.617]   \n        Robust   207.423    11.524    17.999     0.000   [184.837 , 230.010]   \n=======================================================================================\n\nrdd_assault %&gt;% summary()\n\nSharp RD estimates using local polynomial regression.\n\nNumber of Obs.                 1096\nBW type                      Manual\nKernel                   Triangular\nVCE method                       NN\n\nNumber of Obs.                  366          730\nEff. Number of Obs.             366          730\nOrder est. (p)                    1            1\nOrder bias  (q)                   2            2\nBW est. (h)                   2.000        2.000\nBW bias (b)                   2.000        2.000\nrho (h/b)                     1.000        1.000\nUnique Obs.                     366          730\n\n=======================================================================================\n        Method     Coef. Std. Err.         z     P&gt;|z|      [ 95% C.I. ]       \n=======================================================================================\n  Conventional   -58.614     2.668   -21.969     0.000   [-63.843 , -53.385]   \nBias-Corrected   -66.997     2.668   -25.111     0.000   [-72.226 , -61.768]   \n        Robust   -66.997     4.033   -16.612     0.000   [-74.901 , -59.092]   \n======================================================================================="
+  },
+  {
+    "objectID": "slides/session6/slides6.html#today",
+    "href": "slides/session6/slides6.html#today",
+    "title": "Session 6 - Time series",
+    "section": "Today",
+    "text": "Today\n\nTime series\nMulti-level model\nExercises\nQ&A research paper"
+  },
+  {
+    "objectID": "slides/session6/slides6.html#what-is-a-time-series",
+    "href": "slides/session6/slides6.html#what-is-a-time-series",
+    "title": "Session 6 - Time series",
+    "section": "What is a time series?",
+    "text": "What is a time series?\n\nRepeated observations\nOrdered by time\nOne observation per time unit"
+  },
+  {
+    "objectID": "slides/session6/slides6.html#stationary",
+    "href": "slides/session6/slides6.html#stationary",
+    "title": "Session 6 - Time series",
+    "section": "Stationary",
+    "text": "Stationary\nStationary means no trend in the time series\n\nlibrary(rio)\nbirths &lt;- import(\"http://robjhyndman.com/tsdldata/data/nybirths.dat\")\nbirths_ts &lt;- ts(births, frequency=12, start=c(1946,1))\nplot.ts(births_ts)"
+  },
+  {
+    "objectID": "slides/session6/slides6.html#stationary-ii",
+    "href": "slides/session6/slides6.html#stationary-ii",
+    "title": "Session 6 - Time series",
+    "section": "Stationary II",
+    "text": "Stationary II\n\nlibrary(tseries)\nadf.test(births_ts)\n\n\n    Augmented Dickey-Fuller Test\n\ndata:  births_ts\nDickey-Fuller = -5.9547, Lag order = 5, p-value = 0.01\nalternative hypothesis: stationary"
+  },
+  {
+    "objectID": "slides/session6/slides6.html#dependence",
+    "href": "slides/session6/slides6.html#dependence",
+    "title": "Session 6 - Time series",
+    "section": "Dependence",
+    "text": "Dependence\nRelationship between an observation at time t and an observation at time t-h\nDifferent processes:\n\nWhite Noise\nMoving Average (MA)\nAutoregression (AR)\nIntegration (example, Random Walk)"
+  },
+  {
+    "objectID": "slides/session6/slides6.html#identification",
+    "href": "slides/session6/slides6.html#identification",
+    "title": "Session 6 - Time series",
+    "section": "Identification",
+    "text": "Identification\n\npar(mfrow=c(1,2))\ndt&lt;-arima.sim(model=list(order=c(1,0,0),ar=0.7),n=100)\nacf(dt, lag.max=10)\npacf(dt, lag.max=10)"
+  },
+  {
+    "objectID": "slides/session6/slides6.html#estimation",
+    "href": "slides/session6/slides6.html#estimation",
+    "title": "Session 6 - Time series",
+    "section": "Estimation",
+    "text": "Estimation\narima(time series, order(p,d,q)):\n\ntime series: name of your time series object\norder: specify the ARIMA elements\n\np: order of the autoregression\nd: order of the integration\nq: order of the moving average"
+  },
+  {
+    "objectID": "slides/session6/slides6.html#estimation-ii",
+    "href": "slides/session6/slides6.html#estimation-ii",
+    "title": "Session 6 - Time series",
+    "section": "Estimation II",
+    "text": "Estimation II\n\nmodel&lt;-arima(dt,order=c(1,0,0))\nmodel\n\n\nCall:\narima(x = dt, order = c(1, 0, 0))\n\nCoefficients:\n         ar1  intercept\n      0.6321     0.1273\ns.e.  0.0781     0.2391\n\nsigma^2 estimated as 0.7971:  log likelihood = -130.81,  aic = 267.62"
+  },
+  {
+    "objectID": "slides/session6/slides6.html#diagnostic",
+    "href": "slides/session6/slides6.html#diagnostic",
+    "title": "Session 6 - Time series",
+    "section": "Diagnostic",
+    "text": "Diagnostic\nCheck that the residuals of your model are white noise\n\nplot.ts(model$residuals)\n\nBox.test(model$residuals,lag=20, type=\"Ljung-Box\")\n\n\n    Box-Ljung test\n\ndata:  model$residuals\nX-squared = 22.703, df = 20, p-value = 0.3036"
+  },
+  {
+    "objectID": "slides/session6/slides6.html#bivariate-time-series-1",
+    "href": "slides/session6/slides6.html#bivariate-time-series-1",
+    "title": "Session 6 - Time series",
+    "section": "Bivariate time series",
+    "text": "Bivariate time series\nAnalysis of two time series\nEvaluates the causality between the two variables:\n\nPrewhitening\nGranger causality\nError correction models of cointegration (see Jan Rovny notes)"
+  },
+  {
+    "objectID": "slides/session6/slides6.html#data",
+    "href": "slides/session6/slides6.html#data",
+    "title": "Session 6 - Time series",
+    "section": "Data",
+    "text": "Data\n\nlibrary(vdemdata)\ndata(\"vdem\")\n\ndemo &lt;- subset(vdem, country_name == \"Türkiye\" & year&gt;1988 & year &lt; 2020)\n\nlibrary(readr)\nucdp &lt;- read_csv(\"https://ucdp.uu.se/downloads/ged/ged201.csv\")\n\nconf &lt;- subset(ucdp, country == \"Turkey\")\nconf_year &lt;- aggregate(best ~ year, data = conf, FUN = sum)\n\ndf &lt;- merge(demo, conf_year, by = \"year\", all.x = TRUE)\ndf$best[is.na(df$best)] &lt;- 0   # no conflict = 0\n\n#v2x_libdem = democracy\n#best = conflict deaths"
+  },
+  {
+    "objectID": "slides/session6/slides6.html#plotting-time-series",
+    "href": "slides/session6/slides6.html#plotting-time-series",
+    "title": "Session 6 - Time series",
+    "section": "Plotting time series",
+    "text": "Plotting time series\n\ndem_index&lt;-ts(df$v2x_libdem, start = min(df$year), frequency = 1)\nplot.ts(dem_index)"
+  },
+  {
+    "objectID": "slides/session6/slides6.html#plotting-time-series-1",
+    "href": "slides/session6/slides6.html#plotting-time-series-1",
+    "title": "Session 6 - Time series",
+    "section": "Plotting time series",
+    "text": "Plotting time series\n\nconflict&lt;-ts(df$best, start = min(df$year), frequency = 1)\nplot.ts(conflict)"
+  },
+  {
+    "objectID": "slides/session6/slides6.html#prewhitening",
+    "href": "slides/session6/slides6.html#prewhitening",
+    "title": "Session 6 - Time series",
+    "section": "Prewhitening",
+    "text": "Prewhitening\nStart by doing the identification, estimation and diagnostic check.\nOnce this is done, you can check the cross-correlation of the residuals of the two time series"
+  },
+  {
+    "objectID": "slides/session6/slides6.html#identification-1",
+    "href": "slides/session6/slides6.html#identification-1",
+    "title": "Session 6 - Time series",
+    "section": "Identification",
+    "text": "Identification\n\nlibrary(tseries)\nadf.test(dem_index)\n\n\n    Augmented Dickey-Fuller Test\n\ndata:  dem_index\nDickey-Fuller = -1.5275, Lag order = 3, p-value = 0.7547\nalternative hypothesis: stationary\n\npar(mfrow=c(1,2))\nacf(dem_index, lag.max = 10)\npacf(dem_index, lag.max= 10)\n\n\n\n\n\n\n\n\n\nadf.test(conflict)\n\n\n    Augmented Dickey-Fuller Test\n\ndata:  conflict\nDickey-Fuller = -2.5129, Lag order = 3, p-value = 0.3753\nalternative hypothesis: stationary\n\npar(mfrow=c(1,2))\nacf(conflict, lag.max = 10)\npacf(conflict, lag.max = 10)"
+  },
+  {
+    "objectID": "slides/session6/slides6.html#estimation-1",
+    "href": "slides/session6/slides6.html#estimation-1",
+    "title": "Session 6 - Time series",
+    "section": "Estimation",
+    "text": "Estimation\n\nmodel1&lt;-arima(dem_index,order=c(1,1,0))\nmodel1\n\n\nCall:\narima(x = dem_index, order = c(1, 1, 0))\n\nCoefficients:\n         ar1\n      0.5109\ns.e.  0.1539\n\nsigma^2 estimated as 0.0006066:  log likelihood = 68.39,  aic = -132.79\n\nmodel2&lt;-arima(conflict, order=c(1,1,0))\nmodel2\n\n\nCall:\narima(x = conflict, order = c(1, 1, 0))\n\nCoefficients:\n         ar1\n      0.1391\ns.e.  0.1777\n\nsigma^2 estimated as 394447:  log likelihood = -235.86,  aic = 475.71"
+  },
+  {
+    "objectID": "slides/session6/slides6.html#diagnostic-1",
+    "href": "slides/session6/slides6.html#diagnostic-1",
+    "title": "Session 6 - Time series",
+    "section": "Diagnostic",
+    "text": "Diagnostic\n\nBox.test(model1$residuals ,lag=20,type=\"Ljung-Box\")\n\n\n    Box-Ljung test\n\ndata:  model1$residuals\nX-squared = 18.169, df = 20, p-value = 0.5763\n\nBox.test(model2$residuals ,lag=20,type=\"Ljung-Box\")\n\n\n    Box-Ljung test\n\ndata:  model2$residuals\nX-squared = 9.8477, df = 20, p-value = 0.9708"
+  },
+  {
+    "objectID": "slides/session6/slides6.html#granger-causality",
+    "href": "slides/session6/slides6.html#granger-causality",
+    "title": "Session 6 - Time series",
+    "section": "Granger causality",
+    "text": "Granger causality\ngrangertest(DV ~ IV, order=p, data):\n\nDV: dependent variable\nIV: independent variable\norder = p: p is the number of lags you want to take into account in the regression\ndata: name of your dataset"
+  },
+  {
+    "objectID": "slides/session6/slides6.html#tscs-1",
+    "href": "slides/session6/slides6.html#tscs-1",
+    "title": "Session 6 - Time series",
+    "section": "TSCS",
+    "text": "TSCS\nTimes series for more than one unit\nProblems of bias estimation with OLS:\n\nUnit effects\nStandard errors estimation"
+  },
+  {
+    "objectID": "slides/session6/slides6.html#data-1",
+    "href": "slides/session6/slides6.html#data-1",
+    "title": "Session 6 - Time series",
+    "section": "Data",
+    "text": "Data\n\nlibrary(WDI)\nlibrary(vdemdata)\nlibrary(readr)\nlibrary(dplyr)\n\ncountries &lt;- c(\"Turkey\", \"Nigeria\", \"Colombia\", \"Philippines\", \"Thailand\")  # example set\n\n# --- Democracy (V-Dem) ---\ndata(\"vdem\")\ndemo &lt;- vdem %&gt;%\n  filter(country_name %in% countries) %&gt;%\n  select(country_name, year, v2x_libdem)\n\n\n# --- Conflict (UCDP GED summary by country-year) ---\nucdp &lt;- read_csv(\"https://ucdp.uu.se/downloads/ged/ged201.csv\")\n\nconf &lt;- ucdp %&gt;%\n  filter(country %in% countries) %&gt;%\n  group_by(country, year) %&gt;%\n  summarise(conflict_deaths = sum(best, na.rm = TRUE), .groups = \"drop\")\n\ndf &lt;- demo %&gt;%\n  left_join(conf, by = c(\"country_name\" = \"country\", \"year\" = \"year\"))\n\ndf$conflict_deaths[is.na(df$conflict_deaths)] &lt;- 0\n\ndf &lt;- df %&gt;%\n  filter(year &gt; 1960)"
+  },
+  {
+    "objectID": "slides/session6/slides6.html#unit-effects",
+    "href": "slides/session6/slides6.html#unit-effects",
+    "title": "Session 6 - Time series",
+    "section": "Unit effects",
+    "text": "Unit effects\nYou need to check for unit effects before conducting your analysis.\nYou can do an ANOVA test.\nIf you have unit effects, you can use fixed or random effects\n\nlibrary(plm)\ndata&lt;-pdata.frame(df,index=c(\"country_name\",\"year\"))\ncoplot(conflict_deaths~year|country_name, type=\"l\",data=data)\n\n\n\n\n\n\n\nboxplot(conflict_deaths~country_name, data=data)\n\n\n\n\n\n\n\nanova&lt;-aov(conflict_deaths~country_name, data=data)\nsummary(anova)\n\n              Df    Sum Sq Mean Sq F value   Pr(&gt;F)    \ncountry_name   3  22671546 7557182   6.915 0.000171 ***\nResiduals    256 279775873 1092875                     \n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1"
+  },
+  {
+    "objectID": "slides/session6/slides6.html#fixed-or-random-effects",
+    "href": "slides/session6/slides6.html#fixed-or-random-effects",
+    "title": "Session 6 - Time series",
+    "section": "Fixed or Random effects",
+    "text": "Fixed or Random effects\nplm(formula, data, index=c(\"unit\",\"time\"), model):\n\nformula: Y~X\ndata: name of the dataset\nindex= c(“unit”,“time”): specify the name of the unit and time variable\nmodel: “within” for fixed effects estimator and “random” for random effects"
+  },
+  {
+    "objectID": "slides/session6/slides6.html#panel-corrected-standard-errors",
+    "href": "slides/session6/slides6.html#panel-corrected-standard-errors",
+    "title": "Session 6 - Time series",
+    "section": "Panel Corrected Standard Errors",
+    "text": "Panel Corrected Standard Errors\nWith TSCS, you also have a lot of problems with SE.\nOne solution proposed is to use Panel Corrected Standard Errors on OLS.\npcse(model, groupN, groupT):\n\nmodel: name of the lm object\ngroupN: name of the unit variable\ngroupT: name of the time variable"
+  },
+  {
+    "objectID": "slides/session6/slides6.html#example",
+    "href": "slides/session6/slides6.html#example",
+    "title": "Session 6 - Time series",
+    "section": "Example",
+    "text": "Example\n\nlibrary(pcse)\nols&lt;-lm(conflict_deaths~v2x_libdem,\n        data=data)\npcse&lt;-pcse(ols,groupN=data$country_name,groupT=data$year)\nsummary(pcse)\n\n\n Results: \n \n             Estimate     PCSE   t value     Pr(&gt;|t|)\n(Intercept) -191.6081 153.4621 -1.248570 2.129543e-01\nv2x_libdem  2223.2314 456.3394  4.871882 1.931036e-06\n\n --------------------------------------------- \n \n# Valid Obs = 260; # Missing Obs = 0; Degrees of Freedom = 258."
+  },
+  {
+    "objectID": "slides/session6/slides6.html#pcse-and-ldv",
+    "href": "slides/session6/slides6.html#pcse-and-ldv",
+    "title": "Session 6 - Time series",
+    "section": "PCSE and LDV",
+    "text": "PCSE and LDV\nUsing PCSE only deals with the SE errors but does not take into account unit effects.\nOne solution is to add a lag dependent variable into the OLS which will capture the history of the dependent variable into the model and thus take into account some of the unit effects.\nIn R, you need to compute first the lagged dependent variable before the OLS and PCSE. You can use the lag() function."
+  },
+  {
+    "objectID": "slides/session6/slides6.html#pcse-and-ldv-ii",
+    "href": "slides/session6/slides6.html#pcse-and-ldv-ii",
+    "title": "Session 6 - Time series",
+    "section": "PCSE and LDV II",
+    "text": "PCSE and LDV II\n\ndata&lt;-data %&gt;%\n  group_by(country_name) %&gt;%\n  mutate(l.conflict_death=dplyr::lag(conflict_deaths))\n\ndata2&lt;-na.omit(data)\n\nols2&lt;-lm(conflict_deaths~l.conflict_death+v2x_libdem,\n        data=data2)\npcse2&lt;-pcse(ols2,groupN=data2$country_name,groupT=data2$year)\nsummary(pcse2)\n\n\n Results: \n \n                    Estimate         PCSE    t value     Pr(&gt;|t|)\n(Intercept)      -29.9827658 102.12598915 -0.2935861 7.693149e-01\nl.conflict_death   0.7639128   0.06693568 11.4126401 1.304803e-24\nv2x_libdem       473.0538386 306.94742198  1.5411559 1.245286e-01\n\n --------------------------------------------- \n \n# Valid Obs = 256; # Missing Obs = 0; Degrees of Freedom = 253."
+  },
+  {
+    "objectID": "exercices/exercices6/exercise6.html",
+    "href": "exercices/exercices6/exercise6.html",
+    "title": "Exercises 6 - Time Series",
+    "section": "",
+    "text": "Exercise 1\nIn this exercise, we are interested in the relationship between GDP and unemployment (simulated dataset). You can find the dataset here https://github.com/scpo-quantimethods/quantitative_methods_two/raw/main/exercices/exercices6/data/panel.Rdata\n\nDownload the data.\n\n\nCreate a new dataset where you only keep the observations from Japan.\n\n\nPlot the time series of unemployment and GDP\n\n\nAre the two times series stationary?\n\n\nIdentify, estimate and diagnose the GDP time series.\n\n\nIdentify, estimate and diagnose the democratization time series.\n\n\nDoes unemployment decrease GDP ? Check with the prewhitening technique.\n\n\nDoes unemployment decreases GDP? Check with the Granger causality technique.\n\n\nNow, we are interested in doing a TSCS analysis, so we will use the whole data set again. Run a TSCS analysis with fixed effects. Use the fixed effects estimator\n\n\nRun a TSCS analysis with random effects.\n\n\nRun a Hausman test. Is it better to use fixed or random effects in this case?\n\n\nRun a PCSE with lagged dependent variable model.\n\n\n\nExercise 2\nIn this exercise, we are using the data from Abou-Chadi (2016) article. You can download the data on the supplementary materials page of the paper. The example is inspired by Luis Sattelmayer. We are interested in understanding the effect of increasing radical right votes on mainstream parties’ shift to anti-immigrant positions.\n\nDownload the data and import it into R. Select the variable countryname, cultposition, sumright, rileright, limmig, govparty pervote, partyname, date\n\n\nRun a TSCS analysis with fixed effects. Use the fixed effects estimator\n\n\nRun a TSCS analysis with fixed effects. Use the dummy variable estimator\n\n\nRun a TSCS analysis with random effects.\n\n\nRun a Hausman test. Is it better to use fixed or random effects in this case?\n\n\nRedo points 3 and 4 but a lagged dependent variable into the regressions."
+  },
+  {
+    "objectID": "sessions/session6/session6.html",
+    "href": "sessions/session6/session6.html",
+    "title": "Session 6 - Time Series",
+    "section": "",
+    "text": "In this last session, we will focus on time series. The first part of this class will be about some reminders of how to model a time series. The second part will be dedicated to the analysis of a bivariate time series and the third part will study time series cross-sectional (TSCS) data. Finally, a few words will be said about multi-level modelling with OLS."
+  },
+  {
+    "objectID": "sessions/session6/session6.html#stationary",
+    "href": "sessions/session6/session6.html#stationary",
+    "title": "Session 6 - Time Series",
+    "section": "Stationary",
+    "text": "Stationary\nA stationary time series is a time series where no trend exists in the data. In other words, if you divide your sample in sub-samples, you should obtain the same mean and standard deviation in each sub-sample. This means that you should not find a shift upward or downward over time in your time series (see Jan Rovny notes for more information on this subject).\nThe example below represents a time series about the number of births in New York by Month over 15 years (data collected by Newton).\n\nlibrary(rio)\nbirths &lt;- import(\"http://robjhyndman.com/tsdldata/data/nybirths.dat\")\n\nAmbiguous file format ('.dat'), but attempting 'data.table::fread(\"/var/folders/h3/jlt1ndv53ql14l68xnh2kh3m0000gn/T//RtmpnXQfh5/file43b2f944107.dat\")'\n\nbirths_ts &lt;- ts(births, frequency=12, start=c(1946,1))\nplot.ts(births_ts)\n\n\n\n\n\n\n\n\nLooking at the graph, it seems that a trend exists. However, just looking at the graph is not sufficient to show the existence of a trend. You can use the Dickey-Fuller test to provide more evidence into the presence of a trend in the data. The null hypothesis is “non-stationary”. The p-value of the test in this case is 0.01, meaning that we reject \\(H_0\\). The time series is stationary.\n\nlibrary(tseries)\n\nRegistered S3 method overwritten by 'quantmod':\n  method            from\n  as.zoo.data.frame zoo \n\nadf.test(births_ts)\n\nWarning in adf.test(births_ts): p-value smaller than printed p-value\n\n\n\n    Augmented Dickey-Fuller Test\n\ndata:  births_ts\nDickey-Fuller = -5.9547, Lag order = 5, p-value = 0.01\nalternative hypothesis: stationary\n\n\nIf you have a trend, there are different ways to deal with it, you can use regression to remove the trend, or you can use detrending or differencing (see Jan Rovny notes for more information on this subject)."
+  },
+  {
+    "objectID": "sessions/session6/session6.html#dependence",
+    "href": "sessions/session6/session6.html#dependence",
+    "title": "Session 6 - Time Series",
+    "section": "Dependence",
+    "text": "Dependence\nDependence refers to the relationship between two observations from two different time point (\\(y_{t}\\) and \\(y_{t+h}\\)). Dependence is interested on how long the past matters for future observations. While there is lack of independence between observations in a time series, meaning that a correlation exists between certain observations, not all observations are correlated to each other. The dependence of a time series looks into how many time points one observation is correlated to (the size of \\(h\\)). A weakly dependent time series is is one where the correlation between \\(y_{t}\\) and \\(y_{t+h}\\) goes quickly to 0 when \\(h\\) increases (see Jan Rovny notes for more information on this subject)."
+  },
+  {
+    "objectID": "sessions/session6/session6.html#times-series-process",
+    "href": "sessions/session6/session6.html#times-series-process",
+    "title": "Session 6 - Time Series",
+    "section": "Times Series process",
+    "text": "Times Series process\nAs explained, the difficulty when analysing time series resides in the fact that past values affect present and future values. They are 4 common processes that are used to model the dependence between observations (see Jan Rovny notes for more information on this subject):\n\nWhite Noise\nMoving Average (MA)\nAutoregression (AR)\nIntegration (example, Random Walk)\n\nYou can find more than one of these processes in a time series, ARMA or ARIMA process.\n\nIdentification\nTo identify the process, you can use the autocorrelation (ACF) and partial autocorrelation (PACF) function.\n\nARMAARMA\n\n\n\nar&lt;-arima.sim(list(order=c(1,0,0),ar=0.7),n=500)\n\n\npar(mfrow=c(1,2))\nacf(ar)\npacf(ar)\n\n\n\n\n\n\n\n\n\n\n\nma&lt;-arima.sim(list(order=c(0,0,1),ma=-0.75),n=100)\n\n\npar(mfrow=c(1,2))\nacf(ma)\npacf(ma)\n\n\n\n\n\n\n\n\n\n\n\narma&lt;-arima.sim(list(order=c(1,0,2),ar=0.5,ma=c(0.7,0.55)),n=25)\n\n\npar(mfrow=c(1,2))\nacf(arma)\npacf(arma)\n\n\n\n\n\n\n\n\n\n\n\nAnother way is to use the auto.arima() function from the forecast package (this is not foolproof). This will automatically tell you which types of processes are present in your data.\n\n\nEstimation\nOnce you have identified the model that fits best your data, you can estimate the coefficients of the ARIMA (autoregression-integration-moving average) model. You can use the function arima().\narima(time series, order(p,d,q)):\n\ntime series: name of your time series object\norder: specify the ARIMA elements\n\np: order of the autoregression\nd: order of the integration\nq: order of the moving average\n\n\n\nmodel&lt;-arima(ar,order=c(1,0,0))\nmodel\n\n\nCall:\narima(x = ar, order = c(1, 0, 0))\n\nCoefficients:\n         ar1  intercept\n      0.6473    -0.0005\ns.e.  0.0343     0.1291\n\nsigma^2 estimated as 1.043:  log likelihood = -720.37,  aic = 1446.73\n\n\n\n\nDiagnostics\nIf you have correctly identified your model, the residuals of the model should be white noise. You can check that by plotting the residuals or by using a formal test. In R, you can use the function Box.test() that computes a Ljung-Box test. If you can reject the \\(H_0\\), this means that your residuals behave like white noise, which is the case here.\n\nplot.ts(model$residuals)\n\n\n\n\n\n\n\nBox.test(model$residuals,lag=20, type=\"Ljung-Box\")\n\n\n    Box-Ljung test\n\ndata:  model$residuals\nX-squared = 15.237, df = 20, p-value = 0.7627"
+  },
+  {
+    "objectID": "sessions/session6/session6.html#prewhitening",
+    "href": "sessions/session6/session6.html#prewhitening",
+    "title": "Session 6 - Time Series",
+    "section": "Prewhitening",
+    "text": "Prewhitening\nThe idea is that you can study causality by looking at the correlation at different lags and leads of the two series (meaning that you look at the correlation between \\(x_t\\) and \\(y_{t+1}\\), \\(y_{t+2}\\)…). You can only look at the cross-correlation if your the residuals of the two time series are white noise. This means that you first need to model your two times series to eliminated all the error aggregation processes. This is called pre-whitening.\nStarting with the ACF and PACF:\n\nlibrary(tseries)\nadf.test(dem_index)\n\n\n    Augmented Dickey-Fuller Test\n\ndata:  dem_index\nDickey-Fuller = -1.5275, Lag order = 3, p-value = 0.7547\nalternative hypothesis: stationary\n\npar(mfrow=c(1,2))\nacf(dem_index, lag.max = 10)\npacf(dem_index, lag.max= 10)\n\n\n\n\n\n\n\n\nBased on the test and graphs, we see, first of all, that the time series is not stationary. Secondly, we find that the ACF goes to 0 and the PACF only has 1 significant lag. We can model and ARIMA(1,1,0) model for the democratic index. For the conflict time series, we found a similar model.\n\nadf.test(conflict)\n\n\n    Augmented Dickey-Fuller Test\n\ndata:  conflict\nDickey-Fuller = -2.5129, Lag order = 3, p-value = 0.3753\nalternative hypothesis: stationary\n\npar(mfrow=c(1,2))\nacf(conflict, lag.max = 10)\npacf(conflict, lag.max = 10)\n\n\n\n\n\n\n\n\nOnce you have done the identification step, you may move to the estimation step.\n\nmodel1&lt;-arima(dem_index,order=c(1,1,0))\nmodel2&lt;-arima(conflict, order=c(1,1,0))\n\nFinally, you should check the that the residuals of your model are white noise. For both residuals of the time series, we can reject the \\(H_0\\), meaning that residuals are white noise.\n\nBox.test(model1$residuals ,lag=20,type=\"Ljung-Box\")\n\n\n    Box-Ljung test\n\ndata:  model1$residuals\nX-squared = 18.169, df = 20, p-value = 0.5763\n\nBox.test(model2$residuals ,lag=20,type=\"Ljung-Box\")\n\n\n    Box-Ljung test\n\ndata:  model2$residuals\nX-squared = 9.8477, df = 20, p-value = 0.9708\n\n\nNow that you have done the pre-whitening step, you can look at the cross-correlation of your residuals using the ccf() function. The order in which you specify each variable is important to understand the graphical output of the function.\n\ndem_res&lt;-model1$residuals\nconflict_res&lt;-model2$residuals\nccf(dem_res,conflict_res, lag.max=10)\n\n\n\n\n\n\n\n\nThe graph shows that at lag 8, there is a significant cross-correlation. This means that the democratic index (at t-8) influences the conflict variable (at t)."
+  },
+  {
+    "objectID": "sessions/session6/session6.html#granger-causality",
+    "href": "sessions/session6/session6.html#granger-causality",
+    "title": "Session 6 - Time Series",
+    "section": "Granger causality",
+    "text": "Granger causality\nAnother way to study causality is to use the Granger Causality method. In this case, you do not need to first model your data, you can directly conduct the test. The Granger causality rests on the idea that, as your dependent variable \\(y\\) is time series, part of the explanation rests on previous observations of \\(y\\). However, if \\(x\\) causes \\(y\\) then using previous observations of \\(x\\) to explain \\(y\\) should improve the model. To be sure of the causality, you should do two Granger tests, where you exchange the dependent and independent variables so that you test if \\(x \\rightarrow y\\) or if \\(y \\rightarrow x\\).\nThe function you need to use is grangertest()from the lmtest package.\ngrangertest(DV ~ IV, order=p, data):\n\nDV: dependent variable\nIV: independent variable\norder = p: p is the number of lags you want to take into account in the regression\ndata: name of your dataset\n\n\nlibrary(lmtest)\n\nLoading required package: zoo\n\n\n\nAttaching package: 'zoo'\n\n\nThe following objects are masked from 'package:base':\n\n    as.Date, as.Date.numeric\n\ngrangertest(best~v2x_libdem,order=4, data=df)\n\nGranger causality test\n\nModel 1: best ~ Lags(best, 1:4) + Lags(v2x_libdem, 1:4)\nModel 2: best ~ Lags(best, 1:4)\n  Res.Df Df     F Pr(&gt;F)\n1     18                \n2     22 -4 0.621 0.6534\n\ngrangertest(v2x_libdem~best, order=4,data=df)\n\nGranger causality test\n\nModel 1: v2x_libdem ~ Lags(v2x_libdem, 1:4) + Lags(best, 1:4)\nModel 2: v2x_libdem ~ Lags(v2x_libdem, 1:4)\n  Res.Df Df      F Pr(&gt;F)\n1     18                 \n2     22 -4 1.3595  0.287\n\n\nThe results of the Granger Causality tests show that neither democracy index causes conflict and neither conflict causes democracy index.\nI showed you how to compute pre-whitening and Granger causality, but that is only correct if your times series are stationary. It does not work if your time series are co-integrated (see Jan Rovny notes for more information on this subject)."
+  },
+  {
+    "objectID": "sessions/session6/session6.html#unit-effects",
+    "href": "sessions/session6/session6.html#unit-effects",
+    "title": "Session 6 - Time Series",
+    "section": "Unit effects",
+    "text": "Unit effects\nLooking at the problem of unit effects, this problem means that we may have different levels of our dependent variable depending on the unit. For example, the GDP of China and India may be different because they had different economic developments, etc. So, there is a significant difference between the units, meaning that “all else is not equal” when looking at your regression estimates. Before analysing your data, you need to check if there is a unit effect or not. You can do this descriptively by using graphs or you can do it in a more formal way using ANOVA tests.\nGraphically, you can use the coplot() function once you have transformed your dataset as a TSCS dataset with the function pdata.frame(). Formally, you can use the aov() function to conduct the ANOVA test.\npdata.frame(data,index=c())\n\ndata: name of your dataset\nindex=c(): in c() you specify the name of your variable which corresponds to the unit variable and the time variable\n\ncoplot(variable ~ T | U, type=\"l\",data)\n\nvariable: dependent variable\nT: time variable\nU: unit variable,\ntype=“l”: specify you want a line graph\ndata: name of your dataset\n\naov(Variable ~U, data)\n\nvariable: dependent variable\nU: unit variable\ndata: name of your dataset\n\nIf you detect some unit effects in your data, there exist two solutions to deal with this problem: fixed effects or random effects.\n\nlibrary(plm)\n\n\nAttaching package: 'plm'\n\n\nThe following objects are masked from 'package:dplyr':\n\n    between, lag, lead\n\ndata&lt;-pdata.frame(df,index=c(\"country_name\",\"year\"))\ncoplot(conflict_deaths~year|country_name, type=\"l\",data=data)\n\n\n\n\n\n\n\nboxplot(conflict_deaths~country_name, data=data)\n\n\n\n\n\n\n\nanova&lt;-aov(conflict_deaths~country_name, data=data)\nsummary(anova)\n\n              Df    Sum Sq Mean Sq F value   Pr(&gt;F)    \ncountry_name   3  22671546 7557182   6.915 0.000171 ***\nResiduals    256 279775873 1092875                     \n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\n\nBased on the graphs and on the ANOVA, we see that there is a unit effect in our dataset.\n\nFixed effects\nWhen adding fixed effects, you want to take into account all the unobserved variables that are time invariant to the unit. Fixed effects can be computed in two ways: either with a time-demeaned equation (fixed effects estimator) or with a dummy variable estimator (see Jan Rovny notes for more information on this subject).\nIn R, you can use the plm() function from the plm package.\nplm(formula, data, index=c(\"unit\",\"time\"), model):\n\nformula: Y~X\ndata: name of the dataset\nindex= c(“unit”,“time”): specify the name of the unit and time variable\nmodel: “within” for fixed effects estimator and “random” for random effects\n\n\nfe&lt;-plm(conflict_deaths~v2x_libdem,\n        data=data,\n        index=c(\"country_name\",\"year\"),\n        model=\"within\")\n\nsummary(fe)\n\nOneway (individual) effect Within Model\n\nCall:\nplm(formula = conflict_deaths ~ v2x_libdem, data = data, model = \"within\", \n    index = c(\"country_name\", \"year\"))\n\nBalanced Panel: n = 4, T = 65, N = 260\n\nResiduals:\n    Min.  1st Qu.   Median  3rd Qu.     Max. \n-1309.36  -477.81  -147.86   314.24  8897.93 \n\nCoefficients:\n           Estimate Std. Error t-value  Pr(&gt;|t|)    \nv2x_libdem   3167.8      520.0   6.092 4.088e-09 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nTotal Sum of Squares:    279780000\nResidual Sum of Squares: 244230000\nR-Squared:      0.12705\nAdj. R-Squared: 0.11336\nF-statistic: 37.1126 on 1 and 255 DF, p-value: 4.0883e-09\n\n\nThe results show that the democratic index variable positively influences the number of deaths due to conflicts even when controlling for country fixed effects.\nIf you want the dummy variable estimator, you can use the lm() function and add a dummy factor for the unit variable.\n\nfe2&lt;-lm(conflict_deaths~v2x_libdem + factor(country_name)-1,\n        data=data)\nsummary(fe2)\n\n\nCall:\nlm(formula = conflict_deaths ~ v2x_libdem + factor(country_name) - \n    1, data = data)\n\nResiduals:\n    Min      1Q  Median      3Q     Max \n-1309.4  -477.8  -147.9   314.2  8897.9 \n\nCoefficients:\n                                Estimate Std. Error t value Pr(&gt;|t|)    \nv2x_libdem                        3167.8      520.0   6.092 4.09e-09 ***\nfactor(country_name)Colombia      -795.2      234.4  -3.392 0.000805 ***\nfactor(country_name)Nigeria        203.8      164.2   1.241 0.215710    \nfactor(country_name)Philippines   -588.2      190.3  -3.091 0.002220 ** \nfactor(country_name)Thailand      -623.5      165.8  -3.760 0.000210 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 978.7 on 255 degrees of freedom\nMultiple R-squared:  0.2981,    Adjusted R-squared:  0.2844 \nF-statistic: 21.66 on 5 and 255 DF,  p-value: &lt; 2.2e-16\n\n\nYou can see, that with the dummy estimator, we found the same results for in this model than in the one with the within estimator.\n\n\nRandom effects\nIn random effects, you make the hypothesis that the time observations are nested within units. Random effects take the unit effect as ignorance and model it in the residuals. It splits the residuals between an individual error for each observation and an error by unit (see Jan Rovny notes for more information on this subject).\n\nre&lt;-plm(conflict_deaths~v2x_libdem,\n        data=data,\n        index=c(\"country_name\",\"year\"),\n        model=\"random\")\n\nsummary(re)\n\nOneway (individual) effect Random Effect Model \n   (Swamy-Arora's transformation)\n\nCall:\nplm(formula = conflict_deaths ~ v2x_libdem, data = data, model = \"random\", \n    index = c(\"country_name\", \"year\"))\n\nBalanced Panel: n = 4, T = 65, N = 260\n\nEffects:\n                   var  std.dev share\nidiosyncratic 957767.3    978.7 0.858\nindividual    157999.9    397.5 0.142\ntheta: 0.7079\n\nResiduals:\n    Min.  1st Qu.   Median  3rd Qu.     Max. \n-1105.61  -376.33  -189.45   249.08  9105.92 \n\nCoefficients:\n            Estimate Std. Error z-value  Pr(&gt;|z|)    \n(Intercept)  -421.65     251.07 -1.6794   0.09307 .  \nv2x_libdem   3061.62     512.63  5.9724 2.338e-09 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nTotal Sum of Squares:    281710000\nResidual Sum of Squares: 247490000\nR-Squared:      0.12146\nAdj. R-Squared: 0.11806\nChisq: 35.6693 on 1 DF, p-value: 2.3381e-09\n\n\nWe find similar results with the random effects, but the coefficient estimate is different.\n\n\nFixed or random ?\nShould you choose fixed or random effects? You can do a Hausman test if you do not know which one to choose. If the p-value is larger than 0.05, you should prefer fixed effects to random effects, which is the case in our example.\n\nphtest(fe,re)\n\n\n    Hausman Test\n\ndata:  conflict_deaths ~ v2x_libdem\nchisq = 1.4827, df = 1, p-value = 0.2234\nalternative hypothesis: one model is inconsistent"
+  },
+  {
+    "objectID": "sessions/session6/session6.html#panel-corrected-standard-errors",
+    "href": "sessions/session6/session6.html#panel-corrected-standard-errors",
+    "title": "Session 6 - Time Series",
+    "section": "Panel Corrected Standard Errors",
+    "text": "Panel Corrected Standard Errors\nWith TSCS, you also have a lot of problems with SE. One solution proposed is to use Panel Corrected Standard Errors on OLS to correct for the bias of the SE introduced by the time series format (see Jan Rovny notes for more information on this subject). You can use the pcse()function from the pcse package.\npcse(model, groupN, groupT):\n\nmodel: name of the lm object\ngroupN: name of the unit variable\ngroupT: name of the time variable\n\n\nlibrary(pcse)\nols&lt;-lm(conflict_deaths~v2x_libdem,\n        data=data)\npcse&lt;-pcse(ols,groupN=data$country_name,groupT=data$year)\nsummary(pcse)\n\n\n Results: \n \n             Estimate     PCSE   t value     Pr(&gt;|t|)\n(Intercept) -191.6081 153.4621 -1.248570 2.129543e-01\nv2x_libdem  2223.2314 456.3394  4.871882 1.931036e-06\n\n --------------------------------------------- \n \n# Valid Obs = 260; # Missing Obs = 0; Degrees of Freedom = 258.\n\n\nAs you can see, the democratic index variable is still significant but the coefficient is a lot larger than in fixed and random effects because we have not taken into account unit effects."
+  },
+  {
+    "objectID": "sessions/session6/session6.html#pcse-and-ldv",
+    "href": "sessions/session6/session6.html#pcse-and-ldv",
+    "title": "Session 6 - Time Series",
+    "section": "PCSE and LDV",
+    "text": "PCSE and LDV\nUsing PCSE only deals with the SE errors but does not take into account unit effects. One solution is to add a lag dependent variable into the OLS which will capture the history of the dependent variable into the model and thus take into account some of the unit effect.\nIn R, you need to compute the first the lagged dependent variable before the OLS and PCSE. You can use the lag() function.\n\ndata&lt;-data %&gt;%\n  group_by(country_name) %&gt;%\n  mutate(l.conflict_death=dplyr::lag(conflict_deaths))\n\ndata2&lt;-na.omit(data)\n\nols2&lt;-lm(conflict_deaths~l.conflict_death+v2x_libdem,\n        data=data2)\npcse2&lt;-pcse(ols2,groupN=data2$country_name,groupT=data2$year)\nsummary(pcse2)\n\n\n Results: \n \n                    Estimate         PCSE    t value     Pr(&gt;|t|)\n(Intercept)      -29.9827658 102.12598915 -0.2935861 7.693149e-01\nl.conflict_death   0.7639128   0.06693568 11.4126401 1.304803e-24\nv2x_libdem       473.0538386 306.94742198  1.5411559 1.245286e-01\n\n --------------------------------------------- \n \n# Valid Obs = 256; # Missing Obs = 0; Degrees of Freedom = 253.\n\n\nThe results of this model shows that there is an unit effect because the lagged variable has a coefficient that is close to 1. We also see that the democratic index variable is not significant anymore but the size of the coefficient is a lot closer to the fixed and random effects models."
   }
 ]

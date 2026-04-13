@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>session6 – Quantitative methods II</title>
+<title>Session 6 - Time Series – Quantitative methods II</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,6 +19,41 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -69,6 +104,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../../styles.css">
 </head>
@@ -118,15 +182,11 @@ ul.task-list li input[type="checkbox"] {
   </li>  
         <li>
     <a class="dropdown-item" href="../../sessions/session4/session4.html">
- <span class="dropdown-text">Session 4: Difference-in-Differences (DiD)</span></a>
+ <span class="dropdown-text">Session 4: Difference-in-differences</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../../sessions/session5/session5.html">
- <span class="dropdown-text">Session 5: Regression Discontinuity Design (RDD) and Instrumental Variables</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../../sessions/session6/session6.html">
- <span class="dropdown-text">Session 6: Time Series</span></a>
+ <span class="dropdown-text">Session 5: RDD and Instrumental Variables</span></a>
   </li>  
     </ul>
   </li>
@@ -141,28 +201,56 @@ ul.task-list li input[type="checkbox"] {
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu--1">    
         <li>
-    <a class="dropdown-item" href="../../exercices/exercices1.html">
+    <a class="dropdown-item" href="../../exercices/exercices1/exercices1.html">
  <span class="dropdown-text">Exercices 1: OLS</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../exercices/exercices2.html">
+    <a class="dropdown-item" href="../../exercices/exercices2/exercices2.html">
  <span class="dropdown-text">Exercices 2: Logistic regressions</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../exercices/exercices3.html">
+    <a class="dropdown-item" href="../../exercices/exercices3/exercices3.html">
  <span class="dropdown-text">Exercices 3: Multinomial regressions</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../exercices/exercices4.html">
- <span class="dropdown-text">Exercices 4: Difference-in-Differences (DiD)</span></a>
+    <a class="dropdown-item" href="../../exercices/exercices4/exercices4.html">
+ <span class="dropdown-text">Exercices 4 : Difference-in-differences</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../exercices/exercices5.html">
- <span class="dropdown-text">Exercices 5: Regression Discontinuity Design (RDD) and Instrumental Variables</span></a>
+    <a class="dropdown-item" href="../../exercices/exercices5/exercices5.html">
+ <span class="dropdown-text">Exercices 5 : RDD and Instrumental Variables</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <span class="nav-link">
+<span class="menu-text">Slides</span>
+    </span>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu--2" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text"></span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu--2">    
+        <li>
+    <a class="dropdown-item" href="../../slides/session1/session1.html">
+ <span class="dropdown-text">Slides - session 1</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../exercices/exercices6.html">
- <span class="dropdown-text">Exercices 6: Time Series</span></a>
+    <a class="dropdown-item" href="../../slides/session2/session2.html">
+ <span class="dropdown-text">Slides - session 2</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../slides/session3/session3.html">
+ <span class="dropdown-text">Slides - session 3</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../slides/session4/slides4.html">
+ <span class="dropdown-text">Slides - session 4</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../slides/session5/session5.html">
+ <span class="dropdown-text">Slides - session 5</span></a>
   </li>  
     </ul>
   </li>
@@ -172,16 +260,16 @@ ul.task-list li input[type="checkbox"] {
     </span>
   </li>  
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu--2" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu--3" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text"></span>
     </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu--2">    
+    <ul class="dropdown-menu" aria-labelledby="nav-menu--3">    
         <li>
-    <a class="dropdown-item" href="../../homeworks/homework1.html">
+    <a class="dropdown-item" href="../../homeworks/homework.html">
  <span class="dropdown-text">Homework 1</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../homeworks/homework2.html">
+    <a class="dropdown-item" href="../../homeworks/homework.html">
  <span class="dropdown-text">Homework 2</span></a>
   </li>  
     </ul>
@@ -201,17 +289,880 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#time-series" id="toc-time-series" class="nav-link" data-scroll-target="#time-series">Time Series</a>
+  <ul class="collapse">
+  <li><a href="#stationary" id="toc-stationary" class="nav-link" data-scroll-target="#stationary">Stationary</a></li>
+  <li><a href="#dependence" id="toc-dependence" class="nav-link" data-scroll-target="#dependence">Dependence</a></li>
+  <li><a href="#times-series-process" id="toc-times-series-process" class="nav-link" data-scroll-target="#times-series-process">Times Series process</a>
+  <ul class="collapse">
+  <li><a href="#identification" id="toc-identification" class="nav-link" data-scroll-target="#identification">Identification</a></li>
+  <li><a href="#estimation" id="toc-estimation" class="nav-link" data-scroll-target="#estimation">Estimation</a></li>
+  <li><a href="#diagnostics" id="toc-diagnostics" class="nav-link" data-scroll-target="#diagnostics">Diagnostics</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#bivariate-time-series-analysis" id="toc-bivariate-time-series-analysis" class="nav-link" data-scroll-target="#bivariate-time-series-analysis">Bivariate Time Series Analysis</a>
+  <ul class="collapse">
+  <li><a href="#prewhitening" id="toc-prewhitening" class="nav-link" data-scroll-target="#prewhitening">Prewhitening</a></li>
+  <li><a href="#granger-causality" id="toc-granger-causality" class="nav-link" data-scroll-target="#granger-causality">Granger causality</a></li>
+  </ul></li>
+  <li><a href="#time-series-cross-sectional-analysis" id="toc-time-series-cross-sectional-analysis" class="nav-link" data-scroll-target="#time-series-cross-sectional-analysis">Time Series Cross-Sectional Analysis</a>
+  <ul class="collapse">
+  <li><a href="#unit-effects" id="toc-unit-effects" class="nav-link" data-scroll-target="#unit-effects">Unit effects</a>
+  <ul class="collapse">
+  <li><a href="#fixed-effects" id="toc-fixed-effects" class="nav-link" data-scroll-target="#fixed-effects">Fixed effects</a></li>
+  <li><a href="#random-effects" id="toc-random-effects" class="nav-link" data-scroll-target="#random-effects">Random effects</a></li>
+  <li><a href="#fixed-or-random" id="toc-fixed-or-random" class="nav-link" data-scroll-target="#fixed-or-random">Fixed or random ?</a></li>
+  </ul></li>
+  <li><a href="#panel-corrected-standard-errors" id="toc-panel-corrected-standard-errors" class="nav-link" data-scroll-target="#panel-corrected-standard-errors">Panel Corrected Standard Errors</a></li>
+  <li><a href="#pcse-and-ldv" id="toc-pcse-and-ldv" class="nav-link" data-scroll-target="#pcse-and-ldv">PCSE and LDV</a></li>
+  </ul></li>
+  <li><a href="#multi-level-models" id="toc-multi-level-models" class="nav-link" data-scroll-target="#multi-level-models">Multi-level models</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Session 6 - Time Series</h1>
+</div>
 
 
 
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
 
 
+</header>
 
+
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>In this last session, we will focus on time series. The first part of this class will be about some reminders of how to model a time series. The second part will be dedicated to the analysis of a bivariate time series and the third part will study time series cross-sectional (TSCS) data. Finally, a few words will be said about multi-level modelling with OLS.</p>
+</section>
+<section id="time-series" class="level1">
+<h1>Time Series</h1>
+<p>Time series data are a specific form of data. It is specific because first of all the observations are ordered in time and secondly, you only have one observation for each time period (except when you have Time Series Cross-Sectional data). Every observation comes from the same unit (for example a country). Time series are data that permit us to analyse the evolution of a variable across time of a specific unit.</p>
+<p>The different observations of a time series are not independent because they are related to each other, as the observations come from the same unit. For example, the GDP of a country measured at year T is related to the GDP at year T-1. This is the key concern for time series analyses because the lack of independence between observations goes against the independence assumption from OLS regression techniques. This leads to two aspects of time series that you need to consider in your analysis: stationary and dependence.</p>
+<section id="stationary" class="level2">
+<h2 class="anchored" data-anchor-id="stationary">Stationary</h2>
+<p>A stationary time series is a time series where no trend exists in the data. In other words, if you divide your sample in sub-samples, you should obtain the same mean and standard deviation in each sub-sample. This means that you should not find a shift upward or downward over time in your time series (see Jan Rovny notes for more information on this subject).</p>
+<p>The example below represents a time series about the number of births in New York by Month over 15 years (data collected by Newton).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rio)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>births <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="st">"http://robjhyndman.com/tsdldata/data/nybirths.dat"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Ambiguous file format ('.dat'), but attempting 'data.table::fread("/var/folders/h3/jlt1ndv53ql14l68xnh2kh3m0000gn/T//RtmpnXQfh5/file43b2f944107.dat")'</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>births_ts <span class="ot">&lt;-</span> <span class="fu">ts</span>(births, <span class="at">frequency=</span><span class="dv">12</span>, <span class="at">start=</span><span class="fu">c</span>(<span class="dv">1946</span>,<span class="dv">1</span>))</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot.ts</span>(births_ts)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="session6_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Looking at the graph, it seems that a trend exists. However, just looking at the graph is not sufficient to show the existence of a trend. You can use the Dickey-Fuller test to provide more evidence into the presence of a trend in the data. The null hypothesis is “non-stationary”. The p-value of the test in this case is 0.01, meaning that we reject <span class="math inline">\(H_0\)</span>. The time series is stationary.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tseries)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Registered S3 method overwritten by 'quantmod':
+  method            from
+  as.zoo.data.frame zoo </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">adf.test</span>(births_ts)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in adf.test(births_ts): p-value smaller than printed p-value</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Augmented Dickey-Fuller Test
+
+data:  births_ts
+Dickey-Fuller = -5.9547, Lag order = 5, p-value = 0.01
+alternative hypothesis: stationary</code></pre>
+</div>
+</div>
+<p>If you have a trend, there are different ways to deal with it, you can use regression to remove the trend, or you can use detrending or differencing (see Jan Rovny notes for more information on this subject).</p>
+</section>
+<section id="dependence" class="level2">
+<h2 class="anchored" data-anchor-id="dependence">Dependence</h2>
+<p>Dependence refers to the relationship between two observations from two different time point (<span class="math inline">\(y_{t}\)</span> and <span class="math inline">\(y_{t+h}\)</span>). Dependence is interested on how long the past matters for future observations. While there is lack of independence between observations in a time series, meaning that a correlation exists between certain observations, not all observations are correlated to each other. The dependence of a time series looks into how many time points one observation is correlated to (the size of <span class="math inline">\(h\)</span>). A weakly dependent time series is is one where the correlation between <span class="math inline">\(y_{t}\)</span> and <span class="math inline">\(y_{t+h}\)</span> goes quickly to 0 when <span class="math inline">\(h\)</span> increases (see Jan Rovny notes for more information on this subject).</p>
+</section>
+<section id="times-series-process" class="level2">
+<h2 class="anchored" data-anchor-id="times-series-process">Times Series process</h2>
+<p>As explained, the difficulty when analysing time series resides in the fact that past values affect present and future values. They are 4 common processes that are used to model the dependence between observations (see Jan Rovny notes for more information on this subject):</p>
+<ul>
+<li><p>White Noise</p></li>
+<li><p>Moving Average (MA)</p></li>
+<li><p>Autoregression (AR)</p></li>
+<li><p>Integration (example, Random Walk)</p></li>
+</ul>
+<p>You can find more than one of these processes in a time series, ARMA or ARIMA process.</p>
+<section id="identification" class="level3">
+<h3 class="anchored" data-anchor-id="identification">Identification</h3>
+<p>To identify the process, you can use the autocorrelation (ACF) and partial autocorrelation (PACF) function.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">AR</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">MA</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false">ARMA</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>ar<span class="ot">&lt;-</span><span class="fu">arima.sim</span>(<span class="fu">list</span>(<span class="at">order=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>),<span class="at">ar=</span><span class="fl">0.7</span>),<span class="at">n=</span><span class="dv">500</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">acf</span>(ar)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">pacf</span>(ar)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="session6_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>ma<span class="ot">&lt;-</span><span class="fu">arima.sim</span>(<span class="fu">list</span>(<span class="at">order=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>),<span class="at">ma=</span><span class="sc">-</span><span class="fl">0.75</span>),<span class="at">n=</span><span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">acf</span>(ma)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">pacf</span>(ma)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="session6_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>arma<span class="ot">&lt;-</span><span class="fu">arima.sim</span>(<span class="fu">list</span>(<span class="at">order=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">2</span>),<span class="at">ar=</span><span class="fl">0.5</span>,<span class="at">ma=</span><span class="fu">c</span>(<span class="fl">0.7</span>,<span class="fl">0.55</span>)),<span class="at">n=</span><span class="dv">25</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">acf</span>(arma)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="fu">pacf</span>(arma)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="session6_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>Another way is to use the <code>auto.arima()</code> function from the <code>forecast</code> package (this is not foolproof). This will automatically tell you which types of processes are present in your data.</p>
+</section>
+<section id="estimation" class="level3">
+<h3 class="anchored" data-anchor-id="estimation">Estimation</h3>
+<p>Once you have identified the model that fits best your data, you can estimate the coefficients of the ARIMA (autoregression-integration-moving average) model. You can use the function <code>arima()</code>.</p>
+<p><code>arima(time series, order(p,d,q))</code>:</p>
+<ul>
+<li><p>time series: name of your time series object</p></li>
+<li><p>order: specify the ARIMA elements</p>
+<ul>
+<li>p: order of the autoregression</li>
+<li>d: order of the integration</li>
+<li>q: order of the moving average</li>
+</ul></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>model<span class="ot">&lt;-</span><span class="fu">arima</span>(ar,<span class="at">order=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>))</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>model</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+arima(x = ar, order = c(1, 0, 0))
+
+Coefficients:
+         ar1  intercept
+      0.6473    -0.0005
+s.e.  0.0343     0.1291
+
+sigma^2 estimated as 1.043:  log likelihood = -720.37,  aic = 1446.73</code></pre>
+</div>
+</div>
+</section>
+<section id="diagnostics" class="level3">
+<h3 class="anchored" data-anchor-id="diagnostics">Diagnostics</h3>
+<p>If you have correctly identified your model, the residuals of the model should be white noise. You can check that by plotting the residuals or by using a formal test. In R, you can use the function <code>Box.test()</code> that computes a Ljung-Box test. If you can reject the <span class="math inline">\(H_0\)</span>, this means that your residuals behave like white noise, which is the case here.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot.ts</span>(model<span class="sc">$</span>residuals)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="session6_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Box.test</span>(model<span class="sc">$</span>residuals,<span class="at">lag=</span><span class="dv">20</span>, <span class="at">type=</span><span class="st">"Ljung-Box"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Box-Ljung test
+
+data:  model$residuals
+X-squared = 15.237, df = 20, p-value = 0.7627</code></pre>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="bivariate-time-series-analysis" class="level1">
+<h1>Bivariate Time Series Analysis</h1>
+<p>In the previous section, we studied how to model a time series variable. However, sometimes you will be interested in more than one variable and in the relationship between those variables. This section is dedicated to the study of a bivariate time series, meaning that you are interested in analysing two times series and their relationships.</p>
+<p>Association between times series variables permits the study of causality. When you have cross-sectional data at only one point in time, it is complicated to assess the causality between variables because if you do not have a specific design, the regression will only be a correlation analysis between the two variables. However, when you have time series, the temporality of the data helps you determine the causality. Indeed, if <span class="math inline">\(x\rightarrow y\)</span>, you should see a change in <span class="math inline">\(x\)</span> before seeing the change of <span class="math inline">\(y\)</span>, meaning that a change at <span class="math inline">\(x_{t-h}\)</span> should lead to a change in <span class="math inline">\(y_t\)</span>. In other words, if there is causality, you should find a correlation between a lagged value of <span class="math inline">\(x\)</span> (<span class="math inline">\(=x_{t-h}\)</span>) and <span class="math inline">\(y_{t}\)</span> . In contrast, no correlation should exist between <span class="math inline">\(y_{t-h}\)</span> and <span class="math inline">\(x_t\)</span>.</p>
+<p>There exist different ways to study the causality between two time series (see Jan Rovny notes for more information on this subject):</p>
+<ul>
+<li><p>Prewhitening</p></li>
+<li><p>Granger causality</p></li>
+<li><p>Error correction models of cointegration</p></li>
+</ul>
+<p>To learn more about causality analysis with time series, we will use a dataset that has been constructed based on the VDEM dataset and the UCDP dataset. The dataset contains information on the number of deaths linked to civil conflict in Turkey as well as a democratic index. The objective is to understand if democratisation causes civil conflict or not.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(vdemdata)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"vdem"</span>)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>demo <span class="ot">&lt;-</span> <span class="fu">subset</span>(vdem, country_name <span class="sc">==</span> <span class="st">"Türkiye"</span> <span class="sc">&amp;</span> year<span class="sc">&gt;</span><span class="dv">1988</span> <span class="sc">&amp;</span> year <span class="sc">&lt;</span> <span class="dv">2020</span>)</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>ucdp <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"https://ucdp.uu.se/downloads/ged/ged201.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: One or more parsing issues, call `problems()` on your data frame for details,
+e.g.:
+  dat &lt;- vroom(...)
+  problems(dat)</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 225385 Columns: 49
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr  (18): relid, code_status, conflict_name, dyad_name, side_a, side_b, sou...
+dbl  (29): id, year, active_year, type_of_violence, conflict_dset_id, confli...
+dttm  (2): date_start, date_end
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>conf <span class="ot">&lt;-</span> <span class="fu">subset</span>(ucdp, country <span class="sc">==</span> <span class="st">"Turkey"</span>)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>conf_year <span class="ot">&lt;-</span> <span class="fu">aggregate</span>(best <span class="sc">~</span> year, <span class="at">data =</span> conf, <span class="at">FUN =</span> sum)</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">merge</span>(demo, conf_year, <span class="at">by =</span> <span class="st">"year"</span>, <span class="at">all.x =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>best[<span class="fu">is.na</span>(df<span class="sc">$</span>best)] <span class="ot">&lt;-</span> <span class="dv">0</span>   <span class="co"># no conflict = 0</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="co">#v2x_libdem = democracy</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="co">#best = conflict deaths</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>dem_index<span class="ot">&lt;-</span><span class="fu">ts</span>(df<span class="sc">$</span>v2x_libdem, <span class="at">start =</span> <span class="fu">min</span>(df<span class="sc">$</span>year), <span class="at">frequency =</span> <span class="dv">1</span>)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot.ts</span>(dem_index)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="session6_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>conflict<span class="ot">&lt;-</span><span class="fu">ts</span>(df<span class="sc">$</span>best, <span class="at">start =</span> <span class="fu">min</span>(df<span class="sc">$</span>year), <span class="at">frequency =</span> <span class="dv">1</span>)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot.ts</span>(conflict)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="session6_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="prewhitening" class="level2">
+<h2 class="anchored" data-anchor-id="prewhitening">Prewhitening</h2>
+<p>The idea is that you can study causality by looking at the correlation at different lags and leads of the two series (meaning that you look at the correlation between <span class="math inline">\(x_t\)</span> and <span class="math inline">\(y_{t+1}\)</span>, <span class="math inline">\(y_{t+2}\)</span>…). You can only look at the cross-correlation if your the residuals of the two time series are white noise. This means that you first need to model your two times series to eliminated all the error aggregation processes. This is called pre-whitening.</p>
+<p>Starting with the ACF and PACF:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tseries)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">adf.test</span>(dem_index)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Augmented Dickey-Fuller Test
+
+data:  dem_index
+Dickey-Fuller = -1.5275, Lag order = 3, p-value = 0.7547
+alternative hypothesis: stationary</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">acf</span>(dem_index, <span class="at">lag.max =</span> <span class="dv">10</span>)</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="fu">pacf</span>(dem_index, <span class="at">lag.max=</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="session6_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Based on the test and graphs, we see, first of all, that the time series is not stationary. Secondly, we find that the ACF goes to 0 and the PACF only has 1 significant lag. We can model and ARIMA(1,1,0) model for the democratic index. For the conflict time series, we found a similar model.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">adf.test</span>(conflict)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Augmented Dickey-Fuller Test
+
+data:  conflict
+Dickey-Fuller = -2.5129, Lag order = 3, p-value = 0.3753
+alternative hypothesis: stationary</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="fu">acf</span>(conflict, <span class="at">lag.max =</span> <span class="dv">10</span>)</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="fu">pacf</span>(conflict, <span class="at">lag.max =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="session6_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Once you have done the identification step, you may move to the estimation step.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>model1<span class="ot">&lt;-</span><span class="fu">arima</span>(dem_index,<span class="at">order=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>))</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>model2<span class="ot">&lt;-</span><span class="fu">arima</span>(conflict, <span class="at">order=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Finally, you should check the that the residuals of your model are white noise. For both residuals of the time series, we can reject the <span class="math inline">\(H_0\)</span>, meaning that residuals are white noise.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Box.test</span>(model1<span class="sc">$</span>residuals ,<span class="at">lag=</span><span class="dv">20</span>,<span class="at">type=</span><span class="st">"Ljung-Box"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Box-Ljung test
+
+data:  model1$residuals
+X-squared = 18.169, df = 20, p-value = 0.5763</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Box.test</span>(model2<span class="sc">$</span>residuals ,<span class="at">lag=</span><span class="dv">20</span>,<span class="at">type=</span><span class="st">"Ljung-Box"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Box-Ljung test
+
+data:  model2$residuals
+X-squared = 9.8477, df = 20, p-value = 0.9708</code></pre>
+</div>
+</div>
+<p>Now that you have done the pre-whitening step, you can look at the cross-correlation of your residuals using the <code>ccf()</code> function. The order in which you specify each variable is important to understand the graphical output of the function.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>dem_res<span class="ot">&lt;-</span>model1<span class="sc">$</span>residuals</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>conflict_res<span class="ot">&lt;-</span>model2<span class="sc">$</span>residuals</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ccf</span>(dem_res,conflict_res, <span class="at">lag.max=</span><span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="session6_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The graph shows that at lag 8, there is a significant cross-correlation. This means that the democratic index (at t-8) influences the conflict variable (at t).</p>
+</section>
+<section id="granger-causality" class="level2">
+<h2 class="anchored" data-anchor-id="granger-causality">Granger causality</h2>
+<p>Another way to study causality is to use the Granger Causality method. In this case, you do not need to first model your data, you can directly conduct the test. The Granger causality rests on the idea that, as your dependent variable <span class="math inline">\(y\)</span> is time series, part of the explanation rests on previous observations of <span class="math inline">\(y\)</span>. However, if <span class="math inline">\(x\)</span> causes <span class="math inline">\(y\)</span> then using previous observations of <span class="math inline">\(x\)</span> to explain <span class="math inline">\(y\)</span> should improve the model. To be sure of the causality, you should do two Granger tests, where you exchange the dependent and independent variables so that you test if <span class="math inline">\(x \rightarrow y\)</span> or if <span class="math inline">\(y \rightarrow x\)</span>.</p>
+<p>The function you need to use is <code>grangertest()</code>from the <code>lmtest</code> package.</p>
+<p><code>grangertest(DV ~ IV, order=p, data)</code>:</p>
+<ul>
+<li><p>DV: dependent variable</p></li>
+<li><p>IV: independent variable</p></li>
+<li><p>order = p: p is the number of lags you want to take into account in the regression</p></li>
+<li><p>data: name of your dataset</p></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lmtest)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: zoo</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'zoo'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    as.Date, as.Date.numeric</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grangertest</span>(best<span class="sc">~</span>v2x_libdem,<span class="at">order=</span><span class="dv">4</span>, <span class="at">data=</span>df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Granger causality test
+
+Model 1: best ~ Lags(best, 1:4) + Lags(v2x_libdem, 1:4)
+Model 2: best ~ Lags(best, 1:4)
+  Res.Df Df     F Pr(&gt;F)
+1     18                
+2     22 -4 0.621 0.6534</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grangertest</span>(v2x_libdem<span class="sc">~</span>best, <span class="at">order=</span><span class="dv">4</span>,<span class="at">data=</span>df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Granger causality test
+
+Model 1: v2x_libdem ~ Lags(v2x_libdem, 1:4) + Lags(best, 1:4)
+Model 2: v2x_libdem ~ Lags(v2x_libdem, 1:4)
+  Res.Df Df      F Pr(&gt;F)
+1     18                 
+2     22 -4 1.3595  0.287</code></pre>
+</div>
+</div>
+<p>The results of the Granger Causality tests show that neither democracy index causes conflict and neither conflict causes democracy index.</p>
+<p>I showed you how to compute pre-whitening and Granger causality, but that is only correct if your times series are stationary. It does not work if your time series are co-integrated (see Jan Rovny notes for more information on this subject).</p>
+</section>
+</section>
+<section id="time-series-cross-sectional-analysis" class="level1">
+<h1>Time Series Cross-Sectional Analysis</h1>
+<p>In the previous sections, we have been concerned about a time series about one unit across time (example: evolution of democracy index of Turkey over 15 years). However, it is possible that you want to study the relationships between two variables across time for more than one unit (you may want to compare different countries). In this case, we speak about Times Series Cross-Section. When using times series cross-sectional analysis, you make an assumption about your causal mechanism. Indeed, you make the assumption that the relationships between your variables are the same across the different units.</p>
+<p>Time Series Cross-section analysis demands that we think about potential problems leading to biased estimation. First of all, you are comparing different unit across times. These units may have specific characteristics that stay the same across time. History, culture, etc shape a country leading to certain inherent characteristics of a unit being different across countries. If you do not take into account this possible difference, you may have an omitted variable bias in your analysis.</p>
+<p>Secondly, there are different ways in which time series can lead to bias in estimating the standard errors, making testing of coefficient significance unreliable (see Jan Rovny notes for more information on this subject).</p>
+<p>We will use the same example as the previous section but we are adding new countries to the dataset.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(vdemdata)</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'dplyr'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:stats':
+
+    filter, lag</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>countries <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Turkey"</span>, <span class="st">"Nigeria"</span>, <span class="st">"Colombia"</span>, <span class="st">"Philippines"</span>, <span class="st">"Thailand"</span>)  <span class="co"># example set</span></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Democracy (V-Dem) ---</span></span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"vdem"</span>)</span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>demo <span class="ot">&lt;-</span> vdem <span class="sc">%&gt;%</span></span>
+<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(country_name <span class="sc">%in%</span> countries) <span class="sc">%&gt;%</span></span>
+<span id="cb50-7"><a href="#cb50-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(country_name, year, v2x_libdem)</span>
+<span id="cb50-8"><a href="#cb50-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-9"><a href="#cb50-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-10"><a href="#cb50-10" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Conflict (UCDP GED summary by country-year) ---</span></span>
+<span id="cb50-11"><a href="#cb50-11" aria-hidden="true" tabindex="-1"></a>ucdp <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"https://ucdp.uu.se/downloads/ged/ged201.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: One or more parsing issues, call `problems()` on your data frame for details,
+e.g.:
+  dat &lt;- vroom(...)
+  problems(dat)</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 225385 Columns: 49</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr  (18): relid, code_status, conflict_name, dyad_name, side_a, side_b, sou...
+dbl  (29): id, year, active_year, type_of_violence, conflict_dset_id, confli...
+dttm  (2): date_start, date_end
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>conf <span class="ot">&lt;-</span> ucdp <span class="sc">%&gt;%</span></span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(country <span class="sc">%in%</span> countries) <span class="sc">%&gt;%</span></span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(country, year) <span class="sc">%&gt;%</span></span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">conflict_deaths =</span> <span class="fu">sum</span>(best, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">.groups =</span> <span class="st">"drop"</span>)</span>
+<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-6"><a href="#cb54-6" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> demo <span class="sc">%&gt;%</span></span>
+<span id="cb54-7"><a href="#cb54-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(conf, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"country_name"</span> <span class="ot">=</span> <span class="st">"country"</span>, <span class="st">"year"</span> <span class="ot">=</span> <span class="st">"year"</span>))</span>
+<span id="cb54-8"><a href="#cb54-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-9"><a href="#cb54-9" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>conflict_deaths[<span class="fu">is.na</span>(df<span class="sc">$</span>conflict_deaths)] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb54-10"><a href="#cb54-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-11"><a href="#cb54-11" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
+<span id="cb54-12"><a href="#cb54-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">&gt;</span> <span class="dv">1960</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="unit-effects" class="level2">
+<h2 class="anchored" data-anchor-id="unit-effects">Unit effects</h2>
+<p>Looking at the problem of unit effects, this problem means that we may have different levels of our dependent variable depending on the unit. For example, the GDP of China and India may be different because they had different economic developments, etc. So, there is a significant difference between the units, meaning that “all else is not equal” when looking at your regression estimates. Before analysing your data, you need to check if there is a unit effect or not. You can do this descriptively by using graphs or you can do it in a more formal way using ANOVA tests.</p>
+<p>Graphically, you can use the <code>coplot()</code> function once you have transformed your dataset as a TSCS dataset with the function <code>pdata.frame()</code>. Formally, you can use the <code>aov()</code> function to conduct the ANOVA test.</p>
+<p><code>pdata.frame(data,index=c())</code></p>
+<ul>
+<li><p>data: name of your dataset</p></li>
+<li><p>index=c(): in c() you specify the name of your variable which corresponds to the unit variable and the time variable</p></li>
+</ul>
+<p><code>coplot(variable ~ T | U, type="l",data)</code></p>
+<ul>
+<li><p>variable: dependent variable</p></li>
+<li><p>T: time variable</p></li>
+<li><p>U: unit variable,</p></li>
+<li><p>type=“l”: specify you want a line graph</p></li>
+<li><p>data: name of your dataset</p></li>
+</ul>
+<p><code>aov(Variable ~U, data)</code></p>
+<ul>
+<li><p>variable: dependent variable</p></li>
+<li><p>U: unit variable</p></li>
+<li><p>data: name of your dataset</p></li>
+</ul>
+<p>If you detect some unit effects in your data, there exist two solutions to deal with this problem: fixed effects or random effects.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(plm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'plm'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:dplyr':
+
+    between, lag, lead</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>data<span class="ot">&lt;-</span><span class="fu">pdata.frame</span>(df,<span class="at">index=</span><span class="fu">c</span>(<span class="st">"country_name"</span>,<span class="st">"year"</span>))</span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a><span class="fu">coplot</span>(conflict_deaths<span class="sc">~</span>year<span class="sc">|</span>country_name, <span class="at">type=</span><span class="st">"l"</span>,<span class="at">data=</span>data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="session6_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(conflict_deaths<span class="sc">~</span>country_name, <span class="at">data=</span>data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="session6_files/figure-html/unnamed-chunk-21-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>anova<span class="ot">&lt;-</span><span class="fu">aov</span>(conflict_deaths<span class="sc">~</span>country_name, <span class="at">data=</span>data)</span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(anova)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>              Df    Sum Sq Mean Sq F value   Pr(&gt;F)    
+country_name   3  22671546 7557182   6.915 0.000171 ***
+Residuals    256 279775873 1092875                     
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<p>Based on the graphs and on the ANOVA, we see that there is a unit effect in our dataset.</p>
+<section id="fixed-effects" class="level3">
+<h3 class="anchored" data-anchor-id="fixed-effects">Fixed effects</h3>
+<p>When adding fixed effects, you want to take into account all the unobserved variables that are time invariant to the unit. Fixed effects can be computed in two ways: either with a time-demeaned equation (fixed effects estimator) or with a dummy variable estimator (see Jan Rovny notes for more information on this subject).</p>
+<p>In R, you can use the <code>plm()</code> function from the <code>plm</code> package.</p>
+<p><code>plm(formula, data, index=c("unit","time"), model)</code>:</p>
+<ul>
+<li><p>formula: Y~X</p></li>
+<li><p>data: name of the dataset</p></li>
+<li><p>index= c(“unit”,“time”): specify the name of the unit and time variable</p></li>
+<li><p>model: “within” for fixed effects estimator and “random” for random effects</p></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>fe<span class="ot">&lt;-</span><span class="fu">plm</span>(conflict_deaths<span class="sc">~</span>v2x_libdem,</span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">data=</span>data,</span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">index=</span><span class="fu">c</span>(<span class="st">"country_name"</span>,<span class="st">"year"</span>),</span>
+<span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">model=</span><span class="st">"within"</span>)</span>
+<span id="cb62-5"><a href="#cb62-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-6"><a href="#cb62-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fe)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Oneway (individual) effect Within Model
+
+Call:
+plm(formula = conflict_deaths ~ v2x_libdem, data = data, model = "within", 
+    index = c("country_name", "year"))
+
+Balanced Panel: n = 4, T = 65, N = 260
+
+Residuals:
+    Min.  1st Qu.   Median  3rd Qu.     Max. 
+-1309.36  -477.81  -147.86   314.24  8897.93 
+
+Coefficients:
+           Estimate Std. Error t-value  Pr(&gt;|t|)    
+v2x_libdem   3167.8      520.0   6.092 4.088e-09 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Total Sum of Squares:    279780000
+Residual Sum of Squares: 244230000
+R-Squared:      0.12705
+Adj. R-Squared: 0.11336
+F-statistic: 37.1126 on 1 and 255 DF, p-value: 4.0883e-09</code></pre>
+</div>
+</div>
+<p>The results show that the democratic index variable positively influences the number of deaths due to conflicts even when controlling for country fixed effects.</p>
+<p>If you want the dummy variable estimator, you can use the <code>lm()</code> function and add a dummy factor for the unit variable.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>fe2<span class="ot">&lt;-</span><span class="fu">lm</span>(conflict_deaths<span class="sc">~</span>v2x_libdem <span class="sc">+</span> <span class="fu">factor</span>(country_name)<span class="sc">-</span><span class="dv">1</span>,</span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">data=</span>data)</span>
+<span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fe2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = conflict_deaths ~ v2x_libdem + factor(country_name) - 
+    1, data = data)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-1309.4  -477.8  -147.9   314.2  8897.9 
+
+Coefficients:
+                                Estimate Std. Error t value Pr(&gt;|t|)    
+v2x_libdem                        3167.8      520.0   6.092 4.09e-09 ***
+factor(country_name)Colombia      -795.2      234.4  -3.392 0.000805 ***
+factor(country_name)Nigeria        203.8      164.2   1.241 0.215710    
+factor(country_name)Philippines   -588.2      190.3  -3.091 0.002220 ** 
+factor(country_name)Thailand      -623.5      165.8  -3.760 0.000210 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 978.7 on 255 degrees of freedom
+Multiple R-squared:  0.2981,    Adjusted R-squared:  0.2844 
+F-statistic: 21.66 on 5 and 255 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
+<p>You can see, that with the dummy estimator, we found the same results for in this model than in the one with the within estimator.</p>
+</section>
+<section id="random-effects" class="level3">
+<h3 class="anchored" data-anchor-id="random-effects">Random effects</h3>
+<p>In random effects, you make the hypothesis that the time observations are nested within units. Random effects take the unit effect as ignorance and model it in the residuals. It splits the residuals between an individual error for each observation and an error by unit (see Jan Rovny notes for more information on this subject).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>re<span class="ot">&lt;-</span><span class="fu">plm</span>(conflict_deaths<span class="sc">~</span>v2x_libdem,</span>
+<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">data=</span>data,</span>
+<span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">index=</span><span class="fu">c</span>(<span class="st">"country_name"</span>,<span class="st">"year"</span>),</span>
+<span id="cb66-4"><a href="#cb66-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">model=</span><span class="st">"random"</span>)</span>
+<span id="cb66-5"><a href="#cb66-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb66-6"><a href="#cb66-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(re)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Oneway (individual) effect Random Effect Model 
+   (Swamy-Arora's transformation)
+
+Call:
+plm(formula = conflict_deaths ~ v2x_libdem, data = data, model = "random", 
+    index = c("country_name", "year"))
+
+Balanced Panel: n = 4, T = 65, N = 260
+
+Effects:
+                   var  std.dev share
+idiosyncratic 957767.3    978.7 0.858
+individual    157999.9    397.5 0.142
+theta: 0.7079
+
+Residuals:
+    Min.  1st Qu.   Median  3rd Qu.     Max. 
+-1105.61  -376.33  -189.45   249.08  9105.92 
+
+Coefficients:
+            Estimate Std. Error z-value  Pr(&gt;|z|)    
+(Intercept)  -421.65     251.07 -1.6794   0.09307 .  
+v2x_libdem   3061.62     512.63  5.9724 2.338e-09 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Total Sum of Squares:    281710000
+Residual Sum of Squares: 247490000
+R-Squared:      0.12146
+Adj. R-Squared: 0.11806
+Chisq: 35.6693 on 1 DF, p-value: 2.3381e-09</code></pre>
+</div>
+</div>
+<p>We find similar results with the random effects, but the coefficient estimate is different.</p>
+</section>
+<section id="fixed-or-random" class="level3">
+<h3 class="anchored" data-anchor-id="fixed-or-random">Fixed or random ?</h3>
+<p>Should you choose fixed or random effects? You can do a Hausman test if you do not know which one to choose. If the p-value is larger than 0.05, you should prefer fixed effects to random effects, which is the case in our example.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="fu">phtest</span>(fe,re)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Hausman Test
+
+data:  conflict_deaths ~ v2x_libdem
+chisq = 1.4827, df = 1, p-value = 0.2234
+alternative hypothesis: one model is inconsistent</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="panel-corrected-standard-errors" class="level2">
+<h2 class="anchored" data-anchor-id="panel-corrected-standard-errors">Panel Corrected Standard Errors</h2>
+<p>With TSCS, you also have a lot of problems with SE. One solution proposed is to use Panel Corrected Standard Errors on OLS to correct for the bias of the SE introduced by the time series format (see Jan Rovny notes for more information on this subject). You can use the <code>pcse()</code>function from the <code>pcse</code> package.</p>
+<p><code>pcse(model, groupN, groupT)</code>:</p>
+<ul>
+<li><p>model: name of the lm object</p></li>
+<li><p>groupN: name of the unit variable</p></li>
+<li><p>groupT: name of the time variable</p></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pcse)</span>
+<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a>ols<span class="ot">&lt;-</span><span class="fu">lm</span>(conflict_deaths<span class="sc">~</span>v2x_libdem,</span>
+<span id="cb70-3"><a href="#cb70-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">data=</span>data)</span>
+<span id="cb70-4"><a href="#cb70-4" aria-hidden="true" tabindex="-1"></a>pcse<span class="ot">&lt;-</span><span class="fu">pcse</span>(ols,<span class="at">groupN=</span>data<span class="sc">$</span>country_name,<span class="at">groupT=</span>data<span class="sc">$</span>year)</span>
+<span id="cb70-5"><a href="#cb70-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(pcse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+ Results: 
+ 
+             Estimate     PCSE   t value     Pr(&gt;|t|)
+(Intercept) -191.6081 153.4621 -1.248570 2.129543e-01
+v2x_libdem  2223.2314 456.3394  4.871882 1.931036e-06
+
+ --------------------------------------------- 
+ 
+# Valid Obs = 260; # Missing Obs = 0; Degrees of Freedom = 258.</code></pre>
+</div>
+</div>
+<p>As you can see, the democratic index variable is still significant but the coefficient is a lot larger than in fixed and random effects because we have not taken into account unit effects.</p>
+</section>
+<section id="pcse-and-ldv" class="level2">
+<h2 class="anchored" data-anchor-id="pcse-and-ldv">PCSE and LDV</h2>
+<p>Using PCSE only deals with the SE errors but does not take into account unit effects. One solution is to add a lag dependent variable into the OLS which will capture the history of the dependent variable into the model and thus take into account some of the unit effect.</p>
+<p>In R, you need to compute the first the lagged dependent variable before the OLS and PCSE. You can use the <code>lag()</code> function.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a>data<span class="ot">&lt;-</span>data <span class="sc">%&gt;%</span></span>
+<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(country_name) <span class="sc">%&gt;%</span></span>
+<span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">l.conflict_death=</span>dplyr<span class="sc">::</span><span class="fu">lag</span>(conflict_deaths))</span>
+<span id="cb72-4"><a href="#cb72-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb72-5"><a href="#cb72-5" aria-hidden="true" tabindex="-1"></a>data2<span class="ot">&lt;-</span><span class="fu">na.omit</span>(data)</span>
+<span id="cb72-6"><a href="#cb72-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb72-7"><a href="#cb72-7" aria-hidden="true" tabindex="-1"></a>ols2<span class="ot">&lt;-</span><span class="fu">lm</span>(conflict_deaths<span class="sc">~</span>l.conflict_death<span class="sc">+</span>v2x_libdem,</span>
+<span id="cb72-8"><a href="#cb72-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">data=</span>data2)</span>
+<span id="cb72-9"><a href="#cb72-9" aria-hidden="true" tabindex="-1"></a>pcse2<span class="ot">&lt;-</span><span class="fu">pcse</span>(ols2,<span class="at">groupN=</span>data2<span class="sc">$</span>country_name,<span class="at">groupT=</span>data2<span class="sc">$</span>year)</span>
+<span id="cb72-10"><a href="#cb72-10" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(pcse2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+ Results: 
+ 
+                    Estimate         PCSE    t value     Pr(&gt;|t|)
+(Intercept)      -29.9827658 102.12598915 -0.2935861 7.693149e-01
+l.conflict_death   0.7639128   0.06693568 11.4126401 1.304803e-24
+v2x_libdem       473.0538386 306.94742198  1.5411559 1.245286e-01
+
+ --------------------------------------------- 
+ 
+# Valid Obs = 256; # Missing Obs = 0; Degrees of Freedom = 253.</code></pre>
+</div>
+</div>
+<p>The results of this model shows that there is an unit effect because the lagged variable has a coefficient that is close to 1. We also see that the democratic index variable is not significant anymore but the size of the coefficient is a lot closer to the fixed and random effects models.</p>
+</section>
+</section>
+<section id="multi-level-models" class="level1">
+<h1>Multi-level models</h1>
+<p>Multi-level models are used when you want to combine information from different levels of observations. For example, if you are interested in voting behaviour at the individual level but you want to include some information about the region in which individual observations are nested, you will use a multi-level model. You use a multi-level model when you have observations that are nested within a higher level of unit.</p>
+<p>To specify a multi-level model, you can use the <code>glmer</code> function from <code>lme4</code> package. To specify an effect of a higher unit, you can do it with <code>(1|variable)</code>. This will estimates the effect of that variable at the higher level and not at the lowest (individual) level. In practice, this will create a random intercept for each higher unit.</p>
+<p>Here is an example (from <a href="https://luissattelmayer.github.io/quant-2025/session6/session6.html#hierarchical-models">Luis Sattelmayer</a>).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="co"># I am simulating data, so a seed will guarantee the same simulated data every time</span></span>
+<span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1312</span>) </span>
+<span id="cb74-3"><a href="#cb74-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-4"><a href="#cb74-4" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb74-5"><a href="#cb74-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">region =</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="at">each =</span> <span class="dv">100</span>),</span>
+<span id="cb74-6"><a href="#cb74-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># 10 regions, 100 individuals each</span></span>
+<span id="cb74-7"><a href="#cb74-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">individual_income =</span> <span class="fu">rnorm</span>(<span class="dv">1000</span>, <span class="at">mean =</span> <span class="dv">50000</span>, <span class="at">sd =</span> <span class="dv">10000</span>),</span>
+<span id="cb74-8"><a href="#cb74-8" aria-hidden="true" tabindex="-1"></a>  <span class="co"># some control variables</span></span>
+<span id="cb74-9"><a href="#cb74-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">education_level =</span> <span class="fu">rnorm</span>(<span class="dv">1000</span>, <span class="at">mean =</span> <span class="dv">16</span>, <span class="at">sd =</span> <span class="dv">2</span>),</span>
+<span id="cb74-10"><a href="#cb74-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">gender =</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="st">"Male"</span>, <span class="st">"Female"</span>), <span class="dv">1000</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb74-11"><a href="#cb74-11" aria-hidden="true" tabindex="-1"></a>  <span class="co"># a random and fun control variable</span></span>
+<span id="cb74-12"><a href="#cb74-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">number_of_pets =</span> <span class="fu">rpois</span>(<span class="dv">1000</span>, <span class="at">lambda =</span> <span class="dv">2</span>)</span>
+<span id="cb74-13"><a href="#cb74-13" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
+<span id="cb74-14"><a href="#cb74-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb74-15"><a href="#cb74-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">individual_income =</span> <span class="fu">scale</span>(individual_income),</span>
+<span id="cb74-16"><a href="#cb74-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">education_level =</span> <span class="fu">scale</span>(education_level),</span>
+<span id="cb74-17"><a href="#cb74-17" aria-hidden="true" tabindex="-1"></a>    <span class="co"># cheating myself to significant results for regional variable</span></span>
+<span id="cb74-18"><a href="#cb74-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">regional_effect =</span> <span class="fu">rnorm</span>(<span class="dv">10</span>, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">2</span>)[region]  <span class="co"># greater SD for more variability</span></span>
+<span id="cb74-19"><a href="#cb74-19" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb74-20"><a href="#cb74-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">voted =</span> <span class="fu">as.integer</span>(</span>
+<span id="cb74-21"><a href="#cb74-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">runif</span>(<span class="dv">1000</span>) <span class="sc">&lt;</span> <span class="fu">plogis</span>(</span>
+<span id="cb74-22"><a href="#cb74-22" aria-hidden="true" tabindex="-1"></a>      <span class="fl">0.5</span> <span class="sc">+</span> <span class="fl">0.25</span> <span class="sc">*</span> individual_income <span class="sc">+</span> <span class="fl">0.15</span> <span class="sc">*</span> education_level <span class="sc">+</span></span>
+<span id="cb74-23"><a href="#cb74-23" aria-hidden="true" tabindex="-1"></a>        <span class="fl">0.2</span> <span class="sc">*</span> (gender <span class="sc">==</span> <span class="st">"Female"</span>) <span class="sc">+</span> <span class="fl">0.1</span> <span class="sc">*</span> number_of_pets <span class="sc">+</span></span>
+<span id="cb74-24"><a href="#cb74-24" aria-hidden="true" tabindex="-1"></a>        regional_effect</span>
+<span id="cb74-25"><a href="#cb74-25" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb74-26"><a href="#cb74-26" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb74-27"><a href="#cb74-27" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit a logistic mixed model</span></span>
+<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lme4)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: Matrix</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'lme4'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:rio':
+
+    factorize</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span></span>
+<span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">glmer</span>(</span>
+<span id="cb79-3"><a href="#cb79-3" aria-hidden="true" tabindex="-1"></a>    voted <span class="sc">~</span> individual_income <span class="sc">+</span> education_level <span class="sc">+</span> gender <span class="sc">+</span> number_of_pets <span class="sc">+</span></span>
+<span id="cb79-4"><a href="#cb79-4" aria-hidden="true" tabindex="-1"></a>      (<span class="dv">1</span> <span class="sc">|</span> region),</span>
+<span id="cb79-5"><a href="#cb79-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">family =</span> binomial,</span>
+<span id="cb79-6"><a href="#cb79-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> data</span>
+<span id="cb79-7"><a href="#cb79-7" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb79-8"><a href="#cb79-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-9"><a href="#cb79-9" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Generalized linear mixed model fit by maximum likelihood (Laplace
+  Approximation) [glmerMod]
+ Family: binomial  ( logit )
+Formula: 
+voted ~ individual_income + education_level + gender + number_of_pets +  
+    (1 | region)
+   Data: data
+
+      AIC       BIC    logLik -2*log(L)  df.resid 
+    802.3     831.7    -395.1     790.3       994 
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-8.8493 -0.1220  0.2806  0.4598  6.0004 
+
+Random effects:
+ Groups Name        Variance Std.Dev.
+ region (Intercept) 4.77     2.184   
+Number of obs: 1000, groups:  region, 10
+
+Fixed effects:
+                   Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept)        1.284278   0.722539   1.777  0.07549 .  
+individual_income  0.175018   0.088603   1.975  0.04823 *  
+education_level    0.321368   0.089695   3.583  0.00034 ***
+genderMale        -0.016058   0.183702  -0.087  0.93034    
+number_of_pets    -0.002859   0.065669  -0.044  0.96528    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation of Fixed Effects:
+            (Intr) indvd_ edctn_ gndrMl
+indivdl_ncm  0.019                     
+educatn_lvl  0.016  0.003              
+genderMale  -0.143 -0.043  0.050       
+numbr_f_pts -0.189 -0.016 -0.044  0.071</code></pre>
+</div>
+</div>
+
+
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

@@ -1,5 +1,0 @@
----
-title: "exercices6"
-format: html
----
-
