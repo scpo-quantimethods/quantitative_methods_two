@@ -228,7 +228,7 @@ window.Quarto = {
  <span class="dropdown-text">Exercices 5 : RDD and Instrumental Variables</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../exercices/exercices6/exercices6.qmd">
+    <a class="dropdown-item" href="../../exercices/exercices6/exercise6.html">
  <span class="dropdown-text">Exercices 6 : Time series analysis</span></a>
   </li>  
     </ul>
@@ -379,7 +379,7 @@ window.Quarto = {
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rio)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>births <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="st">"http://robjhyndman.com/tsdldata/data/nybirths.dat"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Ambiguous file format ('.dat'), but attempting 'data.table::fread("/tmp/RtmpWIY6F5/file6a605203fa09.dat")'</code></pre>
+<pre><code>Ambiguous file format ('.dat'), but attempting 'data.table::fread("/tmp/Rtmpxcq4wq/file4271180b9c0d.dat")'</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>births_ts <span class="ot">&lt;-</span> <span class="fu">ts</span>(births, <span class="at">frequency=</span><span class="dv">12</span>, <span class="at">start=</span><span class="fu">c</span>(<span class="dv">1946</span>,<span class="dv">1</span>))</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot.ts</span>(births_ts)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -512,10 +512,10 @@ arima(x = ar, order = c(1, 0, 0))
 
 Coefficients:
          ar1  intercept
-      0.7189     0.0640
-s.e.  0.0314     0.1586
+      0.7217    -0.0022
+s.e.  0.0308     0.1558
 
-sigma^2 estimated as 1.004:  log likelihood = -710.8,  aic = 1427.6</code></pre>
+sigma^2 estimated as 0.9504:  log likelihood = -697.12,  aic = 1400.23</code></pre>
 </div>
 </div>
 </section>
@@ -537,7 +537,7 @@ sigma^2 estimated as 1.004:  log likelihood = -710.8,  aic = 1427.6</code></pre>
     Box-Ljung test
 
 data:  model$residuals
-X-squared = 13.533, df = 20, p-value = 0.8534</code></pre>
+X-squared = 12.225, df = 20, p-value = 0.9081</code></pre>
 </div>
 </div>
 </section>
