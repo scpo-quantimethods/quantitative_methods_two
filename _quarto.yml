@@ -19,6 +19,8 @@ website:
             href: sessions/session4/session4.qmd
           - text: "Session 5: RDD and Instrumental Variables"
             href: sessions/session5/session5.qmd
+          - text: "Session 6: Time series analysis"
+            href: sessions/session6/session6.qmd
           
       - text: Exercices
       - menu:
@@ -32,6 +34,8 @@ website:
             href: exercices/exercices4/exercices4.qmd
           - text: "Exercices 5 : RDD and Instrumental Variables"
             href: exercices/exercices5/exercices5.qmd
+          - text: "Exercices 6 : Time series analysis"
+            href: exercices/exercices6/exercices6.qmd
             
       - text: Slides
       - menu:
@@ -45,6 +49,8 @@ website:
             href: slides/session4/slides4.qmd
           - text: "Slides - session 5"
             href: slides/session5/session5.qmd
+          - text: "Slides - session 6"
+            href: slides/session6/slides6.qmd
             
       - text: Homeworks
       - menu:
